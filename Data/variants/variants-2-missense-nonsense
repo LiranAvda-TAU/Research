@@ -1,0 +1,33 @@
+AACS:
+AAC-AGC	Asn463Ser	c.1388A>G	p.N463S	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 dbSNP
+CGC-TGC	Arg608Cys	c.1822C>T	p.R608C	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 CpG dbSNP
+
+DAP3:
+CTT-TTT	Leu138Phe	c.412C>T	p.L138F	DM?	Metabolic disorder	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 dbSNP
+GAG-AAG	Glu369Lys	c.1105G>A	p.E369K	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM dbSNP
+
+GLG1:
+CAG-TAG	Gln661Term	c.1981C>T	p.Q661*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+CGA-TGA	Arg1174Term	c.3520C>T	p.R1174*	DM?	Breast cancer	Lhota (2016) Clin Genet 90, 324	hg38 hg19 CpG dbSNP
+
+GRTP:
+TGG-TAG	Trp233Term	c.698G>A	p.W233*	DM?	Cholestasis	Monies (2017) Hum Genet 136, 921	hg38 hg19 dbSNP
+
+LMBRD2:
+GGT-GAT	Gly194Asp	c.581G>A	p.G194D	DM?	Neurology, pediatric	Vissers (2017) Genet Med 19, 1055	hg38 hg19 COM
+
+MVB12B:
+AAT-ATT	Asn247Ile	c.740A>T	p.N247I	DM?	Autism spectrum disorder	Takata (2018) Cell Rep 22, 734	hg38 hg19 COM
+
+NCLN:
+CAG-TAG	Gln166Term	c.496C>T	p.Q166*	DM?	Hirschsprung disease	Gui (2017) Genome Biol 18, 48	hg38 hg19 COM dbSNP
+
+NOSIP:
+GCG-GCT	Ala24Ala	c.72G>T	p.A24=	DM?	Colorectal cancer, non-polyposis	Kayser (2018) Int J Cancer epub, epub	hg38 hg19 COM dbSNP
+GGC-AGC	Gly93Ser	c.277G>A	p.G93S	DM?	Colorectal cancer, non-polyposis	Kayser (2018) Int J Cancer epub, epub	hg38 hg19
+
+PAK5:
+CGA-CCA	Arg335Pro	c.1004G>C	p.R335P	DP	Colorectal cancer, increased risk, association with	Webb (2006) Hum Mol Genet 15, 3263	hg38 hg19 dbSNP FREQ
+
+TMED7:
+CGA-TGA	Arg140Term	c.418C>T	p.R140*	DM?	Retinal disease with nystagmus, developmental delay and tonic-clonic seizure	Astuti (2018) Genes (Basel) 9, E21	hg38 hg19 CpG

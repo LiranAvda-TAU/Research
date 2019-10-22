@@ -1,0 +1,68 @@
+CHN2:
+CAC-CGC	His204Arg	c.611A>G	p.H204R	DP	Carotid intima media thickness, association with	Adams (2014) Cardiovasc Diabetol 13, 77	hg38 hg19 dbSNP FREQ
+
+DCAF1:
+CAT-TAT	His997Tyr	c.2989C>T	p.H997Y	DM?	Inflammatory bowel disease, very early onset	Kelsen (2015) Gastroenterology 149, 1415	hg38 hg19 COM dbSNP
+
+GLRX3:
+CGA-TGA	Arg99Term	c.295C>T	p.R99*	DM?	Cardiovascular malformations	Li (2017) Genome Med 9, 95	hg38 hg19 COM CpG dbSNP
+
+KIF5B:
+GAA-AAA	Glu22Lys	c.64G>A	p.E22K	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+CAT-CGT	His751Arg	c.2252A>G	p.H751R	DM?	Developmental delay, ADHD, seizures, brain atrophy & thin corpus callosum	Charng (2016) BMC Med Genomics 9, 42	hg38 hg19 COM dbSNP
+
+MGAT5:
+TGG-TAG	Trp201Term	c.602G>A	p.W201*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+GAG-CAG	Glu588Gln	c.1762G>C	p.E588Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SF3A3:
+CAC-TAC	His445Tyr	c.1333C>T	p.H445Y	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+EMC8:
+AGT-ACT	Ser103Thr	c.308G>C	p.S103T	DM?	Intellectual disability	Hu (2018) Mol Psychiatry epub, epub	hg38 hg19 COM
+TAG-TAC	Term211Tyr	c.633G>C	p.*211Y	DM?	Pulmonary arterial hypertension	Zhu (2018) Circ Genom Precis Med 11, e001887	hg38 hg19 COM dbSNP
+
+RNF145:
+GGT-GTT	Gly90Val	c.269G>T	p.G90V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SCAF4:
+ATG-ATA	Met886Ile	c.2658G>A	p.M886I	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SGTB:
+TAT-TGT	Tyr189Cys	c.566A>G	p.Y189C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM dbSNP
+
+MYH15:
+GAT-GGT	Asp337Gly	c.1010A>G	p.D337G	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 dbSNP
+CGG-TGG	Arg953Trp	c.2857C>T	p.R953W	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 CpG dbSNP
+ACT-GCT	Thr1125Ala	c.3373A>G	p.T1125A	DP	Coronary heart disease, association with	Bare (2007) Genet Med 9, 682	hg38 hg19 dbSNP FREQ
+
+CTBP2:
+CGG-TGG	Arg72Trp	c.214C>T	p.R72W	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG dbSNP
+CGG-TGG	Arg134Trp	c.400C>T	p.R134W	DM?	Congenital heart disease	Glessner (2014) Circ Res 115, 884	hg38 hg19 CpG dbSNP
+CGG-CCG	Arg360Pro	c.1079G>C	p.R360P	DM?	Pituitary stalk interruption syndrome	Guo (2017) J Cell Mol Med 21, 3626	hg38 hg19 COM
+CGC-CAC	Arg730His	c.2189G>A	p.R730H	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG
+CGG-CAG	Arg759Gln	c.2276G>A	p.R759Q	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG dbSNP
+CCG-CTG	Pro849Leu	c.2546C>T	p.P849L	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG
+
+PFDN6:
+CCG-CTG	Pro62Leu	c.185C>T	p.P62L	DM?	Sensory processing disorder	Marco (2018) BMC Med Genomics 11, 50	hg38 hg19 COM CpG
+
+SF3A2:
+CGG-CAG	Arg31Gln	c.92G>A	p.R31Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+VRK2:
+ATA-ATG	Ile157Met	c.471A>G	p.I157M	DM?	Hirschsprung disease	Tang (2018) Eur J Hum Genet 26, 818	hg38 hg19 COM dbSNP
+CCT-GCT	Pro315Ala	c.943C>G	p.P315A	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+HOOK2:
+CGG-TGG	Arg367Trp	c.1099C>T	p.R367W	DM?	Retinal dystrophy	Patel (2018) Clin Genet 94, 554	hg38 hg19 COM CpG
+
+GNAI1:
+CAG-CCG	Gln52Pro	c.155A>C	p.Q52P	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+CAG-CGG	Gln204Arg	c.611A>G	p.Q204R	DM?	Autism	Turner (2016) Am J Hum Genet 98, 58	hg38 hg19 COM
+AAG-AGG	Lys270Arg	c.809A>G	p.K270R	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+ATA-ACA	Ile319Thr	c.956T>C	p.I319T	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM dbSNP
+GTG-GAG	Val332Glu	c.995T>A	p.V332E	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+TNNI1:
+CGC-TGC	Arg37Cys	c.109C>T	p.R37C	DM	Sudden unexpected death in infancy/childhood	Dewar (2017) Circ Cardiovasc Genet 10, e001738	hg38 hg19 CpG dbSNP

@@ -1,0 +1,627 @@
+CHN2:
+CAC-CGC	His204Arg	c.611A>G	p.H204R	DP	Carotid intima media thickness, association with	Adams (2014) Cardiovasc Diabetol 13, 77	hg38 hg19 dbSNP FREQ
+
+DCAF1:
+CAT-TAT	His997Tyr	c.2989C>T	p.H997Y	DM?	Inflammatory bowel disease, very early onset	Kelsen (2015) Gastroenterology 149, 1415	hg38 hg19 COM dbSNP
+
+GLRX3:
+CGA-TGA	Arg99Term	c.295C>T	p.R99*	DM?	Cardiovascular malformations	Li (2017) Genome Med 9, 95	hg38 hg19 COM CpG dbSNP
+
+KIF5B:
+GAA-AAA	Glu22Lys	c.64G>A	p.E22K	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+CAT-CGT	His751Arg	c.2252A>G	p.H751R	DM?	Developmental delay, ADHD, seizures, brain atrophy & thin corpus callosum	Charng (2016) BMC Med Genomics 9, 42	hg38 hg19 COM dbSNP
+
+MGAT5:
+TGG-TAG	Trp201Term	c.602G>A	p.W201*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+GAG-CAG	Glu588Gln	c.1762G>C	p.E588Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SF3A3:
+CAC-TAC	His445Tyr	c.1333C>T	p.H445Y	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+EMC8:
+AGT-ACT	Ser103Thr	c.308G>C	p.S103T	DM?	Intellectual disability	Hu (2018) Mol Psychiatry epub, epub	hg38 hg19 COM
+TAG-TAC	Term211Tyr	c.633G>C	p.*211Y	DM?	Pulmonary arterial hypertension	Zhu (2018) Circ Genom Precis Med 11, e001887	hg38 hg19 COM dbSNP
+
+RNF145:
+GGT-GTT	Gly90Val	c.269G>T	p.G90V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SCAF4:
+ATG-ATA	Met886Ile	c.2658G>A	p.M886I	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SGTB:
+TAT-TGT	Tyr189Cys	c.566A>G	p.Y189C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM dbSNP
+
+MYH15:
+GAT-GGT	Asp337Gly	c.1010A>G	p.D337G	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 dbSNP
+CGG-TGG	Arg953Trp	c.2857C>T	p.R953W	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 CpG dbSNP
+ACT-GCT	Thr1125Ala	c.3373A>G	p.T1125A	DP	Coronary heart disease, association with	Bare (2007) Genet Med 9, 682	hg38 hg19 dbSNP FREQ
+
+CTBP2:
+CGG-TGG	Arg72Trp	c.214C>T	p.R72W	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG dbSNP
+CGG-TGG	Arg134Trp	c.400C>T	p.R134W	DM?	Congenital heart disease	Glessner (2014) Circ Res 115, 884	hg38 hg19 CpG dbSNP
+CGG-CCG	Arg360Pro	c.1079G>C	p.R360P	DM?	Pituitary stalk interruption syndrome	Guo (2017) J Cell Mol Med 21, 3626	hg38 hg19 COM
+CGC-CAC	Arg730His	c.2189G>A	p.R730H	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG
+CGG-CAG	Arg759Gln	c.2276G>A	p.R759Q	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG dbSNP
+CCG-CTG	Pro849Leu	c.2546C>T	p.P849L	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG
+
+PFDN6:
+CCG-CTG	Pro62Leu	c.185C>T	p.P62L	DM?	Sensory processing disorder	Marco (2018) BMC Med Genomics 11, 50	hg38 hg19 COM CpG
+
+SF3A2:
+CGG-CAG	Arg31Gln	c.92G>A	p.R31Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+VRK2:
+ATA-ATG	Ile157Met	c.471A>G	p.I157M	DM?	Hirschsprung disease	Tang (2018) Eur J Hum Genet 26, 818	hg38 hg19 COM dbSNP
+CCT-GCT	Pro315Ala	c.943C>G	p.P315A	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+HOOK2:
+CGG-TGG	Arg367Trp	c.1099C>T	p.R367W	DM?	Retinal dystrophy	Patel (2018) Clin Genet 94, 554	hg38 hg19 COM CpG
+
+GNAI1:
+CAG-CCG	Gln52Pro	c.155A>C	p.Q52P	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+CAG-CGG	Gln204Arg	c.611A>G	p.Q204R	DM?	Autism	Turner (2016) Am J Hum Genet 98, 58	hg38 hg19 COM
+AAG-AGG	Lys270Arg	c.809A>G	p.K270R	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+ATA-ACA	Ile319Thr	c.956T>C	p.I319T	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM dbSNP
+GTG-GAG	Val332Glu	c.995T>A	p.V332E	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+TNNI1:
+CGC-TGC	Arg37Cys	c.109C>T	p.R37C	DM	Sudden unexpected death in infancy/childhood	Dewar (2017) Circ Cardiovasc Genet 10, e001738	hg38 hg19 CpG dbSNP
+
+AACS:
+AAC-AGC	Asn463Ser	c.1388A>G	p.N463S	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 dbSNP
+CGC-TGC	Arg608Cys	c.1822C>T	p.R608C	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 CpG dbSNP
+
+DAP3:
+CTT-TTT	Leu138Phe	c.412C>T	p.L138F	DM?	Metabolic disorder	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 dbSNP
+GAG-AAG	Glu369Lys	c.1105G>A	p.E369K	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM dbSNP
+
+GLG1:
+CAG-TAG	Gln661Term	c.1981C>T	p.Q661*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+CGA-TGA	Arg1174Term	c.3520C>T	p.R1174*	DM?	Breast cancer	Lhota (2016) Clin Genet 90, 324	hg38 hg19 CpG dbSNP
+
+GRTP1:
+TGG-TAG	Trp233Term	c.698G>A	p.W233*	DM?	Cholestasis	Monies (2017) Hum Genet 136, 921	hg38 hg19 dbSNP
+
+LMBRD2:
+GGT-GAT	Gly194Asp	c.581G>A	p.G194D	DM?	Neurology, pediatric	Vissers (2017) Genet Med 19, 1055	hg38 hg19 COM
+
+MVB12B:
+AAT-ATT	Asn247Ile	c.740A>T	p.N247I	DM?	Autism spectrum disorder	Takata (2018) Cell Rep 22, 734	hg38 hg19 COM
+
+NCLN:
+CAG-TAG	Gln166Term	c.496C>T	p.Q166*	DM?	Hirschsprung disease	Gui (2017) Genome Biol 18, 48	hg38 hg19 COM dbSNP
+
+NOSIP:
+GCG-GCT	Ala24Ala	c.72G>T	p.A24=	DM?	Colorectal cancer, non-polyposis	Kayser (2018) Int J Cancer epub, epub	hg38 hg19 COM dbSNP
+GGC-AGC	Gly93Ser	c.277G>A	p.G93S	DM?	Colorectal cancer, non-polyposis	Kayser (2018) Int J Cancer epub, epub	hg38 hg19
+
+PAK5:
+CGA-CCA	Arg335Pro	c.1004G>C	p.R335P	DP	Colorectal cancer, increased risk, association with	Webb (2006) Hum Mol Genet 15, 3263	hg38 hg19 dbSNP FREQ
+
+TMED7:
+CGA-TGA	Arg140Term	c.418C>T	p.R140*	DM?	Retinal disease with nystagmus, developmental delay and tonic-clonic seizure	Astuti (2018) Genes (Basel) 9, E21	hg38 hg19 CpG
+
+TRAPPC3:
+CGG-TGG	Arg70Trp	c.208C>T	p.R70W	DM?	Bardet-Biedl syndrome	Shaheen (2016) Genome Biol 17, 242
+
+UBL3:
+AAA-GAA	Lys20Glu	c.58A>G	p.K20E	DM?	Developmental disorder	McRae (2017) Nature 542, 433
+
+VPS50:
+GTA-ATA	Val209Ile	c.625G>A	p.V209I	DM?	Developmental disorder	McRae (2017) Nature 542, 433
+
+WIPI2:
+ATG-ATA	Met1Ile	c.3G>A	p.M1?	DM?	Left ventricular obstruction	Jin (2017) Nat Genet 49, 1593
+GTG-ATG	Val190Met	c. Not yet available	Not yet available	DM	Global developmental abnormalities	Jelani (2019) Brain 142, 1242
+TAC-TGC	Tyr246Cys	c.737A>G	p.Y246C	DM?	Cerebral palsy	McMichael (2015) Mol Psychiatry 20, 176
+
+GIPC2:
+AGA-ATA	Arg143Ile	c.428G>T	p.R143I	DM?	Developmental disorder	McRae (2017) Nature 542, 433
+
+HACL1:
+CAC-GAC	His416Asp	c.1246C>G	p.H416D	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293
+
+KAT2B:
+GTG-ATG	Val291Met	c.871G>A	p.V291M	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64
+TTT-TCT	Phe307Ser	c.920T>C	p.F307S	DM?	Cardiomyopathy and nephrotic syndrome	Gonçalves (2018) PLoS Genet 14, e1007386
+
+MINDY2:
+AAG-GAG	Lys234Glu	c.700A>G	p.K234E	DM?	Autism	Neale (2012) Nature 485, 242
+
+NEDD4:
+ATG-GTG	Met33Val	c.97A>G	p.M33V	R	Hearing loss, adult-onset	Lewis (2018) BMC Med Genomics 11, 77
+AGT-AGC	Ser189Ser	c.567T>C	p.S189=	R	Hearing loss, adult-onset	Lewis (2018) BMC Med Genomics 11, 77
+GCA-ACA	Ala913Thr	c.2737G>A	p.A913T	DM?	Epilepsy	Friedman (2018) NPJ Genom Med 3, 9
+
+OXR1:
+TGG-TGA	Trp5Term	c.15G>A	p.W5*	DM?	Language impairment	Chen (2017) Sci Rep 7, 46105
+TCA-TGA	Ser192Term	c.575C>G	p.S192*	DM?	Atrioventricular canal defects	Jin (2017) Nat Genet 49, 1593
+
+PKN2:
+CTT-CCT	Leu489Pro	c.1466T>C	p.L489P	DM?	Developmental disorder	McRae (2017) Nature 542, 433
+
+RPH3A:
+CGC-TGC	Arg97Cys	c.289C>T	p.R97C	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216
+ACT-AGT	Thr450Ser	c.1349C>G	p.T450S	DM?	Intellectual disability,seizures,gastroesophageal reflux, Wolf-Parkinson White Syndrome & periventricular leukomalacia	Bowling (2017) Genome Med 9, 43
+GTG-TTG	Val464Leu	c.1390G>T	p.V464L	DM?	Myasthenic syndrome, presynaptic congenital with altered synaptic vesicle homeostasis	Maselli (2018) Mol Genet Genomic Med 6, 434
+
+SLCO4C1:
+ATC-CTC	Ile233Leu	c.697A>C	p.I233L	DM?	Obesity, severe, early-onset	Serra-Juhé (2017) PLoS Genet 13, e1006657
+
+TM2D3:
+CCT-CTT	Pro155Leu	c.464C>T	p.P155L	DFP	Alzheimer disease, late-onset, association with	Jakobsdottir (2016) PLoS Genet 12, e1006327
+ACG-ATG	Thr226Met	c.677C>T	p.T226M	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604
+
+TMEM222:
+GGC-AGC	Gly72Ser	c.214G>A	p.G72S	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604
+
+ATP13A4:
+GCC-GTC	Ala356Val	c.1067C>T	p.A356V	DM?	Autism spectrum disorder	Kwasnicka-Crawford (2005) Genomics 86, 182
+GAA-GAT	Glu646Asp	c.1938A>T	p.E646D	DFP	Defective calcium regulation	Vallipuram (2010) Cell Mol Neurobiol 30, 233
+
+CFDP1:
+ACT-TCT	Thr179Ser	c.535A>T	p.T179S	DM?	Cleft lip and/or palate	Pengelly (2016) Sci Rep 6, 30457
+
+HSPA4L:
+CGA-TGA	Arg346Term	c.1036C>T	p.R346*	DM?	Congenital anomalies of the kidney and urinary tract	Sanna-Cherchi (2017) Am J Hum Genet 101, 789
+
+IQSEC1:
+CAG-TAG	Gln205Term	c.613C>T	p.Q205*	DM?	Developmental disorder	McRae (2017) Nature 542, 433
+
+LARP4B:
+GAG-TAG	Glu147Term	c.439G>T	p.E147*	DM?	Developmental disorder	McRae (2017) Nature 542, 433
+
+RPL34:
+GCT-ACT	Ala94Thr	c.280G>A	p.A94T	DM?	Diamond-Blackfan anaemia	Ulirsch (2018) Am J Hum Genet 103, 930
+
+ZFHX3:
+CTC-GTC	Leu379Val	c.1135C>G	p.L379V	DP	Ovarian cancer, epithelial, reduced risk	Permuth (2016) Hum Mol Genet 25, 3600	hg38 hg19 dbSNP
+CAC-CAA	His844Gln	c.2532C>A	p.H844Q	DM?	Autism spectrum disorder	Wang (2016) Nat Commun 7, 13316	hg38 hg19 COM
+CAC-TAC	His1270Tyr	c.3808C>T	p.H1270Y	DM?	Autism	Hashimoto (2016) J Hum Genet 61, 199	hg38 hg19 COM
+CAG-CAC	Gln2014His	c.6042G>C	p.Q2014H	DP	Decreased body mass index, association with	Turcot (2018) Nat Genet 50, 26	hg38 hg19 COM dbSNP
+CGA-TGA	Arg2284Term	c.6850C>T	p.R2284*	DM?	Endocrine-related disease	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 COM CpG dbSNP
+CGA-TGA	Arg2294Term	c.6880C>T	p.R2294*	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+AGC-GGC	Ser2903Gly	c.8707A>G	p.S2903G	DM?	Endocrine-related disease	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 COM dbSNP
+CGG-CAG	Arg2998Gln	c.8993G>A	p.R2998Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+KDELR3:
+CGG-TGG	Arg169Trp	c.505C>T	p.R169W	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+GTG-GGG	Val199Gly	c.596T>G	p.V199G	DP	Heart rate, association with	van den Berg (2017) Hum Mol Genet 26, 2346	hg38 hg19 dbSNP
+
+UNC5D:
+CGT-TGT	Arg433Cys	c.1297C>T	p.R433C	DM?	Myopic anisometropia, severe	Feng (2017) Medicine (Baltimore) 96, e7138	hg38 hg19 COM CpG
+
+ATXN1L:
+CGG-TGG	Arg328Trp	c.982C>T	p.R328W	DM?	Ataxia	Monies (2017) Hum Genet 136, 921	hg38 hg19 CpG dbSNP
+
+SYNJ2:
+TCT-CCT	Ser853Pro	c.2557T>C	p.S853P	DM?	Moderate intellectual disability, infantile spasms and seizures	Bowling (2017) Genome Med 9, 43	hg38 hg19 COM dbSNP
+
+ANPEP:
+CCC-GCC	Pro82Ala	c.244C>G	p.P82A	DM?	High myopia	Kloss (2017) Invest Ophthalmol Vis Sci 58, 1982	hg38 hg19 dbSNP
+
+PFKP:
+AAG-ACG	Lys763Thr	c.2288A>C	p.K763T	DM?	Congenital heart disease & Neurodevelopmental disorder	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM
+
+SCARB1:
+GGC-AGC	Gly2Ser	c.4G>A	p.G2S	DFP	Lipoprotein levels, association with	Tai (2003) Clin Genet 63, 53	hg38 hg19 COM dbSNP FREQ
+GAG-GGG	Glu130Gly	c.389A>G	p.E130G	DM?	Increased HDL cholesterol and Lp(a)	Yang (2016) Circ Cardiovasc Genet 9, 408	hg38 hg19
+GTC-ATC	Val135Ile	c.403G>A	p.V135I	DP	HDL cholesterol levels, in women, association with	Roberts (2007) Hum Hered 64, 107	hg38 hg19 CpG dbSNP FREQ
+CGC-TGC	Arg174Cys	c.520C>T	p.R174C	DM?	Low HDL cholesterol	Dron (2017) J Lipid Res 58, 2162	hg38 hg19 COM CpG dbSNP
+GCC-GCT	Ala350Ala	c.1050C>T	p.A350=	DFP	Lipoprotein levels, association with	Tai (2003) Clin Genet 63, 53	hg38 hg19 CpG dbSNP FREQ
+CCG-CTG	Pro376Leu	c.1127C>T	p.P376L	DFP	Coronary heart disease, increased risk, association with	Zanoni (2016) Science 351, 1166	hg38 hg19 CpG dbSNP
+ACG-ATG	Thr378Met	c.1133C>T	p.T378M	DM?	Hypercholesterolaemia	Corral (2018) Atherosclerosis 277, 256	hg38 hg19 COM CpG dbSNP
+
+FNDC3A:
+GAC-AAC	Asp396Asn	c.1186G>A	p.D396N	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293	hg38 hg19 COM
+
+RNF115:
+GTA-ATA	Val267Ile	c.799G>A	p.V267I	DM?	Heterotaxy	Liu (2018) Genome Med 10, 40	hg38 hg19 COM
+
+SLC19A1:
+CGC-CAC	Arg27His	c.80G>A	p.R27H	DFP	Increased homocysteine levels, association with	Chango (2000) Mol Genet Metab 70, 310	hg38 hg19 COM CpG dbSNP FREQ
+
+NCAPD3:
+ATA-ACA	Ile42Thr	c.125T>C	p.I42T	DM?	Colorectal polyposis	Arora (2015) Gastroenterology 149, 1872	hg38 hg19 COM dbSNP
+
+METTL4:
+TGC-TGA	Cys196Term	c.588C>A	p.C196*	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 dbSNP
+
+CHID1:
+CGG-TGG	Arg73Trp	c.217C>T	p.R73W	DM?	Pulmonary arterial hypertension	Zhu (2018) Circ Genom Precis Med 11, e001887	hg38 hg19 COM CpG
+
+SPSB1:
+GCC-ACC	Ala105Thr	c.313G>A	p.A105T	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+GEMIN7:
+GAA-AAA	Glu52Lys	c.154G>A	p.E52K	DM?	Motor delay, speech delay, hypotonia	Monies (2017) Hum Genet 136, 921	hg38 hg19 dbSNP
+
+CYP2E1:
+TGG-CGG	Trp23Arg	c.67T>C	p.W23R	FP	Altered targeting efficiency	Bansal (2013) J Biol Chem 288, 12627	hg38 hg19 COM
+TGG-CGG	Trp30Arg	c.88T>C	p.W30R	FP	Altered targeting efficiency	Bansal (2013) J Biol Chem 288, 12627	hg38 hg19 COM
+CGC-CAC	Arg76His	c.227G>A	p.R76H	FP	Reduced activity	Hu (1997) Mol Pharmacol 51, 370	hg38 hg19 COM CpG dbSNP FREQ
+
+TMEM26:
+TGG-TGC	Trp217Cys	c.651G>C	p.W217C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+TGG-GGG	Trp217Gly	c.649T>G	p.W217G	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+HTR2C:
+CTG-GTG	Leu4Val	c.10C>G	p.L4V	DP	Bipolar affective disorder, association with	Lin (2003) J Med Genet 40, 781	hg38 hg19 dbSNP FREQ
+TGT-TCT	Cys23Ser	c.68G>C	p.C23S	DFP	Hallucinations, in Alzheimer disease, association	Holmes (1998) Hum Mol Genet 7, 1507	hg38 hg19 dbSNP FREQ
+
+BNC2:
+CAG-CGG	Gln152Arg	c.455A>G	p.Q152R	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP
+GAG-GGG	Glu240Gly	c.719A>G	p.E240G	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19
+AGG-GGG	Arg283Gly	c.847A>G	p.R283G	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19
+CCT-GCT	Pro306Ala	c.916C>G	p.P306A	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP FREQ
+CTA-GTA	Leu414Val	c.1240C>G	p.L414V	DM?	Total anomalous pulmonary venous return	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP FREQ
+CCA-CTA	Pro579Leu	c.1736C>T	p.P579L	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP
+GAT-GAG	Asp760Glu	c.2280T>G	p.D760E	DM?	Hypospadias & partial anomalous pulmonary venous return	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19
+TAT-CAT	Tyr791His	c.2371T>C	p.Y791H	DM?	46,XY disorder of sex development	Baxter (2015) J Clin Endocrinol Metab 100, E333	hg38 hg19 dbSNP
+GCC-GTC	Ala923Val	c.2768C>T	p.A923V	DM?	Partial anomalous pulmonary venous return	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP FREQ
+
+SYNPR:
+TGC-TGA	Cys31Term	c.93C>A	p.C31*	DM?	Language impairment	Chen (2017) Sci Rep 7, 46105	hg38 hg19 COM dbSNP
+
+SPTLC3:
+TGG-CGG	Trp150Arg	c.448T>C	p.W150R	DM?	Charcot-Marie-Tooth disease	Gonzaga-Jauregui (2015) Cell Rep 12, 1169	hg38 hg19 dbSNP
+
+ZBTB11:
+CAT-CAG	His880Gln	c.2640T>G	p.H880Q	DM?	Intellectual disability, autosomal recessive	Harripaul (2017) Mol Psychiatry 23, 973	hg38 hg19
+
+NAA35:
+TGG-TGT	Trp532Cys	c.1596G>T	p.W532C	DM?	Cerebral palsy	McMichael (2015) Mol Psychiatry 20, 176	hg38 hg19 COM
+
+ZNF207:
+ATG-GTG	Met142Val	c.424A>G	p.M142V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM dbSNP
+
+LRCH3:
+CAA-CGA	Gln254Arg	c.761A>G	p.Q254R	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293	hg38 hg19 COM dbSNP
+
+SYT9:
+CGA-TGA	Arg491Term	c.1471C>T	p.R491*	DM?	Seizures	Monies (2017) Hum Genet 136, 921	hg38 hg19 CpG dbSNP
+
+PTPN12:
+GCA-GTA	Ala105Val	c.314C>T	p.A105V	DM?	Colorectal cancer	de Voer (2016) PLoS Genet 12, e1005880	hg38 hg19
+ACG-ATG	Thr156Met	c.467C>T	p.T156M	DM?	Diaphragmatic hernia, congenital	Yu (2015) Hum Mol Genet 24, 4764	hg38 hg19 COM CpG dbSNP
+CGA-TGA	Arg432Term	c.1294C>T	p.R432*	DM?	Multiple epiphyseal dysplasia	Monies (2017) Hum Genet 136, 921	hg38 hg19 COM CpG
+AGG-ATG	Arg522Met	c.1565G>T	p.R522M	DM?	Colorectal cancer	de Voer (2016) PLoS Genet 12, e1005880	hg38 hg19 dbSNP
+TCG-TTG	Ser684Leu	c.2051C>T	p.S684L	DM?	Colorectal cancer	de Voer (2016) PLoS Genet 12, e1005880	hg38 hg19 CpG dbSNP
+
+GPR180:
+CAG-TAG	Gln115Term	c.343C>T	p.Q115*	DM?	Goniodysgenesis	Fares-Taie (2015) Am J Hum Genet 96, 631	hg38 hg19
+
+TTC1:
+TTT-GTT	Phe262Val	c.784T>G	p.F262V	DM?	Intellectual disability, cortical dysplasia and microcephaly	Karaca (2015) Neuron 88, 499	hg38 hg19 COM dbSNP
+
+RBFOX2:
+CGA-TGA	Arg358Term	c.1072C>T	p.R358*	DM?	Congenital heart disease	Homsy (2015) Science 350, 1262	hg38 hg19 COM CpG
+
+LMO7:
+CCG-CTG	Pro297Leu	c.890C>T	p.P297L	DM?	McKusick-Kaufman syndrome	Castro-Sánchez (2017) PLoS One 12, e0183081	hg38 hg19 COM CpG dbSNP
+
+FBXO11:
+AGA-AGT	Arg138Ser	c.414A>T	p.R138S	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+CAG-CGG	Gln156Arg	c.467A>G	p.Q156R	DM?	Neurodevelopmental disorder	Gregor (2018) Am J Hum Genet 103, 305	hg38 hg19 COM
+ATA-GTA	Ile538Val	c.1612A>G	p.I538V	DM?	Neurodevelopmental disorder	Gregor (2018) Am J Hum Genet 103, 305	hg38 hg19 COM
+ATT-GTT	Ile583Val	c.1747A>G	p.I583V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM dbSNP
+ACA-AGA	Thr623Arg	c.1868C>G	p.T623R	DM?	Neurodevelopmental disorder	Gregor (2018) Am J Hum Genet 103, 305	hg38 hg19 COM
+TCA-CCA	Ser840Pro	c.2518T>C	p.S840P	DM?	Neurodevelopmental disorder	Gregor (2018) Am J Hum Genet 103, 305	hg38 hg19 COM
+GCT-GAT	Ala892Asp	c.2675C>A	p.A892D	DM?	Neurodevelopmental disorder	Gregor (2018) Am J Hum Genet 103, 305	hg38 hg19 COM
+CCT-CGT	Pro905Arg	c.2714C>G	p.P905R	DM?	Neurodevelopmental disorder	Gregor (2018) Am J Hum Genet 103, 305	hg38 hg19
+GAT-GGT	Asp910Gly	c.2729A>G	p.D910G	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+KCNC4:
+TCC-TTC	Ser8Phe	c.23C>T	p.S8F	DM?	Ataxia & dystonia	Monies (2017) Hum Genet 136, 921	hg38 hg19 dbSNP
+
+MGA:
+CCA-CAA	Pro467Gln	c.1400C>A	p.P467Q	DM?	Parkinson disease, early onset	Kun-Rodrigues (2015) Hum Mol Genet 24, 6711	hg38 hg19
+GGG-GAG	Gly2753Glu	c.8258G>A	p.G2753E	DM?	Autism spectrum disorder	Takata (2018) Cell Rep 22, 734	hg38 hg19 COM
+
+PIWIL1:
+AAT-CAT	Asn224His	c.670A>C	p.N224H	DM?	Azoospermia	Gou (2017) Cell 169, 1090	hg38 hg19 COM
+CGA-CAA	Arg589Gln	c.1766G>A	p.R589Q	DM?	Intellectual disability	Kahrizi (2019) Clin Genet 95, 151	hg38 hg19 COM CpG
+
+TMX3:
+CGA-CAA	Arg39Gln	c.116G>A	p.R39Q	DM	Microphthalmia	Chao (2010) PLoS One 5, e10565	hg38 hg19 COM CpG dbSNP
+GAC-AAC	Asp108Asn	c.322G>A	p.D108N	DM?	Microphthalmia	Chao (2010) PLoS One 5, e10565	hg38 hg19 dbSNP
+
+SH3D19:
+GAT-AAT	Asp204Asn	c.610G>A	p.D204N	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+GAT-TAT	Asp717Tyr	c.2149G>T	p.D717Y	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+H3F3A:
+GAT-CAT	Asp82His	c.244G>C	p.D82H	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+CAG-CGG	Gln126Arg	c.377A>G	p.Q126R	DM?	Neurodevelopmental disorder	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 dbSNP
+
+GCC2:
+CAT-TAT	His1328Tyr	c.3982C>T	p.H1328Y	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293	hg38 hg19 COM dbSNP
+
+ABI2:
+CGA-TGA	Arg132Term	c.394C>T	p.R132*	DM?	Intellectual disability, autosomal recessive	Harripaul (2017) Mol Psychiatry 23, 973	hg38 hg19 CpG dbSNP
+GAG-AAG	Glu202Lys	c.604G>A	p.E202K	DM?	Autism spectrum disorder	Guo (2017) Sci Rep 7, 44155	hg38 hg19
+TAT-TAA	Tyr371Term	c.1113T>A	p.Y371*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+CGC-TGC	Arg373Cys	c.1117C>T	p.R373C	DM?	Autism spectrum disorder	Guo (2017) Sci Rep 7, 44155	hg38 hg19 CpG dbSNP
+
+NPAS1:
+ATG-GTG	Met304Val	c.910A>G	p.M304V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+UGT3A1:
+TGT-GGT	Cys121Gly	c.361T>G	p.C121G	FP	Altered X-24348 to pregn steroid monosulfate ratio	Yousri (2018) Nat Commun 9, 333	hg38 hg19 dbSNP
+TTT-TGT	Phe290Cys	c.869T>G	p.F290C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+VAMP4:
+GTG-ATG	Val59Met	c.175G>A	p.V59M	DM?	Microcephaly, speech delay, intellectual disability	Monies (2017) Hum Genet 136, 921	hg38 hg19
+CGT-CAT	Arg139His	c.416G>A	p.R139H	DM?	Bipolar disorder	Kataoka (2016) Mol Psychiatry 21, 885	hg38 hg19 COM CpG dbSNP
+
+KMT2C:
+ATG-TTG	Met69Leu	c.205A>T	p.M69L	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+ACC-TCC	Thr316Ser	c.946A>T	p.T316S	DM?	Nasopharyngeal carcinoma	Sasaki (2015) Cancer Epidemiol Biomarkers Prev 24, 1222	hg38 hg19 COM dbSNP
+GTT-TTT	Val492Phe	c.1474G>T	p.V492F	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CGT-CAT	Arg526His	c.1577G>A	p.R526H	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM CpG
+GGC-GAC	Gly550Asp	c.1649G>A	p.G550D	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GGT-AGT	Gly568Ser	c.1702G>A	p.G568S	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM CpG
+TCA-TTA	Ser772Leu	c.2315C>T	p.S772L	DM?	Nasopharyngeal carcinoma	Sasaki (2015) Cancer Epidemiol Biomarkers Prev 24, 1222	hg38 hg19 COM dbSNP
+TGG-TTG	Trp858Leu	c.2573G>T	p.W858L	DM?	Autism spectrum disorder	García-Ortiz (2019) J Autism Dev Disord ,	hg38 hg19 COM
+CCA-TCA	Pro860Ser	c.2578C>T	p.P860S	DM?	Autism spectrum disorder	García-Ortiz (2019) J Autism Dev Disord ,	hg38 hg19 COM
+ATC-ACC	Ile882Thr	c.2645T>C	p.I882T	DM?	Autism spectrum disorder	García-Ortiz (2019) J Autism Dev Disord ,	hg38 hg19 COM
+ACT-ATT	Thr954Ile	c.2861C>T	p.T954I	DM?	Autism spectrum disorder	Wang (2016) Nat Commun 7, 13316	hg38 hg19 COM
+GAG-TAG	Glu1120Term	c.3358G>T	p.E1120*	DM?	Congenital heart disease	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+GGA-TGA	Gly1582Term	c.4744G>T	p.G1582*	DM?	Intellectual disability / developmental delay	Faundes (2018) Am J Hum Genet 102, 175	hg38 hg19 COM
+CCC-CTC	Pro1620Leu	c.4859C>T	p.P1620L	DM?	Schizophrenia	Fromer (2014) Nature 506, 179	hg38 hg19 COM
+CCT-CTT	Pro1884Leu	c.5651C>T	p.P1884L	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GGT-AGT	Gly2402Ser	c.7204G>A	p.G2402S	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CAG-CGG	Gln2544Arg	c.7631A>G	p.Q2544R	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GAG-CAG	Glu2705Gln	c.8113G>C	p.E2705Q	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GGC-GAC	Gly2727Asp	c.8180G>A	p.G2727D	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GAC-AAC	Asp2850Asn	c.8548G>A	p.D2850N	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CGA-CAA	Arg2884Gln	c.8651G>A	p.R2884Q	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM CpG
+TCT-ACT	Ser2908Thr	c.8722T>A	p.S2908T	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+ATG-ACG	Met3032Thr	c.9095T>C	p.M3032T	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CCT-CGT	Pro3555Arg	c.10664C>G	p.P3555R	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+AAA-TAA	Lys3601Term	c.10801A>T	p.K3601*	DM?	Bipolar disorder	Kataoka (2016) Mol Psychiatry 21, 885	hg38 hg19 COM
+TCG-TTG	Ser3660Leu	c.10979C>T	p.S3660L	DP	Gastric cancer, increased risk, association with	Li (2014) J BUON 19, 394	hg38 hg19 CpG dbSNP FREQ
+GCA-TCA	Ala3700Ser	c.11098G>T	p.A3700S	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GAG-GGG	Glu3859Gly	c.11576A>G	p.E3859G	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+ATG-ACG	Met3878Thr	c.11633T>C	p.M3878T	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CCA-CGA	Pro3946Arg	c.11837C>G	p.P3946R	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CGA-TGA	Arg3995Term	c.11983C>T	p.R3995*	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+TAT-TCT	Tyr4063Ser	c.12188A>C	p.Y4063S	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+CGA-CAA	Arg4108Gln	c.12323G>A	p.R4108Q	DM?	Amyotrophic lateral sclerosis	Steinberg (2015) Sci Rep 5, 9124	hg38 hg19 COM CpG dbSNP
+AAG-GAG	Lys4229Glu	c.12685A>G	p.K4229E	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+TCC-TTC	Ser4274Phe	c.12821C>T	p.S4274F	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM
+GCT-GTT	Ala4433Val	c.13298C>T	p.A4433V	DM?	Autism spectrum disorder	Wang (2016) Nat Commun 7, 13316	hg38 hg19 COM
+CGA-TGA	Arg4478Term	c.13432C>T	p.R4478*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM CpG dbSNP
+CGG-TGG	Arg4544Trp	c.13630C>T	p.R4544W	DM?	Autism spectrum disorder	Guo (2018) Mol Autism 9, 64	hg38 hg19 COM CpG
+TGG-TGC	Trp4587Cys	c.13761G>C	p.W4587C	DM?	Autism spectrum disorder	Wang (2016) Nat Commun 7, 13316	hg38 hg19 COM
+TAC-TAA	Tyr4691Term	c.14073C>A	p.Y4691*	DM?	Autism	O'Roak (2012) Nature 485, 246	hg38 hg19 dbSNP
+CAG-CTG	Gln4753Leu	c.14258A>T	p.Q4753L	DM?	Congenital heart disease	Szot (2018) Circ Genom Precis Med 11,	hg38 hg19 COM
+TCG-TTG	Ser4850Leu	c.14549C>T	p.S4850L	DM?	Congenital heart disease	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM CpG
+
+ARL15:
+GCC-ACC	Ala110Thr	c.328G>A	p.A110T	DM?	Obesity with polycystic ovary syndrome	Rocha (2017) Sci Rep 7, 17593	hg38 hg19
+TGC-CGC	Cys133Arg	c.397T>C	p.C133R	DM?	Lipodystrophy, generalized	Rocha (2017) Sci Rep 7, 17593	hg38 hg19
+
+GAB2:
+CGA-TGA	Arg154Term	c.460C>T	p.R154*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM CpG
+TAT-TGT	Tyr249Cys	c.746A>G	p.Y249C	DM?	Immunodeficiency, common variable	van Schouwenburg (2015) Clin Immunol 160, 301	hg38 hg19 dbSNP
+
+SEPT6:
+TAT-TGT	Tyr86Cys	c.257A>G	p.Y86C	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 dbSNP
+
+SLC39A12:
+CCG-CGG	Pro43Arg	c.128C>G	p.P43R	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+ATA-ACA	Ile97Thr	c.290T>C	p.I97T	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM
+
+BDH1:
+CGC-CAC	Arg223His	c.668G>A	p.R223H	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293	hg38 hg19 COM CpG dbSNP
+
+PEBP4:
+GGC-GAC	Gly87Asp	c.260G>A	p.G87D	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+AMOT:
+CAG-CAC	Gln642His	c.1926G>C	p.Q642H	DM?	Cerebral visual impairment	Bosch (2016) Eur J Hum Genet 24, 660	hg38 hg19 dbSNP
+
+PDIA5:
+TAT-TGT	Tyr357Cys	c.1070A>G	p.Y357C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+BTBD9:
+CGA-TGA	Arg342Term	c.1024C>T	p.R342*	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM CpG
+CGT-CAT	Arg372His	c.1115G>A	p.R372H	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+GCG-GTG	Ala470Val	c.1409C>T	p.A470V	DM?	Rett-like syndrome	Lucariello (2016) Hum Genet 135, 1343	hg38 hg19 CpG
+
+ZNF146:
+CCT-GCT	Pro99Ala	c.295C>G	p.P99A	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+TCT-CCT	Ser226Pro	c.676T>C	p.S226P	DM?	Pulmonary arterial hypertension	Zhu (2018) Genome Med 10,	hg38 hg19 COM
+
+GRAMD1B:
+CGG-TGG	Arg189Trp	c.565C>T	p.R189W	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293	hg38 hg19 COM CpG dbSNP
+GGG-AGG	Gly313Arg	c.937G>A	p.G313R	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM CpG dbSNP
+
+RABGAP1L:
+AGT-GGT	Ser496Gly	c.1486A>G	p.S496G	DM?	Congenital heart disease	Homsy (2015) Science 350, 1262	hg38 hg19 COM
+CGA-TGA	Arg797Term	c.2389C>T	p.R797*	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+ANKRD13A:
+GGT-TGT	Gly312Cys	c.934G>T	p.G312C	DM?	Parkinson disease, early onset	Kun-Rodrigues (2015) Hum Mol Genet 24, 6711	hg38 hg19
+
+KIAA1324:
+GTC-ATC	Val781Ile	c.2341G>A	p.V781I	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM CpG dbSNP
+GAG-AAG	Glu880Lys	c.2638G>A	p.E880K	DM?	High myopia	Kloss (2017) Invest Ophthalmol Vis Sci 58, 1982	hg38 hg19 CpG dbSNP
+
+RSRC2:
+CGG-CAG	Arg142Gln	c.425G>A	p.R142Q	DM?	Developmental delay, autistic behaviour, seizures, myopia, strabismus & obesity
+
+DPYSL5:
+GAG-AAG	Glu41Lys	c.121G>A	p.E41K	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+GAC-AAC	Asp81Asn	c.241G>A	p.D81N	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+CTC-GTC	Leu130Val	c.388C>G	p.L130V	DM?	Congenital heart disease	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM
+GTT-ATT	Val364Ile	c.1090G>A	p.V364I	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+
+SYN3:
+AGC-AAC	Ser470Asn	c.1409G>A	p.S470N	DP	Schizophrenia, association with	Porton (2004) Biol Psychiatry 55, 118	hg38 hg19 dbSNP FREQ
+
+ETV4:
+CGA-TGA	Arg304Term	c.910C>T	p.R304*	DM?	Congenital anomalies of the kidney and urinary tract	Nicolaou (2016) Kidney Int 89, 476	hg38 hg19 COM CpG
+GAG-AAG	Glu331Lys	c.991G>A	p.E331K	DM?	Colorectal cancer	Zhang (2015) World J Gastroenterol 21, 4136	hg38 hg19
+
+DNAJC9:
+GAC-AAC	Asp112Asn	c.334G>A	p.D112N	DM?	Epithelial recurrent erosion dystrophy	Oliver (2016) Ophthalmology 123, 709	hg38 hg19 dbSNP
+
+AAR2:
+GTG-ATG	Val174Met	c.520G>A	p.V174M	DM?	Developmental delay, microcephaly, brain & heart defects, anteriorly placed anus & skin macules	Charng (2016) BMC Med Genomics 9, 42	hg38 hg19 COM CpG dbSNP
+
+PITRM1:
+AAG-AGG	Lys710Arg	c.2129A>G	p.K710R	DM?	Schizophrenia	Guipponi (2014) PLoS One 9, e112745	hg38 hg19 dbSNP
+
+GABRA4:
+CAT-CCT	His372Pro	c.1115A>C	p.H372P	DM?	Epilepsy	Hernandez (2016) PLoS One 11, e0162883	hg38 hg19 COM dbSNP
+
+PPP1R21:
+CGA-TGA	Arg697Term	c.2089C>T	p.R697*	DM?	Intellectual disability	Anazi (2017) Hum Genet 136, 1419	hg38 hg19 CpG dbSNP
+
+ARHGEF10L:
+CAG-CAT	Gln9His	c.27G>T	p.Q9H	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	hg38 hg19 COM
+TCC-TTC	Ser745Phe	c.2234C>T	p.S745F	DM?	Neurology, pediatric	Vissers (2017) Genet Med 19, 1055	hg38 hg19 COM
+GGG-AGG	Gly897Arg	c.2689G>A	p.G897R	DM?	Conotruncal heart defects with extracardiac anomalies	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM CpG dbSNP
+GAC-AAC	Asp1216Asn	c.3646G>A	p.D1216N	DM?	Cerebral visual impairment	Bosch (2016) Eur J Hum Genet 24, 660	hg38 hg19 CpG dbSNP
+
+SLC2A5:
+CGG-TGG	Arg270Trp	c.808C>T	p.R270W	DM?	Long QT syndrome	Shigemizu (2015) PLoS One 10, e0130329	hg38 hg19 CpG dbSNP
+ATC-ATG	Ile296Met	c.888C>G	p.I296M	DM?	Long QT syndrome	Shigemizu (2015) PLoS One 10, e0130329	hg38 hg19 dbSNP
+
+PARP9:
+GTT-GGT	Val796Gly	c.2387T>G	p.V796G	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SLC9A3:
+CGG-CAG	Arg474Gln	c.1421G>A	p.R474Q	FP	Reduced transport activity	Zhu (2015) Am J Physiol Cell Physiol 308, C758	hg38 hg19 CpG dbSNP
+GTC-CTC	Val518Leu	c.1552G>C	p.V518L	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+GTG-ATG	Val567Met	c.1699G>A	p.V567M	FP	Reduced transport activity	Zhu (2015) Am J Physiol Cell Physiol 308, C758	hg38 hg19 CpG dbSNP
+GCA-GTA	Ala750Val	c.2249C>T	p.A750V	DM?	Persistent cloaca	Hsu (2018) Hum Mol Genet 27, 351	hg38 hg19 COM
+CGC-TGC	Arg799Cys	c.2395C>T	p.R799C	FP	Reduced transport activity	Zhu (2015) Am J Physiol Cell Physiol 308, C758	hg38 hg19 CpG dbSNP
+
+TNN:
+CGC-TGC	Arg91Cys	c.271C>T	p.R91C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+AGG-AAG	Arg839Lys	c.2516G>A	p.R839K	DM?	Microcephaly and intellectual disability	Karaca (2015) Neuron 88, 499	hg38 hg19 COM
+
+ATP10B:
+GCA-GAA	Ala289Glu	c.866C>A	p.A289E	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+GCT-GTT	Ala1065Val	c.3194C>T	p.A1065V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+ZHX2:
+CGG-CAG	Arg561Gln	c.1682G>A	p.R561Q	DM?	Hirschsprung disease	Luzón-Toro (2015) Sci Rep 5, 16473	hg38 hg19 COM CpG dbSNP
+
+KDM4B:
+GTG-ATG	Val320Met	c.958G>A	p.V320M	DM?	Autism spectrum disorder	Li (2017) Am J Med Genet B Neuropsychiatr Genet , epub	hg38 hg19 COM CpG dbSNP
+CGA-TGA	Arg725Term	c.2173C>T	p.R725*	DM?	Autism spectrum disorder	Li (2017) Am J Med Genet B Neuropsychiatr Genet , epub	hg38 hg19 COM CpG
+
+SLC25A16:
+CGC-CTC	Arg31Leu	c.92G>T	p.R31L	DM?	Isolated fingernail dysplasia, autosomal recessive	Khan (2018) Br J Dermatol 178, 556	hg38 hg19 dbSNP
+CGT-TGT	Arg265Cys	c.793C>T	p.R265C	DM?	Cerebral visual impairment	Bosch (2016) Eur J Hum Genet 24, 660	hg38 hg19 CpG dbSNP
+
+USP14:
+CGA-TGA	Arg330Term	c.988C>T	p.R330*	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+PCNX2:
+CAT-TAT	His1176Tyr	c.3526C>T	p.H1176Y	DM?	Moderate intellectual disability with developmental delay, seizures, microcephaly and facial dysmorphism.	Bowling (2017) Genome Med 9, 43	hg38 hg19 COM dbSNP
+TGC-TGA	Cys1474Term	c.4422C>A	p.C1474*	DM?	Left ventricular obstruction with extracardiac anomalies & Neurodevelopmental disorder	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM
+
+HIRA:
+AAG-AGG	Lys14Arg	c.41A>G	p.K14R	DM?	Intellectual disability	Anazi (2017) Mol Psychiatry 22, 615	hg38 hg19
+GTT-ATT	Val450Ile	c.1348G>A	p.V450I	DM?	Nasopharyngeal teratoma, congenital diaphragmatic hernia & Dandy-Walker malformation	Gupta (2016) Clin Genet 90, 470	hg38 hg19
+CGG-TGG	Arg725Trp	c.2173C>T	p.R725W	DM?	Pulmonary arterial hypertension	Zhu (2018) Circ Genom Precis Med 11, e001887	hg38 hg19 COM CpG
+ATG-ACG	Met880Thr	c.2639T>C	p.M880T	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+
+RIMS2:
+CGC-TGC	Arg140Cys	c.418C>T	p.R140C	DM?	Lower limb muscle weakness,	Monies (2017) Hum Genet 136, 921	hg38 hg19 CpG dbSNP
+CGA-CAA	Arg212Gln	c. Not yet available	Not yet available	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	COM CpG
+
+MARCH4:
+TGG-TGC	Trp13Cys	c.39G>C	p.W13C	DM?	Frontotemporal dementia	Pasanen (2018) Eur J Hum Genet 26, 827	hg38 hg19
+AAG-GAG	Lys211Glu	c.631A>G	p.K211E	DM?	Frontotemporal dementia	Pasanen (2018) Eur J Hum Genet 26, 827	hg38 hg19 dbSNP
+
+CTPS2:
+CCT-TCT	Pro370Ser	c.1108C>T	p.P370S	DM?	Immunodeficiency, primary	Verzegnassi (2018) J Pediatr Hematol Oncol 40, e323	hg38 hg19 dbSNP
+
+GRIPAP1:
+GAG-CAG	Glu369Gln	c.1105G>C	p.E369Q	DM?	Moderate intellectual disability, ataxia and tremor	Bowling (2017) Genome Med 9, 43	hg38 hg19 COM dbSNP
+CGG-CAG	Arg822Gln	c.2465G>A	p.R822Q	DM?	Intellectual disability, X-linked	Niranjan (2015) PLoS One 10, e0116454	hg38 hg19 CpG dbSNP
+
+CD109:
+GGA-GAA	Gly426Glu	c.1277G>A	p.G426E	DP	Haemophilia A, inhibitor development, protection against	Gorski (2016) Blood 127, 2924	hg38 hg19 dbSNP
+TAC-TCC	Tyr703Ser	c.2108A>C	p.Y703S	FP	Gov platelet antigen variation	Schuh (2002) Blood 99, 1692	hg38 hg19 dbSNP FREQ
+
+NMNAT2:
+GTC-GCC	Val166Ala	c.497T>C	p.V166A	DM?	Brain stem degeneration	Schulz (2016) Transl Neurodegener 5, 23	hg38 hg19 COM dbSNP
+CGG-CAG	Arg232Gln	c.695G>A	p.R232Q	DM?	Multiple congenital anomalies	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 CpG dbSNP
+
+TTC39B:
+AAG-AAT	Lys647Asn	c.1941G>T	p.K647N	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+CRACR2A:
+GAT-GCT	Asp230Ala	c.689A>C	p.D230A	DM?	Pulmonary arterial hypertension	Barozzi (2019) Sci Rep 9, 753	hg38 hg19
+
+HCLS1:
+GAT-AAT	Asp166Asn	c.496G>A	p.D166N	DM?	Waldenström macroglobulinemia	Roccaro (2016) Blood 127, 2598	hg38 hg19 dbSNP
+
+FRMD3:
+CGA-TGA	Arg24Term	c.70C>T	p.R24*	DM?	Kidney disease	Maddirevula (2018) Genet Med 20, 64	hg38 hg19 CpG dbSNP
+TTC-CTC	Phe239Leu	c. Not yet available	Not yet available	DM?	Autism spectrum disorder	Iossifov (2014) Nature 515, 216	COM CpG
+CAT-TAT	His254Tyr	c. Not yet available	Not yet available	DM?	Left ventricular obstruction	Jin (2017) Nat Genet 49, 1593	COM CpG
+
+PRRC2B:
+ACG-ATG	Thr85Met	c.254C>T	p.T85M	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+CGA-TGA	Arg1113Term	c.3337C>T	p.R1113*	DM?	Congenital heart disease	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM CpG dbSNP
+GAG-AAG	Glu1473Lys	c.4417G>A	p.E1473K	DM?	Angioimmunoblastic T-cell lymphoma	Donner (2019) Fam Cancer 18, 113	hg38 hg19 CpG
+
+RAD23B:
+GCT-GTT	Ala249Val	c.746C>T	p.A249V	DP	Lung cancer, increased risk, association with	Shen (2005) Int J Cancer 116, 768	hg38 hg19 dbSNP FREQ
+
+PRPF40B:
+GTG-ATG	Val570Met	c.1708G>A	p.V570M	DM?	Neurology, pediatric	Vissers (2017) Genet Med 19, 1055	hg38 hg19 COM
+CAG-TAG	Gln703Term	c.2107C>T	p.Q703*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+
+RASEF:
+AAG-AAT	Lys517Asn	c.1551G>T	p.K517N	DM?	Mesial temporal lobe epilepsy with hippocampal sclerosis	Wong (2018) Neurol Genet 4, e245	hg38 hg19 COM dbSNP
+CCC-CGC	Pro524Arg	c.1571C>G	p.P524R	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+KDM7A:
+TCG-TGG	Ser727Trp	c.2180C>G	p.S727W	DM?	Cerebral palsy	McMichael (2015) Mol Psychiatry 20, 176	hg38 hg19 COM
+
+SLC30A8:
+TAT-TTT	Tyr69Phe	c.206A>T	p.Y69F	DM?	Cortical myclonic tremor and epilepsy	Cen (2015) Am J Med Genet B Neuropsychiatr Genet 168, 595	hg38 hg19
+CGA-TGA	Arg138Term	c.412C>T	p.R138*	DP	Diabetes, type 2, protection against	Flannick (2014) Nat Genet 46, 357	hg38 hg19 CpG dbSNP
+TGG-CGG	Trp325Arg	c.973T>C	p.W325R	DP	Diabetes, type 2, association with	Sladek (2007) Nature 445, 881	hg38 hg19 dbSNP FREQ
+
+MGRN1:
+GTG-ATG	Val98Met	c.292G>A	p.V98M	DM?	Parkinson disease, early-onset	Guo (2018) Proc Natl Acad Sci U S A 115, 11567	hg38 hg19 COM
+TTC-TTG	Phe171Leu	c.513C>G	p.F171L	DM?	High myopia	Kloss (2017) Invest Ophthalmol Vis Sci 58, 1982	hg38 hg19
+CGC-TGC	Arg294Cys	c.880C>T	p.R294C	DM?	Rett-like syndrome	Lucariello (2016) Hum Genet 135, 1343	hg38 hg19 CpG dbSNP
+
+RNF19A:
+GGG-AGG	Gly87Arg	c.259G>A	p.G87R	DM?	Amyotrophic lateral sclerosis, sporadic	Nakamura (2016) Neurobiol Aging 39, 219.e1	hg38 hg19 CpG dbSNP
+ATT-GTT	Ile188Val	c.562A>G	p.I188V	DM?	Amyotrophic lateral sclerosis, familial	Nakamura (2016) Neurobiol Aging 39, 219.e1	hg38 hg19
+CGT-CAT	Arg281His	c.842G>A	p.R281H	DM?	Amyotrophic lateral sclerosis, sporadic	Nakamura (2016) Neurobiol Aging 39, 219.e1	hg38 hg19 CpG
+
+DLG5:
+CGG-CAG	Arg140Gln	c.419G>A	p.R140Q	DP	Inflammatory bowel disease, risk, association with	Stoll (2004) Nat Genet 36, 476	hg38 hg19 COM CpG dbSNP FREQ
+CCG-CTG	Pro1089Leu	c.3266C>T	p.P1089L	DP	Decreased adult height, association with	Marouli (2017) Nature 542, 186	hg38 hg19 COM CpG dbSNP
+CGG-CAG	Arg1338Gln	c.4013G>A	p.R1338Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG dbSNP
+CCA-CAA	Pro1481Gln	c.4442C>A	p.P1481Q	DP	Inflammatory bowel disease, risk, association with	Newman (2006) Hum Mutat 27, 353	hg38 hg19 dbSNP FREQ
+GGG-AGG	Gly1649Arg	c.4945G>A	p.G1649R	DM?	Congenital anomalies of the kidney and urinary tract	Nicolaou (2016) Kidney Int 89, 476	hg38 hg19 COM CpG dbSNP
+GCC-GTC	Ala1916Val	c.5747C>T	p.A1916V	DM?	Congenital anomalies of the kidney and urinary tract	Nicolaou (2016) Kidney Int 89, 476	hg38 hg19 COM dbSNP
+
+TIAM1:
+ACT-ATT	Thr109Ile	c.326C>T	p.T109I	DM?	Hearing loss, age-related	Vuckovic (2018) Eur J Hum Genet 26, 1167	hg38 hg19 COM dbSNP
+GGA-AGA	Gly1564Arg	c.4690G>A	p.G1564R	DM?	Sepsis, modifier of	Taudien (2016) EBioMedicine 12, 227	hg38 hg19 COM dbSNP
+
+GRIK1:
+ATG-GTG	Met330Val	c.988A>G	p.M330V	DM?	Sudden unexpected death in epilepsy	Friedman (2018) NPJ Genom Med 3, 9	hg38 hg19 COM
+TTA-TCA	Leu902Ser	c.2705T>C	p.L902S	DP	Lung cancer, susceptibility to, association with	Rudd (2006) Genome Res 16, 693	hg38 hg19 dbSNP FREQ
+
+NEO1:
+CGC-CAC	Arg101His	c.302G>A	p.R101H	DM?	Autism spectrum disorder	Siu (2016) Behav Brain Res 300, 135	hg38 hg19 CpG dbSNP
+ACT-ATT	Thr371Ile	c.1112C>T	p.T371I	DM?	Autism spectrum disorder	García-Ortiz (2019) J Autism Dev Disord ,	hg38 hg19 COM
+CGT-TGT	Arg1130Cys	c.3388C>T	p.R1130C	DM?	Autism spectrum disorder	Siu (2016) Behav Brain Res 300, 135	hg38 hg19 COM CpG dbSNP
+CCA-TCA	Pro1161Ser	c.3481C>T	p.P1161S	DM?	Persistent cloaca	Hsu (2018) Hum Mol Genet 27, 351	hg38 hg19 COM
+

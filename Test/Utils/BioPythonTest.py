@@ -1,0 +1,51 @@
+from Code.Enum.FileType import FileType
+from Code.Files.FileReader import FileReader
+from Code.Utils.BioPython import BioPython
+from Test.TestFunctions import TestFunctions
+
+
+class BioPythonTest:
+
+    @staticmethod
+    def blastForAllTest():
+        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+                        r"\c-elegans-genes-and-longest-accession_number",
+                        FileType.TSV)
+        genesAndAccessions = fr.fromFileToDict(0, 1)
+
+        TestFunctions("fromFileToDict", dictionary=genesAndAccessions).printFirstLinesInDict(1)
+
+        bp = BioPython()
+        bp.blastForAll("blastp", "nr", genesAndAccessions)
+
+    @staticmethod
+    def blastpForAllTest():
+        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+                        r"\c-elegans-genes-and-longest-accession_number",
+                        FileType.TSV)
+        genesAndAccessions = fr.fromFileToDict(0, 1)
+
+        TestFunctions("fromFileToDict", dictionary=genesAndAccessions).printFirstLinesInDict(1)
+
+        bp = BioPython()
+        bp.blastpForAll("blastp", "nr", genesAndAccessions, end_word="ORIGIN", translation_word="translation=")
+
+    @staticmethod
+    def blastpForAll_improvedTest():
+        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences",
+                        r"\accessions-and-sequences-part-18",
+                        FileType.TSV)
+        accessionsAndSequences = fr.fromFileToDict(0, 1)
+
+        print("accessions and sequences dictionary is achieved, and has " + str(len(accessionsAndSequences)) + " items")
+        TestFunctions("fromFileToDict", dictionary=accessionsAndSequences).printFirstLinesInDict(1)
+
+        bp = BioPython()
+        bp.blastpForAll_improved("blastp", "nr", accessionsAndSequences, end_word="ORIGIN",
+                                 translation_word="translation=")
+
+
+### TESTING ###
+
+# BioPythonTest.blastForAllTest()
+# BioPythonTest.blastpForAll_improvedTest()

@@ -1,0 +1,35 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Homology and Variants Analysis</title>
+        <style>
+            table,th,td {border: 1px solid black;}
+        </style>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+    <h1>Welcome to Homology and Variants Analysis!</h1>
+    <h2>This is a website designed to provide you with C.elegans orthologs and variants analysis.</h2>
+    <ul>
+        <li>Orthologs Search</li>
+        <li>Variants Analysis</li>
+    </ul>
+    <table style="width:50%">
+        <tr>
+            <th></th>
+            <th>Homology</th>
+            <th>Variants</th>
+        </tr>
+        <tr>
+            <td>Input Requirements</td>
+            <td>A list of human genes names</td>
+            <td>A dictionary of human genes names and their variants</td>
+        </tr>
+    </table>
+        {% for gene in homology_results %}
+            <h4>{{gene.name}}</h4>
+            <p>C.elegans Orthologs: {{ gene.orthologs }}</p>
+        {% endfor %}
+    </body>
+    </html>

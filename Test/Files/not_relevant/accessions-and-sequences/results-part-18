@@ -1,0 +1,783 @@
+seq: MSYSNGNINCDIMPTISEDGVDNGGPIDEPSDRDNIEQLMMNMLEDRDKLQEQLENYKVQLENAGLRTKEVEKERDMMKRQFEVHTQNLPQELQTMTRELCLLKEQLLEKDEEIVELKAERNNTRLLLEHLECLVSRHERSLRMTVMKRQAQNHAGVSSEVEVLKALKSLFEHHKALDEKVRERLRVAMERVATLEEELSTKGDENSSLKARIATYAAEAEEAMASNAPINGSISSESANRLIEMQEALERMKTELANSLKQSTEITTRNAELEDQLTEDAREKHAAQESIVRLKNQICELDAQRTDQETRITTFESRFLTAQRESTCIRDLNDKLEHQLANKDAAVRLNEEKVHSLQERLELAEKQLAQSLKKAESLPSVEAELQQRMEALTAAEQKSVSAEERIQRLDRNIQELSAELERAVQRERMNEEHSQRLSSTVDKLLSESNDRLQLHLKERMQALDDKNRLTQQLDGTKKIYDQAERIKDRLQRDNESLRQEIEALRQQLYNARTAQFQSRMHAIPFTHAQNIVQQQPQASIAQQSAYQMYKQQPAQQYQTVGMRRPNKGRISALQDDPNKVQTLNEQEWDRLQQAHVLANVQQAFSSSPSLADVGQSTLPRPNTAVQHQQDDMMNSGMGMPSGMQGGMQGGMGGGQDAQMLASMLQDRLDAINTEIRLIQQEKHHAERVAEQLERSSREFYDDQGISTRSSPRASPQLDNMRQHKYNTLPANVSGDRRYDIYGNPQFVDDRMVRDLDYEPRRGYNQFDEMQYERDRMSPASSVASSTDGVLGGKKKRSNSSSGLKTLGRFFNKKKNSSSDLFKRNGDYSDGEQSGTEGNQKADYDRRKKKKHELLEEAMKARTPFALWNGPTVVAWLELWVGMPAWYVAACRANVKSGAIMSALSDQEIQKEIGISNPLHRLKLRLAIQEMVSLTSPSAPRTARLTLAFGDMNHEYIGNDWLPCLGLAQYRSAFMECLLDARMLEHLSKRDLRTHLRMVDTFHRTSLQYGIMCLKKVNYDKKVLADRRKACDNINTDLLVWSNERVQRWVEEIGLGVFSRNLVDSGIHGALIALDETFDASAFAYALQIGSQDVPNRQLLEKKFIGLVNDHRQQSDPHPRSGSSRKNDSIAKSYEFHLYT
+Accession Number: AF170122
+****Alignment****
+ref|XP_011537208.1|
+liprin-alpha-2 isoform X38 [Homo sapiens] >ref|XP_024203736.1| liprin-alpha-2 isoform X26 [Pan troglodytes]
+****HSP****
+e value: 0.0
+hsp score: 2303.0
+****Alignment****
+ref|XP_024305011.1|
+liprin-alpha-2 isoform X32 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2280.0
+****Alignment****
+ref|XP_024305009.1|
+liprin-alpha-2 isoform X27 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2279.0
+****Alignment****
+ref|XP_016875590.1|
+liprin-alpha-2 isoform X22 [Homo sapiens] >ref|XP_024112076.1| liprin-alpha-2 isoform X4 [Pongo abelii]
+****HSP****
+e value: 0.0
+hsp score: 2261.0
+****Alignment****
+ref|XP_016875593.1|
+liprin-alpha-2 isoform X25 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2261.0
+****Alignment****
+ref|XP_016875596.1|
+liprin-alpha-2 isoform X28 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2257.0
+****Alignment****
+ref|XP_016875588.1|
+liprin-alpha-2 isoform X20 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2254.0
+****Alignment****
+ref|NP_001207404.1|
+liprin-alpha-2 isoform d [Homo sapiens] >ref|XP_003811700.1| liprin-alpha-2 isoform X16 [Pan paniscus] >ref|XP_009424203.1| liprin-alpha-2 isoform X19 [Pan troglodytes] >gb|AAI04913.1| PPFIA2 protein [Homo sapiens] >gb|PNI59406.1| PPFIA2 isoform 8 [Pan troglodytes] >gb|PNJ20426.1| PPFIA2 isoform 13 [Pongo abelii]
+****HSP****
+e value: 0.0
+hsp score: 2251.0
+****Alignment****
+ref|XP_016875592.1|
+liprin-alpha-2 isoform X24 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2250.0
+****Alignment****
+ref|XP_016875587.1|
+liprin-alpha-2 isoform X19 [Homo sapiens] >ref|XP_024112075.1| liprin-alpha-2 isoform X3 [Pongo abelii]
+****HSP****
+e value: 0.0
+hsp score: 2243.0
+****Alignment****
+ref|XP_016875597.1|
+liprin-alpha-2 isoform X29 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2241.0
+****Alignment****
+ref|XP_024305008.1|
+liprin-alpha-2 isoform X14 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2239.0
+****Alignment****
+ref|XP_016875584.1|
+liprin-alpha-2 isoform X16 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2239.0
+****Alignment****
+ref|XP_024305007.1|
+liprin-alpha-2 isoform X7 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2239.0
+****Alignment****
+ref|XP_016873938.1|
+liprin-alpha-1 isoform X14 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2237.0
+****Alignment****
+ref|NP_001207405.1|
+liprin-alpha-2 isoform e [Homo sapiens] >ref|XP_003811699.1| liprin-alpha-2 isoform X13 [Pan paniscus] >ref|XP_003952304.1| liprin-alpha-2 isoform X15 [Pan troglodytes] >ref|XP_016875571.1| liprin-alpha-2 isoform X4 [Homo sapiens] >gb|AAI43486.1| PPFIA2 protein [Homo sapiens] >gb|PNI59405.1| PPFIA2 isoform 7 [Pan troglodytes] >gb|PNJ20424.1| PPFIA2 isoform 11 [Pongo abelii]
+****HSP****
+e value: 0.0
+hsp score: 2235.0
+****Alignment****
+ref|XP_016875579.1|
+liprin-alpha-2 isoform X11 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2235.0
+****Alignment****
+ref|XP_016875577.1|
+liprin-alpha-2 isoform X10 [Homo sapiens] >ref|XP_016875578.1| liprin-alpha-2 isoform X10 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2234.0
+****Alignment****
+ref|NP_001207403.1|
+liprin-alpha-2 isoform c [Homo sapiens] >gb|PNJ20419.1| PPFIA2 isoform 5 [Pongo abelii] >dbj|BAG54412.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2234.0
+****Alignment****
+ref|XP_016875581.1|
+liprin-alpha-2 isoform X13 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2232.0
+****Alignment****
+ref|XP_016875589.1|
+liprin-alpha-2 isoform X21 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2230.0
+****Alignment****
+ref|NP_001207402.1|
+liprin-alpha-2 isoform b [Homo sapiens] >ref|XP_003811701.1| liprin-alpha-2 isoform X14 [Pan paniscus] >ref|XP_016875575.1| liprin-alpha-2 isoform X8 [Homo sapiens] >gb|PNJ20418.1| PPFIA2 isoform 4 [Pongo abelii] >dbj|BAE06091.2| PPFIA2 variant protein [Homo sapiens] >dbj|BAG10219.1| liprin-alpha-2, partial [synthetic construct]
+****HSP****
+e value: 0.0
+hsp score: 2229.0
+****Alignment****
+ref|NP_003616.2|
+liprin-alpha-2 isoform a [Homo sapiens] >ref|XP_003811698.1| liprin-alpha-2 isoform X11 [Pan paniscus] >ref|XP_016875569.1| liprin-alpha-2 isoform X2 [Homo sapiens] >ref|XP_024112074.1| liprin-alpha-2 isoform X2 [Pongo abelii] >ref|XP_509243.2| liprin-alpha-2 isoform X12 [Pan troglodytes] >sp|O75334.2| RecName: Full=Liprin-alpha-2; AltName: Full=Protein tyrosine phosphatase receptor type f polypeptide-interacting protein alpha-2; Short=PTPRF-interacting protein alpha-2 [Homo sapiens] >gb|PNI59401.1| PPFIA2 isoform 2 [Pan troglodytes] >gb|PNJ20417.1| PPFIA2 isoform 3 [Pongo abelii]
+****HSP****
+e value: 0.0
+hsp score: 2229.0
+****Alignment****
+gb|AAC26100.1|
+liprin-alpha2 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2227.0
+****Alignment****
+ref|XP_016875580.1|
+liprin-alpha-2 isoform X12 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2222.0
+****Alignment****
+ref|XP_016875572.1|
+liprin-alpha-2 isoform X5 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2222.0
+****Alignment****
+ref|XP_016875576.1|
+liprin-alpha-2 isoform X9 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2216.0
+****Alignment****
+ref|XP_016875570.1|
+liprin-alpha-2 isoform X3 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2216.0
+****Alignment****
+ref|XP_016875573.1|
+liprin-alpha-2 isoform X6 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2210.0
+****Alignment****
+gb|EAW97374.1|
+protein tyrosine phosphatase, receptor type, f polypeptide (PTPRF), interacting protein (liprin), alpha 2, isoform CRA_a [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2210.0
+****Alignment****
+ref|XP_011543621.1|
+liprin-alpha-1 isoform X17 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2207.0
+****Alignment****
+ref|XP_011543618.1|
+liprin-alpha-1 isoform X12 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2201.0
+****Alignment****
+ref|XP_011543617.1|
+liprin-alpha-1 isoform X11 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2196.0
+****Alignment****
+ref|NP_001207406.1|
+liprin-alpha-2 isoform f [Homo sapiens] >ref|XP_024112078.1| liprin-alpha-2 isoform X6 [Pongo abelii] >gb|PNI59408.1| PPFIA2 isoform 12 [Pan troglodytes] >gb|PNJ20423.1| PPFIA2 isoform 10 [Pongo abelii] >dbj|BAH13149.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2187.0
+****Alignment****
+ref|XP_016875599.1|
+liprin-alpha-2 isoform X31 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2172.0
+****Alignment****
+ref|XP_011543615.1|
+liprin-alpha-1 isoform X8 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2160.0
+****Alignment****
+ref|XP_016875585.1|
+liprin-alpha-2 isoform X17 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2147.0
+****Alignment****
+ref|XP_016875607.1|
+liprin-alpha-2 isoform X33 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2140.0
+****Alignment****
+ref|XP_016875583.1|
+liprin-alpha-2 isoform X15 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2127.0
+****Alignment****
+ref|XP_016882896.1|
+liprin-alpha-3 isoform X1 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2100.0
+****Alignment****
+gb|AAI01519.1|
+Protein tyrosine phosphatase, receptor type, f polypeptide (PTPRF), interacting protein (liprin), alpha 3 [Homo sapiens] >gb|AAI01521.1| Protein tyrosine phosphatase, receptor type, f polypeptide (PTPRF), interacting protein (liprin), alpha 3 [Homo sapiens] >gb|EAW52457.1| protein tyrosine phosphatase, receptor type, f polypeptide (PTPRF), interacting protein (liprin), alpha 3 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2098.0
+****Alignment****
+ref|NP_003651.1|
+liprin-alpha-3 [Homo sapiens] >sp|O75145.3| RecName: Full=Liprin-alpha-3; AltName: Full=Protein tyrosine phosphatase receptor type f polypeptide-interacting protein alpha-3; Short=PTPRF-interacting protein alpha-3 [Homo sapiens] >dbj|BAA31629.3| KIAA0654 protein [Homo sapiens] >dbj|BAF82446.1| unnamed protein product [Homo sapiens] >dbj|BAG09797.1| liprin-alpha-3, partial [synthetic construct]
+****HSP****
+e value: 0.0
+hsp score: 2095.0
+****Alignment****
+gb|EAW91461.1|
+protein tyrosine phosphatase, receptor type, f polypeptide (PTPRF), interacting protein (liprin), alpha 4, isoform CRA_c [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2091.0
+****Alignment****
+ref|NP_001291261.1|
+liprin-alpha-4 isoform 2 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2090.0
+****Alignment****
+ref|XP_016858095.1|
+liprin-alpha-4 isoform X2 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 2085.0
+True
+seq: MREQQWLVPSKPLVNPPEERLQESSWPPRPPANRLQPPEESRSHIVTVQELSLSVRFVVTRSRLSFSSASFLSNVSFVRLPRTSRLISASSRLPSELSRRHLKHTSSDSSRTPTCAPSTPSASPSCQRTCNSPDASAENVLKLHHQFSKHF
+Accession Number: NM_001268233
+****Alignment****
+gb|EAW55541.1|
+hCG2039566, isoform CRA_b [Homo sapiens]
+****HSP****
+e value: 0.00750169
+hsp score: 87.0
+****Alignment****
+gb|EAW76618.1|
+hCG1770601, isoform CRA_b, partial [Homo sapiens]
+True
+seq: MADQEHIDAGLLSTNFDMIQALPLNVKQRVCALKNLQMKTIQIESDFYKRVHELEIEFEGKFKSTFDQRKAIVAGEVEPTKEQIDTPILEGLEGDQLAELYKAAEADPSAKGIKDFWLTALRTHDLVAEAIEEHDVPILSYLTDVTTAASKDPAGFKIEFHFATNPYFKNQVLTKTYLLGFDPDAEAPLQFDGPHVIRAVGDTIEWEDGKNVTKKAVKKKQKKGANAGKFLTKTVKADSFFNFFEPPKSKDERNEDEDDEQAEEFLELDYEMGQAIRDTIIPRAVLFYTGELQSDDMFDFPGEDGDDVSDFSDDEASTSCELEDDSTS
+Accession Number: NM_069021
+****Alignment****
+dbj|BAH11990.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 4.10834e-65
+hsp score: 540.0
+****Alignment****
+ref|NP_001294853.1|
+nucleosome assembly protein 1-like 1 isoform 2 [Homo sapiens] >ref|XP_009424147.1| nucleosome assembly protein 1-like 1 isoform X2 [Pan troglodytes] >gb|PNI59523.1| NAP1L1 isoform 19 [Pan troglodytes]
+****HSP****
+e value: 1.04477e-64
+hsp score: 538.0
+****Alignment****
+ref|NP_001317160.1|
+nucleosome assembly protein 1-like 1 isoform 1 [Homo sapiens] >ref|NP_004528.1| nucleosome assembly protein 1-like 1 isoform 1 [Homo sapiens] >ref|NP_631946.1| nucleosome assembly protein 1-like 1 isoform 1 [Homo sapiens] >ref|XP_008956606.2| nucleosome assembly protein 1-like 1 isoform X1 [Pan paniscus] >ref|XP_008956607.1| nucleosome assembly protein 1-like 1 isoform X1 [Pan paniscus] >ref|XP_008956608.1| nucleosome assembly protein 1-like 1 isoform X1 [Pan paniscus] >ref|XP_009424144.2| nucleosome assembly protein 1-like 1 isoform X1 [Pan troglodytes] >ref|XP_009424145.1| nucleosome assembly protein 1-like 1 isoform X1 [Pan troglodytes] >ref|XP_009424146.1| nucleosome assembly protein 1-like 1 isoform X1 [Pan troglodytes] >ref|XP_011536695.1| nucleosome assembly protein 1-like 1 isoform X1 [Homo sapiens] >ref|XP_016874827.1| nucleosome assembly protein 1-like 1 isoform X1 [Homo sapiens] >sp|P55209.1| RecName: Full=Nucleosome assembly protein 1-like 1; AltName: Full=NAP-1-related protein; Short=hNRP; Flags: Precursor [Homo sapiens] >gb|AAC37544.1| NAP [Homo sapiens] >gb|AAH02387.1| Nucleosome assembly protein 1-like 1 [Homo sapiens] >gb|AAP35669.1| nucleosome assembly protein 1-like 2 [Homo sapiens] >gb|AAX41667.1| nucleosome assembly protein 1-like 1 [synthetic construct] >gb|ABM81627.1| nucleosome assembly protein 1-like 1 [synthetic construct] >gb|ABM84476.1| nucleosome assembly protein 1-like 1 [synthetic construct] >gb|ABM84811.1| nucleosome assembly protein 1-like 1, partial [synthetic construct] >gb|ABW03633.1| galactokinase 1 [synthetic construct] >gb|AIC54790.1| NAP1L1, partial [synthetic construct] >gb|EAW97314.1| nucleosome assembly protein 1-like 1, isoform CRA_a [Homo sapiens] >gb|EAW97316.1| nucleosome assembly protein 1-like 1, isoform CRA_a [Homo sapiens] >gb|PNI59508.1| NAP1L1 isoform 1 [Pan troglodytes] >gb|PNI59509.1| NAP1L1 isoform 2 [Pan troglodytes] >gb|PNI59520.1| NAP1L1 isoform 16 [Pan troglodytes] >dbj|BAG10944.1| nucleosome assembly protein 1-like 1, partial [synthetic construct] >emb|CAB82405.1| hypothetical protein [Homo sapiens] >emb|SJX37458.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 1.35104e-63
+hsp score: 531.0
+****Alignment****
+dbj|BAH14613.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 1.04185e-61
+hsp score: 518.0
+****Alignment****
+ref|NP_001317161.1|
+nucleosome assembly protein 1-like 1 isoform 3 [Homo sapiens] >ref|XP_005664050.1| nucleosome assembly protein 1-like 1 isoform X3 [Sus scrofa] >ref|XP_008002263.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X5 [Chlorocebus sabaeus] >ref|XP_008255043.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X4 [Oryctolagus cuniculus] >ref|XP_008956609.1| nucleosome assembly protein 1-like 1 isoform X3 [Pan paniscus] >ref|XP_009002506.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X6 [Callithrix jacchus] >ref|XP_009246313.1| nucleosome assembly protein 1-like 1 isoform X5 [Pongo abelii] >ref|XP_009424148.1| nucleosome assembly protein 1-like 1 isoform X4 [Pan troglodytes] >ref|XP_009424149.1| nucleosome assembly protein 1-like 1 isoform X4 [Pan troglodytes] >ref|XP_010360945.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X4 [Rhinopithecus roxellana] >ref|XP_010986509.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X2 [Camelus dromedarius] >ref|XP_011725413.1| nucleosome assembly protein 1-like 1 isoform X3 [Macaca nemestrina] >ref|XP_014420176.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X2 [Camelus ferus] >ref|XP_015103398.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X3 [Vicugna pacos] >ref|XP_015286154.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X5 [Macaca fascicularis] >ref|XP_016874828.1| nucleosome assembly protein 1-like 1 isoform X2 [Homo sapiens] >ref|XP_016874829.1| nucleosome assembly protein 1-like 1 isoform X2 [Homo sapiens] >ref|XP_017386119.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X5 [Cebus capucinus imitator] >ref|XP_017831711.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X6 [Callithrix jacchus] >ref|XP_018894180.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X4 [Gorilla gorilla gorilla] >ref|XP_019774019.1| PREDICTED: nucleosome assembly protein 1-like 1 isoform X4 [Tursiops truncatus] >ref|XP_020946742.1| nucleosome assembly protein 1-like 1 isoform X3 [Sus scrofa] >ref|XP_021778322.1| nucleosome assembly protein 1-like 1 isoform X5 [Papio anubis] >ref|XP_023072899.1| nucleosome assembly protein 1-like 1 isoform X3 [Piliocolobus tephrosceles] >ref|XP_023978514.1| nucleosome assembly protein 1-like 1 isoform X4 [Physeter catodon] >ref|XP_024112053.1| nucleosome assembly protein 1-like 1 isoform X5 [Pongo abelii] >ref|XP_024304751.1| nucleosome assembly protein 1-like 1 isoform X2 [Homo sapiens] >ref|XP_025258314.1| nucleosome assembly protein 1-like 1 isoform X4 [Theropithecus gelada] >ref|XP_026962872.1| nucleosome assembly protein 1-like 1 isoform X4 [Lagenorhynchus obliquidens] >ref|XP_028685569.1| nucleosome assembly protein 1-like 1 isoform X2 [Macaca mulatta] >ref|XP_028685570.1| nucleosome assembly protein 1-like 1 isoform X2 [Macaca mulatta] >gb|PNI59513.1| NAP1L1 isoform 6 [Pan troglodytes] >gb|PNJ63627.1| NAP1L1 isoform 7 [Pongo abelii]
+****HSP****
+e value: 4.24167e-61
+hsp score: 509.0
+****Alignment****
+dbj|BAH14695.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 4.61839e-61
+hsp score: 513.0
+****Alignment****
+dbj|BAG35491.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 5.0322e-61
+hsp score: 512.0
+****Alignment****
+dbj|BAG61467.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 6.15525e-61
+hsp score: 513.0
+****Alignment****
+ref|NP_001356304.1|
+nucleosome assembly protein 1-like 4 isoform 1 [Homo sapiens] >ref|NP_001356305.1| nucleosome assembly protein 1-like 4 isoform 1 [Homo sapiens] >ref|NP_001356306.1| nucleosome assembly protein 1-like 4 isoform 1 [Homo sapiens] >ref|NP_001356307.1| nucleosome assembly protein 1-like 4 isoform 1 [Homo sapiens] >ref|NP_001356308.1| nucleosome assembly protein 1-like 4 isoform 1 [Homo sapiens] >ref|NP_005960.1| nucleosome assembly protein 1-like 4 [Homo sapiens] >sp|Q99733.1| RecName: Full=Nucleosome assembly protein 1-like 4; AltName: Full=Nucleosome assembly protein 2; Short=NAP-2 [Homo sapiens] >gb|AAC50870.1| nucleosome assembly protein 2 [Homo sapiens] >gb|AAH22090.1| Nucleosome assembly protein 1-like 4 [Homo sapiens] >gb|ABW03535.1| nucleosome assembly protein 1-like 4, partial [synthetic construct] >gb|ABW03840.1| nucleosome assembly protein 1-like 4 [synthetic construct] >gb|EAX02533.1| nucleosome assembly protein 1-like 4, isoform CRA_b [Homo sapiens] >gb|EAX02534.1| nucleosome assembly protein 1-like 4, isoform CRA_b [Homo sapiens]
+****HSP****
+e value: 9.16552e-61
+hsp score: 511.0
+****Alignment****
+ref|NP_001356309.1|
+nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356310.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356311.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356312.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356313.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356314.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356315.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >ref|NP_001356317.1| nucleosome assembly protein 1-like 4 isoform 2 [Homo sapiens] >dbj|BAH95827.1| nucleosome assembly protein 1-like 4b [Homo sapiens]
+****HSP****
+e value: 9.64633e-61
+hsp score: 511.0
+****Alignment****
+dbj|BAH14919.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 4.13028e-60
+hsp score: 507.0
+****Alignment****
+gb|EAW97318.1|
+nucleosome assembly protein 1-like 1, isoform CRA_c [Homo sapiens] >gb|PNI59516.1| NAP1L1 isoform 9 [Pan troglodytes] >gb|PNJ63625.1| NAP1L1 isoform 5 [Pongo abelii] >dbj|BAG53656.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 4.18622e-58
+hsp score: 489.0
+****Alignment****
+gb|AAH26325.1|
+Nucleosome assembly protein 1-like 2 [Homo sapiens] >gb|AIC54791.1| NAP1L2, partial [synthetic construct] >emb|SJX46794.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 3.80013e-41
+hsp score: 382.0
+****Alignment****
+ref|NP_068798.1|
+nucleosome assembly protein 1-like 2 [Homo sapiens] >sp|Q9ULW6.1| RecName: Full=Nucleosome assembly protein 1-like 2; AltName: Full=Brain-specific protein, X-linked [Homo sapiens] >gb|AAP97268.1| nucleosome assembly protein Bpx [Homo sapiens] >gb|EAW98670.1| nucleosome assembly protein 1-like 2 [Homo sapiens] >dbj|BAA84706.1| Nucleosome Assembly Protein 1-like 2 [Homo sapiens] >dbj|BAG38158.1| unnamed protein product [Homo sapiens] >dbj|BAI45787.1| nucleosome assembly protein 1-like 2, partial [synthetic construct] >emb|CAG33376.1| NAP1L2 [Homo sapiens]
+****HSP****
+e value: 4.1706e-41
+hsp score: 382.0
+****Alignment****
+dbj|BAF83986.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 1.78924e-40
+hsp score: 378.0
+****Alignment****
+gb|EAX02532.1|
+nucleosome assembly protein 1-like 4, isoform CRA_a [Homo sapiens]
+****HSP****
+e value: 6.14058e-38
+hsp score: 347.0
+****Alignment****
+gb|AWU46655.1|
+NAP1L4/NUTM1D fusion protein [Homo sapiens]
+****HSP****
+e value: 1.9957e-34
+hsp score: 342.0
+****Alignment****
+dbj|BAG64673.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 2.68511e-34
+hsp score: 327.0
+****Alignment****
+dbj|BAG53108.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 2.26362e-29
+hsp score: 293.0
+****Alignment****
+dbj|BAD97341.1|
+nucleosome assembly protein 1-like 3 variant, partial [Homo sapiens]
+****HSP****
+e value: 1.99518e-28
+hsp score: 294.0
+****HSP****
+e value: 0.0216281
+hsp score: 91.0
+****Alignment****
+dbj|BAG52225.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 2.00255e-28
+hsp score: 293.0
+****HSP****
+e value: 0.0217135
+hsp score: 91.0
+****Alignment****
+dbj|BAG37617.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 2.09566e-28
+hsp score: 293.0
+****HSP****
+e value: 0.0205164
+hsp score: 91.0
+****Alignment****
+ref|NP_004529.2|
+nucleosome assembly protein 1-like 3 [Homo sapiens] >sp|Q99457.2| RecName: Full=Nucleosome assembly protein 1-like 3 [Homo sapiens] >gb|EAX02782.1| nucleosome assembly protein 1-like 3 [Homo sapiens]
+****HSP****
+e value: 2.09566e-28
+hsp score: 293.0
+****HSP****
+e value: 0.0205164
+hsp score: 91.0
+****Alignment****
+gb|AAH34954.1|
+Nucleosome assembly protein 1-like 3 [Homo sapiens] >gb|ABM81729.1| nucleosome assembly protein 1-like 3 [synthetic construct] >gb|ABM84884.1| nucleosome assembly protein 1-like 3, partial [synthetic construct] >gb|AIC62525.1| NAP1L3, partial [synthetic construct]
+****HSP****
+e value: 2.2012e-28
+hsp score: 293.0
+****HSP****
+e value: 0.0210649
+hsp score: 91.0
+****Alignment****
+dbj|BAA08904.1|
+nucleosome assembly protein [Homo sapiens]
+****HSP****
+e value: 2.02055e-26
+hsp score: 279.0
+****HSP****
+e value: 0.0205164
+hsp score: 91.0
+****Alignment****
+gb|ABP96841.1|
+SET, partial [Homo sapiens]
+****HSP****
+e value: 2.31693e-12
+hsp score: 166.0
+****Alignment****
+ref|NP_001234929.1|
+protein SET isoform 3 [Homo sapiens] >ref|XP_017703864.1| PREDICTED: protein SET isoform X2 [Rhinopithecus bieti] >gb|PNI69012.1| SET isoform 4 [Pan troglodytes]
+****HSP****
+e value: 3.57145e-12
+hsp score: 166.0
+****Alignment****
+ref|NP_001234930.1|
+protein SET isoform 4 [Homo sapiens] >ref|XP_004392566.1| PREDICTED: protein SET isoform X4 [Odobenus rosmarus divergens] >ref|XP_021117574.1| protein SET isoform X3 [Heterocephalus glaber] >ref|XP_028367961.1| protein SET isoform X4 [Phyllostomus discolor] >gb|PNI69013.1| SET isoform 5 [Pan troglodytes] >gb|PNJ45515.1| SET isoform 5 [Pongo abelii] >dbj|BAG62304.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 4.43479e-12
+hsp score: 165.0
+****Alignment****
+ref|NP_001116293.1|
+protein SET isoform 1 [Homo sapiens] >ref|XP_003822388.1| protein SET [Pan paniscus] >ref|XP_008974137.1| protein SET [Pan paniscus] >ref|XP_018888714.1| PREDICTED: protein SET [Gorilla gorilla gorilla] >ref|XP_024201676.1| protein SET isoform X1 [Pan troglodytes] >ref|XP_024201677.1| protein SET isoform X1 [Pan troglodytes] >ref|XP_024303418.1| protein SET isoform X3 [Homo sapiens] >sp|Q01105.3| RecName: Full=Protein SET; AltName: Full=HLA-DR-associated protein II; AltName: Full=Inhibitor of granzyme A-activated DNase; Short=IGAAD; AltName: Full=PHAPII; AltName: Full=Phosphatase 2A inhibitor I2PP2A; Short=I-2PP2A; AltName: Full=Template-activating factor I; Short=TAF-I [Homo sapiens] >gb|AEO27880.1| SET [Homo sapiens] >gb|EAW87818.1| SET translocation (myeloid leukemia-associated), isoform CRA_a [Homo sapiens] >gb|EAW87821.1| SET translocation (myeloid leukemia-associated), isoform CRA_a [Homo sapiens] >gb|EAW87823.1| SET translocation (myeloid leukemia-associated), isoform CRA_a [Homo sapiens] >gb|PNI69009.1| SET isoform 1 [Pan troglodytes] >dbj|BAA08139.1| template acyivating factor-I alpha [Homo sapiens] >dbj|BAG62453.1| unnamed protein product [Homo sapiens] >dbj|BAG73713.1| SET translocation, partial [synthetic construct] >emb|CAL37900.1| hypothetical protein, partial [synthetic construct]
+****HSP****
+e value: 4.94435e-12
+hsp score: 166.0
+****Alignment****
+gb|AAA60318.1|
+set [Homo sapiens] >dbj|BAG37717.1| unnamed protein product [Homo sapiens] >emb|CAG38780.1| SET [Homo sapiens] >emb|CAG46847.1| SET, partial [Homo sapiens] >emb|CAL37598.1| hypothetical protein, partial [synthetic construct] >emb|CAL37620.1| hypothetical protein, partial [synthetic construct] >emb|CAL38053.1| hypothetical protein, partial [synthetic construct] >emb|CAL38324.1| hypothetical protein, partial [synthetic construct]
+****HSP****
+e value: 5.12638e-12
+hsp score: 165.0
+****Alignment****
+pdb|2E50|A
+Chain A, Protein Set [Homo sapiens] >pdb|2E50|B Chain B, Protein Set [Homo sapiens] >pdb|2E50|P Chain P, Protein Set [Homo sapiens] >pdb|2E50|Q Chain Q, Protein Set [Homo sapiens]
+****HSP****
+e value: 7.01156e-12
+hsp score: 162.0
+****Alignment****
+ref|XP_016870505.1|
+protein SET isoform X2 [Homo sapiens]
+****HSP****
+e value: 9.35955e-12
+hsp score: 164.0
+****Alignment****
+ref|XP_016870502.1|
+protein SET isoform X1 [Homo sapiens] >ref|XP_016870503.1| protein SET isoform X1 [Homo sapiens] >ref|XP_016870504.1| protein SET isoform X1 [Homo sapiens]
+****HSP****
+e value: 1.11934e-11
+hsp score: 164.0
+****Alignment****
+dbj|BAH12906.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 1.68856e-10
+hsp score: 148.0
+****Alignment****
+gb|EAW87820.1|
+SET translocation (myeloid leukemia-associated), isoform CRA_c [Homo sapiens]
+****HSP****
+e value: 3.03194e-10
+hsp score: 151.0
+****Alignment****
+ref|NP_001274666.1|
+protein SETSIP [Homo sapiens] >sp|P0DME0.1| RecName: Full=Protein SETSIP; AltName: Full=SET pseudogene protein 18; AltName: Full=SET similar protein; AltName: Full=Similar to SET translocation protein [Homo sapiens]
+****HSP****
+e value: 4.0349e-09
+hsp score: 144.0
+****Alignment****
+ref|NP_001003937.2|
+testis-specific Y-encoded-like protein 6 [Homo sapiens] >sp|Q8N831.1| RecName: Full=Testis-specific Y-encoded-like protein 6; Short=TSPY-like protein 6 [Homo sapiens] >gb|AEE61121.1| testicular tissue protein Li 211 [Homo sapiens] >gb|EAX00158.1| TSPY-like 6 [Homo sapiens] >dbj|BAC05043.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 5.72481e-09
+hsp score: 144.0
+****Alignment****
+gb|AAH68576.1|
+TSPY-like 6 [Homo sapiens] >gb|AIC58236.1| TSPYL6, partial [synthetic construct] >emb|SJX46484.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 1.0882e-08
+hsp score: 142.0
+****Alignment****
+emb|CAB66564.1|
+hypothetical protein [Homo sapiens]
+****HSP****
+e value: 5.46544e-08
+hsp score: 136.0
+****Alignment****
+gb|AAH48969.1|
+TSPYL1 protein [Homo sapiens] >gb|AIC59336.1| TSPYL1, partial [synthetic construct] >emb|SJX46614.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 5.51485e-08
+hsp score: 136.0
+****Alignment****
+emb|CAG38566.1|
+TSPYL [Homo sapiens]
+****HSP****
+e value: 5.5647e-08
+hsp score: 136.0
+****Alignment****
+ref|NP_003300.1|
+testis-specific Y-encoded-like protein 1 [Homo sapiens] >sp|Q9H0U9.3| RecName: Full=Testis-specific Y-encoded-like protein 1; Short=TSPY-like protein 1 [Homo sapiens] >gb|EAW48232.1| hCG1641027 [Homo sapiens]
+****HSP****
+e value: 5.60551e-08
+hsp score: 136.0
+****Alignment****
+gb|EAW94457.1|
+hCG1795875, isoform CRA_b, partial [Homo sapiens]
+****HSP****
+e value: 1.10295e-07
+hsp score: 130.0
+****Alignment****
+gb|AAH09116.2|
+TSPYL4 protein, partial [Homo sapiens]
+****HSP****
+e value: 1.61491e-07
+hsp score: 130.0
+True
+seq: MVLFLIIAAIIIGLLLWKWLDVRSTDELTSMVKLLGSGNGQHVLSNAFQVDEKSKRHGGELVASVLKAHDVEEIFVLCGGHISPILVAAEKLGIKIVDTRHEVTAVFAADAVARLRQSIGVAAVTAGPGLTNTITAVKNAQMAESPLLLIGGAAPTLLKGRGALQDIDQMVLFRPLCKYVARVERLRDIVPTVREAIKAAKSGCPGPVFVEFPVDVLYPYELVVKEIGFNPNAKGFIQRALNFYLRCHVSRQFGNAWAPQTITPLPTNIPMPKSEKIQEIVQLVKSAKRPVLLIGSQATLPPVKPADLVKAVEALGCPVFLGGMARGLLGKDHPLQMRQVRRDALKDADLTILAGTVCDFRLSYGRTLSKKSKIVALNRNSSQLTKNEKAFWNSDVSVQADVATSLVQVANALGANHTTTPTEWVKSLREKDDEKESANAKKMEQKLTNGFLNPLNFLRTLDQSLPDDAILVADGGDFVGSAAYIVRPRGPLQWLDPGAFGTLGVGGGFALGAKTVYPKRPVYIIWGDGSCGYSLMEYDTFARHKLPVIGIVGNDACWTQIAREQVPMFQSSVAVDLARTRYDNVAKSLGSWGETIDESNADSARKILDEALAVCRSGEQSALVNVLIGKTDFREGSISVSTSTCCELETCTCSTS
+Accession Number: NM_067905
+****Alignment****
+ref|NP_006835.2|
+acetolactate synthase-like protein [Homo sapiens] >ref|XP_005259774.1| acetolactate synthase-like protein isoform X2 [Homo sapiens] >sp|A1L0T0.2| RecName: Full=Acetolactate synthase-like protein; AltName: Full=IlvB-like protein [Homo sapiens] >gb|AAB94632.1| acetolactate synthase [Homo sapiens] >gb|AAH11722.1| IlvB (bacterial acetolactate synthase)-like [Homo sapiens] >gb|AIC55889.1| ILVBL, partial [synthetic construct] >gb|EAW84464.1| ilvB (bacterial acetolactate synthase)-like [Homo sapiens] >emb|SJX43808.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 0.0
+hsp score: 1744.0
+****Alignment****
+gb|AAH11761.1|
+IlvB (bacterial acetolactate synthase)-like [Homo sapiens] >gb|ADZ15565.1| ilvB (bacterial acetolactate synthase)-like, partial [synthetic construct] >gb|AIC55890.1| ILVBL, partial [synthetic construct] >emb|SJX43864.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 0.0
+hsp score: 1740.0
+****Alignment****
+gb|AAC50934.1|
+acetolactate synthase homolog [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 1738.0
+****Alignment****
+ref|XP_024307098.1|
+acetolactate synthase-like protein isoform X1 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 1707.0
+****Alignment****
+ref|XP_011525953.1|
+acetolactate synthase-like protein isoform X3 [Homo sapiens]
+****HSP****
+e value: 0.0
+hsp score: 1500.0
+****Alignment****
+dbj|BAD92302.1|
+ilvB (bacterial acetolactate synthase)-like isoform 1 variant, partial [Homo sapiens]
+****HSP****
+e value: 2.84935e-141
+hsp score: 1082.0
+****Alignment****
+gb|AAC18916.1|
+Acetolactate synthase, partial [Homo sapiens]
+****HSP****
+e value: 2.59647e-137
+hsp score: 1052.0
+****Alignment****
+gb|AAI26914.1|
+ILVBL protein, partial [Homo sapiens]
+****HSP****
+e value: 4.18068e-96
+hsp score: 762.0
+****Alignment****
+gb|AAH00109.1|
+IlvB (bacterial acetolactate synthase)-like [Homo sapiens]
+****HSP****
+e value: 7.66031e-56
+hsp score: 487.0
+****Alignment****
+emb|CAB60200.1|
+2-hydroxyphytanoyl-CoA lyase [Homo sapiens]
+****HSP****
+e value: 1.39412e-53
+hsp score: 497.0
+****Alignment****
+gb|AAF28957.1|
+HSPC279, partial [Homo sapiens]
+****HSP****
+e value: 5.78909e-53
+hsp score: 493.0
+****Alignment****
+ref|NP_036392.2|
+2-hydroxyacyl-CoA lyase 1 isoform a [Homo sapiens] >ref|XP_003826249.1| 2-hydroxyacyl-CoA lyase 1 [Pan paniscus] >sp|Q9UJ83.2| RecName: Full=2-hydroxyacyl-CoA lyase 1; AltName: Full=2-hydroxyphytanoyl-CoA lyase; Short=2-HPCL; AltName: Full=Phytanoyl-CoA 2-hydroxylase 2 [Homo sapiens] >gb|AAH01627.1| 2-hydroxyacyl-CoA lyase 1 [Homo sapiens] >gb|ABM86484.1| 2-hydroxyacyl-CoA lyase 1, partial [synthetic construct] >gb|ABW03818.1| 2-hydroxyacyl-CoA lyase 1 [synthetic construct] >gb|AIC51100.1| HACL1, partial [synthetic construct] >gb|EAW64251.1| phytanoyl-CoA 2-hydroxylase 2, isoform CRA_a [Homo sapiens] >emb|SJX43210.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 6.13474e-53
+hsp score: 493.0
+****Alignment****
+ref|NP_001271342.1|
+2-hydroxyacyl-CoA lyase 1 isoform b [Homo sapiens] >dbj|BAG63043.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 2.05504e-42
+hsp score: 415.0
+****Alignment****
+ref|NP_001271344.1|
+2-hydroxyacyl-CoA lyase 1 isoform c [Homo sapiens]
+****HSP****
+e value: 3.00414e-40
+hsp score: 397.0
+****Alignment****
+dbj|BAG63473.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 6.90565e-40
+hsp score: 394.0
+****Alignment****
+dbj|BAG61303.1|
+unnamed protein product [Homo sapiens]
+****HSP****
+e value: 6.52878e-25
+hsp score: 275.0
+****Alignment****
+ref|NP_001271345.1|
+2-hydroxyacyl-CoA lyase 1 isoform d [Homo sapiens] >dbj|BAG63397.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 1.99974e-24
+hsp score: 275.0
+****HSP****
+e value: 8.06089e-11
+hsp score: 165.0
+****Alignment****
+gb|EAW64253.1|
+phytanoyl-CoA 2-hydroxylase 2, isoform CRA_c [Homo sapiens] >dbj|BAG51836.1| unnamed protein product [Homo sapiens]
+****HSP****
+e value: 6.38172e-15
+hsp score: 195.0
+****HSP****
+e value: 0.00863491
+hsp score: 97.0
+****Alignment****
+gb|AAH07440.1|
+HACL1 protein [Homo sapiens] >gb|AIC59933.1| HACL1, partial [synthetic construct] >gb|PNI73543.1| HACL1 isoform 1 [Pan troglodytes] >gb|PNI73547.1| HACL1 isoform 5 [Pan troglodytes] >emb|SJX40558.1| unnamed protein product, partial [Human ORFeome Gateway entry vector]
+****HSP****
+e value: 1.28155e-12
+hsp score: 164.0
+****Alignment****
+gb|EAW64252.1|
+phytanoyl-CoA 2-hydroxylase 2, isoform CRA_b [Homo sapiens]
+****HSP****
+e value: 1.61944e-12
+hsp score: 171.0
+****Alignment****
+dbj|BAG70065.1|
+splicing factor arginine/serine-rich 6 [Homo sapiens] >dbj|BAG70189.1| splicing factor arginine/serine-rich 6, partial [Homo sapiens]
+****Alignment****
+gb|AAA93071.1|
+SRp55-2 [Homo sapiens]
+****Alignment****
+dbj|BAG57139.1|
+unnamed protein product [Homo sapiens]
+****Alignment****
+gb|AAC04476.1|
+SRP0001LB, partial [Homo sapiens]
+****Alignment****
+ref|XP_016883988.1|
+synaptojanin-1 isoform X6 [Homo sapiens]
+****Alignment****
+sp|O43426.2|
+RecName: Full=Synaptojanin-1; AltName: Full=Synaptic inositol 1,4,5-trisphosphate 5-phosphatase 1 [Homo sapiens] >gb|EAX09864.1| synaptojanin 1, isoform CRA_b [Homo sapiens]
+****Alignment****
+gb|AAC51922.1|
+synaptojanin [Homo sapiens]
+****Alignment****
+gb|EAX09863.1|
+synaptojanin 1, isoform CRA_a [Homo sapiens]
+****Alignment****
+ref|XP_016883986.1|
+synaptojanin-1 isoform X4 [Homo sapiens]
+****Alignment****
+ref|XP_016883985.1|
+synaptojanin-1 isoform X3 [Homo sapiens]
+****Alignment****
+ref|XP_016883983.1|
+synaptojanin-1 isoform X1 [Homo sapiens]
+****Alignment****
+ref|XP_016883987.1|
+synaptojanin-1 isoform X5 [Homo sapiens]
+****Alignment****
+ref|NP_003886.3|
+synaptojanin-1 isoform a [Homo sapiens]
+****Alignment****
+ref|NP_001153778.1|
+synaptojanin-1 isoform d [Homo sapiens]
+****Alignment****
+ref|XP_016883984.1|
+synaptojanin-1 isoform X2 [Homo sapiens]
+****Alignment****
+ref|XP_016883994.1|
+synaptojanin-1 isoform X12 [Homo sapiens]
+****Alignment****
+ref|NP_982271.2|
+synaptojanin-1 isoform b [Homo sapiens]
+****Alignment****
+ref|NP_001153774.1|
+synaptojanin-1 isoform c [Homo sapiens]
+****Alignment****
+ref|XP_016883991.1|
+synaptojanin-1 isoform X9 [Homo sapiens]
+****Alignment****
+ref|XP_016883993.1|
+synaptojanin-1 isoform X11 [Homo sapiens]
+****Alignment****
+gb|AAC51921.1|
+synaptojanin [Homo sapiens]
+****Alignment****
+ref|XP_016883989.1|
+synaptojanin-1 isoform X7 [Homo sapiens]
+****Alignment****
+gb|AAI36604.1|
+SYNJ1 protein [Homo sapiens]
+****Alignment****
+ref|XP_016883992.1|
+synaptojanin-1 isoform X10 [Homo sapiens]
+****Alignment****
+ref|XP_016883990.1|
+synaptojanin-1 isoform X8 [Homo sapiens]
+****Alignment****
+dbj|BAA74933.2|
+KIAA0910 protein, partial [Homo sapiens]
+****Alignment****
+ref|NP_001182067.1|
+GTPase IMAP family member GIMD1 [Homo sapiens] >sp|P0DJR0.1| RecName: Full=GTPase IMAP family member GIMD1; AltName: Full=GIMAP family P-loop NTPase domain-containing protein 1 [Homo sapiens]
+****Alignment****
+ref|XP_011529817.1|
+GTPase IMAP family member GIMD1 isoform X1 [Homo sapiens]
+True

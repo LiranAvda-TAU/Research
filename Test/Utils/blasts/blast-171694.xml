@@ -1,0 +1,1442 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+  <BlastOutput_program>blastn</BlastOutput_program>
+  <BlastOutput_version>BLASTN 2.9.0+</BlastOutput_version>
+  <BlastOutput_reference>Stephen F. Altschul, Thomas L. Madden, Alejandro A. Sch&amp;auml;ffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), &quot;Gapped BLAST and PSI-BLAST: a new generation of protein database search programs&quot;, Nucleic Acids Res. 25:3389-3402.</BlastOutput_reference>
+  <BlastOutput_db>nt</BlastOutput_db>
+  <BlastOutput_query-ID>K00376.1</BlastOutput_query-ID>
+  <BlastOutput_query-def>yeast (s.cerevisiae) nuclear dna homologous to mitochondrial dna</BlastOutput_query-def>
+  <BlastOutput_query-len>289</BlastOutput_query-len>
+  <BlastOutput_param>
+    <Parameters>
+      <Parameters_expect>10</Parameters_expect>
+      <Parameters_sc-match>2</Parameters_sc-match>
+      <Parameters_sc-mismatch>-3</Parameters_sc-mismatch>
+      <Parameters_gap-open>5</Parameters_gap-open>
+      <Parameters_gap-extend>2</Parameters_gap-extend>
+      <Parameters_filter>L;m;</Parameters_filter>
+    </Parameters>
+  </BlastOutput_param>
+<BlastOutput_iterations>
+<Iteration>
+  <Iteration_iter-num>1</Iteration_iter-num>
+  <Iteration_query-ID>K00376.1</Iteration_query-ID>
+  <Iteration_query-def>yeast (s.cerevisiae) nuclear dna homologous to mitochondrial dna</Iteration_query-def>
+  <Iteration_query-len>289</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>gi|171694|gb|K00376.1|YSCHOMMT</Hit_id>
+  <Hit_def>yeast (s.cerevisiae) nuclear dna homologous to mitochondrial dna</Hit_def>
+  <Hit_accession>K00376</Hit_accession>
+  <Hit_len>289</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>522.46</Hsp_bit-score>
+      <Hsp_score>578</Hsp_score>
+      <Hsp_evalue>2.71642e-144</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>289</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>289</Hsp_identity>
+      <Hsp_positive>289</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>gi|1511320838|gb|CP033482.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain Y169 chromosome 13</Hit_def>
+  <Hit_accession>CP033482</Hit_accession>
+  <Hit_len>910252</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>181576</Hsp_hit-from>
+      <Hsp_hit-to>181862</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>gi|1389182097|gb|CP029160.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain SY14 chromosome I, complete sequence</Hit_def>
+  <Hit_accession>CP029160</Hit_accession>
+  <Hit_len>11848804</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>2704097</Hsp_hit-from>
+      <Hsp_hit-to>2704383</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>4</Hit_num>
+  <Hit_id>gi|1386723601|gb|CP026291.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain BY4742 chromosome XIII, complete sequence</Hit_def>
+  <Hit_accession>CP026291</Hit_accession>
+  <Hit_len>930523</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>183322</Hsp_hit-from>
+      <Hsp_hit-to>183608</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>5</Hit_num>
+  <Hit_id>gi|1329886538|gb|CP022978.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain CEN.PK113-7D chromosome XIII, complete sequence</Hit_def>
+  <Hit_accession>CP022978</Hit_accession>
+  <Hit_len>913417</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>178150</Hsp_hit-from>
+      <Hsp_hit-to>178436</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>6</Hit_num>
+  <Hit_id>gi|1163001478|gb|CP020135.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain S288c chromosome XIII, complete sequence</Hit_def>
+  <Hit_accession>CP020135</Hit_accession>
+  <Hit_len>930506</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>183406</Hsp_hit-from>
+      <Hsp_hit-to>183692</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>7</Hit_num>
+  <Hit_id>gi|1039023426|gb|CP008027.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain Soil7-1 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008027</Hit_accession>
+  <Hit_len>922839</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182997</Hsp_hit-from>
+      <Hsp_hit-to>183283</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>8</Hit_num>
+  <Hit_id>gi|1039022976|gb|CP007891.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_TUKITUKI2_4 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP007891</Hit_accession>
+  <Hit_len>923498</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182932</Hsp_hit-from>
+      <Hsp_hit-to>183218</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>9</Hit_num>
+  <Hit_id>gi|1039022950|gb|CP007874.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain Sol7-2 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP007874</Hit_accession>
+  <Hit_len>921993</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182915</Hsp_hit-from>
+      <Hsp_hit-to>183201</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>10</Hit_num>
+  <Hit_id>gi|1031918451|gb|CP005413.2|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM683 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005413</Hit_accession>
+  <Hit_len>897121</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>175101</Hsp_hit-from>
+      <Hsp_hit-to>175387</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>11</Hit_num>
+  <Hit_id>gi|1031918447|gb|CP005393.2|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM193 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005393</Hit_accession>
+  <Hit_len>934902</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>177413</Hsp_hit-from>
+      <Hsp_hit-to>177699</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>12</Hit_num>
+  <Hit_id>gi|1028062736|gb|CP005482.2|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM1592 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005482</Hit_accession>
+  <Hit_len>896117</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>177846</Hsp_hit-from>
+      <Hsp_hit-to>178132</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>13</Hit_num>
+  <Hit_id>gi|1028062732|gb|CP005452.2|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM1385 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005452</Hit_accession>
+  <Hit_len>896855</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>176198</Hsp_hit-from>
+      <Hsp_hit-to>176484</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>14</Hit_num>
+  <Hit_id>gi|1021221496|gb|CP005400.2|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM326 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005400</Hit_accession>
+  <Hit_len>896012</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>175757</Hsp_hit-from>
+      <Hsp_hit-to>176043</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>15</Hit_num>
+  <Hit_id>gi|767210626|gb|CP005456.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM1389 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005456</Hit_accession>
+  <Hit_len>897207</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>177785</Hsp_hit-from>
+      <Hsp_hit-to>178071</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>16</Hit_num>
+  <Hit_id>gi|767210188|gb|CP005455.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM1388 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005455</Hit_accession>
+  <Hit_len>889122</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>177531</Hsp_hit-from>
+      <Hsp_hit-to>177817</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>17</Hit_num>
+  <Hit_id>gi|329138949|tpg|BK006946.2|</Hit_id>
+  <Hit_def>TPA_inf: Saccharomyces cerevisiae S288C chromosome XIII, complete sequence &gt;gi|1001909452|gb|CP014465.1| Saccharomyces cerevisiae strain BCAnc chromosome 13, complete sequence</Hit_def>
+  <Hit_accession>BK006946</Hit_accession>
+  <Hit_len>924431</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>183362</Hsp_hit-from>
+      <Hsp_hit-to>183648</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>18</Hit_num>
+  <Hit_id>gi|642303|emb|Z47816.1|</Hit_id>
+  <Hit_def>S.cerevisiae chromosome XIII cosmid 9827</Hit_def>
+  <Hit_accession>Z47816</Hit_accession>
+  <Hit_len>20668</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>506.23</Hsp_bit-score>
+      <Hsp_score>560</Hsp_score>
+      <Hsp_evalue>2.08838e-139</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>11420</Hsp_hit-from>
+      <Hsp_hit-to>11706</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>286</Hsp_identity>
+      <Hsp_positive>286</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>19</Hit_num>
+  <Hit_id>gi|952977716|emb|LN907796.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae N85 chromosome XIII, complete genome</Hit_def>
+  <Hit_accession>LN907796</Hit_accession>
+  <Hit_len>895281</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>501.721</Hsp_bit-score>
+      <Hsp_score>555</Hsp_score>
+      <Hsp_evalue>8.88003e-138</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>717162</Hsp_hit-from>
+      <Hsp_hit-to>716876</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>285</Hsp_identity>
+      <Hsp_positive>285</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCCGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>20</Hit_num>
+  <Hit_id>gi|1497470365|gb|CP024007.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain KSD-Yc chromosome 13</Hit_def>
+  <Hit_accession>CP024007</Hit_accession>
+  <Hit_len>933862</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>498.114</Hsp_bit-score>
+      <Hsp_score>551</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>198723</Hsp_hit-from>
+      <Hsp_hit-to>199008</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>285</Hsp_identity>
+      <Hsp_positive>285</Hsp_positive>
+      <Hsp_gaps>3</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTA-TTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>21</Hit_num>
+  <Hit_id>gi|1039024238|gb|CP008384.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_TUKITUKI2_10 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008384</Hit_accession>
+  <Hit_len>923375</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182808</Hsp_hit-from>
+      <Hsp_hit-to>183094</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>22</Hit_num>
+  <Hit_id>gi|1039024102|gb|CP008469.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_KOROKIPO_3 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008469</Hit_accession>
+  <Hit_len>922939</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182912</Hsp_hit-from>
+      <Hsp_hit-to>183198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>23</Hit_num>
+  <Hit_id>gi|1039024063|gb|CP008452.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_OMARUNUI_14 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008452</Hit_accession>
+  <Hit_len>922909</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182899</Hsp_hit-from>
+      <Hsp_hit-to>183185</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>24</Hit_num>
+  <Hit_id>gi|1039024046|gb|CP008435.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_OMARUNUI_6 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008435</Hit_accession>
+  <Hit_len>922813</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182802</Hsp_hit-from>
+      <Hsp_hit-to>183088</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>25</Hit_num>
+  <Hit_id>gi|1039023995|gb|CP008571.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WA_C_WAITAKEREROAD_7 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008571</Hit_accession>
+  <Hit_len>922951</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182936</Hsp_hit-from>
+      <Hsp_hit-to>183222</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>26</Hit_num>
+  <Hit_id>gi|1039023845|gb|CP008639.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WA_C_CODDINGTON_2 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008639</Hit_accession>
+  <Hit_len>923034</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182813</Hsp_hit-from>
+      <Hsp_hit-to>183099</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>27</Hit_num>
+  <Hit_id>gi|1039023828|gb|CP008622.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WA_C_KINGSMILL_10 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008622</Hit_accession>
+  <Hit_len>922747</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182914</Hsp_hit-from>
+      <Hsp_hit-to>183200</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>28</Hit_num>
+  <Hit_id>gi|1039022898|gb|CP007840.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T.52_3A chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP007840</Hit_accession>
+  <Hit_len>922709</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182917</Hsp_hit-from>
+      <Hsp_hit-to>183203</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>29</Hit_num>
+  <Hit_id>gi|1039022875|gb|CP007823.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T.52_3C chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP007823</Hit_accession>
+  <Hit_len>923131</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>183326</Hsp_hit-from>
+      <Hsp_hit-to>183612</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>30</Hit_num>
+  <Hit_id>gi|834774823|gb|CP011822.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain NCIM3186 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP011822</Hit_accession>
+  <Hit_len>924326</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>497.213</Hsp_bit-score>
+      <Hsp_score>550</Hsp_score>
+      <Hsp_evalue>1.08181e-136</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>183316</Hsp_hit-from>
+      <Hsp_hit-to>183602</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>31</Hit_num>
+  <Hit_id>gi|1039024452|gb|CP008248.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_S_GIMBLETTROAD_16 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008248</Hit_accession>
+  <Hit_len>923103</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182810</Hsp_hit-from>
+      <Hsp_hit-to>183096</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>32</Hit_num>
+  <Hit_id>gi|1039024404|gb|CP008316.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T63 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008316</Hit_accession>
+  <Hit_len>922698</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182895</Hsp_hit-from>
+      <Hsp_hit-to>183181</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>33</Hit_num>
+  <Hit_id>gi|1039024364|gb|CP008282.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_S_BILANCHER_6 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008282</Hit_accession>
+  <Hit_len>923234</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182932</Hsp_hit-from>
+      <Hsp_hit-to>183218</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>34</Hit_num>
+  <Hit_id>gi|1039024261|gb|CP008401.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_TUKITUKI1_16 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008401</Hit_accession>
+  <Hit_len>921225</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182895</Hsp_hit-from>
+      <Hsp_hit-to>183181</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>35</Hit_num>
+  <Hit_id>gi|1039024176|gb|CP008350.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WI_S_JASA_5 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008350</Hit_accession>
+  <Hit_len>922573</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182827</Hsp_hit-from>
+      <Hsp_hit-to>183113</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>36</Hit_num>
+  <Hit_id>gi|1039024119|gb|CP008486.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_KOROKIPO_12 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008486</Hit_accession>
+  <Hit_len>923451</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182882</Hsp_hit-from>
+      <Hsp_hit-to>183168</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>37</Hit_num>
+  <Hit_id>gi|1039023889|gb|CP008673.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T.52_5A chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008673</Hit_accession>
+  <Hit_len>923020</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182904</Hsp_hit-from>
+      <Hsp_hit-to>183190</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>38</Hit_num>
+  <Hit_id>gi|1039023607|gb|CP008129.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain MTKSKsf_E2 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008129</Hit_accession>
+  <Hit_len>923135</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>183005</Hsp_hit-from>
+      <Hsp_hit-to>183291</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>39</Hit_num>
+  <Hit_id>gi|1039023482|gb|CP008061.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_S_GIMBLETTROAD_9 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008061</Hit_accession>
+  <Hit_len>923085</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182889</Hsp_hit-from>
+      <Hsp_hit-to>183175</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>40</Hit_num>
+  <Hit_id>gi|1039023351|gb|CP007976.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HCNTHsf_C5 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP007976</Hit_accession>
+  <Hit_len>922812</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182782</Hsp_hit-from>
+      <Hsp_hit-to>183068</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>41</Hit_num>
+  <Hit_id>gi|1039022926|gb|CP007857.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T.52_2H chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP007857</Hit_accession>
+  <Hit_len>922821</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182817</Hsp_hit-from>
+      <Hsp_hit-to>183103</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>42</Hit_num>
+  <Hit_id>gi|767201896|gb|CP005436.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae YJM1250 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP005436</Hit_accession>
+  <Hit_len>930265</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>493.606</Hsp_bit-score>
+      <Hsp_score>546</Hsp_score>
+      <Hsp_evalue>1.31791e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>193847</Hsp_hit-from>
+      <Hsp_hit-to>194132</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>284</Hsp_identity>
+      <Hsp_positive>284</Hsp_positive>
+      <Hsp_gaps>3</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTA-TTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAATATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>43</Hit_num>
+  <Hit_id>gi|1039024280|gb|CP008418.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_C_OMARUNUI_7 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008418</Hit_accession>
+  <Hit_len>923217</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>492.704</Hsp_bit-score>
+      <Hsp_score>545</Hsp_score>
+      <Hsp_evalue>4.59997e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182921</Hsp_hit-from>
+      <Hsp_hit-to>183207</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATCCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>44</Hit_num>
+  <Hit_id>gi|1039023964|gb|CP008554.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WI_C_MB95MBMZ_4 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008554</Hit_accession>
+  <Hit_len>923156</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>492.704</Hsp_bit-score>
+      <Hsp_score>545</Hsp_score>
+      <Hsp_evalue>4.59997e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182959</Hsp_hit-from>
+      <Hsp_hit-to>183245</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATCCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>45</Hit_num>
+  <Hit_id>gi|1039023947|gb|CP008537.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WI_C_MBSP_15 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008537</Hit_accession>
+  <Hit_len>923476</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>492.704</Hsp_bit-score>
+      <Hsp_score>545</Hsp_score>
+      <Hsp_evalue>4.59997e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182962</Hsp_hit-from>
+      <Hsp_hit-to>183248</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATCCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>46</Hit_num>
+  <Hit_id>gi|1039023872|gb|CP008656.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T.52_5E chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008656</Hit_accession>
+  <Hit_len>922882</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>492.704</Hsp_bit-score>
+      <Hsp_score>545</Hsp_score>
+      <Hsp_evalue>4.59997e-135</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182844</Hsp_hit-from>
+      <Hsp_hit-to>183130</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>283</Hsp_identity>
+      <Hsp_positive>283</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTAATTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>47</Hit_num>
+  <Hit_id>gi|1039024212|gb|CP008367.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WI_S_JASA_13 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008367</Hit_accession>
+  <Hit_len>922897</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>489.999</Hsp_bit-score>
+      <Hsp_score>542</Hsp_score>
+      <Hsp_evalue>1.60555e-134</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182795</Hsp_hit-from>
+      <Hsp_hit-to>183081</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>282</Hsp_identity>
+      <Hsp_positive>282</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATNCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>48</Hit_num>
+  <Hit_id>gi|1039023930|gb|CP008520.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain WI_C_MBSP_4 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008520</Hit_accession>
+  <Hit_len>922983</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>489.999</Hsp_bit-score>
+      <Hsp_score>542</Hsp_score>
+      <Hsp_evalue>1.60555e-134</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182954</Hsp_hit-from>
+      <Hsp_hit-to>183240</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>282</Hsp_identity>
+      <Hsp_positive>282</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATNCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>49</Hit_num>
+  <Hit_id>gi|1039024310|gb|CP008231.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain HB_S_GIMBLETTROAD_22 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008231</Hit_accession>
+  <Hit_len>922618</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>489.098</Hsp_bit-score>
+      <Hsp_score>541</Hsp_score>
+      <Hsp_evalue>5.60391e-134</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182795</Hsp_hit-from>
+      <Hsp_hit-to>183081</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>282</Hsp_identity>
+      <Hsp_positive>282</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTATATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>50</Hit_num>
+  <Hit_id>gi|1039024149|gb|CP008503.1|</Hit_id>
+  <Hit_def>Saccharomyces cerevisiae strain T52 chromosome XIII sequence</Hit_def>
+  <Hit_accession>CP008503</Hit_accession>
+  <Hit_len>922908</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>489.098</Hsp_bit-score>
+      <Hsp_score>541</Hsp_score>
+      <Hsp_evalue>5.60391e-134</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>289</Hsp_query-to>
+      <Hsp_hit-from>182919</Hsp_hit-from>
+      <Hsp_hit-to>183205</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>282</Hsp_identity>
+      <Hsp_positive>282</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>289</Hsp_align-len>
+      <Hsp_qseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAAAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTATTTATAATAAAAAAGTAACTATTGAACCTGTTAAATTAAAATATATTCAAAAAACATTAGAGGTTGGTAAGAATCTCTATTAAATCGCA</Hsp_qseq>
+      <Hsp_hseq>GAAATTAATCATAAATCATAAATTATATTTAAAATAATAATTTACTCGGCCGGACCCCGAAGGAGTACCCAAATATTTACTTGTTTATAATTTATTATTGAGAATGTTTTATTCTATATTGGTAGAGTTAATAAATAATTATATAATAAATTATTGTATGATAATATAAATAATAGTTTATGTAATATTTTAAGTTATTANTTATAATAAAATAGTAACTATTGAACCTGTTAAATTAAGATATATTCAAAAAACATTAGAGGTTGGTAAGA--TTCTATTAAATCGCA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||| |||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||   ||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>51454210</Statistics_db-num>
+      <Statistics_db-len>205464789809</Statistics_db-len>
+      <Statistics_hsp-len>0</Statistics_hsp-len>
+      <Statistics_eff-space>0</Statistics_eff-space>
+      <Statistics_kappa>0.41</Statistics_kappa>
+      <Statistics_lambda>0.625</Statistics_lambda>
+      <Statistics_entropy>0.78</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+</BlastOutput_iterations>
+</BlastOutput>

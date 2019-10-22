@@ -1,0 +1,135 @@
+CHN2: 2
+Missense/nonsense : 1 mutation
+    CAC-CGC	His204Arg	c.611A>G	p.H204R	DP	Carotid intima media thickness, association with	Adams (2014) Cardiovasc Diabetol 13, 77	hg38 hg19 dbSNP FREQ
+Gross insertions : 1 mutation
+	gDNA	Duplication	0.32 Mb	DM?	Cleft lip and palate	Szczałuba (2015) Neonatology 107, 173	COM
+
+
+DCAF1: 1
+Missense/nonsense : 1 mutation
+    CAT-TAT	His997Tyr	c.2989C>T	p.H997Y	DM?	Inflammatory bowel disease, very early onset	Kelsen (2015) Gastroenterology 149, 1415	hg38 hg19 COM dbSNP
+
+GLRX3: 1
+Missense/nonsense : 1 mutation
+    CGA-TGA	Arg99Term	c.295C>T	p.R99*	DM?	Cardiovascular malformations	Li (2017) Genome Med 9, 95	hg38 hg19 COM CpG dbSNP
+
+KIF5B: 5
+Missense/nonsense : 2 mutations
+    GAA-AAA	Glu22Lys	c.64G>A	p.E22K	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+    CAT-CGT	His751Arg	c.2252A>G	p.H751R	DM?	Developmental delay, ADHD, seizures, brain atrophy & thin corpus callosum	Charng (2016) BMC Med Genomics 9, 42	hg38 hg19 COM dbSNP
+
+Regulatory : 3 mutations
+    TAAAGCTAGTCAAGTGACACAGTGCGAGTG(G-C)AGAAGAAACAAATCTCTGGCTGTGACCAAT	c.-835G>C	DFP	Reduced stroke volume training response, association with	Argyropoulos (2009) Physiol Genomics 36,79	hg38 hg19 COM dbSNP FREQ
+    -835 relative to initiation codon
+    GCCTCCCCAGGAACTTCTGCGACAGGGGCA(G-T)TGCAGTAAAATTTGAATCTGCGACCCCGGG	c.-603G>T	FP	Reduced promoter activity	Argyropoulos (2009) Physiol Genomics 36,79	hg38 hg19 dbSNP FREQ
+    -603 relative to initiation codon
+    AGTCCTCCTCCCGCACCGCCCTGTCGCCCA(A-G)CGGCGGCCTCAGGAGTGATCGGGCAGCAGT	c.-444A>G	FP	Reduced promoter activity	Argyropoulos (2009) Physiol Genomics 36,79	hg38 hg19 dbSNP FREQ
+    -444 relative to initiation codon
+
+MGAT5: 2
+Missense/nonsense : 2 mutations
+    TGG-TAG	Trp201Term	c.602G>A	p.W201*	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+    GAG-CAG	Glu588Gln	c.1762G>C	p.E588Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+						    Kosmicki (2017) Nat Genet 49: 504 [Additional phenotype]
+
+SF3A3: 1
+Missense/nonsense : 1 mutation
+    CAC-TAC	His445Tyr	c.1333C>T	p.H445Y	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+						    Kosmicki (2017) Nat Genet 49: 504 [Additional phenotype]
+
+EMC8: 2
+Missense/nonsense : 2 mutations
+	AGT-ACT	Ser103Thr	c.308G>C	p.S103T	DM?	Intellectual disability	Hu (2018) Mol Psychiatry epub, epub	hg38 hg19 COM
+	TAG-TAC	Term211Tyr	c.633G>C	p.*211Y	DM?	Pulmonary arterial hypertension	Zhu (2018) Circ Genom Precis Med 11, e001887	hg38 hg19 COM dbSNP
+
+RNF145: 1
+Missense/nonsense : 1 mutation
+	GGT-GTT	Gly90Val	c.269G>T	p.G90V	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+SCAF4: 2
+Missense/nonsense : 1 mutation
+	ATG-ATA	Met886Ile	c.2658G>A	p.M886I	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+							Kosmicki (2017) Nat Genet 49: 504 [Additional phenotype]
+
+Small deletions : 1 mutation
+	CGCCA^893GGACCaGGGGGCTTTG	c.2682delA	p.(Gly896Alafs*10)	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM
+
+SGTB: 1
+Missense/nonsense : 1 mutation
+	TAT-TGT	Tyr189Cys	c.566A>G	p.Y189C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM dbSNP
+							Kosmicki (2017) Nat Genet 49: 504 [Additional phenotype]
+
+
+MYH15: 5
+Missense/nonsense : 3 mutations
+	GAT-GGT	Asp337Gly	c.1010A>G	p.D337G	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 dbSNP
+	CGG-TGG	Arg953Trp	c.2857C>T	p.R953W	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 CpG dbSNP
+	ACT-GCT	Thr1125Ala	c.3373A>G	p.T1125A	DP	Coronary heart disease, association with	Bare (2007) Genet Med 9, 682	hg38 hg19 dbSNP FREQ
+
+Splicing : 1 mutation
+	IVS26 as G-T -1	c.3282-1G>T	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19
+
+Small deletions : 1 mutation
+	TTTCTTTAG_IE_AaC^1733ACAAGCCTC	c.5195delA	p.(Asn1732Thrfs*50)	DM?	Cardiomyopathy, hypertrophic	Xu (2015) Sci Rep 5, 16609	hg38 hg19 COM PC dbSNP
+
+CTBP2: 8
+Missense/nonsense : 6 mutations
+	CGG-TGG	Arg72Trp	c.214C>T	p.R72W	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG dbSNP
+	CGG-TGG	Arg134Trp	c.400C>T	p.R134W	DM?	Congenital heart disease	Glessner (2014) Circ Res 115, 884	hg38 hg19 CpG dbSNP
+	CGG-CCG	Arg360Pro	c.1079G>C	p.R360P	DM?	Pituitary stalk interruption syndrome	Guo (2017) J Cell Mol Med 21, 3626	hg38 hg19 COM
+	CGC-CAC	Arg730His	c.2189G>A	p.R730H	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG
+	CGG-CAG	Arg759Gln	c.2276G>A	p.R759Q	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG dbSNP
+	CCG-CTG	Pro849Leu	c.2546C>T	p.P849L	DM?	Congenital diaphragmatic hernia	Kammoun (2018) Prenat Diagn 38, 654	hg38 hg19 COM CpG
+
+Small deletions : 1 mutation
+	ATGGAA^945GGGAtCATCCCTGGA	c.2837delT	p.(Ile946Thrfs*8)	DM?	Hypoplastic left heart syndrome	Liu (2017) Nat Genet 49, 1152	hg38 hg19 COM dbSNP
+
+Small insertions : 1 mutation
+	AAGGG^946ATCATtCCCTGGAGGC	c.2840dupT	p.(Gly949Trpfs*45)	DM?	Hypoplastic left heart syndrome	Liu (2017) Nat Genet 49, 1152	hg38 hg19 COM dbSNP
+
+GINS3: 1
+Splicing : 1 mutation
+	IVS3 ds G-A +1	c.537+1G>A	DM?	Diaphragmatic hernia, congenital	Longoni (2017) Hum Genet 136, 679	hg38 hg19 COM
+
+PFDN6: 1
+Missense/nonsense : 1 mutation
+	CCG-CTG	Pro62Leu	c.185C>T	p.P62L	DM?	Sensory processing disorder	Marco (2018) BMC Med Genomics 11, 50	hg38 hg19 COM CpG
+
+SF3A2: 1
+Missense/nonsense : 1 mutation
+	CGG-CAG	Arg31Gln	c.92G>A	p.R31Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+VRK2: 3
+Missense/nonsense : 2 mutations
+	ATA-ATG	Ile157Met	c.471A>G	p.I157M	DM?	Hirschsprung disease	Tang (2018) Eur J Hum Genet 26, 818	hg38 hg19 COM dbSNP
+	CCT-GCT	Pro315Ala	c.943C>G	p.P315A	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+Splicing : 1 mutation
+	IVS24 ds G-A +1	c.256+1G>A	DM?	Refractory epilepsy, unclassified	Liu (2018) Mol Brain 11,	hg38 hg19 COM
+
+HOOK2: 1
+Missense/nonsense : 1 mutation
+	CGG-TGG	Arg367Trp	c.1099C>T	p.R367W	DM?	Retinal dystrophy	Patel (2018) Clin Genet 94, 554	hg38 hg19 COM CpG
+
+GNAI1: 7
+Missense/nonsense : 5 mutations
+	CAG-CCG	Gln52Pro	c.155A>C	p.Q52P	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+	CAG-CGG	Gln204Arg	c.611A>G	p.Q204R	DM?	Autism	Turner (2016) Am J Hum Genet 98, 58	hg38 hg19 COM
+							Iossifov (2014) Nature 515: 216 [Additional report]
+							Kosmicki (2017) Nat Genet 49: 504 [Additional phenotype]
+	AAG-AGG	Lys270Arg	c.809A>G	p.K270R	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+	ATA-ACA	Ile319Thr	c.956T>C	p.I319T	DM?	Autism spectrum disorder	Kosmicki (2017) Nat Genet 49, 504	hg38 hg19 COM dbSNP
+	GTG-GAG	Val332Glu	c.995T>A	p.V332E	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+Small deletions : 2 mutations
+	CCCGACT^171CAAcaaGATGTTCTCA	c.514_516delCAA	p.(Gln172del)	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+	AGGAATT^185GTTgaaacccattttACTTTCAAAG	c.556_567del12	p.(Glu186_Phe189del)	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+LATS2: 1
+Small deletions : 1 mutation
+	GGCCGAG^723GCAgacaATGAGTGGGT	c.2170_2173delGACA	p.(Asp724Metfs*20)	DM?	Cardiovascular malformations	Li (2017) Genome Med 9, 95	hg38 hg19 COM
+
+TNNI1: 1
+Missense/nonsense : 1 mutation
+	CGC-TGC	Arg37Cys	c.109C>T	p.R37C	DM	Sudden unexpected death in infancy/childhood	Dewar (2017) Circ Cardiovasc Genet 10, e001738	hg38 hg19 CpG dbSNP
+							Shafaattalab (2019) Proc Natl Acad Sci U S A 116: 6969 [Functional characterisation]

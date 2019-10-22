@@ -1,0 +1,88 @@
+ZFHX3:
+CTC-GTC	Leu379Val	c.1135C>G	p.L379V	DP	Ovarian cancer, epithelial, reduced risk	Permuth (2016) Hum Mol Genet 25, 3600	hg38 hg19 dbSNP
+CAC-CAA	His844Gln	c.2532C>A	p.H844Q	DM?	Autism spectrum disorder	Wang (2016) Nat Commun 7, 13316	hg38 hg19 COM
+CAC-TAC	His1270Tyr	c.3808C>T	p.H1270Y	DM?	Autism	Hashimoto (2016) J Hum Genet 61, 199	hg38 hg19 COM
+CAG-CAC	Gln2014His	c.6042G>C	p.Q2014H	DP	Decreased body mass index, association with	Turcot (2018) Nat Genet 50, 26	hg38 hg19 COM dbSNP
+CGA-TGA	Arg2284Term	c.6850C>T	p.R2284*	DM?	Endocrine-related disease	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 COM CpG dbSNP
+CGA-TGA	Arg2294Term	c.6880C>T	p.R2294*	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+AGC-GGC	Ser2903Gly	c.8707A>G	p.S2903G	DM?	Endocrine-related disease	Farwell Hagman (2017) Genet Med 19, 224	hg38 hg19 COM dbSNP
+CGG-CAG	Arg2998Gln	c.8993G>A	p.R2998Q	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+
+KDELR3:
+CGG-TGG	Arg169Trp	c.505C>T	p.R169W	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM CpG
+GTG-GGG	Val199Gly	c.596T>G	p.V199G	DP	Heart rate, association with	van den Berg (2017) Hum Mol Genet 26, 2346	hg38 hg19 dbSNP
+
+UNC5D:
+CGT-TGT	Arg433Cys	c.1297C>T	p.R433C	DM?	Myopic anisometropia, severe	Feng (2017) Medicine (Baltimore) 96, e7138	hg38 hg19 COM CpG
+
+ATXN1L:
+CGG-TGG	Arg328Trp	c.982C>T	p.R328W	DM?	Ataxia	Monies (2017) Hum Genet 136, 921	hg38 hg19 CpG dbSNP
+
+SYNJ2:
+TCT-CCT	Ser853Pro	c.2557T>C	p.S853P	DM?	Moderate intellectual disability, infantile spasms and seizures	Bowling (2017) Genome Med 9, 43	hg38 hg19 COM dbSNP
+
+ANPEP:
+CCC-GCC	Pro82Ala	c.244C>G	p.P82A	DM?	High myopia	Kloss (2017) Invest Ophthalmol Vis Sci 58, 1982	hg38 hg19 dbSNP
+
+PFKP:
+AAG-ACG	Lys763Thr	c.2288A>C	p.K763T	DM?	Congenital heart disease & Neurodevelopmental disorder	Jin (2017) Nat Genet 49, 1593	hg38 hg19 COM
+
+SCARB1:
+GGC-AGC	Gly2Ser	c.4G>A	p.G2S	DFP	Lipoprotein levels, association with	Tai (2003) Clin Genet 63, 53	hg38 hg19 COM dbSNP FREQ
+GAG-GGG	Glu130Gly	c.389A>G	p.E130G	DM?	Increased HDL cholesterol and Lp(a)	Yang (2016) Circ Cardiovasc Genet 9, 408	hg38 hg19
+GTC-ATC	Val135Ile	c.403G>A	p.V135I	DP	HDL cholesterol levels, in women, association with	Roberts (2007) Hum Hered 64, 107	hg38 hg19 CpG dbSNP FREQ
+CGC-TGC	Arg174Cys	c.520C>T	p.R174C	DM?	Low HDL cholesterol	Dron (2017) J Lipid Res 58, 2162	hg38 hg19 COM CpG dbSNP
+GCC-GCT	Ala350Ala	c.1050C>T	p.A350=	DFP	Lipoprotein levels, association with	Tai (2003) Clin Genet 63, 53	hg38 hg19 CpG dbSNP FREQ
+CCG-CTG	Pro376Leu	c.1127C>T	p.P376L	DFP	Coronary heart disease, increased risk, association with	Zanoni (2016) Science 351, 1166	hg38 hg19 CpG dbSNP
+ACG-ATG	Thr378Met	c.1133C>T	p.T378M	DM?	Hypercholesterolaemia	Corral (2018) Atherosclerosis 277, 256	hg38 hg19 COM CpG dbSNP
+
+FNDC3A:
+GAC-AAC	Asp396Asn	c.1186G>A	p.D396N	DM?	Neurodevelopmental disorder	Reuter (2017) JAMA Psychiatry 74, 293	hg38 hg19 COM
+
+RNF115:
+GTA-ATA	Val267Ile	c.799G>A	p.V267I	DM?	Heterotaxy	Liu (2018) Genome Med 10, 40	hg38 hg19 COM
+
+SLC19A1:
+CGC-CAC	Arg27His	c.80G>A	p.R27H	DFP	Increased homocysteine levels, association with	Chango (2000) Mol Genet Metab 70, 310	hg38 hg19 COM CpG dbSNP FREQ
+
+NCAPD3:
+ATA-ACA	Ile42Thr	c.125T>C	p.I42T	DM?	Colorectal polyposis	Arora (2015) Gastroenterology 149, 1872	hg38 hg19 COM dbSNP
+
+METTL4:
+TGC-TGA	Cys196Term	c.588C>A	p.C196*	DM?	Intellectual disability, autosomal recessive	Riazuddin (2017) Mol Psychiatry 22, 1604	hg38 hg19 dbSNP
+
+CHID1:
+CGG-TGG	Arg73Trp	c.217C>T	p.R73W	DM?	Pulmonary arterial hypertension	Zhu (2018) Circ Genom Precis Med 11, e001887	hg38 hg19 COM CpG
+
+SPSB1:
+GCC-ACC	Ala105Thr	c.313G>A	p.A105T	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+GEMIN7:
+GAA-AAA	Glu52Lys	c.154G>A	p.E52K	DM?	Motor delay, speech delay, hypotonia	Monies (2017) Hum Genet 136, 921	hg38 hg19 dbSNP
+
+CYP2E1:
+TGG-CGG	Trp23Arg	c.67T>C	p.W23R	FP	Altered targeting efficiency	Bansal (2013) J Biol Chem 288, 12627	hg38 hg19 COM
+TGG-CGG	Trp30Arg	c.88T>C	p.W30R	FP	Altered targeting efficiency	Bansal (2013) J Biol Chem 288, 12627	hg38 hg19 COM
+CGC-CAC	Arg76His	c.227G>A	p.R76H	FP	Reduced activity	Hu (1997) Mol Pharmacol 51, 370	hg38 hg19 COM CpG dbSNP FREQ
+
+TMEM26:
+TGG-TGC	Trp217Cys	c.651G>C	p.W217C	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+TGG-GGG	Trp217Gly	c.649T>G	p.W217G	DM?	Developmental disorder	McRae (2017) Nature 542, 433	hg38 hg19 COM
+
+HTR2C:
+CTG-GTG	Leu4Val	c.10C>G	p.L4V	DP	Bipolar affective disorder, association with	Lin (2003) J Med Genet 40, 781	hg38 hg19 dbSNP FREQ
+TGT-TCT	Cys23Ser	c.68G>C	p.C23S	DFP	Hallucinations, in Alzheimer disease, association	Holmes (1998) Hum Mol Genet 7, 1507	hg38 hg19 dbSNP FREQ
+
+BNC2:
+CAG-CGG	Gln152Arg	c.455A>G	p.Q152R	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP
+GAG-GGG	Glu240Gly	c.719A>G	p.E240G	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19
+AGG-GGG	Arg283Gly	c.847A>G	p.R283G	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19
+CCT-GCT	Pro306Ala	c.916C>G	p.P306A	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP FREQ
+CTA-GTA	Leu414Val	c.1240C>G	p.L414V	DM?	Total anomalous pulmonary venous return	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP FREQ
+CCA-CTA	Pro579Leu	c.1736C>T	p.P579L	DM?	Hypospadias	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP
+GAT-GAG	Asp760Glu	c.2280T>G	p.D760E	DM?	Hypospadias & partial anomalous pulmonary venous return	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19
+TAT-CAT	Tyr791His	c.2371T>C	p.Y791H	DM?	46,XY disorder of sex development	Baxter (2015) J Clin Endocrinol Metab 100, E333	hg38 hg19 dbSNP
+GCC-GTC	Ala923Val	c.2768C>T	p.A923V	DM?	Partial anomalous pulmonary venous return	Bhoj (2011) Eur J Hum Genet 19, 540	hg38 hg19 dbSNP FREQ
+
+SYNPR:
+TGC-TGA	Cys31Term	c.93C>A	p.C31*	DM?	Language impairment	Chen (2017) Sci Rep 7, 46105	hg38 hg19 COM dbSNP
