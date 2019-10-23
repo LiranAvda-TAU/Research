@@ -14,12 +14,14 @@ class HomologyHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         # Send the html message
+        if self.path == "/favicon.ico":
+            return
         human_genes = self.path[1:].split(",")
         print(str(human_genes))
         try:
             c_elegans_homologs = executor.find_me_orthologs(human_genes)
         except SystemExit:
-            c_elegans_homologs = "Not found"
+            c_elegans_homologs = "No found orthologs for " + human_genes
         self.wfile.write(str(c_elegans_homologs).encode())
         return
 
