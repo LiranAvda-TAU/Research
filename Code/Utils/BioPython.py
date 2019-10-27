@@ -206,6 +206,11 @@ class BioPython:
         return longest_isoform
 
     @staticmethod
+    def get_aa_seq(gene_id):
+        seq = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
+        return seq
+
+    @staticmethod
     def get_aa_seq_of_longest_isoform(accession_number, end_word="ORIGIN", translation_word="translation=",
                                       database: str = "nucleotide"):
         Entrez.email = "liranavda@gmail.com"
@@ -366,6 +371,9 @@ class BioPython:
         return BioPython().get_aa_seq_by_c_elegans_gene_id_WB(gene_id_WB)
 
     def get_aa_seq_by_c_elegans_gene_id_WB(self, c_elegans_id_WB):
+        c_elegans_seq = self.get_aa_seq(c_elegans_id_WB)
+        if c_elegans_seq:
+            return c_elegans_seq
         c_elegans_id_number = Ensembl.get_ncbi_id_by_gene_id(c_elegans_id_WB)
         if not c_elegans_id_number:
             c_elegans_id_number = BioPython.get_gene_id(c_elegans_id_WB)

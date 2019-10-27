@@ -401,18 +401,10 @@ class DataExtracter:
 
         return genes_and_phenotypes
 
-    # receives (1) worm gene name, (2) worm gene id(WB), (3) human gene name, (4) dictionary of worm genes id ans their
-    #  accessions numbers, (5) dictionary of accession number as key and hit ids as value, (6) dictionary of hit id as
-    # keys and human gene name as value and (7) dictionary of id(WB) to id(number), and runs a reverse blast on the worm
-    # genes to see if we get a match in the form of the human gene
-    # scheme: worm gene id(WB) -> worm gene id(number) -> accession numbers -> accession number -> hit ids -> human
-    # gene name -> check if our human gene is in there
     @staticmethod
-    def check_if_pair_is_orthologous(c_elegans_gene_name, c_elegans_gene, human_gene_name,
-                                     c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic,
-                                     hit_ids_to_human_genes_names_dic):
+    def get_hit_ids(c_elegans_gene_id, c_elegans_gene_name, c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic):
         try:
-            c_elegans_id_number = Ensembl.get_ncbi_id_by_gene_id(c_elegans_gene)
+            c_elegans_id_number = Ensembl.get_ncbi_id_by_gene_id(c_elegans_gene_id)
             print("gene id is: " + c_elegans_id_number)
         except:
             print("Couldn't find gene id number for gene: " + c_elegans_gene_name)
@@ -425,16 +417,37 @@ class DataExtracter:
             c_elegans_accession_number = input("What is the accession number for id: " + c_elegans_id_number + "\n")
         print("Gene's accession number is: " + c_elegans_accession_number)
         try:
+            accession_number_to_hit_ids_dic = {}
             hit_ids = accession_number_to_hit_ids_dic[c_elegans_accession_number]
         except:
-            try:
+            print("got here!")
+            seq = BioPython.get_aa_seq(c_elegans_gene_id)
+            if not seq:
                 seq = BioPython().get_aa_seq_of_longest_isoform(c_elegans_accession_number)
-                hit_ids = BioPython().pipelineBlastWithSeq("blastp", "nr", seq)
-                print("Length of hit ids list is: " + str(len(hit_ids)))
-            except:
-                print("Couldn't find hit ids for accession number: " + c_elegans_accession_number)
-                exit()
+                if not seq:
+                    print("Couldn't find gene seq number for gene: " + c_elegans_gene_name)
+                    exit()
+            hit_ids = BioPython().pipelineBlastWithSeq("blastp", "nr", seq)
+        if not hit_ids:
+            print("Couldn't find hit ids for", c_elegans_gene_name)
+        print("Length of hit ids list is: " + str(len(hit_ids)))
+        return hit_ids
 
+    # receives (1) worm gene name, (2) worm gene id(WB), (3) human gene name, (4) dictionary of worm genes id ans their
+    #  accessions numbers, (5) dictionary of accession number as key and hit ids as value, (6) dictionary of hit id as
+    # keys and human gene name as value and (7) dictionary of id(WB) to id(number), and runs a reverse blast on the worm
+    # genes to see if we get a match in the form of the human gene
+    # scheme: worm gene id(WB) -> worm gene id(number) -> accession numbers -> accession number -> hit ids -> human
+    # gene name -> check if our human gene is in there
+    @staticmethod
+    def check_if_pair_is_orthologous(c_elegans_gene_name, c_elegans_gene, human_gene_name,
+                                     c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic,
+                                     hit_ids_to_human_genes_names_dic):
+
+        hit_ids = DataExtracter.get_hit_ids(c_elegans_gene,
+                                            c_elegans_gene_name,
+                                            c_elegans_id_multiple_accessions,
+                                            accession_number_to_hit_ids_dic)
         for hit_id in hit_ids:
             print("current hit id:", hit_id)
             try:

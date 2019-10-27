@@ -52,3 +52,19 @@ class HttpRequester:
             if len(optional_seq) > len(chosen_seq):
                 chosen_seq = optional_seq
         return chosen_seq
+
+    def get_protein_sequence_from_ensembl(self, gene_id):
+        requestURL = self.url + gene_id + "?type=protein"
+        try:
+            r = requests.get(requestURL, headers={"Accept": "text/x-fasta"})
+        except:
+            print("Communication failure, please check your internet connection")
+            exit()
+        if not r.ok:
+            r.raise_for_status()
+            print("Something went wrong with get_human_protein_sequence_from_uniProt() while trying to extract sequence"
+                  ", please check")
+            return None
+        responseBody = r.text
+        seq = Strings.fromFastaSeqToSeq(responseBody)
+        return seq

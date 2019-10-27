@@ -595,11 +595,10 @@ class executor:
         if file_type != FileType.CONSOLE:
             f.close()
 
-    # receives (1) file type to know whether to print to a file or to console, (2) human genes and homologs dictionary
-    # (one gene to one homolog), (3) human genes and variants dictionary, read all variants and extracts for each
-    # variant the sequence of its human gene and its C.elegans ortholog, runs pairwise alignment and returns data
-    # regarding the alignments of the two sequences. also filter out all genes for which the amino acid mutated is not
-    # conserved
+    # receives (1) file type to know whether to print to a file or to console, (2) human genes and  variants dictionary,
+    # read all variants and extracts for each variant the sequence of its human gene and its C.elegans ortholog,
+    # runs pairwise alignment and returns data regarding the alignments of the two sequences. also filter out all genes
+    # for which the amino acid mutated is not conserved
     @staticmethod
     def get_variants_data(file_type,
                           human_genes_and_variants):
@@ -671,6 +670,68 @@ class executor:
         if file_type != FileType.CONSOLE:
             f.close()
 
+    # receives (1) file type to know whether to print to a file or to console, human genes and variants dictionary, read
+    # all variants and extracts for each variant the sequence of its human gene and its C.elegans ortholog, runs
+    # pairwise alignment and returns data regarding the alignments of the two sequences.
+    @staticmethod
+    def get_variants_data_for_server(human_genes_and_variants):
+        conserved_variants = 0
+        output = ''
+        genes_names = human_genes_and_variants.keys()
+
+        mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                           r"\mmp_mut_strains_data_Mar14.txt"). \
+            fromMMPFileToDictWithListedValues(9, [11, 18, 12], delete_first=True)
+
+        print(human_genes_and_variants)
+        print("Number of human genes: " + str(len(human_genes_and_variants)))
+        for human_gene_name in genes_names:
+            human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
+            if not human_seq:
+                continue
+            mmp_data = mmp_data_by_gene_name[human_gene_name] if human_gene_name in mmp_data_by_gene_name \
+                else "No mention in MMP"
+
+            true_matches_pairs = list(executor.find_me_orthologs([human_gene_name]).keys())
+            orthologs_names = []
+            for i in range(len(true_matches_pairs)):
+                pair = true_matches_pairs[i]
+                if pair[1] == human_gene_name:
+                    orthologs_names.append(pair[0])
+
+            orthologs_id_WB = Ensembl.get_c_elegans_genes_ids_by_genes_names(orthologs_names)
+            print("Human gene name:", human_gene_name, ", seq:", human_seq, ", orthologs gene ids WB:",
+                   orthologs_id_WB)
+
+            for ortholog_id_WB in orthologs_id_WB:
+                if not ortholog_id_WB:
+                    print("Ortholog id WB couldn't be reached")
+                    continue
+                print("for ortholog:", ortholog_id_WB)
+                c_elegans_seq = BioPython().get_aa_seq_by_c_elegans_gene_id_WB(ortholog_id_WB)
+                if not c_elegans_seq:
+                    continue
+                print("C.elegans seq:", c_elegans_seq)
+
+                variants = human_genes_and_variants[human_gene_name]
+                print("variants: " + ", ".join(variants))
+                for variant in variants:
+                    print("For variant: " + variant)
+                    former_aa, place, current_aa = Strings.fromVariantStringToTuple(variant)
+                    result, count, c_elegans_location, alignment_conservation_score = \
+                        BioPython.pairwise_alignment_inspector(human_seq,
+                                                               c_elegans_seq,
+                                                               Strings.fromNameToSymbol(former_aa),
+                                                               place)
+                    print("For gene: " + human_gene_name + " with variant " + variant + ", the amino acid is " + result)
+                    conserved_variants += 1
+                    line = variant + "\t" + result + "\t" + str(c_elegans_location) + "\t" + \
+                        str(alignment_conservation_score) + "\t" + str(count) + "\t" + mmp_data + "\n"
+                    output += line + "\r\n"
+            if not conserved_variants:
+                print("No variants are conserved")
+            return output
+
     # keys = human gene names
     @staticmethod
     def add_mmp_record_to_data(data_file_path, data_file_name, key_index, value_indexes, new_file_name):
@@ -739,7 +800,8 @@ class executor:
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
         true_matches = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
-
+        if not true_matches:
+            exit()
         return true_matches
 
     def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
