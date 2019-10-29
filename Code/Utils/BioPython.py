@@ -118,7 +118,7 @@ class BioPython:
     # receives (1) an accession numbers and (2) the relevant sequencec, runs BLAST and returns a list of all
     # id of homo sapiens reported (first 50 by default)
     @staticmethod
-    def pipelineBlastWithSeq(program, db, sequence):
+    def pipeline_blast_with_seq(program, db, sequence):
         hit_ids = []
         result_handle = NCBIWWW.qblast(program=program, database=db, sequence=sequence,
                                        entrez_query="Homo sapiens[organism]")
@@ -136,7 +136,7 @@ class BioPython:
         return hit_ids
 
     @staticmethod
-    def blastForAll(blast_type, db, accessions_dict: dict):
+    def blast_for_all(blast_type, db, accessions_dict: dict):
         f = open("blast-for-all", "w+")
         index = 0
         keys = accessions_dict.keys()
@@ -151,7 +151,7 @@ class BioPython:
 
     # receives a dictionary of gene ids and accession numbers
     @staticmethod
-    def blastpForAll(blast_program, db, accessions_dict: dict, end_word, translation_word):
+    def blastp_for_all_outdated(blast_program, db, accessions_dict: dict, end_word, translation_word):
         index = 0
         gene_ids = accessions_dict.keys()
         for gene_id in gene_ids:
@@ -166,7 +166,7 @@ class BioPython:
 
     # receives a dictionary of accession numbers and sequences
     @staticmethod
-    def blastpForAll_improved(blast_program, db, accessions_dict: dict):
+    def blastp_by_accessions(blast_program, db, accessions_dict: dict):
         accessions = accessions_dict.keys()
         for accession in accessions:
             seq = accessions_dict[accession]
@@ -207,8 +207,17 @@ class BioPython:
 
     @staticmethod
     def get_aa_seq(gene_id):
-        seq = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
-        return seq
+        chosen_seq = ''
+        res = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
+        sequences = res.split(">")
+        for seq in sequences:
+            if seq == "":
+                continue
+            else:
+                parsed_seq = Strings.fromFastaSeqToSeq(seq)
+                if len(chosen_seq) < len(parsed_seq):
+                    chosen_seq = parsed_seq
+        return chosen_seq
 
     @staticmethod
     def get_aa_seq_of_longest_isoform(accession_number, end_word="ORIGIN", translation_word="translation=",

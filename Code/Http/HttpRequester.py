@@ -54,7 +54,7 @@ class HttpRequester:
         return chosen_seq
 
     def get_protein_sequence_from_ensembl(self, gene_id):
-        requestURL = self.url + gene_id + "?type=protein"
+        requestURL = self.url + gene_id + "?type=protein;multiple_sequences=1"
         try:
             r = requests.get(requestURL, headers={"Accept": "text/x-fasta"})
         except:
@@ -65,6 +65,4 @@ class HttpRequester:
             print("Something went wrong with get_human_protein_sequence_from_uniProt() while trying to extract sequence"
                   ", please check")
             return None
-        responseBody = r.text
-        seq = Strings.fromFastaSeqToSeq(responseBody)
-        return seq
+        return r.text

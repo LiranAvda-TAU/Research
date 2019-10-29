@@ -237,7 +237,7 @@ class FileReader:
         f.close()
         return genes
 
-    def fromMMPFileToDictWithListedValues(self, key_index, list_of_value_indexes: list, delete_first: bool = False):
+    def from_MMP_file_to_dict_with_listed_values(self, key_index, list_of_value_indexes: list, delete_first: bool = False):
         dic = {}
         f = open(self.path + self.name, FileMode.READ.value)
         if delete_first:

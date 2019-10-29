@@ -16,7 +16,7 @@ class BioPythonTest:
         TestFunctions("fromFileToDict", dictionary=genesAndAccessions).printFirstLinesInDict(1)
 
         bp = BioPython()
-        bp.blastForAll("blastp", "nr", genesAndAccessions)
+        bp.blast_for_all("blastp", "nr", genesAndAccessions)
 
     @staticmethod
     def blastpForAllTest():
@@ -28,7 +28,7 @@ class BioPythonTest:
         TestFunctions("fromFileToDict", dictionary=genesAndAccessions).printFirstLinesInDict(1)
 
         bp = BioPython()
-        bp.blastpForAll("blastp", "nr", genesAndAccessions, end_word="ORIGIN", translation_word="translation=")
+        bp.blastp_for_all_outdated("blastp", "nr", genesAndAccessions, end_word="ORIGIN", translation_word="translation=")
 
     @staticmethod
     def blastpForAll_improvedTest():
@@ -41,8 +41,8 @@ class BioPythonTest:
         TestFunctions("fromFileToDict", dictionary=accessionsAndSequences).printFirstLinesInDict(1)
 
         bp = BioPython()
-        bp.blastpForAll_improved("blastp", "nr", accessionsAndSequences, end_word="ORIGIN",
-                                 translation_word="translation=")
+        bp.blastp_by_accessions("blastp", "nr", accessionsAndSequences, end_word="ORIGIN",
+                                translation_word="translation=")
 
 
 ### TESTING ###

@@ -326,7 +326,7 @@ class executor:
         new_data_file.close()
 
     @staticmethod
-    def getHumanGenesAndTrueOrthologs():
+    def get_human_genes_and_true_orthologs():
         human_genes_and_c_elegans_WB_id = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
                                                      r"\true-homologs0-18",
                                                      FileType.TSV).fromFileToDictWithPluralValues(1, 0)
@@ -382,7 +382,7 @@ class executor:
         accessionsAndSeqs = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences",
                                        r"\accessions-and-sequences-part-helper",
                                        FileType.TSV).fromFileToDict(0, 1)
-        BioPython().blastpForAll_improved("blastp", "nr", accessionsAndSeqs)
+        BioPython().blastp_by_accessions("blastp", "nr", accessionsAndSeqs)
 
     # one time function
     @staticmethod
@@ -487,7 +487,7 @@ class executor:
             for human_gene_name in human_gene_names:
                 print("Now working on " + c_elegans_gene_name + " and " + human_gene_name)
                 c_elegans_gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
-                result = de.check_if_pair_is_orthologous(c_elegans_gene_name, c_elegans_gene_id, human_gene_name,
+                result = de.check_reversed_blast_hit_ids(c_elegans_gene_name, c_elegans_gene_id, human_gene_name,
                                                          c_elegans_id_multiple_accessions, accession_numbers_and_hit_ids,
                                                          hit_ids_to_gene_names)
                 genes_tuple = (c_elegans_gene_name, human_gene_name)
@@ -539,7 +539,7 @@ class executor:
 
         mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
-            fromMMPFileToDictWithListedValues(9, [11, 18, 12], delete_first=True)
+            from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
         f = open("data-with-variants-230919", FileMode.WRITE.value) if file_type != FileType.CONSOLE else ""
         print(human_genes_and_variants)
@@ -608,7 +608,7 @@ class executor:
 
         mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
-            fromMMPFileToDictWithListedValues(9, [11, 18, 12], delete_first=True)
+            from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
         f = open("data-with-variants", FileMode.WRITE.value) if file_type != FileType.CONSOLE else ""
         print(human_genes_and_variants)
@@ -681,11 +681,11 @@ class executor:
 
         mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
-            fromMMPFileToDictWithListedValues(9, [11, 18, 12], delete_first=True)
+            from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
-        print(human_genes_and_variants)
-        print("Number of human genes: " + str(len(human_genes_and_variants)))
+        print("Human genes: " + str(list(genes_names)))
         for human_gene_name in genes_names:
+            print("now:", human_gene_name)
             human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
             if not human_seq:
                 continue
@@ -696,8 +696,7 @@ class executor:
             orthologs_names = []
             for i in range(len(true_matches_pairs)):
                 pair = true_matches_pairs[i]
-                if pair[1] == human_gene_name:
-                    orthologs_names.append(pair[0])
+                orthologs_names.append(pair[0])
 
             orthologs_id_WB = Ensembl.get_c_elegans_genes_ids_by_genes_names(orthologs_names)
             print("Human gene name:", human_gene_name, ", seq:", human_seq, ", orthologs gene ids WB:",
@@ -727,10 +726,10 @@ class executor:
                     conserved_variants += 1
                     line = variant + "\t" + result + "\t" + str(c_elegans_location) + "\t" + \
                         str(alignment_conservation_score) + "\t" + str(count) + "\t" + mmp_data + "\n"
-                    output += line + "\r\n"
+                    output += line
             if not conserved_variants:
                 print("No variants are conserved")
-            return output
+        return output
 
     # keys = human gene names
     @staticmethod
@@ -738,7 +737,7 @@ class executor:
         data = FileReader(data_file_path, data_file_name).readData(1, True)
         mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
-            fromMMPFileToDictWithListedValues(key_index, value_indexes, delete_first=True)
+            from_MMP_file_to_dict_with_listed_values(key_index, value_indexes, delete_first=True)
         f = open(new_file_name, FileMode.WRITE.value)
         gene_names = data.keys()
         for gene_name in gene_names:

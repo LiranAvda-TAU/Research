@@ -9,7 +9,7 @@ PORT_NUMBER = 8080
 class HomologyHandler(BaseHTTPRequestHandler):
 
     def parse_input(self):
-        # path = "/Variants;TCP1:{Asn284Ser,Ala453Glu},DAP3:{Leu138Phe,Glu369Lys}"
+        # path = "/Variants;TCP1:[Asn284Ser,Ala453Glu],DAP3:[Leu138Phe,Glu369Lys]"
         dic = {}
         input_values = self.path[self.path.find(";")+1:]
         while input_values:
@@ -45,7 +45,8 @@ class HomologyHandler(BaseHTTPRequestHandler):
                 results = executor.get_variants_data_for_server(genes_and_variants)
             except SystemExit:
                 results = "Couldn't find data for " + str(genes_and_variants)
-            self.wfile.write(results.encode())
+            print("results:", results)
+            self.wfile.write(results.replace("\n", "<br />").encode())
         else:
             self.wfile.write("Program name is invalid, can only accept \"Orthologs\" or \"Variants\". Please try again".encode())
         return

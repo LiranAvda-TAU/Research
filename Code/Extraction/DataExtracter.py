@@ -425,9 +425,9 @@ class DataExtracter:
             if not seq:
                 seq = BioPython().get_aa_seq_of_longest_isoform(c_elegans_accession_number)
                 if not seq:
-                    print("Couldn't find gene seq number for gene: " + c_elegans_gene_name)
+                    print("Couldn't find gene sequence for gene: " + c_elegans_gene_name)
                     exit()
-            hit_ids = BioPython().pipelineBlastWithSeq("blastp", "nr", seq)
+            hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", seq)
         if not hit_ids:
             print("Couldn't find hit ids for", c_elegans_gene_name)
         print("Length of hit ids list is: " + str(len(hit_ids)))
@@ -440,7 +440,7 @@ class DataExtracter:
     # scheme: worm gene id(WB) -> worm gene id(number) -> accession numbers -> accession number -> hit ids -> human
     # gene name -> check if our human gene is in there
     @staticmethod
-    def check_if_pair_is_orthologous(c_elegans_gene_name, c_elegans_gene, human_gene_name,
+    def check_reversed_blast_hit_ids(c_elegans_gene_name, c_elegans_gene, human_gene_name,
                                      c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic,
                                      hit_ids_to_human_genes_names_dic):
 
@@ -559,25 +559,17 @@ class DataExtracter:
     @staticmethod
     def convert_list(genes_list, subject):
         new_list = []
-        if subject == "human":
-            for gene in genes_list:
+        for gene in genes_list:
+            if subject == "human":
                 gene_id = Ensembl.get_human_gene_id_by_gene_name(gene)
-        elif subject == "c.elegans":
-            for gene in genes_list:
+            elif subject == "c.elegans":
                 gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene)
-        if gene_id:
-            new_list.append(gene_id)
-        else:
-            print("The name", gene, "is not listed as a", subject, "gene in our sources")
-            exit()
-        if subject == "C.elegans":
-            for gene in genes_list:
-                gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene)
-                if gene_id:
-                    new_list.append(gene_id)
-                else:
-                    print("The name", gene, "is not listed as a C.elegans gene in our sources")
-                    exit()
+            if gene_id:
+                new_list.append(gene_id)
+            else:
+                print("The name", gene, "is not listed as a", subject, "gene in our sources")
+                exit()
+
         return new_list
 
     def convert_list_for_human(self, genes_list):
