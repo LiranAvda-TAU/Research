@@ -27,6 +27,9 @@ class HomologyHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(("Your wish is our command! Working on your request..."+"<br />").encode())
+        general_format_reminder = "Please notice that the general format for the requests are: <br />"
+        orthologs_format_reminder = "for orthologs: ipNumber:8080/Orthologs;NameOfHumanGene, for example: http://172.16.254.250:8080/Orthologs;TCP1;ZO1 <br />"
+        variants_format_remonder = "for variants: ipNumber:8080/Variants;NameOfHumanGene:[variant1, variant2], for example: http://172.16.254.250:8080/Variants;TCP1:[Asn284Ser,Ala453Glu],DAP3:[Leu138Phe,Glu369Lys]"
 
         if self.path == "/favicon.ico":
             return
@@ -49,7 +52,8 @@ class HomologyHandler(BaseHTTPRequestHandler):
             print("results:", results)
             self.wfile.write(("Done! The results: " + "<br />" + results.replace("\n", "<br />")).encode())
         else:
-            self.wfile.write("Program name is invalid, can only accept \"Orthologs\" or \"Variants\". Please try again".encode())
+            self.wfile.write(("Program name is invalid, can only accept \"Orthologs\" or \"Variants\". Please try again.<br />" +
+                              general_format_reminder + orthologs_format_reminder + variants_format_remonder).encode())
         return
 
 
