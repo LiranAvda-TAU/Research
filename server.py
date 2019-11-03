@@ -53,7 +53,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
             self.wfile.write(("Done! The results: " + "<br />" + results.replace("\n", "<br />")).encode())
         else:
             self.wfile.write(("Program name is invalid, can only accept \"Orthologs\" or \"Variants\". Please try again.<br />" +
-                              general_format_reminder + orthologs_format_reminder + variants_format_remonder).encode())
+                              general_format_reminder + orthologs_format_reminder + variants_format_reminder).encode())
         return
 
 
