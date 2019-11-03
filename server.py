@@ -26,6 +26,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
+        self.wfile.write(("Your wish is our command! Working on your request..."+"<br />").encode())
 
         if self.path == "/favicon.ico":
             return
@@ -46,7 +47,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
             except SystemExit:
                 results = "Couldn't find data for " + str(genes_and_variants)
             print("results:", results)
-            self.wfile.write(results.replace("\n", "<br />").encode())
+            self.wfile.write(("Done! The results: " + "<br />" + results.replace("\n", "<br />")).encode())
         else:
             self.wfile.write("Program name is invalid, can only accept \"Orthologs\" or \"Variants\". Please try again".encode())
         return

@@ -685,7 +685,6 @@ class executor:
 
         print("Human genes: " + str(list(genes_names)))
         for human_gene_name in genes_names:
-            print("now:", human_gene_name)
             human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
             if not human_seq:
                 continue

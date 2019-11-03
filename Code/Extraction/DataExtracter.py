@@ -417,7 +417,6 @@ class DataExtracter:
             c_elegans_accession_number = input("What is the accession number for id: " + c_elegans_id_number + "\n")
         print("Gene's accession number is: " + c_elegans_accession_number)
         try:
-            accession_number_to_hit_ids_dic = {}
             hit_ids = accession_number_to_hit_ids_dic[c_elegans_accession_number]
         except:
             print("got here!")
