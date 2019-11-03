@@ -7,13 +7,6 @@ from Code.Utils.Ensembl import Ensembl
 
 
 class DataExtracter:
-    def __init__(self):
-        self.c_elegans_genes_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                                r"\c-elegans-gene-id_gene-name_ncbi-id.txt",
-                                                FileType.TSV).get_genes_list(1)
-        self.human_genes_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                            r"\human_gene_id-gene_name.txt",
-                                            FileType.TSV).get_genes_list(1)
 
     # receives two dict: one converting human gene to c.elegans gene and one converting human gene to its variants
     # not sure

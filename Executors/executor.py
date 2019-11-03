@@ -9,16 +9,11 @@ from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
 from Test.Extraction.DataExtracterTest import DataExtracterTest
 from Test.TestFunctions import TestFunctions
-from Code.Utils.Extra import filter_out_duplicated_genes
 
 import ast
 
 
 class executor:
-
-    def __init__(self):
-        self.orthologs_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                        r"\data-250619-fixed-domains").fromFileToDictWithPluralValues(1, 2, False)
 
     # obtained the data of genes after filtering out genes by condition, reads files of human and C.elegans'
     # genes' coding domains length, and passes the info to a DE method, who computed the ratio between each gene
