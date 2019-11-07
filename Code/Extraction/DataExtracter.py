@@ -370,7 +370,7 @@ class DataExtracter:
         out_file.close()
 
     # receives (1) list of genes, (2) url address to the site where we can find phenotypes, and (3),(4) terms to extract
-    # only the relevant phenotypes from the line given, and returns a dictionary of genes and phenotypes
+    # only the relevant phenotypes from the line given, and returns a dictionary of genes and phenotypes of variants
     @staticmethod
     def add_c_elegans_phenotypes(list_of_genes: list, url, search_term: str = "\"class\":\"phenotype\"",
                                  label_term: str = "\"label\":"):
@@ -393,6 +393,21 @@ class DataExtracter:
                 search_index = info.find(search_term)
 
         return genes_and_phenotypes
+
+    @staticmethod
+    def get_c_elegans_variants_phenotype(gene_id):
+        url = "http://rest.wormbase.org/rest/widget/gene/"
+        search_term: str = "\"class\":\"phenotype\""
+        label_term: str = "\"label\":"
+        info = HttpRequester(url + gene_id + "/" + "phenotype").makeRequest()
+        search_index = info.find(search_term)
+        while -1 < search_index < info.find("\"phenotype_not_observed\":") and \
+                        search_index < info.find("\"phenotype_by_interaction\""):
+            info = info[search_index:]
+            label_index = info.find(label_term)
+            info = info[label_index:]
+            phenotype = info[len(label_term):info.find(",")].strip("\"")
+        return phenotype
 
     @staticmethod
     def get_hit_ids(c_elegans_gene_id, c_elegans_gene_name, c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic):
@@ -579,12 +594,12 @@ class DataExtracter:
                                          r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(1, 2, True)
 
         try:
-            human_gene_length = humans_id_cd_length[human_gene]
+            human_gene_length = int(humans_id_cd_length[human_gene])
         except:
             print("gene " + human_gene + "'s length wasn't found...")
             human_gene_length = None
         try:
-            c_elegans_gene_length = c_elegans_cd_length[c_elegans_gene]
+            c_elegans_gene_length = int(c_elegans_cd_length[c_elegans_gene])
         except:
             print("gene " + c_elegans_gene + "'s length wasn't found...")
             c_elegans_gene_length = None
@@ -691,4 +706,17 @@ class DataExtracter:
             new_file.write("\t".join(info) + "\n")
         f.close()
         new_file.close()
+
+    @staticmethod
+    def get_c_elegans_description_for_gene_id(gene_id):
+        start_term: str = "\"text\":\""
+        end_term: str = "\",\"evidence\""
+        record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
+                               gene_id + "/overview").makeRequest()
+        info_index = record.find("concise_description")
+        shorter_info = record[info_index + len("concise_description"):]
+        start_index = shorter_info.find(start_term)
+        end_index = shorter_info.find(end_term)
+        description = shorter_info[start_index + len(start_term): end_index]
+        return description
 

@@ -48,6 +48,13 @@ class Ensembl:
         return record['seq']
 
     @staticmethod
+    def get_nt_sequence_by_gene_name(gene_name):
+        try:
+            return Ensembl.get_nt_sequence_by_gene_id(Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name))
+        except:
+            return None
+
+    @staticmethod
     def get_ncbi_id_by_gene_id(gene_id):
         try:
             record = ensembl_rest.xref_id(gene_id)
@@ -58,3 +65,5 @@ class Ensembl:
             if "WBGene" not in record_cell["primary_id"] and "ENSG" not in record_cell["primary_id"]:
                 return record_cell["primary_id"]
         return None
+
+# print(Ensembl.get_nt_sequence_by_gene_name("cct-1"))

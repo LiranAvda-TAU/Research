@@ -425,3 +425,5 @@ class BioPython:
 # print("human seq:", human_seq)
 # c_elegans_seq = BioPython().get_aa_seq_by_c_elegans_gene_name(c_elegans_gene_name)
 # print("c-elegans seq", c_elegans_seq)
+
+# print(BioPython.get_aa_seq_by_c_elegans_gene_name("repo-1"))

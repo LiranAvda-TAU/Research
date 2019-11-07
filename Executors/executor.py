@@ -488,7 +488,8 @@ class executor:
                 genes_tuple = (c_elegans_gene_name, human_gene_name)
                 status_tuple = (de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
                                 de.get_sources(c_elegans_gene_name, human_gene_name),
-                                de.get_pair_cd_length(human_gene_name, c_elegans_gene_name))
+                                de.get_pair_cd_length(human_gene_name, c_elegans_gene_name),
+                                c_elegans_gene_name + " " + de.get_c_elegans_description_for_gene_id(c_elegans_gene_id))
                 if result:
                     true_matches[genes_tuple] = status_tuple
                 else:
