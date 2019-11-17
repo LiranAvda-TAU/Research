@@ -1,14 +1,18 @@
+from Code.CRISPR.DataClasses.CodonData import CodonData
+from Code.CRISPR.DataClasses.ReattachmentSection import ReattachmentSection
+from Code.CRISPR.DataClasses.SequenceSites import SequenceSites
 from Code.CRISPR.Enum.AminoAcid import AminoAcid
+from Code.CRISPR.Enum.DNASection import DNASection
 from Code.CRISPR.Enum.MutationDirection import MutationDirection
 import random
 import re
+from statistics import mean
 
 from Code.CRISPR.Enum.RestrictionSiteType import RestrictionSiteType
 from Code.Utils.BioPython import BioPython
 
 
 class CrisprPlanner:
-
     possibilities = {'A': 'C', 'C': 'T', 'T': 'G', 'G': 'A'}
 
     codon_dic = {'A': {'GCT', 'GCC', 'GCA', 'GCG'}, 'C': {'TGT', 'TGC'}, 'D': {'GAT', 'GAC'}, 'E': {'GAA', 'GAG'},
@@ -19,13 +23,26 @@ class CrisprPlanner:
                  'T': {'ACT', 'ACC', 'ACA', 'ACG'}, 'V': {'GTT', 'GTC', 'GTA', 'GTG'}, 'W': {'TGG'},
                  'Y': {'TAT', 'TAC'}, 'STOP': {'TAA', 'TAG', 'TGA'}}
 
-    codon_usage = {'UUU': 23.3, 'UCU': 16.7, 'UAU': 17.5, 'UGU': 11.2, 'UUC': 23.9, 'UCC': 10.6, 'UAC': 13.7, 'UGC':9.1,
+    amino_acid_dic = {'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A', 'TGT': 'C', 'TGC': 'C', 'GAT': 'D', 'GAC': 'D',
+                      'GAA': 'E', 'GAG': 'E', 'TTT': 'F', 'TTC': 'F', 'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',
+                      'CAT': 'H', 'CAC': 'H', 'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'AAA': 'K', 'AAG': 'K', 'TTA': 'L',
+                      'TTG': 'L', 'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'ATG': 'M', 'AAT': 'N', 'AAC': 'N',
+                      'CCT': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P', 'CAA': 'Q', 'CAG': 'Q', 'CGT': 'R', 'CGC': 'R',
+                      'CGA': 'R', 'CGG': 'R', 'AGA': 'R', 'AGG': 'R', 'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S',
+                      'AGT': 'S', 'AGC': 'S', 'ACT': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T', 'GTT': 'V', 'GTC': 'V',
+                      'GTA': 'V', 'GTG': 'V', 'TGG': 'W', 'TAT': 'Y', 'TAC': 'Y', 'TAA': 'STOP', 'TAG': 'STOP',
+                      'TGA': 'STOP'}
+
+    codon_usage = {'UUU': 23.3, 'UCU': 16.7, 'UAU': 17.5, 'UGU': 11.2, 'UUC': 23.9, 'UCC': 10.6, 'UAC': 13.7,
+                   'UGC': 9.1,
                    'UUA': 9.8, 'UCA': 20.6, 'UAA': 1.6, 'UGA': 1.4, 'UUG': 20.0, 'UCG': 12.2, 'UAG': 0.6, 'UGG': 11.1,
                    'CUU': 21.2, 'CCU': 8.8, 'CAU': 14.1, 'CGU': 11.2, 'CUC': 14.8, 'CCC': 4.4, 'CAC': 9.2, 'CGC': 5.1,
                    'CUA': 7.9, 'CCA': 26.1, 'CAA': 27.4, 'CGA': 12.1, 'CUG': 12.1, 'CCG': 9.7, 'CAG': 14.4, 'CGG': 4.7,
-                   'AUU': 32.2, 'ACU': 18.9, 'AAU': 30.2, 'AGU': 12.1, 'AUC': 18.9, 'ACC': 10.4, 'AAC': 18.3, 'AGC': 8.4,
+                   'AUU': 32.2, 'ACU': 18.9, 'AAU': 30.2, 'AGU': 12.1, 'AUC': 18.9, 'ACC': 10.4, 'AAC': 18.3,
+                   'AGC': 8.4,
                    'AUA': 9.5, 'ACA': 20.0, 'AAA': 37.5, 'AGA': 15.4, 'AUG': 26.1, 'ACG': 8.9, 'AAG': 25.8, 'AGG': 4.0,
-                   'GUU': 24.1, 'GCU': 22.4, 'GAU': 35.8, 'GGU': 10.9, 'GUC': 13.6, 'GCC': 12.6, 'GAC': 17.1, 'GGC': 6.7,
+                   'GUU': 24.1, 'GCU': 22.4, 'GAU': 35.8, 'GGU': 10.9, 'GUC': 13.6, 'GCC': 12.6, 'GAC': 17.1,
+                   'GGC': 6.7,
                    'GUA': 9.8, 'GCA': 19.8, 'GAA': 40.8, 'GGA': 31.7, 'GUG': 14.3, 'GCG': 8.2, 'GAG': 24.5, 'GGG': 4.4}
 
     restriction_sites = ['ACCGGT', 'GTGCAC', 'ATTAAT', 'GGATCC', 'AGATCT', 'ATCGAT', 'GAATTC', 'GATATC', 'AGCGCT',
@@ -40,6 +57,8 @@ class CrisprPlanner:
         self.amino_acid_sequence = amino_acid_sequence if amino_acid_sequence else \
             BioPython.get_aa_seq_by_c_elegans_gene_name(gene_name)
         self.amino_acid_mutation_site = aa_mutation_site
+        self.sense_mutation_site = -1
+        self.anti_sense_mutation_site = -1
 
     def get_relevant_strand(self, direction):
         if direction > 0:
@@ -54,34 +73,34 @@ class CrisprPlanner:
                        PAM_size: int = 3):
         print("Gene's sense sequence:", self.sense_strand)
         print("Gene's amino acid sequence: ", self.amino_acid_sequence)
-        sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_mutation_site,
-                                                       check_sequence_consistency=check_consistency)
-        print("mutation site in sense strand is: " + str(sense_mutation_site), ", and the codon is:",
-              self.sense_strand[sense_mutation_site:sense_mutation_site+3])
-        anti_sense_mutation_site = self.get_mutation_site_for_anti_sense(sense_mutation_site)
-        print("mutation site in anti-sense strand: " + str(anti_sense_mutation_site))
+        self.sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_mutation_site,
+                                                            check_sequence_consistency=check_consistency)
+        print("mutation site in sense strand is: " + str(self.sense_mutation_site), ", and the codon is:",
+              self.sense_strand[self.sense_mutation_site:self.sense_mutation_site + 3])
+        self.anti_sense_mutation_site = self.get_mutation_site_for_anti_sense(self.sense_mutation_site)
+        print("mutation site in anti-sense strand: " + str(self.anti_sense_mutation_site))
 
         # get optional sequences for crRNA
         sense_strand_sequences = CrisprPlanner.get_list_of_potential_sequences(self.sense_strand,
-                                                                               sense_mutation_site,
+                                                                               self.sense_mutation_site,
                                                                                window_size,
                                                                                PAM_size)
-        anti_sense_strand_sequences = CrisprPlanner.\
+        anti_sense_strand_sequences = CrisprPlanner. \
             get_list_of_potential_sequences(self.anti_sense_strand,
-                                            anti_sense_mutation_site,
+                                            self.anti_sense_mutation_site,
                                             window_size,
                                             PAM_size)
         print("Sense crRNAs: ")
         for sequence in sense_strand_sequences:
             print(sequence)
             pam_site_start = sequence[1][1]
-            pam_site_end = sequence[1][1]+3
+            pam_site_end = sequence[1][1] + 3
             print("PAM sequence: " + self.sense_strand[pam_site_start:pam_site_end])
         print("Anti Sense crRNAs: ")
         for sequence in anti_sense_strand_sequences:
             print(sequence)
             pam_site_start = sequence[1][1]
-            pam_site_end = sequence[1][1]+3
+            pam_site_end = sequence[1][1] + 3
             print("PAM sequence: " + self.anti_sense_strand[pam_site_start:pam_site_end])
 
         chosen_crrna, strand_direction = CrisprPlanner.choose_best_crrna(sense_strand_sequences,
@@ -91,16 +110,16 @@ class CrisprPlanner:
         strand_str = "anti-" if strand_direction < 0 else ""
         print("The relevant strand is " + strand_str + "sense")
 
-
         pam_site_start = chosen_crrna[1][1]
-        pam_site_end = chosen_crrna[1][1]+2
+        pam_site_end = chosen_crrna[1][1] + 2
         pam_sites = (pam_site_start, pam_site_end)
 
-        ssODN_strand_direction, mutation_direction = CrisprPlanner.\
-            choose_ssODN_strand(sense_mutation_site if strand_direction > 0 else anti_sense_mutation_site,
+        ssODN_strand_direction, mutation_direction = CrisprPlanner. \
+            choose_ssODN_strand(self.sense_mutation_site if strand_direction > 0 else self.anti_sense_mutation_site,
                                 strand_direction,
                                 pam_site_start)
-        print("Mutation direction is:", str(mutation_direction), "thus ssODN direction is:", str(ssODN_strand_direction))
+        print("Mutation direction is:", str(mutation_direction), "thus ssODN direction is:",
+              str(ssODN_strand_direction))
         if ssODN_strand_direction != strand_direction:
             print("The ssODN is on the opposite strand!")
             # ssODN is not on the strand from which we got the crRNA, thus we need to find its pam sites again
@@ -110,38 +129,200 @@ class CrisprPlanner:
 
         # to be mutated
         mutated_strand = self.sense_strand if ssODN_strand_direction > 0 else self.anti_sense_strand
-        ssODN_mutation_site = sense_mutation_site if ssODN_strand_direction > 0 else anti_sense_mutation_site
+        ssODN_mutation_codon = self.sense_mutation_site if ssODN_strand_direction > 0 else self.anti_sense_mutation_site
 
         # getting the zone where all mutations will be located: after to before DSB
         mutations_zone = self.get_mutations_zone(mutation_direction, pam_sites)
         # sanity check
-        print("mutation is starting from", ssODN_mutation_site, "and mutations zone is", str(mutations_zone))
+        print("mutation codon is at", ssODN_mutation_codon, "and mutations zone is", str(mutations_zone))
 
         # 1. mutation to change codon
-        mutated_strand, codon_mutated_sites = self.apply_codon_mutation(mutated_strand, ssODN_mutation_site,
+        mutated_strand, codon_mutated_sites = self.apply_codon_mutation(mutated_strand, ssODN_mutation_codon,
                                                                         self.get_demands(from_aa, to_aa,
-                                                                                         sense_mutation_site))
+                                                                                         self.sense_mutation_site))
 
         # making sure that the strand is good so far
-        print("mutated strand after adding codon mutation: ", mutated_strand)
+        print("mutated strand after adding codon mutation:", mutated_strand)
         print("sites changed:", codon_mutated_sites)
 
-        # 2. mutations to add/remove restriction sites
+        # 2. mutations to change nt to prevent re-attachments - in PAM or crRNA sequence
+        # if mutation is DOWNSTREAM the section to be changed is PAM site, if UPSTREAm - crRNA.
+        if mutation_direction == MutationDirection.DOWNSTREAM:
+            section_to_mutate = ReattachmentSection(DNASection.PAM_SITE, SequenceSites(pam_sites[0], pam_sites[1]), 1)
+        else:
+            section_to_mutate = ReattachmentSection(DNASection.CR_RNA, SequenceSites(pam_sites[0] - 20, pam_sites[0] -6), 4)
+        print("section to mutate to prevent re-attachment:", section_to_mutate.section_sites, "in",
+              section_to_mutate.section_type)
+        CrisprPlanner.prevent_reattachment(section_to_mutate, ssODN_mutation_codon, mutated_strand, mutation_direction,
+                                           codon_mutated_sites)
+        # mutated_strand, mutated_sites = self.apply_mutation(mutated_strand, mutation_direction, mutations_zone,
+        #                                                     pam_sites, codon_mutated_sites)
+
+        # 3. mutations to add/remove restriction sites
         print("Add or Remove restriction sites:")
         self.add_remove_restriction_sites(mutated_strand, mutations_zone, ssODN_strand_direction,
                                           codon_mutated_sites, mutation_direction, pam_sites)
-
-        # 2. mutations to change nt to prevent re-attachments - in PAM or crRNA sequence
-        # mutated_strand, mutated_sites = self.apply_mutation(mutated_strand, mutation_direction, mutations_zone,
-        #                                                     pam_sites, codon_mutated_sites)
 
 
         #
         # pam_site_mutated = self.check_if_pam_site_mutated(mutated_sites, pam_sites)
         # if not pam_site_mutated:
         #     mutated_strand = self.mutate_pam_site(mutated_strand, )
-        # print("pam sites inside: " + str(pam_sites) + ", mutation site: " + str(ssODN_mutation_site-1))
+        # print("pam sites inside: " + str(pam_sites) + ", mutation site: " + str(ssODN_mutation_codon-1))
         # print("pam sites for opposite strand: " + str(pam_site_start), str(pam_site_end))
+
+    # receives (1) the section that needs to be mutated to prevent reattachment, (2) the indexes of the amino acid's
+    # mutation codon on the ssODN strand, (3) the mutated strand,(4) the mutation direction, and (4) the sites that have
+    #  changed while mutating the amino acid, computes which indexes can be changed in order to insert the section with
+    # silent mutations and returns the strand with the new mutations
+    @staticmethod
+    def prevent_reattachment(section_to_mutate: ReattachmentSection, ssODN_mutation_codon, mutated_strand,
+                             mutation_direction, codon_mutated_sites):
+        # format of codons_data: ('GCG', (1, 3))
+        codons_data = CrisprPlanner.get_relevant_codons(section_to_mutate, ssODN_mutation_codon, mutated_strand)
+        possible_mutations = []
+        for codon_data in codons_data:
+            # all codons_data that translate to the same amino acid as the relevant codon does
+            same_aa_codons = list(CrisprPlanner.get_similar_codons(codon_data.codon))
+
+            if section_to_mutate.section_type == DNASection.PAM_SITE:
+                # removes PAM mutations of sequence NGA and NGG
+                CrisprPlanner.check_PAM_mutation(codon_data, same_aa_codons, section_to_mutate, mutation_direction)
+            # removes codons that run over the nucleotide change to change amino acid
+            CrisprPlanner.check_already_mutated_sites(codon_data, same_aa_codons, codon_mutated_sites)
+
+            # the codon that it is easiest to mutate into, and the detail required to do so, such as: ('GCG', (1, {0: 'G'}, 8.2))
+            mutated_codon_details = CrisprPlanner.how_to_get_b_codons_from_a(codon_data.codon, same_aa_codons)
+            if mutated_codon_details:
+                possible_mutations.append((codon_data, mutated_codon_details))
+        possible_mutations.sort(key=lambda x: abs(x[0].codon_sites.start-mean(codon_mutated_sites)))
+
+        number_of_mutants = CrisprPlanner.get_number_of_mutants(section_to_mutate, codon_mutated_sites)
+
+        try:
+            chosen_mutations = possible_mutations[:number_of_mutants]
+        except:
+            chosen_mutations = possible_mutations
+        print("mutated codons details:")
+        for mutated_codon_details in chosen_mutations:
+            print(mutated_codon_details)
+
+    # Takes into consideration whether mutations to change amino acid have also modified the reattachment sequence, and
+    # thus we need fewer mutatnt to introduce to the reattachment squence
+    @staticmethod
+    def get_number_of_mutants(section_to_mutate, codon_mutated_sites):
+        number_of_mutants = section_to_mutate.number_of_mutations
+        extra = 0 if section_to_mutate.section_type == DNASection.PAM_SITE else 2
+        for mutated_site in codon_mutated_sites:
+            if section_to_mutate.section_sites.start <= mutated_site <= section_to_mutate.section_sites[1] + extra:
+                number_of_mutants -= 1
+                print("already a mutant in nucleotide:", mutated_site)
+        if number_of_mutants < 0:
+            number_of_mutants = 0
+        return number_of_mutants
+
+    # receives (1) codon_data the contains the codon and its sites, (2) possible codons that the former codons could be
+    # mutated into but keep the amino acid, and (3) sites that have changed and the new mutations shouldn't run over.
+    # The function goes through each of the mutated site (input 3) and checks if it is inside the range of the new
+    # codon sites. If so, it checks whether in the possible codons list there are codons that run over that site (change
+    #  nucleotide), and if there are, removes them from the possible codons list.
+    @staticmethod
+    def check_already_mutated_sites(codon_data, possible_codons, codon_mutated_sites):
+        for codon_mutated_site in codon_mutated_sites:
+            if codon_data.codon_sites.start <= codon_mutated_site <= codon_data.codon_sites.end:
+                for possible_codon in possible_codons:
+                    # mutated_codon_details format = (1, {2: 'G'}, 14.3)
+                    mutated_codon_details = CrisprPlanner.how_to_get_b_codons_from_a(codon_data.codon, [possible_codon])[1]
+                    for key in mutated_codon_details[1].keys():
+                        # for each nucleotide mutation, key is the nucleotide place in the codon: 0,1,2
+                        if codon_data.codon_sites[0]+key == codon_mutated_site:
+                            print("codon", possible_codon, "in", mutated_codon_details, codon_data.codon_sites, "removed")
+                            possible_codons.remove(possible_codon)
+                            break
+
+    # receives (1) list of mutations to check, (2) list of possible codons in that site, (3) section to mutate (PAM site
+    #  or crRNA and the details), and (4) mutation direction (upstream or downstream) and checks if one of the PAM
+    # mutations is substituting NGG site with an NGA or NGG site, and if so, removes it from the valid list of codons
+    # returned.
+    @staticmethod
+    def check_PAM_mutation(codon_data: CodonData, possible_codons, section_to_mutate, mutation_direction):
+
+        if codon_data.codon_sites.start < section_to_mutate.section_sites.start:
+            # before beginning of PAM site
+            if codon_data.codon_sites.end == section_to_mutate.section_sites.end:
+                # only contains first nucleotide
+                if mutation_direction == MutationDirection.DOWNSTREAM:
+                    # cannot be T to prevent NGA
+                    for possible_codon in possible_codons[:]:
+                        if possible_codon[0] == 'T':
+                            print("possible codon removed:", possible_codon, "in", codon_data)
+                            possible_codons.remove(possible_codon)
+                else:
+                    # mutation only changes the N part of NGG PAM site - not useful
+                    possible_codons.clear()
+            elif codon_data.codon_sites.end > section_to_mutate.section_sites.start:
+                # contains first two amino acids
+                if mutation_direction == MutationDirection.DOWNSTREAM:
+                    for possible_codon in possible_codons[:]:
+                        if possible_codon[1:] == 'TC':
+                            print("possible codon removed:", possible_codon, "in", codon_data)
+                            possible_codons.remove(possible_codon)
+        elif codon_data.codon_sites == section_to_mutate.section_sites:
+            for possible_codon in possible_codons[:]:
+                if mutation_direction == MutationDirection.UPSTREAM:
+                    # the site is NGG
+                    if possible_codon[1:] == 'GA':
+                        print("possible codon removed:", possible_codon, "in", codon_data)
+                        possible_codons.remove(possible_codon)
+                else:
+                    # the site is CCN
+                    if possible_codon[:2] == 'TC':
+                        print("possible codon removed:", possible_codon, "in", codon_data)
+                        possible_codons.remove(possible_codon)
+        else:
+            if codon_data.codon_sites.start < section_to_mutate.section_sites.end:
+                # contains two last amino acids
+                if mutation_direction == MutationDirection.UPSTREAM:
+                    for possible_codon in possible_codons[:]:
+                        if possible_codon[:2] == 'GA':
+                            print("possible codon removed:", possible_codon, "in", codon_data)
+                            possible_codons.remove(possible_codon)
+            elif codon_data.codon_sites.start == section_to_mutate.section_sites.end:
+                # contains only last PAM nucleotide
+                if mutation_direction == MutationDirection.UPSTREAM:
+                    for possible_codon in possible_codons[:]:
+                        if possible_codon[0] == 'A':
+                            print("possible codon removed:", possible_codon, "in", codon_data)
+                            possible_codons.remove(possible_codon)
+                else:
+                    possible_codons.clear()
+
+    # receives (1) a codon and returns all other codons that translated to the same amino acid
+    @staticmethod
+    def get_similar_codons(codon):
+        amino_acid = CrisprPlanner.amino_acid_dic[codon]
+        relevant_codons = CrisprPlanner.codon_dic[amino_acid].copy()
+        relevant_codons.remove(codon)
+        return relevant_codons
+
+    # receives (1) the section to be mutated (PAM site or crRNA indexes), (2) the aa mutation codon indexes of the ssODN
+    # strand, and (3) the mutated strand (sense or anti-sense) and returns a list of all codons and their indexes that
+    # are included in the section to be mutated indexes
+    # format of the results: ('GCG', (1, 3))
+    @staticmethod
+    def get_relevant_codons(section_to_mutate: ReattachmentSection, ssODN_mutation_codon, mutated_strand):
+        codons_data = []
+        remainder = abs(section_to_mutate.section_sites.start - ssODN_mutation_codon) % 3
+        start = section_to_mutate.section_sites.start - remainder
+        end = section_to_mutate.section_sites[1]
+        # if section is crRNA, we don't want to make changes in the DSB
+        while start <= end:
+            codon = mutated_strand[start:start + 3]
+            codons_data.append(CodonData(codon, SequenceSites(start, start + 2)))
+            start += 3
+        print(str(len(codons_data)), "codons:", codons_data)
+        return codons_data
+
 
     # This function receives (1) an amino acid sequence site and (2) value that indicates whether to check the
     # correlation between amino acid sequence and nucleotide sequence (codon to amino acid) or not, and returns the
@@ -159,8 +340,7 @@ class CrisprPlanner:
                 nt_index += 3
                 aa_index += 1
 
-        nt_site_in_sense_without_utr = (amino_acid_site-1)*3
-        codon = sense_without_utr[nt_site_in_sense_without_utr:nt_site_in_sense_without_utr+3]
+        nt_site_in_sense_without_utr = (amino_acid_site - 1) * 3
         utrs = 0
         seq_index = 0
         exon_index = 0
@@ -238,7 +418,7 @@ class CrisprPlanner:
                 elif restriction_site == "GATC":
                     if not methylated:
                         continue
-                restriction_sites_in_seq[(index, index+len(restriction_site))] = restriction_site
+                restriction_sites_in_seq[(index, index + len(restriction_site))] = restriction_site
         # only if there are some restriction sites
         if restriction_sites_in_seq:
             mutants[nt_seq] = (number_of_mutations, restriction_sites_in_seq)
@@ -248,7 +428,7 @@ class CrisprPlanner:
     # mutated PAM site sequence is sent to find restriction sites in
     @staticmethod
     def change_pam_site(seq, pam_sites):
-        for nt_index in range(pam_sites[0], pam_sites[1]+1):
+        for nt_index in range(pam_sites[0], pam_sites[1] + 1):
             current_seq = seq
             # three iterations
             for i in range(3):
@@ -290,7 +470,6 @@ class CrisprPlanner:
                                                                          max_mutations,
                                                                          mutations_so_far + 1)
 
-
     @staticmethod
     def change_char_in_string(seq, position, new_char):
         lst = list(seq)
@@ -310,7 +489,7 @@ class CrisprPlanner:
         DSB = pam_site_start - 3
         # default assignment
         mutation_direction = MutationDirection.UPSTREAM
-        print("mutation site: " + str(mutation_site) +", pam start: " + str(pam_site_start) + ", DSB: " + str(DSB))
+        print("mutation site: " + str(mutation_site) + ", pam start: " + str(pam_site_start) + ", DSB: " + str(DSB))
         if mutation_site > DSB:
             mutation_direction = MutationDirection.DOWNSTREAM
         elif mutation_site < DSB:
@@ -324,10 +503,16 @@ class CrisprPlanner:
         return len(self.sense_strand) - index - 1
 
     # this function will return the minimal nucleotides you need to change (and the range of options for change) in
-    # order to get from amino acic a to amino acid b
+    # order to get from codon a to amino acid b
     @staticmethod
     def how_to_get_b_from_a(a_codon, b: AminoAcid):
         b_codons = CrisprPlanner.codon_dic[b.value]
+        return CrisprPlanner.how_to_get_b_codons_from_a(a_codon, b_codons)
+
+    # this function will return the minimal nucleotides you need to change (and the range of options for change) in
+    # order to get from codon a to possible codons b. result in format: ('GCG', (1, {0: 'G'}, 8.2))
+    @staticmethod
+    def how_to_get_b_codons_from_a(a_codon, b_codons):
         min_distance = 4
         options = {}
         for b_codon in b_codons:
@@ -338,8 +523,10 @@ class CrisprPlanner:
                 options[b_codon] = (distance, demands, CrisprPlanner.codon_usage[CrisprPlanner.change_t_to_u(b_codon)])
             elif distance == min_distance:
                 options[b_codon] = (distance, demands, CrisprPlanner.codon_usage[CrisprPlanner.change_t_to_u(b_codon)])
-        codon, details = CrisprPlanner.get_codon_with_higher_usage(options)
-        return codon, details
+        if options:
+            # result is a tuple of codon, details
+            return CrisprPlanner.get_codon_with_higher_usage(options)
+        return None
 
     @staticmethod
     def codon_distance(a, b):
@@ -377,7 +564,7 @@ class CrisprPlanner:
         return max_codon, codon_options[max_codon]
 
     def get_demands(self, a: AminoAcid, b: AminoAcid, mutation_site):
-        sense_codon = self.sense_strand[mutation_site:mutation_site+3]
+        sense_codon = self.sense_strand[mutation_site:mutation_site + 3]
         codon_options = self.codon_dic[a.value]
         if sense_codon not in codon_options:
             print(f'Codon in mutation site {mutation_site}: {sense_codon} does not translate into {a}')
@@ -418,7 +605,7 @@ class CrisprPlanner:
     # receives (1) the mutation direction (UPSTREAM or DOWNSTREAM) and (2) the pam sites and according to the scheme
     # that shows that for UPSRTREAM mutations, the homology arm that can undergo changes is from the DSB and for
     # DOWNSTREAM mutations, the homology arm that can undergo changes is up until the DSB, returns the right zone of
-    # 35 nt. The range is open
+    # 10 nt. The range is open
     @staticmethod
     def get_mutations_zone(mutation_direction, pam_sites):
 
@@ -428,7 +615,7 @@ class CrisprPlanner:
         else:
             # untouched homology arm is after DSB
             DSB = pam_sites[1] + 4
-        return DSB-36, DSB
+        return DSB - 15, DSB
 
     # TBD - change the name of the mutation
     # receives (1) the strand to be mutated, (2) the direction of the mutation to understand whether to mutate the PAM
@@ -440,7 +627,7 @@ class CrisprPlanner:
                        number_of_mutations: int = 2):
         if mutation_direction == MutationDirection.UPSTREAM:
             # change crRNA
-            cr_rna_sites_without_dsb = (pam_sites[0]-1-20, pam_sites[0]-1-3)
+            cr_rna_sites_without_dsb = (pam_sites[0] - 1 - 20, pam_sites[0] - 1 - 3)
             print("crRNA sites without DSB:", cr_rna_sites_without_dsb)
             i = 0
             indexes = []
@@ -451,13 +638,13 @@ class CrisprPlanner:
                     if CrisprPlanner.is_within_mutation_zone(mutations_zone, index):
                         indexes.append(index)
                         i += 1
-            # now we have indexes to mutate
-            #todo
+                        # now we have indexes to mutate
+                        # todo
         # change PAM sites
         else:
             mutated_strand = mutated_strand
             # CrisprPlanner.check_if_pam_site_mutated()
-            #todo
+            # todo
         return mutated_strand, {}
 
     @staticmethod
@@ -473,14 +660,14 @@ class CrisprPlanner:
         # than the original one
         restrictions_sites_in_original_seq = {}
         if ssODN_direction > 0:
-            original_sequence = self.sense_strand[mutations_zone[0]+1:mutations_zone[1]]
+            original_sequence = self.sense_strand[mutations_zone[0] + 1:mutations_zone[1]]
         else:
-            original_sequence = self.anti_sense_strand[mutations_zone[0]+1:mutations_zone[1]]
+            original_sequence = self.anti_sense_strand[mutations_zone[0] + 1:mutations_zone[1]]
         self.find_restriction_sites(original_sequence, 0, restrictions_sites_in_original_seq)
         print("restrictions sites in original seq:", restrictions_sites_in_original_seq)
 
         restrictions_sites_in_mutated_seq = {}
-        mutated_sequence = mutated_strand[mutations_zone[0]+1:mutations_zone[1]]
+        mutated_sequence = mutated_strand[mutations_zone[0] + 1:mutations_zone[1]]
         self.find_restriction_sites(mutated_sequence, len(codon_mutated_sites), restrictions_sites_in_mutated_seq)
         print("restrictions sites in mutated seq:", restrictions_sites_in_mutated_seq)
 
@@ -511,7 +698,6 @@ class CrisprPlanner:
                                                            modified_sequences[chosen_seq])
         print("restriction sites changed:", str(rest_sites))
 
-
     # gets two dictionaries' values of the format of: (0, {(3, 9): 'TCTAGA'}) and checks if both
     # dictionaries have the same restriction sites
     @staticmethod
@@ -528,6 +714,7 @@ class CrisprPlanner:
                     if d1_restriction_sites[restriction_index] != d2_restriction_sites[restriction_index]:
                         return False
         return True
+
     # receives (1) the mutated strand and (2) the indexes in which changes have been made and returns a dictionary of
     # the indexes as keys and char in that index in the mutated strand as values
     @staticmethod
@@ -548,14 +735,16 @@ class CrisprPlanner:
 
         # restriction site was removed
         for restriction_index in restriction_seqs_found_in_mutated:
-            if restriction_index not in restriction_seqs_found_in_optional or restriction_seqs_found_in_mutated[restriction_index] != restriction_seqs_found_in_optional[restriction_index]:
+            if restriction_index not in restriction_seqs_found_in_optional or restriction_seqs_found_in_mutated[
+                restriction_index] != restriction_seqs_found_in_optional[restriction_index]:
                 extra_restrictions_sites[
                     (restriction_index,
                      restriction_seqs_found_in_mutated[restriction_index])] = RestrictionSiteType.REMOVE
 
         # restriction site was added
         for restriction_index in restriction_seqs_found_in_optional:
-            if restriction_index not in restriction_seqs_found_in_mutated or restriction_seqs_found_in_optional[restriction_index] != restriction_seqs_found_in_mutated[restriction_index]:
+            if restriction_index not in restriction_seqs_found_in_mutated or restriction_seqs_found_in_optional[
+                restriction_index] != restriction_seqs_found_in_mutated[restriction_index]:
                 extra_restrictions_sites[
                     (restriction_index,
                      restriction_seqs_found_in_optional[restriction_index])] = RestrictionSiteType.ADD
@@ -577,10 +766,10 @@ class CrisprPlanner:
                                                                 rs_data_per_sequence):
                 sequence_validity = True
                 sorted_dic = sorted(rs_data_per_sequence[1].items(), key=lambda x: x[0][0])
-                for i in range(len(sorted_dic)-1):
+                for i in range(len(sorted_dic) - 1):
                     former = sorted_dic[i][0][1]
-                    latter = sorted_dic[i+1][0][0]
-                    if latter-former < length_bar:
+                    latter = sorted_dic[i + 1][0][0]
+                    if latter - former < length_bar:
                         sequence_validity = False
                         break
                 if sequence_validity:
@@ -606,12 +795,12 @@ class CrisprPlanner:
                 sequence = sequence_and_data[0]
                 mutated_indexes = CrisprPlanner.get_mutated_sequence_indexes(sequence, original_sequence)
                 for index in mutated_indexes:
-                    if index == pam_sites[1] or index == pam_sites[1]-1:
+                    if index == pam_sites[1] or index == pam_sites[1] - 1:
                         valid_sequences_and_data.append(sequence_and_data)
                         break
         else:
             # need to change crRNA
-            crRNA_range = (pam_sites[0]-20, pam_sites[0]-1)
+            crRNA_range = (pam_sites[0] - 20, pam_sites[0] - 1)
             for sequence_and_data in sequences_and_data:
                 sequence = sequence_and_data[0]
                 mutated_indexes = CrisprPlanner.get_mutated_sequence_indexes(sequence, original_sequence)
@@ -645,7 +834,10 @@ if work1:
     # sense_strand = "gcattgtaaggagaagccgggtaattaatacgataggcgccgttacaaaccgccaactggtgatcattattctctgaaaATGGAGCCGCGGACAGACGGAGCAGAATGCGGTGTCCAGgtattaattttccccgcctagattttccaatttcatattgttttcagGTATTTTGTCGTATTCGGCCGCTCAATAAGACCGAGGAGAAGAATGCGGACCGTTTCCTGCCCAAATTCCCTTCCGAGGACAGTATATCGCTTGGGgtgagtaatacaaaggggtcatagggaacaattatgtcaacagggacgggaagcacgggggatgcaggtgtgtcaattctctcacatgacacattcatctgtttgaaaagtacacgaaaagtgcaaagttgaatatatatatatatatcgattgatttgttggaatttttcagGGAAAAGTATACGTGTTCGATAAAGTGTTCAAGCCGAACACCACGCAAGAGCAAGTGTACAAAGGAGCCGCTTATCACATCGTACAGGATGTATTATCCGGTTATAATGGAACAGTTTTTGCATATGGACAAACATCTTCCGGAAAAACACATACAATGGAGgtaggaattatgaaaaccttgataattacgtagaatgcgacaaagacaatcaagttgtaatatcaacagtgcaaatctttactgattaatgaaaagaaaagtttgagaactaattttcagcagttatttccgaaatcgaatgcccgaaagatttttgataatttttacgtttaaaatattcggcgctcgatgaaattaacaatataatttaattattttcatattttttacagGGAGTAATCGGTGATAATGGCTTGTCGGGAATCATTCCACGTATCGTTGCTGACATCTTTAACCACATTTATAGTATGGACGAGAATCTTCAATTTCACATCAAAGTGTCCTATTATGAAATTTACAACGAGAAGATTCGAGATTTATTAGACCCCGAGAAGGTCAATTTGTCCATTCATGAAGATAAAAATCGAGTGCCATACGTGAAGGGAGCCACCGAACGGTTTGTTGGAGGACCCGATGAGGTTCTTCAGGCAATCGAAGATGGAAAATCCAACAGAATGGTTGCAGTTACGAgtgagtaaacttaaaattaaacaaattaacatgtgaacgaaatttcagACATGAACGAACATTCTTCTCGATCTCATTCCGTCTTCTTGATTACTGTGAAACAAGAACATCAGACAACAAAGAAACAGCTCACCGGAAAGCTTTATCTTGTTGATTTGGCTGGTTCTGAGAAAGTGAGCAAAACTGGAGCTCAAGGAACAGTTTTAGAAGAAGCCAAAAACATCAACAAGTCACTTACTGCACTCGGAATAGTTATTTCAGCATTGGCTGAAGGAACTgtgagttgtttaaattatgaccttcttaaaacgaatatttatttcagAAATCTCATGTTCCATATCGTGATTCCAAACTGACTCGTATTCTTCAAGAATCTCTAGGAGGAAATTCCCGTACTACAGTTATTATTTGTGCTTCTCCGTCACATTTCAACGAAGCTGAAACTAAATCCACACTTTTGTTCGGAGCACGTGCGAAGACTATCAAGAATGTTGTACAAATCAACGAAGAGCTCACAGCAGAAGAATGGAAACGGCGATATGAGAAAGAAAAAGAGAAGAATACTCGATTGGCCGCCCTTCTCCAGGCAGCGGCTTTGGAACTTTCACGCTGGCGTGCTGGAGAATCAGTGTCTGAGGTTGAATGGGTCAATCTATCAGATTCTGCTCAAATGGCTGTGTCGGAAGTTTCTGGTGGGTCGACTCCACTCATGGAACGTTCGATTGCTCCAGCTCCTCCAATGCTAACTTCTACAACTGGCCCGATCACTGACGAAGAGAAGAAGAAGTACGAAGAGGAACGTGTCAAACTGTATCAGCAACTCGACGAGAAAGATGATGAGATTCAAAAAGTTTCGCAAGAGCTTGAGAAGCTTAGACAACAAGTTCTTCTCCAAGAAGAAGCTTTGGGAACTATGCGTGAAAACGAGGAGCTGATCCGTGAAGAGAACAACCGATTCCAAAAAGAAGCTGAAGACAAGCAGCAAGAAGGAAAGGAAATGATGACAGCTCTGGAAGAGATTGCTGTCAACTTGGATGTTCGACAAGCAGAATGCGAAAAATTGAAGAGAGAGTTGGAAGTTGTTCAAGAAGATAACCAGAGTTTGGAAGATCGAATGAACCAAGCAACATCACTCCTCAATGCTCATCTTGACGAATGTGGTCCAAAAATCCGTCATTTCAAAGAAGGAATCTACAATGTTATTCGTGAATTCAACATTGCTGACATTGCCTCTCAAAATGATCAACTTCCTGATCACGATCTTCTGAACCATGTCAGAATCGGAGTTTCAAAACTCTTCTCAGAATACTCTGCTGCGAAAGAGAGCAGTACAGCTGCCGAGCATGATGCTGAAGCGAAACTTGCAGCTGATGTTGCTCGTGTTGAATCTGGTCAAGACGCGGGTAGAATGAAACAATTGCTGGTGAAGGATCAGGCGGCAAAGGAGATCAAGCCACTAACAGATCGTGTCAATATGGAGCTTACAACGTTGAAGAATTTGAAAAAGGAGTTCATGAGAGTACTTGTTGCTCGATGCCAAGCCAATCAAGACACCGAGGGAGAAGATTCTCTCAGTGGACCAGCTCAAAAGCAACGAATTCAGTTCTTGGAGAACAATTTGGACAAGTTGACGAAGGTTCACAAGCAGgtttgtcgtttttattctcattttgattatcttaaaacttgaattttcagCTTGTTCGCGACAATGCCGATTTGCGCGTTGAACTGCCAAAGATGGAAGCTCGTCTTCGTGGTCGTGAAGATCGCATCAAAATATTAGAAACTGCTCTTCGTGATTCGAAGCAACGTAGTCAAGCAGAACGAAAGAAGTATCAACAAGAAGTTGAACGAATCAAGGAAGCTGTTCGACAACGTAACATGCGACGAATGAATGCTCCACAAATTGTGAAGCCAATCCGTCCAGGACAAGTGTATACGTCTCCGTCAGCAGGAATGTCACAAGGAGCTCCAAATGGCTCAAACGgtgtgtttagtcagacatctacaccttcaacatctcgcaatcagataccatcaaaaatgactatttcacagttgattgcagaaatttaagatttttttaaaaattctttagtgctcatgtaatttttcacaagtaattatactatgaattagaattagagtgagtgtttctttttcttcctaccgtattatcaaatttaacagtcttttgtccgtccatttttcactaatcaaagtttttcagCATAAtgtctcccaacaacaacatcaactcatcgtcttctttgatccaatcaatacactgaagactgacattcaaatgcttctctatctctcttcttttcccggctttgtgatatactttcgatgggcttttctgtttattttaaaatctagtaacttatacaattacgcggcttctggaagtttcaacaaaaatatcttcatttggttggttgtgtctccccatttcgttccttggcttctcgtcttccatgtagaatacaaaacttcaaaagctaaaagtatttaaagcttccctccacccccacccaaattgcctttttccgcctttttgttctaatagtctgtttctatacgattttcctgtttcagttttactaatctgacacgaggttttgtctggttcttccccccgtcacccaccaacactcctatgattgttttttgcatgcgtttgagtgtctttaaagcttgcttgctaaatccccctatcattcttcataagaaatcaacttgtttcgtttctgcacaattcggcccccaaatccccgcacatcccaattg"
     repo_1_aa_sequence = "MDFQNRAGGKTGSGGVASAADAGVDRRERLRQLALETIDLQKDPYFMRNHIGTYECKLCLTLHNNEGSYLAHTQGKKHQANLARRAAKEQSEQPFLPAPQKAAVETKKFVKIGRPGYKVTKERDPGAGQQALLFQIDYPEIADGIAPRHRFMSAYEQKIQPPDKRWQYLLFAAEPYETIGFKIPSREVDKSEKFWTMWNKDTKQFFLQVAFKLERLDDQPYY"
     # amino_acid_sequence = "MEPRTDGAECGVQVFCRIRPLNKTEEKNADRFLPKFPSEDSISLGGKVYVFDKVFKPNTTQEQVYKGAAYHIVQDVLSGYNGTVFAYGQTSSGKTHTMEGVIGDNGLSGIIPRIVADIFNHIYSMDENLQFHIKVSYYEIYNEKIRDLLDPEKVNLSIHEDKNRVPYVKGATERFVGGPDEVLQAIEDGKSNRMVAVTNMNEHSSRSHSVFLITVKQEHQTTKKQLTGKLYLVDLAGSEKVSKTGAQGTVLEEAKNINKSLTALGIVISALAEGTKSHVPYRDSKLTRILQESLGGNSRTTVIICASPSHFNEAETKSTLLFGARAKTIKNVVQINEELTAEEWKRRYEKEKEKNTRLAALLQAAALELSRWRAGESVSEVEWVNLSDSAQMAVSEVSGGSTPLMERSIAPAPPMLTSTTGPITDEEKKKYEEERVKLYQQLDEKDDEIQKVSQELEKLRQQVLLQEEALGTMRENEELIREENNRFQKEAEDKQQEGKEMMTALEEIAVNLDVRQAECEKLKRELEVVQEDNQSLEDRMNQATSLLNAHLDECGPKIRHFKEGIYNVIREFNIADIASQNDQLPDHDLLNHVRIGVSKLFSEYSAAKESSTAAEHDAEAKLAADVARVESGQDAGRMKQLLVKDQAAKEIKPLTDRVNMELTTLKNLKKEFMRVLVARCQANQDTEGEDSLSGPAQKQRIQFLENNLDKLTKVHKQLVRDNADLRVELPKMEARLRGREDRIKILETALRDSKQRSQAERKKYQQEVERIKEAVRQRNMRRMNAPQIVKPIRPGQVYTSPSAGMSQGAPNGSNA"
-    cp = CrisprPlanner("repo-1", repo_1_sense_strand, aa_mutation_site=31, amino_acid_sequence=repo_1_aa_sequence)
+    cp = CrisprPlanner("repo-1",
+                       aa_mutation_site=31,
+                       sense_strand=repo_1_sense_strand,
+                       amino_acid_sequence=repo_1_aa_sequence)
     cp.plan_my_crispr(from_aa=AminoAcid.ARGININE, to_aa=AminoAcid.GLUTAMINE)
     # cp.plan_my_crispr(aa_mutation_site=26)
 
@@ -665,7 +857,6 @@ if work3:
     mutated_seq = "CCGGACAA"
     CrisprPlanner.find_restriction_sites("TCCGCCAG")
 
-
 work4 = False
 if work4:
     a = "AAA"
@@ -679,7 +870,10 @@ if work5:
     aa_mutation_site = 287
     nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
     check_consistency = True
-    CrisprPlanner(gene_name=gene_name, aa_mutation_site=aa_mutation_site, sense_strand=nt_seq).\
+    CrisprPlanner(gene_name=gene_name, aa_mutation_site=aa_mutation_site, sense_strand=nt_seq). \
         plan_my_crispr(from_aa=AminoAcid.ASPARAGINE,
                        to_aa=AminoAcid.SERINE,
                        check_consistency=check_consistency)
+work6 = False
+if work6:
+    print(CrisprPlanner.how_to_get_b_from_a("ACG", AminoAcid.ALANINE))

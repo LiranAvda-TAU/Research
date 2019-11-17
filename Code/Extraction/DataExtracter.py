@@ -575,7 +575,6 @@ class DataExtracter:
                 new_list.append(gene_id)
             else:
                 print("The name", gene, "is not listed as a", subject, "gene in our sources")
-                exit()
 
         return new_list
 
