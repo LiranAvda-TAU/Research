@@ -2,5 +2,5 @@ import enum
 
 
 class RestrictionSiteType(enum.Enum):
-    ADD = 1
-    REMOVE = 2
+    INSERTED = 1
+    REMOVED = 2

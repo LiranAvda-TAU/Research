@@ -12,6 +12,7 @@ class Ensembl:
             return None
         return record['id']
 
+    # retrieves the gene WB id
     @staticmethod
     def get_c_elegans_gene_id_by_gene_name(gene_name):
         try:

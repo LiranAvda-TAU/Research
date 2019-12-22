@@ -42,7 +42,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
                 c_elegans_homologs = executor.find_me_orthologs(human_genes)
             except SystemExit:
                 c_elegans_homologs = "Couldn't find orthologs for " + str(human_genes)
-            self.wfile.write(str(c_elegans_homologs).encode())
+            self.wfile.write(("Done! The results are: " + "<br />" + str(c_elegans_homologs)).encode())
         elif program == "Variants":
             genes_and_variants = self.parse_input()
             try:
@@ -50,7 +50,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
             except SystemExit:
                 results = "Couldn't find data for " + str(genes_and_variants)
             print("results:", results)
-            self.wfile.write(("Done! The results: " + "<br />" + results.replace("\n", "<br />")).encode())
+            self.wfile.write(("Done! The results are: " + "<br />" + results.replace("\n", "<br />")).encode())
         else:
             self.wfile.write(("Program name is invalid, can only accept \"Orthologs\" or \"Variants\". Please try again.<br />" +
                               general_format_reminder + orthologs_format_reminder + variants_format_reminder).encode())

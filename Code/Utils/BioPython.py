@@ -57,6 +57,7 @@ class BioPython:
                 continue
         return genes
 
+    # retrieves the id (number)
     @staticmethod
     def get_gene_id(c_elegans_gene: str):
         Entrez.email = "liranavda@gmail.com"
@@ -377,6 +378,9 @@ class BioPython:
     @staticmethod
     def get_aa_seq_by_c_elegans_gene_name(c_elegans_gene_name):
         gene_id_WB = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
+        if not gene_id_WB:
+            print("Couldn't find gene id (WB) for:", c_elegans_gene_name)
+            return None
         return BioPython().get_aa_seq_by_c_elegans_gene_id_WB(gene_id_WB)
 
     def get_aa_seq_by_c_elegans_gene_id_WB(self, c_elegans_id_WB):
