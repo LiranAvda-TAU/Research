@@ -477,7 +477,8 @@ class executor:
                 status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
                                 de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
                                 de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
-                                key_gene_name + " " + de.get_c_elegans_description_for_gene_id(c_elegans_gene_name))
+                                key_gene_name + " " + de.get_c_elegans_description_for_gene_id(
+                                    Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
                 if result:
                     true_matches[genes_tuple] = status_tuple
                 else:
@@ -937,4 +938,4 @@ exec = executor()
 # exec.get_shinjini_data(human_genes_names=['CAPZA1', 'CAPZA2', 'CAPZB'],
 #                        c_elegans_genes_names=['cap-1', 'cap-1', 'cap-2'])
 
-print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))
+# print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))

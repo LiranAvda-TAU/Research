@@ -759,7 +759,3 @@ class DataExtracter:
                 # new dict will have HCGN gene name for key and homoloug genes + condition as value
                 genes[HCGNGene] = HomologousGenes[HCGNGene] + [HGNCGenesWConditions[HCGNGene][0]]
         return genes
-
-
-human_seq = DataExtracter.get_human_aa_seq("ENSG00000133059")
-print(human_seq)
