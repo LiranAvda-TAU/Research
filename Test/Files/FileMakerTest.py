@@ -71,7 +71,7 @@ class FileMakerTest:
 
         fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
                                              r"\c-elegans-genes-and-longest-accession_number",
-                                             FileType.TSV)
+                        FileType.TSV)
         genesAndAccessions = fr.fromFileToDict(0, 1)
 
         print("Done extracting file genesAndAccessions to a dictionary")

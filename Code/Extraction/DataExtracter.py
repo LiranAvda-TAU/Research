@@ -8,83 +8,13 @@ from Code.Utils.Ensembl import Ensembl
 
 class DataExtracter:
 
-    # receives two dict: one converting human gene to c.elegans gene and one converting human gene to its variants
-    # not sure
-    @staticmethod
-    def find_genes_variants_and_homologous(homologousDic: dict, variantasDic: dict):
-        unitedDic = {}
-        count = 0
-        keys = variantasDic.keys()
-        for key in keys:
-            humanGene = key[0]
-            variantName = key[1]
-            if humanGene in homologousDic:
-                unitedDic[humanGene, variantName] = [homologousDic[humanGene]] + variantasDic[key]
-            else:
-                if count < 100:
-                    print("key: " + str(key) + str(variantasDic[key]))
-                    count += 1
-        return unitedDic
-
-    # receivrd a dict of human genes and their conditions as values, and returns a set of all possible conditions
-    @staticmethod
-    def get_conditions_set(conditionsFilteredDict: dict, condition_column):
-        s = set()
-        values = conditionsFilteredDict.values()
-        for value in values:
-            s.add(value[condition_column])
-
-        return s
-
-    # receives two dicts: one converting HGNC gene to its conditions and one converting human gene to c.elegans gene
-    # and returns a dict with HGNC name for key and orthologs and conditions as values
-    @staticmethod
-    def find_genes_with_valid_condition_and_homolog(HGNCGenesWConditions: dict, HomologousGenes: dict):
-        genes = {}
-        for HCGNGene in HGNCGenesWConditions.keys():  # gene has valid condition
-            if HCGNGene in HomologousGenes:  # gene has homoloug gene
-                # new dict will have HCGN gene name for key and homoloug genes + condition as value
-                genes[HCGNGene] = HomologousGenes[HCGNGene] + [HGNCGenesWConditions[HCGNGene][0]]
-        return genes
-
-    # receives (1) a dictionary containing gene name as keys, and orthologs and phenotypes as values, (2) a
-    # dictionary for human genes and their lengths, (3) dictionary for c.elegans genes and
-    # their lengths and deletes genes for which the length differences between the human gene and its ortholog
-    # are to high
-    @staticmethod
-    def filter_genes_with_size_differences(d: dict, human_genes: dict, c_elegans_genes: dict, p: int):
-        genesAndOrthologs = {}
-        genesAndPhenotypes = {}
-        d_keys = list(d.keys())
-        for key in d_keys:
-            try:
-                humanGeneLength = float(human_genes[key])
-            except:
-                print("gene " + key + " wasn't found...")
-                continue
-            d_values = d[key]
-            for value in d_values:
-                if isinstance(value, tuple):  # item is an ortholog
-                    c_elegans_gene = value[0]
-                    try:
-                        cElegansGeneLength = float(c_elegans_genes[c_elegans_gene])
-                    except:
-                        print("gene " + c_elegans_gene + " wasn't found...")
-                        continue
-                    if (humanGeneLength * p) / 100 <= cElegansGeneLength:
-                        if key in genesAndOrthologs:
-                            genesAndOrthologs[key].append(value)
-                        else:
-                            genesAndOrthologs[key] = [value]
-                    else:  # genes have too different sizes
-                        print("C.elegans gene's length is " + str((cElegansGeneLength * 100) / humanGeneLength) +
-                              " percent of the human gene's length")
-                elif isinstance(value, str):
-                    genesAndPhenotypes[key] = value
-                else:
-                    print("Problem has occured in function: filter_genes_with_size_differences")
-                    exit()
-        return genesAndOrthologs, genesAndPhenotypes
+    def __init__(self):
+        self.accession_numbers_to_hit_ids = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+                                                       r"\accession numbers and hit ids").\
+            fromFileToDictWithListsAsValues(0, 1)
+        self.hit_ids_to_gene_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+                                                r"\blast-hit-ids-and-human-gene-names0-30",
+                                                   FileType.TSV).fromFileToDict(0, 1)
 
     # receives (1) a dictionary of c.elegans genes id (number) as keys and accession numbers as values, enact the
     # function that chooses the longest isoform of all accession number, and returns a dictionary with c.elegans gene
@@ -97,7 +27,7 @@ class DataExtracter:
         for gene_id in keys:
             count += 1
             accessions_set = genesAndAccessions[gene_id]
-            chosen_isoform = BioPython.from_multiple_accessions_to_one_single_id(accessions_set)
+            chosen_isoform = BioPython.get_longest_accession(accessions=accessions_set)
             genesAndChosenAccessions[gene_id] = chosen_isoform
             if count % 100 == 0:
                 print("got to", str(count), "with", gene_id)
@@ -136,19 +66,13 @@ class DataExtracter:
     # receives a worm gene name and a human gene name, get conserved domains for both genes, and returns their ratio
     @staticmethod
     def get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name):
-        print("c elegance gene: " + c_elegans_gene_name + " and human gene: " + human_gene_name)
-        try:
-            c_elegans_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
-        except:
-            print("no id for gene:", human_gene_name)
+        c_elegans_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
+        if not c_elegans_id:
+            print("no id for gene:", c_elegans_gene_name)
             return None
-        try:
-            human_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-        except:
+        human_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
+        if not human_id:
             print("no id for gene:", human_gene_name)
-            return None
-        if c_elegans_id is None or human_id is None:
-            print("id not found")
             return None
 
         de = DataExtracter()
@@ -163,13 +87,12 @@ class DataExtracter:
     def get_sources(c_elegans_gene_name, human_gene_name):
         c_elegans_gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
         human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-
         orthologs = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                r"\ortholist_master",
-                               FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
+                                  FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
         sources = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                              r"\ortholist_master",
-                             FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
+                                FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
 
         if c_elegans_gene_id in orthologs:
             if human_gene_id in orthologs[c_elegans_gene_id]:
@@ -197,32 +120,31 @@ class DataExtracter:
     def filter_by_conserved_domains(c_elegans_domains_dic: dict,
                                     human_domains_dic: dict,
                                     orthologs_dic: dict,
-                                    domains_range):
-        new_orthologs_dic = {}
-        human_genes = orthologs_dic.keys()
-        for human_gene_id in human_genes:
-            try:
-                c_elegans_orthologs = orthologs_dic[human_gene_id]
-            except KeyError:
-                print("human gene id", human_gene_id, "doesn't exist in the file of orthologs")
-                continue
-            if human_gene_id in human_domains_dic:
-                human_domains = human_domains_dic[human_gene_id]
-            else:
-                human_domains = DataExtracter().get_conserved_domain_per_gene(human_gene_id)
+                                    domains_range,
+                                    key_organism: str = "human"):
+        key_domains_dic = human_domains_dic if key_organism == "human" else c_elegans_domains_dic
+        orthologs_domains_dic = c_elegans_domains_dic if key_organism == "human" else human_domains_dic
 
-            for ortholog in c_elegans_orthologs:
+        new_orthologs_dic = {}
+        for key_gene_id in orthologs_dic:
+            orthologs = orthologs_dic[key_gene_id]
+            if key_gene_id in key_domains_dic:
+                key_domains = human_domains_dic[key_gene_id]
+            else:
+                key_domains = DataExtracter().get_conserved_domain_per_gene(key_gene_id)
+
+            for ortholog in orthologs:
                 try:
-                    c_elegans_domains = c_elegans_domains_dic[ortholog]
+                    ortholog_domains = orthologs_domains_dic[ortholog]
                 except:
-                    c_elegans_domains = DataExtracter().get_conserved_domain_per_gene(ortholog)
-                ratio = float(c_elegans_domains) / float(human_domains)
+                    ortholog_domains = DataExtracter().get_conserved_domain_per_gene(ortholog)
+                ratio = float(ortholog_domains) / float(key_domains)
                 if domains_range[0] <= ratio <= domains_range[1]:
-                    print("Ratio between", ortholog, "and",  human_gene_id, "is", str(ratio), ", thus passes the"
+                    print("Ratio between", ortholog, "and",  key_gene_id, "is", str(ratio), ", thus passes the"
                           " domains ratio bar!")
-                    DataExtracter.add_to_dictionary(new_orthologs_dic, human_gene_id, ortholog)
+                    DataExtracter.add_to_dictionary(new_orthologs_dic, key_gene_id, ortholog)
                 else:
-                    print("Ratio between", human_gene_id, "and", ortholog + " is", str(ratio), ", thus not good enough")
+                    print("Ratio between", key_gene_id, "and", ortholog + " is", str(ratio), ", thus not good enough")
         return new_orthologs_dic
 
     # receives (1) a dictionary of c.elegans genes and number of domains, (2) a dictionary of human genes ids and
@@ -409,72 +331,98 @@ class DataExtracter:
             phenotype = info[len(label_term):info.find(",")].strip("\"")
         return phenotype
 
+    # receives the C.elegans id and extracts the sequence (id -> ncbi id -> accession numbers -> accession number ->
+    # seq), runs a blast search with the sequence and returns the human genes' hit ids
+    def get_human_hit_ids(self, c_elegans_gene_id, c_elegans_gene_name):
+        c_elegans_accession_number = None
+
+        c_elegans_ncbi_id = BioPython.get_ncbi_id(c_elegans_gene_id)
+        print("gene ncbi id is: " + c_elegans_ncbi_id)
+        if c_elegans_ncbi_id:
+            c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
+            if c_elegans_accession_number:
+                print("Gene's accession number is: " + c_elegans_accession_number)
+                hit_ids = self.accession_numbers_to_hit_ids.get(c_elegans_accession_number, None)
+                if hit_ids:
+                    return hit_ids
+        c_elegans_seq = BioPython().get_c_elegans_aa_seq(c_elegans_gene_id, c_elegans_accession_number)
+        if c_elegans_seq:
+            hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", c_elegans_seq)
+            if not hit_ids:
+                print("Couldn't find hit ids for", c_elegans_gene_name)
+                return None
+            print("Length of hit ids list is: " + str(len(hit_ids)))
+            return hit_ids
+
+    # receives human gene id (ENSG) and returns a set of all related accession numbers
     @staticmethod
-    def get_hit_ids(c_elegans_gene_id, c_elegans_gene_name, c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic):
-        try:
-            c_elegans_id_number = Ensembl.get_ncbi_id_by_gene_id(c_elegans_gene_id)
-            print("gene id is: " + c_elegans_id_number)
-        except:
-            print("Couldn't find gene id number for gene: " + c_elegans_gene_name)
-            exit()
-        try:
-            c_elegans_accession_numbers = set(c_elegans_id_multiple_accessions[c_elegans_id_number])
-            c_elegans_accession_number = BioPython.from_multiple_accessions_to_one_single_id(
-                c_elegans_accession_numbers)
-        except:
-            c_elegans_accession_number = input("What is the accession number for id: " + c_elegans_id_number + "\n")
-        print("Gene's accession number is: " + c_elegans_accession_number)
-        try:
-            hit_ids = accession_number_to_hit_ids_dic[c_elegans_accession_number]
-        except:
-            print("got here!")
-            seq = BioPython.get_aa_seq(c_elegans_gene_id)
+    def get_human_accession_number(human_gene_id):
+        accessions_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                    r"\human_genes_ids_to_accession_numbers.txt").fromFileToDictWithPluralValues(0, 1, True)
+        if human_gene_id not in accessions_dic:
+            print("Human gene id", human_gene_id, "didn't have an accession number")
+            return None
+        accessions = set(accessions_dic[human_gene_id])
+        accession = BioPython.get_longest_accession(accessions=accessions)
+        return accession
+
+    # this function unites all the ways to extract a human sequence from human gene id
+    @staticmethod
+    def get_human_aa_seq(human_gene_id):
+        seq = BioPython.get_aa_seq_by_human_gene_id(human_gene_id)  # try from uniprot
+        if not seq:
+            seq = BioPython.get_aa_seq_from_ensembl(human_gene_id)  # try from ensembl
             if not seq:
-                seq = BioPython().get_aa_seq_of_longest_isoform(c_elegans_accession_number)
-                if not seq:
-                    print("Couldn't find gene sequence for gene: " + c_elegans_gene_name)
-                    exit()
-            hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", seq)
+                human_accession_number = DataExtracter.get_human_accession_number(human_gene_id) # try by accession
+                if human_accession_number:
+                    seq = BioPython().get_aa_seq_from_entrez(human_accession_number)
+                    if not seq:
+                        print("Couldn't find gene sequence for gene: " + human_gene_id)
+                        return None
+        return seq
+
+    # receives the human gene id and extracts the sequence, runs a blast search with the sequence and returns the human hit ids
+    @staticmethod
+    def get_c_elegans_hit_ids(human_gene_id, human_gene_name):
+        seq = DataExtracter.get_human_aa_seq(human_gene_id)
+        print("Seq:", seq)
+        if not seq:
+            return None
+        hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", seq, "Caenorhabditis elegans[organism]",
+                                                      "Caenorhabditis elegans")
         if not hit_ids:
-            print("Couldn't find hit ids for", c_elegans_gene_name)
+            print("Couldn't find hit ids for", human_gene_name)
         print("Length of hit ids list is: " + str(len(hit_ids)))
         return hit_ids
 
-    # receives (1) worm gene name, (2) worm gene id(WB), (3) human gene name, (4) dictionary of worm genes id ans their
-    #  accessions numbers, (5) dictionary of accession number as key and hit ids as value, (6) dictionary of hit id as
-    # keys and human gene name as value and (7) dictionary of id(WB) to id(number), and runs a reverse blast on the worm
-    # genes to see if we get a match in the form of the human gene
-    # scheme: worm gene id(WB) -> worm gene id(number) -> accession numbers -> accession number -> hit ids -> human
-    # gene name -> check if our human gene is in there
-    @staticmethod
-    def check_reversed_blast_hit_ids(c_elegans_gene_name, c_elegans_gene, human_gene_name,
-                                     c_elegans_id_multiple_accessions, accession_number_to_hit_ids_dic,
-                                     hit_ids_to_human_genes_names_dic):
-
-        hit_ids = DataExtracter.get_hit_ids(c_elegans_gene,
-                                            c_elegans_gene_name,
-                                            c_elegans_id_multiple_accessions,
-                                            accession_number_to_hit_ids_dic)
+    # receives (1) blasted gene name, (2) blasted gene id(WB), (3) ortholog gene name, (4) whether the blasted gene is
+    # human or C.elegans, and runs a reverse blast on the genes to see if we get a match in the form of the ortholog gene
+    # scheme: blasted gene id(WB) -> blasted gene id(number) -> accession numbers -> accession number -> hit ids -> ortholog
+    # genes names -> check if our ortholog gene is in there
+    def check_reversed_blast_hit_ids(self, gene_name, gene_id, ortholog_gene_name, gene_species="C.elegans"):
+        if gene_species == "C.elegans":
+            hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
+        else:
+            hit_ids = DataExtracter.get_c_elegans_hit_ids(gene_id, gene_name)
         for hit_id in hit_ids:
             print("current hit id:", hit_id)
-            try:
-                hit_human_gene_name = hit_ids_to_human_genes_names_dic[hit_id]
-                if hit_human_gene_name == human_gene_name:
-                    print(c_elegans_gene + " and " + human_gene_name + " are orthologs indeed!")
+            hit_gene_name = self.hit_ids_to_gene_names.get(hit_id, None)
+            if hit_gene_name:
+                if hit_gene_name == ortholog_gene_name:
+                    print(gene_id, "and", ortholog_gene_name + "are orthologs indeed!")
                     return True
                 else:
-                    print("hit human gene name is", hit_human_gene_name, "thus there is no match")
-            except:
-                # need to extract gene's name
+                    print("hit human gene name is", hit_gene_name, "thus there is no match")
+            else:  # need to extract gene's name
                 try:
-                    hit_human_gene_name = BioPython().get_gene_name_from_protein_accession([hit_id])[hit_id]
-                    print("The gene's name: " + hit_human_gene_name)
-                    if hit_human_gene_name == human_gene_name:
-                        print(c_elegans_gene_name + " and " + human_gene_name + " are orthologs indeed!")
+                    hit_gene_name = BioPython().get_gene_name_from_protein_accession([hit_id])[hit_id]
+                    print("The gene's name for hit id:", hit_id, "is:", hit_gene_name)
+                    if hit_gene_name == ortholog_gene_name:
+                        print(gene_name + " and " + ortholog_gene_name + " are orthologs indeed!")
                         return True
                 except:
                     print("Couldn't find the human gene name to hit id: " + hit_id)
-        print("No match between " + c_elegans_gene_name + " and " + human_gene_name)
+        print("No match between " + gene_name + " and " + ortholog_gene_name)
         return False
 
     # receives (1) list of genes, (2) path of data file, (3) name of data file, (4) name for filtered file,
@@ -507,7 +455,7 @@ class DataExtracter:
     @staticmethod
     def filter_genes_by_name(unwanted_genes_file_path, unwanted_genes_file_name, data_path, data_name, new_data_name):
         unwanted_genes_dic = FileReader(unwanted_genes_file_path,
-                                        unwanted_genes_file_name).fromFileToDictWithPluralValues(0, 2, False)
+                                           unwanted_genes_file_name).fromFileToDictWithPluralValues(0, 2, False)
         data = open(data_path + data_name)
         new_data = open(new_data_name, FileMode.WRITE.value)
         data.readline()
@@ -536,11 +484,11 @@ class DataExtracter:
     # receives (1) list of keys, and (2) dictionary of keys and values and returns a new dictionary containing only the
     # keys and values for the keys given in input (1)
     @staticmethod
-    def get_specific_dic_of_orthologs(list_of_human_genes, human_to_c_elegans_dic):
+    def get_specific_dic_of_orthologs(list_of_genes, gene_converting_dic):
         dic = {}
-        for gene in list_of_human_genes:
+        for gene in list_of_genes:
             try:
-                dic[gene] = human_to_c_elegans_dic[gene]
+                dic[gene] = gene_converting_dic[gene]
             except:
                 print("Couldn't find orthologs for", gene)
         return dic
@@ -585,69 +533,73 @@ class DataExtracter:
         return self.convert_list(genes_list, "C.elegans")
 
     @staticmethod
-    def get_pair_cd_length(human_gene, c_elegans_gene):
+    def get_pair_cd_length(c_elegans_gene_name, human_gene_name):
         humans_id_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                         r"\human_cd_length.txt").get_genes_cd_length(1, 2, True)
+                                            r"\human_cd_length.txt").get_genes_cd_length(1, 2, True)
 
         c_elegans_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                         r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(1, 2, True)
+                                            r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(1, 2, True)
 
-        try:
-            human_gene_length = int(humans_id_cd_length[human_gene])
-        except:
-            print("gene " + human_gene + "'s length wasn't found...")
-            human_gene_length = None
-        try:
-            c_elegans_gene_length = int(c_elegans_cd_length[c_elegans_gene])
-        except:
-            print("gene " + c_elegans_gene + "'s length wasn't found...")
-            c_elegans_gene_length = None
+        human_gene_length = humans_id_cd_length.get(human_gene_name, None)
+        if not human_gene_length:
+            print("gene " + human_gene_name + "'s length wasn't found...")
+        else:
+            human_gene_length = int(human_gene_length)
+        c_elegans_gene_length = c_elegans_cd_length.get(c_elegans_gene_name, None)
+        if not c_elegans_gene_length:
+            print("gene " + c_elegans_gene_name + "'s length wasn't found...")
+        else:
+            c_elegans_gene_length = int(c_elegans_gene_length)
+
         return human_gene_length, c_elegans_gene_length
 
-    # receives (1) a dictionary containing human genes name as keys, and orthologs as values, (2) a ratio bar, and
-    #  deletes genes for which the length differences between the human gene and its ortholog
+    # receives (1) a dictionary containing genes name as keys, and orthologs as values, (2) a ratio bar, and (3) what
+    # organism are the key genes from: human or C.elegans, after clearing out the length dicts for keys and values, it
+    # deletes genes for which the length differences between the human gene and its ortholog
     # are too high
     @staticmethod
-    def filter_genes_by_length_differences(d: dict, p: int):
-        humans_id_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                         r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
-
-        c_elegans_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                         r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(0, 2, True)
-
+    def filter_genes_by_length_differences(d: dict, p: int, key_gene: str = "human"):
+        if key_gene == "human":
+            key_id_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                          r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
+            value_id_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                            r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(0, 2, True)
+        else:
+            key_id_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                          r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(0, 2, True)
+            value_id_cd_length = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                            r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
         genes_and_orthologs = {}
-        d_keys = list(d.keys())
-        for key in d_keys:
+        for key in d:
             try:
-                human_gene_length = float(humans_id_cd_length[key])
+                key_gene_length = float(key_id_cd_length[key])
             except:
                 print("gene " + key + " wasn't found...")
                 continue
             d_values = d[key]
-            for c_elegans_gene in d_values:
+            for value_gene in d_values:
                 try:
-                    c_elegans_gene_length = float(c_elegans_cd_length[c_elegans_gene])
+                    value_gene_length = float(value_id_cd_length[value_gene])
                 except:
-                    print("gene " + c_elegans_gene + " wasn't found...")
+                    print("gene " + value_gene + " wasn't found...")
                     continue
-                if (human_gene_length * p) / 100 <= c_elegans_gene_length and \
-                                        (c_elegans_gene_length * p) / 100 <= human_gene_length:
-                    print("Gene:", key, "has length of", str(int(human_gene_length)), "bp, and its C.elegans",
-                          "ortholog", c_elegans_gene, "has length of", str(int(c_elegans_gene_length)),
+                if (key_gene_length * p) / 100 <= value_gene_length and \
+                                        (value_gene_length * p) / 100 <= key_gene_length:
+                    print("Gene:", key, "has length of", str(int(key_gene_length)), "bp, and its",
+                          "ortholog", value_gene, "has length of", str(int(value_gene_length)),
                           "bp, so they pass the length bar")
-                    DataExtracter.add_to_dictionary(genes_and_orthologs, key, c_elegans_gene)
+                    DataExtracter.add_to_dictionary(genes_and_orthologs, key, value_gene)
                 else:  # genes have too different sizes
-                    print("C.elegans gene's length is", c_elegans_gene_length, "and human gene length is",
-                          human_gene_length, "and the C.elegans gene is", str((c_elegans_gene_length * 100) / human_gene_length),
-                            "percent of the human gene's length")
+                    print("value gene's length is", value_gene_length, "and key gene's length is",
+                          key_gene_length, "thus the value gene is", str((value_gene_length * 100) / key_gene_length),
+                            "percent of the key gene's length")
         return genes_and_orthologs
 
     # receives (1) a possible-plural-valued-dictionary of worm-human orthologs and (2) a boolean value indicating if we
     # are interested in converting id to name or name to id, and returns a new worm-human dictionary with the converted keys and values
-    def convert_dic(self, dic, from_id_to_name):
+    def convert_dic(self, dic, from_id_to_name, key_organism: str = "C.elegans"):
         converted_dic = {}
-        keys = dic.keys()
-        for key in keys:
+        for key in dic:
             values = dic[key]
             for value in values:
                 if from_id_to_name:
@@ -655,9 +607,15 @@ class DataExtracter:
                                                       Ensembl.get_gene_name_by_gene_id(key),
                                                       Ensembl.get_gene_name_by_gene_id(value))
                 else:
-                    DataExtracter().add_to_dictionary(converted_dic,
-                                                      Ensembl.get_c_elegans_gene_id_by_gene_name(key),
-                                                      Ensembl.get_human_gene_id_by_gene_name(value))
+                    if key_organism == "C.elegans":
+                        DataExtracter().add_to_dictionary(converted_dic,
+                                                          Ensembl.get_c_elegans_gene_id_by_gene_name(key),
+                                                          Ensembl.get_human_gene_id_by_gene_name(value))
+                    else:
+                        DataExtracter().add_to_dictionary(converted_dic,
+                                                          Ensembl.get_human_gene_id_by_gene_name(key),
+                                                          Ensembl.get_c_elegans_gene_id_by_gene_name(value))
+
         return converted_dic
 
     # receives (1) a dict and checks if it is empty. if so, it exits the function
@@ -690,10 +648,10 @@ class DataExtracter:
     def fix_conserved_domains_file():
         human_id_ENSG = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                    r"\human-genes-and-conserved-domains-230619",
-                                   FileType.TSV).fromFileToDict(0, 1)
+                                      FileType.TSV).fromFileToDict(0, 1)
         c_elegans_id_WB = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
                                      r"\c-elegans-genes-and-conserved-domains-230619",
-                                     FileType.TSV).fromFileToDict(0, 1)
+                                        FileType.TSV).fromFileToDict(0, 1)
         f = open(r"C:\Users\Liran\PycharmProjects\Research\Executors\data-230619-fixed-ratio-with-C-elegans-phenotypes")
         new_file = open("data-250619-fixed-domains", FileMode.WRITE.value)
         f.readline()
@@ -710,8 +668,13 @@ class DataExtracter:
     def get_c_elegans_description_for_gene_id(gene_id):
         start_term: str = "\"text\":\""
         end_term: str = "\",\"evidence\""
-        record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
-                               gene_id + "/overview").makeRequest()
+        try:
+            record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
+                                    gene_id + "/overview").makeRequest()
+        except:
+            description = "no description was found"
+            return description
+            return
         info_index = record.find("concise_description")
         shorter_info = record[info_index + len("concise_description"):]
         start_index = shorter_info.find(start_term)
@@ -719,3 +682,84 @@ class DataExtracter:
         description = shorter_info[start_index + len(start_term): end_index]
         return description
 
+    # receives (1) a dictionary containing gene name as keys, and orthologs and phenotypes as values, (2) a
+    # dictionary for human genes and their lengths, (3) dictionary for c.elegans genes and
+    # their lengths and deletes genes for which the length differences between the human gene and its ortholog
+    # are to high
+    @staticmethod
+    def filter_genes_with_size_differences(d: dict, human_genes: dict, c_elegans_genes: dict, p: int):
+        genesAndOrthologs = {}
+        genesAndPhenotypes = {}
+        d_keys = list(d.keys())
+        for key in d_keys:
+            try:
+                humanGeneLength = float(human_genes[key])
+            except:
+                print("gene " + key + " wasn't found...")
+                continue
+            d_values = d[key]
+            for value in d_values:
+                if isinstance(value, tuple):  # item is an ortholog
+                    c_elegans_gene = value[0]
+                    try:
+                        cElegansGeneLength = float(c_elegans_genes[c_elegans_gene])
+                    except:
+                        print("gene " + c_elegans_gene + " wasn't found...")
+                        continue
+                    if (humanGeneLength * p) / 100 <= cElegansGeneLength:
+                        if key in genesAndOrthologs:
+                            genesAndOrthologs[key].append(value)
+                        else:
+                            genesAndOrthologs[key] = [value]
+                    else:  # genes have too different sizes
+                        print("C.elegans gene's length is " + str((cElegansGeneLength * 100) / humanGeneLength) +
+                              " percent of the human gene's length")
+                elif isinstance(value, str):
+                    genesAndPhenotypes[key] = value
+                else:
+                    print("Problem has occured in function: filter_genes_with_size_differences")
+                    exit()
+        return genesAndOrthologs, genesAndPhenotypes
+
+    # receives two dict: one converting human gene to c.elegans gene and one converting human gene to its variants
+    # not sure
+    @staticmethod
+    def find_genes_variants_and_homologous(homologousDic: dict, variantasDic: dict):
+        unitedDic = {}
+        count = 0
+        keys = variantasDic.keys()
+        for key in keys:
+            humanGene = key[0]
+            variantName = key[1]
+            if humanGene in homologousDic:
+                unitedDic[humanGene, variantName] = [homologousDic[humanGene]] + variantasDic[key]
+            else:
+                if count < 100:
+                    print("key: " + str(key) + str(variantasDic[key]))
+                    count += 1
+        return unitedDic
+
+    # receivrd a dict of human genes and their conditions as values, and returns a set of all possible conditions
+    @staticmethod
+    def get_conditions_set(conditionsFilteredDict: dict, condition_column):
+        s = set()
+        values = conditionsFilteredDict.values()
+        for value in values:
+            s.add(value[condition_column])
+
+        return s
+
+    # receives two dicts: one converting HGNC gene to its conditions and one converting human gene to c.elegans gene
+    # and returns a dict with HGNC name for key and orthologs and conditions as values
+    @staticmethod
+    def find_genes_with_valid_condition_and_homolog(HGNCGenesWConditions: dict, HomologousGenes: dict):
+        genes = {}
+        for HCGNGene in HGNCGenesWConditions.keys():  # gene has valid condition
+            if HCGNGene in HomologousGenes:  # gene has homoloug gene
+                # new dict will have HCGN gene name for key and homoloug genes + condition as value
+                genes[HCGNGene] = HomologousGenes[HCGNGene] + [HGNCGenesWConditions[HCGNGene][0]]
+        return genes
+
+
+human_seq = DataExtracter.get_human_aa_seq("ENSG00000133059")
+print(human_seq)

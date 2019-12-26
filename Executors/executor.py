@@ -436,24 +436,21 @@ class executor:
         out_file.close()
 
     # receives (1) a dictionary of human-worm pairs, if by file or if by a human-worm-id dictionary and for each pair,
-    # returns whether the reversed blast confirms this pair as orthologous.
+    # and the species whose genes we wish to blast, and returns whether the reversed blast confirms this pair as
+    # orthologous.
     @staticmethod
-    def pair_pipeline(list_of_pairs_file_path="", list_of_pair_file_name="", dic_of_optional_orthologs: dict = None):
+    def pair_pipeline(list_of_pairs_file_path="", list_of_pair_file_name="", dic_of_optional_orthologs: dict = None,
+                      key_species="C.elegans"):
         if not dic_of_optional_orthologs:
             pairs_in_names = FileReader(list_of_pairs_file_path, list_of_pair_file_name,
                                         FileType.TSV).fromFileToDictWithPluralValues(0, 1, True)
         else:
-            worm_human_pairs_id = DataExtracter().from_plural_valued_dict_to_plural_valued_reversed_dict(dic_of_optional_orthologs)
-            print("reversed dic:", worm_human_pairs_id)
-            pairs_in_names = DataExtracter().convert_dic(worm_human_pairs_id, True)
+            orthologs_key_pairs_id = DataExtracter().from_plural_valued_dict_to_plural_valued_reversed_dict(dic_of_optional_orthologs)
+            print("reversed dic:", orthologs_key_pairs_id)
+            pairs_in_names = DataExtracter().convert_dic(orthologs_key_pairs_id, True)
             print("pairs in names:", pairs_in_names)
-        c_elegans_genes_names = pairs_in_names.keys()
 
         print("List of all pairs have been obtained! we have " + str(len(pairs_in_names)) + " pairs to check")
-
-        c_elegans_id_multiple_accessions = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                                      r"\\all-genes-ids-and-accession-numbers.txt",
-                                                      FileType.TSV).fromFileToDictWithPluralValues(0, 1)
 
         # accession_numbers_and_hit_ids, hit_ids_and_hsps = DataExtracter.get_hit_ids_for_accession_numbers(
         #     31,
@@ -462,34 +459,25 @@ class executor:
         #
         # FileMaker().fromPluralValuedDictToFile(accession_numbers_and_hit_ids, "accession numbers and hit ids")
         # FileMaker().fromPluralValuedDictToFile(hit_ids_and_hsps, "hit ids and hsp")
-
-        accession_numbers_and_hit_ids = \
-            FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
-                       r"\accession numbers and hit ids").fromFileToDictWithListsAsValues(0, 1)
-
-        hit_ids_to_gene_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
-                                           r"\blast-hit-ids-and-human-gene-names0-30",
-                                           FileType.TSV).fromFileToDict(0, 1)
         # tf = TestFunctions("get hit ids for accession numbers", dictionary=accession_numbers_and_hit_ids)
         # tf.checkSize()
         # tf.printRandomLinesInDict(5)
 
-        true_matches = {}
-        false_matches = {}
+        true_matches, false_matches = {}, {}
         de = DataExtracter()
-        for c_elegans_gene_name in c_elegans_genes_names:
-            human_gene_names: list = pairs_in_names[c_elegans_gene_name]
-            for human_gene_name in human_gene_names:
-                print("Now working on " + c_elegans_gene_name + " and " + human_gene_name)
-                c_elegans_gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
-                result = de.check_reversed_blast_hit_ids(c_elegans_gene_name, c_elegans_gene_id, human_gene_name,
-                                                         c_elegans_id_multiple_accessions, accession_numbers_and_hit_ids,
-                                                         hit_ids_to_gene_names)
-                genes_tuple = (c_elegans_gene_name, human_gene_name)
-                status_tuple = (de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
-                                de.get_sources(c_elegans_gene_name, human_gene_name),
-                                de.get_pair_cd_length(human_gene_name, c_elegans_gene_name),
-                                c_elegans_gene_name + " " + de.get_c_elegans_description_for_gene_id(c_elegans_gene_id))
+        for key_gene_name in pairs_in_names:
+            ortholog_genes_names: list = pairs_in_names[key_gene_name]
+            for ortholog_gene_name in ortholog_genes_names:
+                c_elegans_gene_name = key_gene_name if key_species == "C.elegans" else ortholog_gene_name
+                human_gene_name = ortholog_gene_name if key_species == "C.elegans" else key_gene_name
+                print("Now working on " + key_gene_name + " and " + ortholog_gene_name)
+                key_gene_id = Ensembl.get_gene_id_by_gene_name(key_gene_name, key_species)
+                result = de.check_reversed_blast_hit_ids(key_gene_name, key_gene_id, ortholog_gene_name, key_species)
+                genes_tuple = (ortholog_gene_name, key_gene_name)
+                status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
+                                de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
+                                de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
+                                key_gene_name + " " + de.get_c_elegans_description_for_gene_id(c_elegans_gene_name))
                 if result:
                     true_matches[genes_tuple] = status_tuple
                 else:
@@ -567,7 +555,7 @@ class executor:
                 try:
                     c_elegans_seq = accessions_and_sequences[c_elegans_accession_number]
                 except:
-                    c_elegans_seq = BioPython.get_aa_seq_of_longest_isoform(c_elegans_accession_number)
+                    c_elegans_seq = BioPython.get_aa_seq_from_entrez(c_elegans_accession_number)
                 print("C.elegans seq: " + c_elegans_seq)
 
                 variants = human_genes_and_variants[human_gene_name]
@@ -638,7 +626,7 @@ class executor:
                     print("Ortholog id WB couldn't be reached")
                     continue
                 print("for ortholog:", ortholog_id_WB)
-                c_elegans_seq = BioPython().get_aa_seq_by_c_elegans_gene_id_WB(ortholog_id_WB)
+                c_elegans_seq = BioPython().get_c_elegans_aa_seq(ortholog_id_WB)
                 if not c_elegans_seq:
                     continue
                 print("C.elegans seq:", c_elegans_seq)
@@ -702,7 +690,7 @@ class executor:
                     print("Ortholog id WB couldn't be reached")
                     continue
                 print("for ortholog:", ortholog_id_WB)
-                c_elegans_seq = BioPython().get_aa_seq_by_c_elegans_gene_id_WB(ortholog_id_WB)
+                c_elegans_seq = BioPython().get_c_elegans_aa_seq(ortholog_id_WB)
                 if not c_elegans_seq:
                     continue
                 print("C.elegans seq:", c_elegans_seq)
@@ -812,9 +800,81 @@ class executor:
                 print("Couldn't find id for", c_elegans_gene_name)
                 continue
             c_elegans_seq = BioPython().\
-                get_aa_seq_by_c_elegans_gene_id_WB(c_elegans_id_wb)
+                get_c_elegans_aa_seq(c_elegans_id_wb)
             conservation_score = BioPython.get_conservation_score(human_seq, c_elegans_seq)
             print(human_gene_name, c_elegans_gene_name, conservation_score, conserved_domains_value)
+
+    # this function is built to answer Ronen's list of genes:
+    @staticmethod
+    def check_if_gene_has_ortholog(file_path, file_name):
+        # first read the genes id
+        fd = FileReader(file_path, file_name)
+        genes = fd.get_genes_list(0)[1:]  # without the headline
+        genes_and_ortholog_data = fd.fromFileToDict(0, 4)
+        result_list = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10))
+        count = 0
+        for worm_gene in genes_and_ortholog_data:
+            res = 1 if worm_gene in result_list else 0
+            count += res
+            print(worm_gene, "input:", genes_and_ortholog_data[worm_gene], "output:", res)
+        print(count, "had ortholog out of", len(genes_and_ortholog_data))
+
+    # pipeline that provides you with humans genes that are orthologous for your worm ones
+    @staticmethod
+    def find_me_orthologs_for_worm(list_of_worm_genes,
+                                   genes_in_names: bool = True,
+                                   sources_bar: int = 3,
+                                   length_bar: int = 10,
+                                   domains_range: tuple = (0.5, 2)):
+        if genes_in_names:
+            list_of_worm_genes_names = list_of_worm_genes
+            list_of_human_genes = DataExtracter().convert_list_for_c_elegans(list_of_worm_genes_names)
+            print("Genes Ids:" + ", ".join(list_of_human_genes))
+
+        # from C.elegans gene id to human gene id dictionary
+        orthologs_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                   r"\ortholist_master",
+                                   FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
+        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(list_of_worm_genes, orthologs_dic)
+        DataExtracter.check_if_dict_not_empty(relevant_orthologs_dic)
+        print("Orthologs: " + str(relevant_orthologs_dic))
+
+        # now we have the ortholist-orthologs to our human genes.
+        # next step - filtration by sources
+        # sources dic is a dictionary with a tuple-keys of (human gene id, c.elegans gene id) and values of number of
+        # sources supporting the pair is homologous
+        sources_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                 r"\ortholist_master",
+                                 FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
+        filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
+                                                                            sources_dic,
+                                                                            sources_bar)
+        DataExtracter.check_if_dict_not_empty(filtered_by_sources_orthologs, "after sources filtration")
+        print(str(len(filtered_by_sources_orthologs)) + " genes are left " + str(filtered_by_sources_orthologs),
+              "after filtration by sources")
+
+        # now orthologs are filtered by sources
+        # next step - filtration by length ratio
+        filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
+                                                                                        length_bar, "c_elegans")
+        DataExtracter.check_if_dict_not_empty(filtered_by_length_orthologs, "after length filtration")
+        print(str(len(filtered_by_length_orthologs)) + " genes are left " + str(filtered_by_length_orthologs),
+              "after filtration by length")
+
+        # now we have genes filtered by size and sources.
+        # next step: by domains ratio
+        filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
+                                                                                   domains_range)
+        DataExtracter.check_if_dict_not_empty(filtered_by_conserved_domains, "after domains filtration")
+        print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
+              "after filtration by domains")
+
+        # now we have genes filtered by size, sources and domains ratio.
+        # next step: by opposite blast
+        true_matches = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="human")
+        if not true_matches:
+            exit()
+        return true_matches
 
 exec = executor()
 
@@ -876,3 +936,5 @@ exec = executor()
 
 # exec.get_shinjini_data(human_genes_names=['CAPZA1', 'CAPZA2', 'CAPZB'],
 #                        c_elegans_genes_names=['cap-1', 'cap-1', 'cap-2'])
+
+print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))
