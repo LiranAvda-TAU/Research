@@ -20,30 +20,30 @@ class DataExtracter:
     # function that chooses the longest isoform of all accession number, and returns a dictionary with c.elegans gene
     # ids and the chosen longest accession number
     @staticmethod
-    def from_multiple_accessions_to_one(genesAndAccessions: dict):
-        genesAndChosenAccessions = {}
-        keys = genesAndAccessions.keys()
+    def from_multiple_accessions_to_one(genes_and_accessions: dict):
+        genes_and_chosen_accessions = {}
+        keys = genes_and_accessions.keys()
         count = 0
         for gene_id in keys:
             count += 1
-            accessions_set = genesAndAccessions[gene_id]
+            accessions_set = genes_and_accessions[gene_id]
             chosen_isoform = BioPython.get_longest_accession(accessions=accessions_set)
-            genesAndChosenAccessions[gene_id] = chosen_isoform
+            genes_and_chosen_accessions[gene_id] = chosen_isoform
             if count % 100 == 0:
                 print("got to", str(count), "with", gene_id)
-        return genesAndChosenAccessions
+        return genes_and_chosen_accessions
 
     # receives (1) list of human/c.elegans genes id (WB\ENSG) and (2) a term to search the needed element, make an
     # http request to NCBI to extract the number of domains for the gene, and returns a dictionary of the gene id
     #  and its number of domains
     @staticmethod
     def get_conserved_domains(genes: list):
-        genesAndConservedDomain = {}
+        genes_and_conserved_domain = {}
         parsed_number = DataExtracter().get_conserved_domain_per_gene(genes)
         for gene in genes:
             if parsed_number is not None:
-                genesAndConservedDomain[gene] = parsed_number
-        return genesAndConservedDomain
+                genes_and_conserved_domain[gene] = parsed_number
+        return genes_and_conserved_domain
 
     # receives (1) a gene id(WB/ENSG) and (2),(3) terms to extract only the needed number out of the line, makes an
     # http request to extract the domains of each gene, parses it to an integer and returns it
