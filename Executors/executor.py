@@ -477,7 +477,7 @@ class executor:
                 status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
                                 de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
                                 de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
-                                key_gene_name + " " + de.get_c_elegans_description_for_gene_id(
+                                c_elegans_gene_name + " " + de.get_c_elegans_description_for_gene_id(
                                     Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
                 if result:
                     true_matches[genes_tuple] = status_tuple
