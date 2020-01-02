@@ -35,9 +35,9 @@ class HttpRequester:
         for upi in self.id_upi_converter[gene_id]:
             if upi == "":
                 continue
-            requestURL = "https://www.ebi.ac.uk/proteins/api/uniparc/upi/" + upi + "?rfTaxId=9606"
+            request_url = "https://www.ebi.ac.uk/proteins/api/uniparc/upi/" + upi + "?rfTaxId=9606"
             try:
-                r = requests.get(requestURL, headers={"Accept": "text/x-fasta"})
+                r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
             except:
                 print("Communication failure, please check your internet connection")
                 exit()
@@ -47,16 +47,16 @@ class HttpRequester:
                       ", please check")
                 return None
 
-            responseBody = r.text
-            optional_seq = Strings.fromFastaSeqToSeq(responseBody)
+            response_body = r.text
+            optional_seq = Strings.fromFastaSeqToSeq(response_body)
             if len(optional_seq) > len(chosen_seq):
                 chosen_seq = optional_seq
         return chosen_seq
 
     def get_protein_sequence_from_ensembl(self, gene_id):
-        requestURL = self.url + gene_id + "?type=protein;multiple_sequences=1"
+        request_url = self.url + gene_id + "?type=protein;multiple_sequences=1"
         try:
-            r = requests.get(requestURL, headers={"Accept": "text/x-fasta"})
+            r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
         except:
             print("Communication failure, please check your internet connection")
             exit()
