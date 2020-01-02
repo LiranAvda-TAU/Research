@@ -428,7 +428,7 @@ class BioPython:
 
     @staticmethod
     def get_aa_seq_by_human_gene_id(human_gene_id):
-        human_seq = HttpRequester().get_human_protein_sequence_from_uniProt(human_gene_id)
+        human_seq = HttpRequester().get_human_protein_sequence_from_uniprot(human_gene_id)
         if not human_seq:
             print("human sequence cannot be extracted, perhaps upi cannot be found")
             return None

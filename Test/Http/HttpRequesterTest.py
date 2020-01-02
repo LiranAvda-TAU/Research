@@ -8,7 +8,7 @@ class HttpRequesterTest:
         url = "http://ortholist.shaye-lab.org/"
         geneName = "usp11"
         httpRequester = HttpRequester(url, geneName)
-        httpRequester.makeRequest()
+        httpRequester.make_request()
 
 
 

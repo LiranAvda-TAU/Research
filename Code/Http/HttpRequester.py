@@ -9,10 +9,10 @@ class HttpRequester:
 
     def __init__(self, url=""):
         self.url = url
-        self.id_upi_converter = FileReader(FileReader.research_path + r"\Research\Data",
+        self.id_upi_converter = FileReader(FileReader.research_path + r"\Data",
                                            r"\human_gene_id_upi.txt").fromFileToDictWithPluralValues(0, 1, True)
 
-    def makeRequest(self):
+    def make_request(self):
         # sending get request and saving the response as response object
         try:
             response = requests.get(url=self.url)
@@ -28,7 +28,7 @@ class HttpRequester:
             # success
             return str(response.content)
 
-    def get_human_protein_sequence_from_uniProt(self, gene_id):
+    def get_human_protein_sequence_from_uniprot(self, gene_id):
         chosen_seq = ''
         if gene_id not in self.id_upi_converter:
             return None
@@ -43,7 +43,7 @@ class HttpRequester:
                 exit()
             if not r.ok:
                 r.raise_for_status()
-                print("Something went wrong with get_human_protein_sequence_from_uniProt() while trying to extract sequence"
+                print("Something went wrong with get_human_protein_sequence_from_uniprot() while trying to extract sequence"
                       ", please check")
                 return None
 
@@ -62,7 +62,7 @@ class HttpRequester:
             exit()
         if not r.ok:
             r.raise_for_status()
-            print("Something went wrong with get_human_protein_sequence_from_uniProt() while trying to extract sequence"
+            print("Something went wrong with get_human_protein_sequence_from_uniprot() while trying to extract sequence"
                   ", please check")
             return None
         return r.text

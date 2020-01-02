@@ -50,7 +50,7 @@ class DataExtracter:
     @staticmethod
     def get_conserved_domain_per_gene(gene, start_term: str = "Conserved Domains (", end_term: str = ")"):
         hr = HttpRequester("https://www.ncbi.nlm.nih.gov/gene/?term=" + gene)
-        data = hr.makeRequest()
+        data = hr.make_request()
         if isinstance(data, str):  # request was successful
             index = data.find(start_term)
             shorter_data = data[index + len(start_term):]
@@ -276,7 +276,7 @@ class DataExtracter:
             description = lst[column]
             if description == empty_description:
                 record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
-                                       lst[ortholog_column] + "/overview").makeRequest()
+                                       lst[ortholog_column] + "/overview").make_request()
                 info_index = record.find("concise_description")
                 shorter_info = record[info_index + len("concise_description"):]
                 start_index = shorter_info.find(start_term)
@@ -299,7 +299,7 @@ class DataExtracter:
         genes_and_phenotypes = {}
         for gene in list_of_genes:
             print("gene: " + gene)
-            info = HttpRequester(url + gene + "/" + "phenotype").makeRequest()
+            info = HttpRequester(url + gene + "/" + "phenotype").make_request()
             search_index = info.find(search_term)
             while -1 < search_index < info.find("\"phenotype_not_observed\":") and \
                             search_index < info.find("\"phenotype_by_interaction\""):
@@ -321,7 +321,7 @@ class DataExtracter:
         url = "http://rest.wormbase.org/rest/widget/gene/"
         search_term: str = "\"class\":\"phenotype\""
         label_term: str = "\"label\":"
-        info = HttpRequester(url + gene_id + "/" + "phenotype").makeRequest()
+        info = HttpRequester(url + gene_id + "/" + "phenotype").make_request()
         search_index = info.find(search_term)
         while -1 < search_index < info.find("\"phenotype_not_observed\":") and \
                         search_index < info.find("\"phenotype_by_interaction\""):
@@ -670,7 +670,7 @@ class DataExtracter:
         end_term: str = "\",\"evidence\""
         try:
             record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
-                                    gene_id + "/overview").makeRequest()
+                                    gene_id + "/overview").make_request()
         except:
             description = "no description was found"
             return description

@@ -7,7 +7,7 @@ def getNumberOfAffectedPopulations(file_path, file_name, url, start_term, end_te
     diseases_and_numbers = {}
     diseases = FileReader(file_path, file_name).fromFileToList(True)
     for disease in diseases:
-        info: str = HttpRequester(url + putHyphenInName(disease)).makeRequest()
+        info: str = HttpRequester(url + putHyphenInName(disease)).make_request()
         start_index = info.find(start_term)
         end_index = info.find(end_term)
         data = info[start_index + len(start_term):end_index]

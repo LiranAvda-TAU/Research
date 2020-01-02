@@ -531,7 +531,7 @@ class executor:
         print("Number of genes: " + str(len(human_genes_and_variants)))
         for human_gene_name in genes_names:
             human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-            human_seq = HttpRequester().get_human_protein_sequence_from_uniProt(human_gene_id)
+            human_seq = HttpRequester().get_human_protein_sequence_from_uniprot(human_gene_id)
             human_genes_and_sequences[human_gene_name] = human_seq
             mmp_data = mmp_data_by_gene_name[human_gene_name] if human_gene_name in mmp_data_by_gene_name \
                 else "Not mention in MMP"
@@ -938,4 +938,4 @@ exec = executor()
 # exec.get_shinjini_data(human_genes_names=['CAPZA1', 'CAPZA2', 'CAPZB'],
 #                        c_elegans_genes_names=['cap-1', 'cap-1', 'cap-2'])
 
-# print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))
+print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))
