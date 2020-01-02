@@ -87,10 +87,10 @@ class DataExtracter:
     def get_sources(c_elegans_gene_name, human_gene_name):
         c_elegans_gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
         human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-        orthologs = FileReader(FileReader.research_path + r"\Data",
+        orthologs = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                r"\ortholist_master",
                                   FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
-        sources = FileReader(FileReader.research_path + r"\Data",
+        sources = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                              r"\ortholist_master",
                                 FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
 
@@ -357,7 +357,7 @@ class DataExtracter:
     # receives human gene id (ENSG) and returns a set of all related accession numbers
     @staticmethod
     def get_human_accession_number(human_gene_id):
-        accessions_dic = FileReader(FileReader.research_path + r"\Data",
+        accessions_dic = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                     r"\human_genes_ids_to_accession_numbers.txt").fromFileToDictWithPluralValues(0, 1, True)
         if human_gene_id not in accessions_dic:
             print("Human gene id", human_gene_id, "didn't have an accession number")
@@ -534,10 +534,10 @@ class DataExtracter:
 
     @staticmethod
     def get_pair_cd_length(c_elegans_gene_name, human_gene_name):
-        humans_id_cd_length = FileReader(FileReader.research_path+ r"\Data",
+        humans_id_cd_length = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                             r"\human_cd_length.txt").get_genes_cd_length(1, 2, True)
 
-        c_elegans_cd_length = FileReader(FileReader.research_path + r"\Data",
+        c_elegans_cd_length = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                             r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(1, 2, True)
 
         human_gene_length = humans_id_cd_length.get(human_gene_name, None)
@@ -560,14 +560,14 @@ class DataExtracter:
     @staticmethod
     def filter_genes_by_length_differences(d: dict, p: int, key_gene: str = "human"):
         if key_gene == "human":
-            key_id_cd_length = FileReader(FileReader.research_path + r"\Data",
+            key_id_cd_length = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                           r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
-            value_id_cd_length = FileReader(FileReader.research_path + r"\Data",
+            value_id_cd_length = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                             r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(0, 2, True)
         else:
-            key_id_cd_length = FileReader(FileReader.research_path + r"\Data",
+            key_id_cd_length = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                           r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(0, 2, True)
-            value_id_cd_length = FileReader(FileReader.research_path + r"\Data",
+            value_id_cd_length = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
                                             r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
         genes_and_orthologs = {}
         for key in d:
