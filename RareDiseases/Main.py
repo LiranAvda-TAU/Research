@@ -2,7 +2,6 @@ from Code.Files.FileMaker import FileMaker
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
 
-research_path = r"C:\Users\RZBlab\PycharmProjects\\Research-RZB"
 
 def getNumberOfAffectedPopulations(file_path, file_name, url, start_term, end_term):
     diseases_and_numbers = {}
@@ -31,7 +30,7 @@ def putHyphenInName(name: str):
     return hyphened_name
 
 
-getNumberOfAffectedPopulations(research_path + r"\RareDiseases",
+getNumberOfAffectedPopulations(FileReader.research_path + r"\RareDiseases",
                                r"\diseases",
                                "https://rarediseases.org/rare-diseases/",
                                "wpcf-field-rd_affected_populations",
