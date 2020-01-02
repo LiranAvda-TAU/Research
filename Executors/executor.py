@@ -938,4 +938,4 @@ exec = executor()
 # exec.get_shinjini_data(human_genes_names=['CAPZA1', 'CAPZA2', 'CAPZB'],
 #                        c_elegans_genes_names=['cap-1', 'cap-1', 'cap-2'])
 
-# print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))
+print(exec.find_me_orthologs_for_worm(['WBGene00002240'], False, sources_bar=1))

@@ -9,10 +9,10 @@ from Code.Utils.Ensembl import Ensembl
 class DataExtracter:
 
     def __init__(self):
-        self.accession_numbers_to_hit_ids = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        self.accession_numbers_to_hit_ids = FileReader(FileReader.research_path + r"\Executors",
                                                        r"\accession numbers and hit ids").\
             fromFileToDictWithListsAsValues(0, 1)
-        self.hit_ids_to_gene_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        self.hit_ids_to_gene_names = FileReader(FileReader.research_path + r"\Executors",
                                                 r"\blast-hit-ids-and-human-gene-names0-30",
                                                    FileType.TSV).fromFileToDict(0, 1)
 
@@ -646,13 +646,13 @@ class DataExtracter:
 
     @staticmethod
     def fix_conserved_domains_file():
-        human_id_ENSG = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        human_id_ENSG = FileReader(FileReader.research_path + r"\Data",
                                    r"\human-genes-and-conserved-domains-230619",
                                       FileType.TSV).fromFileToDict(0, 1)
-        c_elegans_id_WB = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        c_elegans_id_WB = FileReader(FileReader.research_path + r"\Data",
                                      r"\c-elegans-genes-and-conserved-domains-230619",
                                         FileType.TSV).fromFileToDict(0, 1)
-        f = open(r"C:\Users\Liran\PycharmProjects\Research\Executors\data-230619-fixed-ratio-with-C-elegans-phenotypes")
+        f = open(FileReader.research_path + r"\Executors\data-230619-fixed-ratio-with-C-elegans-phenotypes")
         new_file = open("data-250619-fixed-domains", FileMode.WRITE.value)
         f.readline()
         for line in f:

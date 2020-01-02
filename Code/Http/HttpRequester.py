@@ -9,7 +9,7 @@ class HttpRequester:
 
     def __init__(self, url=""):
         self.url = url
-        self.id_upi_converter = FileReader(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Data",
+        self.id_upi_converter = FileReader(FileReader.research_path + r"\Data",
                                            r"\human_gene_id_upi.txt").fromFileToDictWithPluralValues(0, 1, True)
 
     def makeRequest(self):
