@@ -43,7 +43,7 @@ class executor:
     # creating a file to restore the c.elegans gene id (WB...) and the number of its conserved domains
     @staticmethod
     def c_elegans_conserved_domains_file():
-        c_elegans_genes_id_WB = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        c_elegans_genes_id_WB = FileReader(FileReader.research_path + r"\Executors",
                                            r"\data-230619-fixed-ratio-with-C-elegans-phenotypes",
                                            FileType.TSV).get_c_elegans_genes_from_output(1)
         # c_elegans_genes_id_wb_number_dict = BioPython.get_genes_id(c_elegans_genes_id_WB)
@@ -59,7 +59,7 @@ class executor:
     # creating a file to restore the c.elegans gene id (WB...) and the number of its conserved domains
     @staticmethod
     def human_conserved_domains_file():
-        fr2 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr2 = FileReader(FileReader.research_path + r"\Executors",
                          r"\genes-orthologs-phenotypes-filteredBySize-100619",
                          FileType.TSV)
         genes_names = fr2.get_genes_list()
@@ -77,11 +77,11 @@ class executor:
     @staticmethod
     def filter_by_conserved_domains_ratio(orthologs_dic, domains_range):
         # first we need the c-elegans genes id-number of domains dictionary
-        c_elegans_genes_domains_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        c_elegans_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
                                                  r"\c-elegans-genes-and-conserved-domains-230619",
                                                  FileType.TSV).fromFileToDict(0, 1)
         # second we need the human genes id-number of domains dictionary
-        human_genes_domains_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        human_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
                                              r"\human-genes-and-conserved-domains-230619",
                                              FileType.TSV).fromFileToDict(0, 1)
         relevant_orthologs_dic = DataExtracter.filter_by_conserved_domains(c_elegans_genes_domains_dic,
@@ -96,7 +96,7 @@ class executor:
     @staticmethod
     def addDomainsScoreInfoToFile():
         # first we need the c-elegans genes-number of domains dictionary
-        fr1 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr1 = FileReader(FileReader.research_path + r"\Executors",
                          r"\c-elegans-genes-and-conserved-domains-110619",
                          FileType.TSV)
         c_elegans_genes_domains_dic = fr1.fromFileToDict(0, 1)
@@ -106,7 +106,7 @@ class executor:
         tf1.printFirstLinesInDict(2)
 
         # second we need the human genes-number of domains dictionary
-        fr2 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr2 = FileReader(FileReader.research_path + r"\Executors",
                          r"\human-genes-and-conserved-domains-110619",
                          FileType.TSV)
         human_genes_domains_dic = fr2.fromFileToDict(0, 1)
@@ -116,7 +116,7 @@ class executor:
         tf2.printFirstLinesInDict(2)
 
         # then we'll need the dictionary to convert human gene name to its c.elegans orthologs
-        fr3 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr3 = FileReader(FileReader.research_path + r"\Executors",
                          r"\genes-orthologs-phenotypes-filteredBySize-090619",
                          FileType.TSV)
         orthologs = fr3.fromFileToDict(0, 1)
@@ -126,7 +126,7 @@ class executor:
         tf3.printFirstLinesInDict(2)
 
         # and last we need a dictionary to convert human gene name to human gene id
-        fr4 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        fr4 = FileReader(FileReader.research_path + r"\Data",
                          r"\human_gene_id-gene_name.txt",
                          FileType.TSV)
         human_genes_names_ids_dict = fr4.fromFileToDict(1, 0, True)
@@ -153,7 +153,7 @@ class executor:
         tf6.printFirstLinesInDict(2)
 
         # and second, a dictionary of human genes' names and conditions
-        fr5 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr5 = FileReader(FileReader.research_path + r"\Executors",
                          r"\genes-orthologs-phenotypes-filteredBySize-100619",
                          FileType.TSV)
         genes_names_conditions = fr5.fromFileToDict(0, 2)
@@ -175,7 +175,7 @@ class executor:
 
         accession_numbers_and_hit_ids, hit_ids_and_hsps = DataExtracter.get_hit_ids_for_accession_numbers(
             31,
-            r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences",
+            FileReader.research_path + r"\Test\Files\accessions-and-sequences",
             r"\results-part-")
         print("accessions numbers and hit ids and hsp have been obtained")
 
@@ -193,7 +193,7 @@ class executor:
         # FileMaker().fromDictToFile(hit_ids_and_gene_names, "blast_hit_ids_and-c-elegans-gene_names0-30")
         # FileMaker().fromDictToFile(hit_ids_and_hsps, "blast_hit_ids_and_hsp_scores0-30")
 
-        hit_ids_and_gene_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        hit_ids_and_gene_names = FileReader(FileReader.research_path + r"\Executors",
                                             r"\blast-hit-ids-and-c-elegans-gene-names0-30",
                                             FileType.TSV).fromFileToDict(0, 1)
 
@@ -202,7 +202,7 @@ class executor:
         tf1.checkSize()
         tf1.printFirstLinesInDict(2)
 
-        gene_ids_and_accession_numbers = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        gene_ids_and_accession_numbers = FileReader(FileReader.research_path + r"\Executors",
                                                     r"\extra_genes_ids_number_and_chosen_accessions-120619",
                                                     FileType.TSV).fromFileToDict(0, 1, False)
         tf2 = TestFunctions("fromFileToDict to get genes id and the accession numbers",
@@ -210,7 +210,7 @@ class executor:
         tf2.checkSize()
         tf2.printFirstLinesInDict(2)
 
-        gene_names_WB_and_gene_ids = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        gene_names_WB_and_gene_ids = FileReader(FileReader.research_path + r"\Executors",
                                                 r"\fixed-relevant-c-elegans-genes-and-their-id-110619",
                                                 FileType.TSV).fromFileToDict(0, 1)
 
@@ -221,7 +221,7 @@ class executor:
 
         # last one - gene names to their homoloug
 
-        gene_ids_WB_and_human_names = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        gene_ids_WB_and_human_names = FileReader(FileReader.research_path + r"\Executors",
                                                  r"\genes_id-genes_names-orthologs-conditions-110619",
                                                  FileType.TSV).getCelegansIdToHumanNameDict()
 
@@ -273,7 +273,7 @@ class executor:
 
         FileMaker().fromDictToFile(gene_ids_WB_and_true_homolougs, "true-homologs0-30")
 
-        human_genes_and_c_elegans_WB_id = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-30",
                                                      FileType.TSV).fromFileToDictWithPluralValues(1, 0)
         print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
@@ -322,7 +322,7 @@ class executor:
 
     @staticmethod
     def get_human_genes_and_true_orthologs():
-        human_genes_and_c_elegans_WB_id = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-18",
                                                      FileType.TSV).fromFileToDictWithPluralValues(1, 0)
         print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
@@ -331,12 +331,12 @@ class executor:
     @staticmethod
     def checkExtraGenes():
         # obtaining the new C.elegans genes id (number) list
-        c_elegans_current_genes_id_number = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        c_elegans_current_genes_id_number = FileReader(FileReader.research_path + r"\Executors",
                                                        r"\fixed-relevant-c-elegans-genes-and-their-id-110619",
                                                        FileType.TSV).get_genes_list(1)
 
         # obtaining the former C.elegans genes id (number) list
-        c_elegans_former_genes_id_number = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+        c_elegans_former_genes_id_number = FileReader(FileReader.research_path + r"\Test\Files",
                                                       r"\relevant-c-elegans-genes-and-their-id",
                                                       FileType.TSV).get_genes_list(1)
 
@@ -355,7 +355,7 @@ class executor:
 
     @staticmethod
     def fromAccessionsToBLAST():
-        # extra_genes_id_number_and_accessions_dict = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        # extra_genes_id_number_and_accessions_dict = FileReader(FileReader.research_path + r"\Data",
         #                                                        r"\extra-gene-ids-number-accession-numbers.txt",
         #                                                        FileType.TSV).fromFileToDictWithPluralValues(0,1)
         # print("Size of genes and accessions is " + str(len(extra_genes_id_number_and_accessions_dict)))
@@ -365,7 +365,7 @@ class executor:
         # FileMaker().fromDictToFile(extra_genes_id_number_and_chosen_accessions, "extra_genes_ids_number_and_
         # chosen_accessions-120619")
 
-        # accessions = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        # accessions = FileReader(FileReader.research_path + r"\Executors",
         #                         r"\extra_genes_ids_number_and_chosen_accessions-120619",
         #                         FileType.TSV).get_genes_list(1)
         # print("Got " + str(len(accessions)) + " accessions! let the work begin...")
@@ -374,7 +374,7 @@ class executor:
         # accessionsAndSeqs = bp.make_accession_number_and_seq_dict(accessions, "ORIGIN", "translation=")
         # FileMaker().fromDictToFile(accessionsAndSeqs, "extra_chosen_accessions_and_sequences")
 
-        accessionsAndSeqs = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences",
+        accessionsAndSeqs = FileReader(FileReader.research_path + r"\Test\Files\accessions-and-sequences",
                                        r"\accessions-and-sequences-part-helper",
                                        FileType.TSV).fromFileToDict(0, 1)
         BioPython().blastp_by_accessions("blastp", "nr", accessionsAndSeqs)
@@ -383,7 +383,7 @@ class executor:
     @staticmethod
     def fixConservedDomainRatioFile(data_file_path, data_file_name, delete_first_line):
         # first we need the c-elegans genes-number of domains dictionary
-        fr1 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr1 = FileReader(FileReader.research_path + r"\Executors",
                          r"\c-elegans-genes-and-conserved-domains-110619",
                          FileType.TSV)
         c_elegans_genes_domains_dic = fr1.fromFileToDict(0, 1)
@@ -393,7 +393,7 @@ class executor:
         tf1.printFirstLinesInDict(2)
 
         # second we need the human genes-number of domains dictionary
-        fr2 = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        fr2 = FileReader(FileReader.research_path + r"\Executors",
                          r"\human-genes-and-conserved-domains-110619",
                          FileType.TSV)
         human_genes_domains_dic = fr2.fromFileToDict(0, 1)
@@ -454,7 +454,7 @@ class executor:
 
         # accession_numbers_and_hit_ids, hit_ids_and_hsps = DataExtracter.get_hit_ids_for_accession_numbers(
         #     31,
-        #     r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+        #     FileReader.research_path + r"\Test\Files",
         #     r"\blast-results-complete-200619")
         #
         # FileMaker().fromPluralValuedDictToFile(accession_numbers_and_hit_ids, "accession numbers and hit ids")
@@ -491,9 +491,9 @@ class executor:
 
     @staticmethod
     def filterGenesTest():
-        DataExtracter.filter_genes_by_name(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+        DataExtracter.filter_genes_by_name(FileReader.research_path + r"\Executors",
                                            r"\data-250619-fixedDomains-short-lethalFiltered",
-                                           r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                           FileReader.research_path + r"\Data",
                                            r"\data-010719-sorted",
                                            "data-010719-filteredGenesByUnwantedGenes")
 
@@ -505,24 +505,24 @@ class executor:
     @staticmethod
     def get_variants_dict(file_type=FileType.CONSOLE):
         human_genes_and_sequences = {}
-        human_genes_and_variants = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data\variants",
+        human_genes_and_variants = FileReader(FileReader.research_path + r"\Data\variants",
                                               r"\all-missense-nonsense").fromHGMDtoDict()
-        data = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        data = FileReader(FileReader.research_path + r"\Data",
                           r"\data-250619-fixed-domains").readData(1, False)
         genes_names = human_genes_and_variants.keys()
 
-        orthologs_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\data-250619-fixed-domains").fromFileToDictWithPluralValues(1, 2, False)
         c_elegans_id_and_accessions = FileReader(
-            r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+            FileReader.research_path + r"\Test\Files",
             r"\c-elegans-genes-and-longest-accession_number_complete").fromFileToDict(0, 1, False)
-        # new file: r"C:\Users\Liran\PycharmProjects\Research\Test\Files\c-elegans-gene-ids-and-accession-numbers"
+        # new file: FileReader.research_path + r"\Test\Files\c-elegans-gene-ids-and-accession-numbers"
 
-        accessions_and_sequences = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+        accessions_and_sequences = FileReader(FileReader.research_path + r"\Test\Files",
                                               r"\all-accession-numbers-and-sequences").fromFileToDict(0, 1)
-        # new file: r"C:\Users\Liran\PycharmProjects\Research\Test\Extraction\c-elegans-accession-numbers-and-sequences""
+        # new file: FileReader.research_path + r"\Extraction\c-elegans-accession-numbers-and-sequences""
 
-        mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
             from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
@@ -591,7 +591,7 @@ class executor:
 
         genes_names = human_genes_and_variants.keys()
 
-        mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
             from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
@@ -664,7 +664,7 @@ class executor:
         output = ''
         genes_names = human_genes_and_variants.keys()
 
-        mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
             from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
@@ -719,7 +719,7 @@ class executor:
     @staticmethod
     def add_mmp_record_to_data(data_file_path, data_file_name, key_index, value_indexes, new_file_name):
         data = FileReader(data_file_path, data_file_name).readData(1, True)
-        mmp_data_by_gene_name = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
             from_MMP_file_to_dict_with_listed_values(key_index, value_indexes, delete_first=True)
         f = open(new_file_name, FileMode.WRITE.value)
@@ -743,7 +743,7 @@ class executor:
             print("Genes Ids:" + ", ".join(list_of_human_genes))
 
         # from human gene id to C.elegans gene id dictionary
-        orthologs_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\ortholist_master",
                                    FileType.TSV).fromFileToDictWithPluralValues(4, 0, True)
         relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(list_of_human_genes, orthologs_dic)
@@ -754,7 +754,7 @@ class executor:
         # next step - filtration by sources
         # sources dic is a dictionary with a tuple-keys of (human gene id, c.elegans gene id) and values of number of
         # sources supporting the pair is homologous
-        sources_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        sources_dic = FileReader(FileReader.research_path + r"\Data",
                                  r"\ortholist_master",
                                  FileType.TSV).fromFileToDictWithTupleKey(4, 0, 6, True)
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
@@ -833,7 +833,7 @@ class executor:
             print("Genes Ids:" + ", ".join(list_of_human_genes))
 
         # from C.elegans gene id to human gene id dictionary
-        orthologs_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\ortholist_master",
                                    FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
         relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(list_of_worm_genes, orthologs_dic)
@@ -844,7 +844,7 @@ class executor:
         # next step - filtration by sources
         # sources dic is a dictionary with a tuple-keys of (human gene id, c.elegans gene id) and values of number of
         # sources supporting the pair is homologous
-        sources_dic = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        sources_dic = FileReader(FileReader.research_path + r"\Data",
                                  r"\ortholist_master",
                                  FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
@@ -886,9 +886,9 @@ exec = executor()
 # executor.getOnlyGenesWithHumanOrtholog()
 
 # fixing the filtration by size:
-# executor.filterGenesBySize(r"C:\Users\Liran\PycharmProjects\Research\Data",
+# executor.filterGenesBySize(FileReader.research_path + r"\Data",
 #                            r"\human_cd_length.txt",
-#                            r"C:\Users\Liran\PycharmProjects\Research\Data",
+#                            FileReader.research_path + r"\Data",
 #                            r"\c_elegans_genes_cds_length.txt"
 #                            "genes-orthologs-phenotypes-filteredBySize-100619")
 # executor.human_conserved_domains_file()
@@ -898,34 +898,34 @@ exec = executor()
 # executor.fromAccessionsToBLAST()
 
 # executor.getOnlyGenesWithHumanOrtholog()
-# executor.filterGenesAccordingToReversedBlast([r"C:\Users\Liran\PycharmProjects\Research\Executors\true-homologs0-30"],
-#                                               r"C:\Users\Liran\PycharmProjects\Research\Executors\genes_id-genes_names-orthologs-conditions-110619",
+# executor.filterGenesAccordingToReversedBlast([FileReader.research_path + r"\Executors\true-homologs0-30"],
+#                                               FileReader.research_path + r"\Executors\genes_id-genes_names-orthologs-conditions-110619",
 #                                               "filterized-data-190619")
 
-# executor.fixConservedDomainRatioFile(r"C:\Users\Liran\PycharmProjects\Research\Data",
+# executor.fixConservedDomainRatioFile(FileReader.research_path + r"\Data",
 #                                      r"\data-190619-short",
 #                                      True)
 
-# executor.add_c_elegans_phenotypes(r"C:\Users\Liran\PycharmProjects\Research\Executors",
+# executor.add_c_elegans_phenotypes(FileReader.research_path + r"\Executors",
 #                                r"\data-190619-fixed-domains",
 #                                "http://rest.wormbase.org/rest/widget/gene/",
 #                                "data-230619-fixed-ratio-with-C-elegans-phenotypes",
 #                                False)
 
-# executor.pair_pipeline(r"C:\Users\Liran\PycharmProjects\Research\Data",
+# executor.pair_pipeline(FileReader.research_path + r"\Data",
 #                        r"\positive-control-orthologs-pairs")
 
 # executor.filterGenesTest()
 
-# filter_out_duplicated_genes(r"C:\Users\Liran\PycharmProjects\Research\Data\genes-to-hagar",
+# filter_out_duplicated_genes(FileReader.research_path + r"\Data\genes-to-hagar",
 #                             r"\genes-sent-to-Hagar",
-#                             r"C:\Users\Liran\PycharmProjects\Research\Data\genes-to-hagar",
+#                             FileReader.research_path + r"\Data\genes-to-hagar",
 #                             r"\rest-genes",
-#                             r"C:\Users\Liran\PycharmProjects\Research\Data\genes-to-hagar\genes-to-hagar-5-duplication-filtered")
+#                             FileReader.research_path + r"\Data\genes-to-hagar\genes-to-hagar-5-duplication-filtered")
 #
 #
 
-# executor.add_mmp_record_to_data(r"C:\Users\Liran\PycharmProjects\Research\Data",
+# executor.add_mmp_record_to_data(FileReader.research_path + r"\Data",
 #                                 r"\data-220719",
 #                                 9,
 #                                 [11, 18, 12],

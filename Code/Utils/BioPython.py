@@ -18,7 +18,7 @@ E_VALUE_THRESH = 0.04
 
 class BioPython:
     def __init__(self):
-        self.c_elegans_id_multiple_accessions = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        self.c_elegans_id_multiple_accessions = FileReader(FileReader.research_path + r"\Data",
                                                            r"\\all-genes-ids-and-accession-numbers.txt",
                                                            FileType.TSV).fromFileToDictWithPluralValues(0, 1)
 

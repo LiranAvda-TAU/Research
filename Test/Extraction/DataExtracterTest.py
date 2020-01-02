@@ -10,14 +10,14 @@ from Test.TestFunctions import TestFunctions
 class DataExtracterTest:
     @staticmethod
     def findGenesVariantsAndHomologousTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = "\human-c.elegans.txt"
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
         orthologousGenes = fd.readGenesWithOrthologyConfidence()
 
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data\GenesVariants"
+        filePath = FileReader.research_path + r"\Data\GenesVariants"
         fileName = r"-human-c.elegans-variant-"
         fileType = FileType.TSV
 
@@ -83,7 +83,7 @@ class DataExtracterTest:
     @staticmethod
     def get_c_elegans_longest_accession_numbers(to_file: bool = False):
         genes_and_many_accessions = \
-            FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+            FileReader(FileReader.research_path + r"\Data",
                        r"\all-genes-ids-and-accession-numbers.txt").fromFileToDictWithPluralValues(key_index=0,
                                                                                                    value_index=1,
                                                                                                    delete_first=True)
@@ -99,7 +99,7 @@ class DataExtracterTest:
     # accession number. it returns a dictionary of accession numbers as keys and sequences as values
     @staticmethod
     def get_c_elegans_sequences_for_accession_numbers(to_file: bool = False):
-        accessions = list(FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data",
+        accessions = list(FileReader(FileReader.research_path + r"\Data",
                                      r"\c-elegans-gene-ids-and-accession-numbers").fromFileToDict().values())
 
         bp = BioPython()
@@ -151,7 +151,7 @@ det = DataExtracterTest()
 # testFunc.testFinisher()
 
 # d1, d2 = det.checkReverseHomologyTest(1,
-#                                       r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences",
+#                                       FileReader.research_path + r"\Test\Files\accessions-and-sequences",
 #                                       r"\results-part-")
 # testFunc = TestFunctions("get_hit_ids_for_accession_numbers - accessions and hit ids", d1)
 # testFunc.checkSize()
@@ -167,7 +167,7 @@ det = DataExtracterTest()
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 
-# DataExtracter().addDescriptionFromWormBase(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\filterized-data-"
+# DataExtracter().addDescriptionFromWormBase(FileReader.research_path + r"\Test\Files\filterized-data-"
 #                                            r"summarized-190619",
 #                                            "filterized-data-with-all-summary-190619",
 #                                            6,

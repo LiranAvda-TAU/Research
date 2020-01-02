@@ -29,7 +29,7 @@ def putHyphenInName(name: str):
             hyphened_name += letter
     return hyphened_name
 
-getNumberOfAffectedPopulations(r"C:\Users\Liran\PycharmProjects\Research\RareDiseases",
+getNumberOfAffectedPopulations(FileReader.research_path + r"\RareDiseases",
                                r"\diseases",
                                "https://rarediseases.org/rare-diseases/",
                                "wpcf-field-rd_affected_populations",

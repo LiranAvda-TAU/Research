@@ -8,7 +8,7 @@ class BioPythonTest:
 
     @staticmethod
     def blastForAllTest():
-        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+        fr = FileReader(FileReader.research_path + r"\Test\Files",
                         r"\c-elegans-genes-and-longest-accession_number",
                         FileType.TSV)
         genesAndAccessions = fr.fromFileToDict(0, 1)
@@ -20,7 +20,7 @@ class BioPythonTest:
 
     @staticmethod
     def blastpForAllTest():
-        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+        fr = FileReader(FileReader.research_path + r"\Test\Files",
                         r"\c-elegans-genes-and-longest-accession_number",
                         FileType.TSV)
         genesAndAccessions = fr.fromFileToDict(0, 1)
@@ -32,7 +32,7 @@ class BioPythonTest:
 
     @staticmethod
     def blastpForAll_improvedTest():
-        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences",
+        fr = FileReader(FileReader.research_path + r"\Test\Files\accessions-and-sequences",
                         r"\accessions-and-sequences-part-18",
                         FileType.TSV)
         accessionsAndSequences = fr.fromFileToDict(0, 1)

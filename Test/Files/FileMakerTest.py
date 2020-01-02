@@ -31,10 +31,10 @@ class FileMakerTest:
         det = DataExtracterTest()
         data = det.findGenesWithValidConditionAndHomologTest()
 
-        fd_humans = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data", r"\gene_id-gene_name-start-end.txt",
+        fd_humans = FileReader(FileReader.research_path + r"\Data", r"\gene_id-gene_name-start-end.txt",
                                FileType.TSV)
         humanGenesLength = fd_humans.getGenesLength(1, 2, 3)
-        fd_c_elegans = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Data", r"\c_elegans_genes-start-end.txt",
+        fd_c_elegans = FileReader(FileReader.research_path + r"\Data", r"\c_elegans_genes-start-end.txt",
                                   FileType.TSV)
         cElegansGenesLength = fd_c_elegans.getGenesLength(0, 1, 2)
 
@@ -69,7 +69,7 @@ class FileMakerTest:
         # fm = FileMaker()
         # fm.fromDictToFile(genesAndAccessions, "c-elegans-genes-and-longest-accession_number")
 
-        fr = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Test\Files",
+        fr = FileReader(FileReader.research_path + r"\Test\Files",
                                              r"\c-elegans-genes-and-longest-accession_number",
                         FileType.TSV)
         genesAndAccessions = fr.fromFileToDict(0, 1)
@@ -92,7 +92,7 @@ class FileMakerTest:
     def fromOneFileToManyTest():
 
         fm = FileMaker()
-        fm.fromOneFileToMany(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accession-numbers-and-sequences",
+        fm.fromOneFileToMany(FileReader.research_path + r"\Test\Files\accession-numbers-and-sequences",
                              r"accessions-and-sequences\accessions-and-sequences-part-",
                              25)
 
@@ -101,8 +101,8 @@ class FileMakerTest:
 
         fm = FileMaker()
         fm.fixTabbedFile(
-            r"C:\Users\Liran\PycharmProjects\Research\Executors\extra_genes_id_number_and_chosen_accessions-120619",
-            r"C:\Users\Liran\PycharmProjects\Research\Executors\extra_genes_ids_number_and_chosen_accessions-120619")
+            FileReader.research_path + r"\Executors\extra_genes_id_number_and_chosen_accessions-120619",
+            FileReader.research_path + r"\Executors\extra_genes_ids_number_and_chosen_accessions-120619")
 
 
 
@@ -119,5 +119,5 @@ class FileMakerTest:
 
 # FileMakerTest.fixTabbedFileTest()
 
-# FileMaker().separateOrthologsInfoInData(r"C:\Users\Liran\PycharmProjects\Research\Test\Files\filterized_data_and_gene_summary-190619",
+# FileMaker().separateOrthologsInfoInData(FileReader.research_path + r"\Test\Files\filterized_data_and_gene_summary-190619",
 #                                         "filterized-data-summarized-190619")

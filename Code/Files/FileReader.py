@@ -9,6 +9,8 @@ fileTypesDelimeter = {FileType.TSV: "\t", FileType.CSV: ",", FileType.UNCLEAR: "
 
 class FileReader:
 
+    research_path = r"C:\Users\Liran\PycharmProjects\Research"
+
     def __init__(self, path, fileName, fileType: FileType = FileType.TSV):
         self.path = path
         self.name = fileName

@@ -7,7 +7,7 @@ class FileReaderTest:
 
     @staticmethod
     def readGenesWithOrthologyConfidenceTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = "\human-c.elegans.txt"
         fileType = FileType.TSV
 
@@ -17,7 +17,7 @@ class FileReaderTest:
 
     @staticmethod
     def readAllGenesWithVariantsTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data\GenesVariants"
+        filePath = FileReader.research_path + r"\Data\GenesVariants"
         fileName = r"-human-c.elegans-variant-"
         fileType = FileType.TSV
 
@@ -27,7 +27,7 @@ class FileReaderTest:
 
     @staticmethod
     def readFileFilterConditionsTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = r"\maybe DM HGMD.xlsx"
         fileType = FileType.XLS
         unwanted_conditions = ["Autism", "Schizophrenia", "Bipolar", "Obsessive",
@@ -43,7 +43,7 @@ class FileReaderTest:
 
     @staticmethod
     def readOrtholist():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = r"\ortholist_master.xlsx"
         fileType = FileType.XLS
 
@@ -53,7 +53,7 @@ class FileReaderTest:
 
     @staticmethod
     def genesIdAndNamesTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = r"\gene_id-gene_name.txt"
         fileType = FileType.TSV
 
@@ -63,7 +63,7 @@ class FileReaderTest:
 
     @staticmethod
     def getCElegansGenesTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = r"\c_elegans_genes-start-end.txt"
         fileType = FileType.TSV
 
@@ -73,7 +73,7 @@ class FileReaderTest:
 
     @staticmethod
     def getCElegansGenesFromOutputTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Test\Files"
+        filePath = FileReader.research_path + r"\Test\Files"
         fileName = r"\genes-homolougs-phenotypes-filteredBySize"
         fileType = FileType.TSV
 
@@ -83,7 +83,7 @@ class FileReaderTest:
 
     @staticmethod
     def getGenesLengthTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = r"\gene_id-gene_name-start-end.txt"
         fileType = FileType.TSV
 
@@ -93,7 +93,7 @@ class FileReaderTest:
 
     @staticmethod
     def fromFileToDictTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Test\Files"
+        filePath = FileReader.research_path + r"\Test\Files"
         fileName = r"\relevant-c-elegans-genes-and-their-id"
         fileType = FileType.TSV
 
@@ -103,7 +103,7 @@ class FileReaderTest:
 
     @staticmethod
     def fromFileToDictWithPluralValuesTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Data"
+        filePath = FileReader.research_path + r"\Data"
         fileName = r"\gene_id_accession_number.txt"
         fileType = FileType.TSV
 
@@ -113,7 +113,7 @@ class FileReaderTest:
 
     @staticmethod
     def fromPluralFileToOneFileTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Test\Files\accessions-and-sequences"
+        filePath = FileReader.research_path + r"\Test\Files\accessions-and-sequences"
         fileName = r"\results-part-"
         fileType = FileType.TSV
 
@@ -122,7 +122,7 @@ class FileReaderTest:
 
     @staticmethod
     def extractCelegansFromDataTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Executors"
+        filePath = FileReader.research_path + r"\Executors"
         fileName = r"\filterized-data-by-true-homologs"
         fileType = FileType.TSV
 
@@ -132,12 +132,12 @@ class FileReaderTest:
 
     @staticmethod
     def addSummaryToGenesAndSeparateTuplesTest():
-        filePath = r"C:\Users\Liran\PycharmProjects\Research\Executors"
+        filePath = FileReader.research_path + r"\Executors"
         fileName = r"\filterized-data-190619"
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        fd.addSummaryToGenesAndSeparateTuples(r"C:\Users\Liran\PycharmProjects\Research\Data\summary.csv",
+        fd.addSummaryToGenesAndSeparateTuples(FileReader.research_path + r"\Data\summary.csv",
                                               "filterized_data_and_gene_summary-190619",
                                               0,
                                               8,
