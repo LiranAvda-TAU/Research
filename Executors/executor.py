@@ -76,7 +76,7 @@ class executor:
 
     @staticmethod
     def filter_by_conserved_domains_ratio(orthologs_dic, domains_range):
-        # first we need the c-elegans genes id-number of domains dictionary
+        # first we need the C.elegans genes id-number of domains dictionary
         c_elegans_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
                                                  r"\c-elegans-genes-and-conserved-domains-230619",
                                                  FileType.TSV).fromFileToDict(0, 1)
@@ -95,7 +95,7 @@ class executor:
     # needed and creates a file of data that includes the ratio of conserved domains
     @staticmethod
     def addDomainsScoreInfoToFile():
-        # first we need the c-elegans genes-number of domains dictionary
+        # first we need the C.elegans genes-number of domains dictionary
         fr1 = FileReader(FileReader.research_path + r"\Executors",
                          r"\c-elegans-genes-and-conserved-domains-110619",
                          FileType.TSV)
