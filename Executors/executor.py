@@ -941,5 +941,5 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-exec.check_if_gene_has_ortholog(r"C:\Users\Liran\PycharmProjects\Research\Data",
-                                r"\C.elegans-kinase-phosphatase-genes.xlsx")
+exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx")
