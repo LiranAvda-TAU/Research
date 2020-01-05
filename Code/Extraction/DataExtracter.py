@@ -129,7 +129,7 @@ class DataExtracter:
         for key_gene_id in orthologs_dic:
             orthologs = orthologs_dic[key_gene_id]
             if key_gene_id in key_domains_dic:
-                key_domains = human_domains_dic[key_gene_id]
+                key_domains = key_domains_dic[key_gene_id]
             else:
                 key_domains = DataExtracter().get_conserved_domain_per_gene(key_gene_id)
             for ortholog in orthologs:
@@ -140,15 +140,15 @@ class DataExtracter:
 
                 try:
                     ratio = float(ortholog_domains) / float(key_domains)
+                    if domains_range[0] <= ratio <= domains_range[1]:
+                        print("Ratio between", ortholog, "and", key_gene_id, "is", str(ratio),
+                              ", thus passes the domains ratio bar!")
+                        DataExtracter.add_to_dictionary(new_orthologs_dic, key_gene_id, ortholog)
+                    else:
+                        print("Ratio between", key_gene_id, "and", ortholog + " is", str(ratio),
+                              ", thus not good enough")
                 except:
                     print("Problem occurred with dividing", ortholog_domains, "by", key_domains)
-                    exit()
-                if domains_range[0] <= ratio <= domains_range[1]:
-                    print("Ratio between", ortholog, "and",  key_gene_id, "is", str(ratio), ", thus passes the"
-                          " domains ratio bar!")
-                    DataExtracter.add_to_dictionary(new_orthologs_dic, key_gene_id, ortholog)
-                else:
-                    print("Ratio between", key_gene_id, "and", ortholog + " is", str(ratio), ", thus not good enough")
         return new_orthologs_dic
 
     # receives (1) a dictionary of c.elegans genes and number of domains, (2) a dictionary of human genes ids and
