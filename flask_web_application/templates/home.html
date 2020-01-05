@@ -5,7 +5,10 @@
     <title>Flask Tutorial</title>
   </head>
   <body>
+    {% extends "template.html" %}
+    {% block content %}
     <h1> Hello World! </h1>
     <p> My name is Liran </p>
+    {% endblock %}
   </body>
 </html>

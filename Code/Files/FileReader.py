@@ -2,6 +2,7 @@ import xlrd
 from Code.Enum.FileMode import FileMode
 from Code.Enum.FileType import FileType
 import unicodedata
+import pandas as pd
 
 chromosomes = [str(i) for i in range(1, 23)] + ['x', 'y']
 fileTypesDelimeter = {FileType.TSV: "\t", FileType.CSV: ",", FileType.UNCLEAR: "\" \""}
@@ -181,7 +182,7 @@ class FileReader:
         f.close()
         return lengths
 
-    def fromFileToDict(self, key_index: int = 0, value_index: int = 1, delete_first_line: bool = False):
+    def from_file_to_dict(self, key_index: int = 0, value_index: int = 1, delete_first_line: bool = False):
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         if delete_first_line:
@@ -427,6 +428,18 @@ class FileReader:
             genes_data[key] = row.strip("\n")
         f.close()
         return genes_data
+
+    def get_list_from_excel_using_pandas(self, column_name='WormBase Gene ID', sheet_name='kinase'):
+        xls = pd.ExcelFile(self.path + self.name)
+        df = pd.read_excel(xls, sheet_name)
+        return [gene_id for gene_id in df[column_name]]
+
+    def get_dictionary_from_excel_using_pandas(self, key_column_name, value_column_name, sheet_name='kinase'):
+        xls = pd.ExcelFile(self.path + self.name)
+        df = pd.read_excel(xls, sheet_name)
+        two_list = [(key, value) for key, value in zip(df[key_column_name], df[value_column_name])]
+        return dict(two_list)
+
 
 
 

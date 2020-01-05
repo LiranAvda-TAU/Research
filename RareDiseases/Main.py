@@ -13,7 +13,7 @@ def getNumberOfAffectedPopulations(file_path, file_name, url, start_term, end_te
         data = info[start_index + len(start_term):end_index]
         number = input("for disease: " + disease + ":" + data + "\n")
         diseases_and_numbers[disease] = number
-    FileMaker().fromDictToFile(diseases_and_numbers, "diseases-and-affected-populations")
+    FileMaker().from_dict_to_file(diseases_and_numbers, "diseases-and-affected-populations")
 
 
 def putHyphenInName(name: str):

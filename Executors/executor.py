@@ -19,21 +19,21 @@ class executor:
     # genes' coding domains length, and passes the info to a DE method, who computed the ratio between each gene
     # and its ortholog, and keeps only those who passes the bar. The compatible data is written to a new file.
     @staticmethod
-    def filterGenesBySize(human_length_file_path, human_length_file_name: str, c_elegans_length_file_path: str,
-                          c_elegans_length_file_name: str, new_file_name: str):
+    def filter_genes_by_size(human_length_file_path, human_length_file_name: str, c_elegans_length_file_path: str,
+                             c_elegans_length_file_name: str, new_file_name: str):
         det = DataExtracterTest()
-        data = det.findGenesWithValidConditionAndHomologTest()
+        data = det.find_genes_with_valid_condition_and_homolog_test()
         print("obtained data...")
 
         fd_humans = FileReader(human_length_file_path, human_length_file_name, FileType.TSV)
-        humanGenesLength = fd_humans.fromFileToDict(1, 2, True)
-        print("number of items in human genes length dictionary is: " + str(len(humanGenesLength)))
+        human_genes_length = fd_humans.from_file_to_dict(1, 2, True)
+        print("number of items in human genes length dictionary is: " + str(len(human_genes_length)))
         fd_c_elegans = FileReader(c_elegans_length_file_path, c_elegans_length_file_name, FileType.TSV)
-        cElegansGenesLength = fd_c_elegans.get_genes_cd_length(0, 2, True)
-        print("number of items in C.elegans genes length dictionary is: " + str(len(cElegansGenesLength)))
+        c_elegans_genes_length = fd_c_elegans.get_genes_cd_length(0, 2, True)
+        print("number of items in C.elegans genes length dictionary is: " + str(len(c_elegans_genes_length)))
 
         de = DataExtracter()
-        orthologs, phenotypes = de.filter_genes_with_size_differences(data, humanGenesLength, cElegansGenesLength, p=10)
+        orthologs, phenotypes = de.filter_genes_with_size_differences(data, human_genes_length, c_elegans_genes_length, p=10)
         print("genes and orthologs dict: " + str(len(orthologs)))
         print("genes and phenotypes dict: " + str(len(phenotypes)))
 
@@ -54,7 +54,7 @@ class executor:
         print("The length of the genes_id_domain is " + str(len(c_elegans_genes_and_conserved_domains)))
 
         fm = FileMaker()
-        fm.fromDictToFile(c_elegans_genes_and_conserved_domains, "c-elegans-genes-and-conserved-domains-230619")
+        fm.from_dict_to_file(c_elegans_genes_and_conserved_domains, "c-elegans-genes-and-conserved-domains-230619")
 
     # creating a file to restore the c.elegans gene id (WB...) and the number of its conserved domains
     @staticmethod
@@ -72,18 +72,18 @@ class executor:
         human_genes_and_conserved_domains = de.get_conserved_domains(genes_id)
 
         fm = FileMaker()
-        fm.fromDictToFile(human_genes_and_conserved_domains, "human-genes-and-conserved-domains-110619")
+        fm.from_dict_to_file(human_genes_and_conserved_domains, "human-genes-and-conserved-domains-110619")
 
     @staticmethod
     def filter_by_conserved_domains_ratio(orthologs_dic, domains_range):
         # first we need the C.elegans genes id-number of domains dictionary
         c_elegans_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
                                                  r"\c-elegans-genes-and-conserved-domains-230619",
-                                                 FileType.TSV).fromFileToDict(0, 1)
+                                                 FileType.TSV).from_file_to_dict(0, 1)
         # second we need the human genes id-number of domains dictionary
         human_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
                                              r"\human-genes-and-conserved-domains-230619",
-                                             FileType.TSV).fromFileToDict(0, 1)
+                                             FileType.TSV).from_file_to_dict(0, 1)
         relevant_orthologs_dic = DataExtracter.filter_by_conserved_domains(c_elegans_genes_domains_dic,
                                                                            human_genes_domains_dic,
                                                                            orthologs_dic,
@@ -94,46 +94,46 @@ class executor:
     # recent data file, and (4) human gene id-gene name file, extracts the info needed, conducts the calculation
     # needed and creates a file of data that includes the ratio of conserved domains
     @staticmethod
-    def addDomainsScoreInfoToFile():
+    def add_domains_score_info_to_file():
         # first we need the C.elegans genes-number of domains dictionary
         fr1 = FileReader(FileReader.research_path + r"\Executors",
                          r"\c-elegans-genes-and-conserved-domains-110619",
                          FileType.TSV)
-        c_elegans_genes_domains_dic = fr1.fromFileToDict(0, 1)
-        tf1 = TestFunctions("fromFileToDict to read c.elegans genes and domains",
+        c_elegans_genes_domains_dic = fr1.from_file_to_dict(0, 1)
+        tf1 = TestFunctions("from_file_to_dict to read c.elegans genes and domains",
                             dictionary=c_elegans_genes_domains_dic)
         tf1.checkSize()
-        tf1.printFirstLinesInDict(2)
+        tf1.print_first_lines_in_dict(2)
 
         # second we need the human genes-number of domains dictionary
         fr2 = FileReader(FileReader.research_path + r"\Executors",
                          r"\human-genes-and-conserved-domains-110619",
                          FileType.TSV)
-        human_genes_domains_dic = fr2.fromFileToDict(0, 1)
-        tf2 = TestFunctions("fromFileToDict to read human genes and domains",
+        human_genes_domains_dic = fr2.from_file_to_dict(0, 1)
+        tf2 = TestFunctions("from_file_to_dict to read human genes and domains",
                             dictionary=human_genes_domains_dic)
         tf2.checkSize()
-        tf2.printFirstLinesInDict(2)
+        tf2.print_first_lines_in_dict(2)
 
         # then we'll need the dictionary to convert human gene name to its c.elegans orthologs
         fr3 = FileReader(FileReader.research_path + r"\Executors",
                          r"\genes-orthologs-phenotypes-filteredBySize-090619",
                          FileType.TSV)
-        orthologs = fr3.fromFileToDict(0, 1)
-        tf3 = TestFunctions("fromFileToDict to read human genes and orthologs",
+        orthologs = fr3.from_file_to_dict(0, 1)
+        tf3 = TestFunctions("from_file_to_dict to read human genes and orthologs",
                             dictionary=orthologs)
         tf3.checkSize()
-        tf3.printFirstLinesInDict(2)
+        tf3.print_first_lines_in_dict(2)
 
         # and last we need a dictionary to convert human gene name to human gene id
         fr4 = FileReader(FileReader.research_path + r"\Data",
                          r"\human_gene_id-gene_name.txt",
                          FileType.TSV)
-        human_genes_names_ids_dict = fr4.fromFileToDict(1, 0, True)
-        tf4 = TestFunctions("fromFileToDict to read human genes names and ids",
+        human_genes_names_ids_dict = fr4.from_file_to_dict(1, 0, True)
+        tf4 = TestFunctions("from_file_to_dict to read human genes names and ids",
                             dictionary=human_genes_names_ids_dict)
         tf4.checkSize()
-        tf4.printFirstLinesInDict(2)
+        tf4.print_first_lines_in_dict(2)
 
         human_genes_id_orthologs_dic = DataExtracter.add_conserved_domains_info(c_elegans_genes_domains_dic,
                                                                                 human_genes_domains_dic,
@@ -142,36 +142,36 @@ class executor:
         tf5 = TestFunctions("add_conserved_domains_info",
                             dictionary=human_genes_id_orthologs_dic)
         tf5.checkSize()
-        tf5.printFirstLinesInDict(7)
+        tf5.print_first_lines_in_dict(7)
 
         # now lets write all this back to a file, but for that we need two things:
         # first, a converter from gene id to gene name:
-        human_genes_ids_names_dict = fr4.fromFileToDict(0, 1, True)
-        tf6 = TestFunctions("fromFileToDict to read human genes ids and names",
+        human_genes_ids_names_dict = fr4.from_file_to_dict(0, 1, True)
+        tf6 = TestFunctions("from_file_to_dict to read human genes ids and names",
                             dictionary=human_genes_ids_names_dict)
         tf6.checkSize()
-        tf6.printFirstLinesInDict(2)
+        tf6.print_first_lines_in_dict(2)
 
         # and second, a dictionary of human genes' names and conditions
         fr5 = FileReader(FileReader.research_path + r"\Executors",
                          r"\genes-orthologs-phenotypes-filteredBySize-100619",
                          FileType.TSV)
-        genes_names_conditions = fr5.fromFileToDict(0, 2)
-        tf7 = TestFunctions("fromFileToDict for dictionary of human genes' names and conditions",
+        genes_names_conditions = fr5.from_file_to_dict(0, 2)
+        tf7 = TestFunctions("from_file_to_dict for dictionary of human genes' names and conditions",
                             dictionary=genes_names_conditions)
         tf7.checkSize()
-        tf7.printFirstLinesInDict(2)
+        tf7.print_first_lines_in_dict(2)
 
         fm = FileMaker()
-        fm.fromTwoDictOfDifferentKeysToOneFile(human_genes_id_orthologs_dic,
-                                               genes_names_conditions,
-                                               human_genes_ids_names_dict,
-                                               "genes_id-genes_names-orthologs-conditions-110619")
+        fm.from_two_dict_of_different_keys_to_one_file(human_genes_id_orthologs_dic,
+                                                       genes_names_conditions,
+                                                       human_genes_ids_names_dict,
+                                                       "genes_id-genes_names-orthologs-conditions-110619")
 
     @staticmethod
-    def getOnlyGenesWithHumanOrtholog():
+    def get_only_genes_with_human_ortholog():
 
-        print("*** Function \"getOnlyGenesWithHumanOrtholog\" has started ***")
+        print("*** Function \"get_only_genes_with_human_ortholog\" has started ***")
 
         accession_numbers_and_hit_ids, hit_ids_and_hsps = DataExtracter.get_hit_ids_for_accession_numbers(
             31,
@@ -188,36 +188,36 @@ class executor:
         # tf1 = TestFunctions("get_gene_name_from_protein_accession",
         #                     dictionary=hit_ids_and_gene_names)
         # tf1.checkSize()
-        # tf1.printFirstLinesInDict(2)
+        # tf1.print_first_lines_in_dict(2)
 
-        # FileMaker().fromDictToFile(hit_ids_and_gene_names, "blast_hit_ids_and-c-elegans-gene_names0-30")
-        # FileMaker().fromDictToFile(hit_ids_and_hsps, "blast_hit_ids_and_hsp_scores0-30")
+        # FileMaker().from_dict_to_file(hit_ids_and_gene_names, "blast_hit_ids_and-c-elegans-gene_names0-30")
+        # FileMaker().from_dict_to_file(hit_ids_and_hsps, "blast_hit_ids_and_hsp_scores0-30")
 
         hit_ids_and_gene_names = FileReader(FileReader.research_path + r"\Executors",
                                             r"\blast-hit-ids-and-c-elegans-gene-names0-30",
-                                            FileType.TSV).fromFileToDict(0, 1)
+                                            FileType.TSV).from_file_to_dict(0, 1)
 
         tf1 = TestFunctions("get_gene_name_from_protein_accession",
                             dictionary=hit_ids_and_gene_names)
         tf1.checkSize()
-        tf1.printFirstLinesInDict(2)
+        tf1.print_first_lines_in_dict(2)
 
         gene_ids_and_accession_numbers = FileReader(FileReader.research_path + r"\Executors",
                                                     r"\extra_genes_ids_number_and_chosen_accessions-120619",
-                                                    FileType.TSV).fromFileToDict(0, 1, False)
-        tf2 = TestFunctions("fromFileToDict to get genes id and the accession numbers",
+                                                    FileType.TSV).from_file_to_dict(0, 1, False)
+        tf2 = TestFunctions("from_file_to_dict to get genes id and the accession numbers",
                             dictionary=gene_ids_and_accession_numbers)
         tf2.checkSize()
-        tf2.printFirstLinesInDict(2)
+        tf2.print_first_lines_in_dict(2)
 
         gene_names_WB_and_gene_ids = FileReader(FileReader.research_path + r"\Executors",
                                                 r"\fixed-relevant-c-elegans-genes-and-their-id-110619",
-                                                FileType.TSV).fromFileToDict(0, 1)
+                                                FileType.TSV).from_file_to_dict(0, 1)
 
-        tf3 = TestFunctions("fromFileToDict to get genes names and the gene ids",
+        tf3 = TestFunctions("from_file_to_dict to get genes names and the gene ids",
                             dictionary=gene_names_WB_and_gene_ids)
         tf3.checkSize()
-        tf3.printFirstLinesInDict(2)
+        tf3.print_first_lines_in_dict(2)
 
         # last one - gene names to their homoloug
 
@@ -228,9 +228,9 @@ class executor:
         tf4 = TestFunctions("getCelegansIdToHumanNameDict",
                             dictionary=gene_ids_WB_and_human_names)
         tf4.checkSize()
-        tf4.printFirstLinesInDict(2)
+        tf4.print_first_lines_in_dict(2)
 
-        gene_ids_WB_and_true_homolougs = {}
+        gene_ids_WB_and_true_homologs = {}
 
         WBGenes = gene_ids_WB_and_human_names.keys()
         print("There are " + str(len(WBGenes)) + " WBGenes")
@@ -264,14 +264,14 @@ class executor:
                     continue
                 print(blasted_gene_name, gene_name)
                 if blasted_gene_name == gene_name:
-                    gene_ids_WB_and_true_homolougs[WBGene] = gene_name
+                    gene_ids_WB_and_true_homologs[WBGene] = gene_name
 
         tf5 = TestFunctions("unplaced function to find true homologs",
-                            dictionary=gene_ids_WB_and_true_homolougs)
+                            dictionary=gene_ids_WB_and_true_homologs)
         tf5.checkSize()
-        tf5.printFirstLinesInDict(2)
+        tf5.print_first_lines_in_dict(2)
 
-        FileMaker().fromDictToFile(gene_ids_WB_and_true_homolougs, "true-homologs0-30")
+        FileMaker().from_dict_to_file(gene_ids_WB_and_true_homologs, "true-homologs0-30")
 
         human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-30",
@@ -291,7 +291,7 @@ class executor:
                 human_gene = genes[1]
                 DataExtracter.add_to_dictionary(human_genes_and_c_elegans_orthologs, human_gene, c_elegans_gene)
             f.close()
-        FileMaker().fromPluralValuedDictToFile(human_genes_and_c_elegans_orthologs, "human-and-c-elegans-genes")
+        FileMaker().from_plural_valued_dict_to_file(human_genes_and_c_elegans_orthologs, "human-and-c-elegans-genes")
 
         # now we filter the data file
         data_file = open(data_file_name)
@@ -326,10 +326,10 @@ class executor:
                                                      r"\true-homologs0-18",
                                                      FileType.TSV).fromFileToDictWithPluralValues(1, 0)
         print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
-        FileMaker().fromPluralValuedDictToFile(human_genes_and_c_elegans_WB_id, "human-genes-and-true-orthologs")
+        FileMaker().from_plural_valued_dict_to_file(human_genes_and_c_elegans_WB_id, "human-genes-and-true-orthologs")
 
     @staticmethod
-    def checkExtraGenes():
+    def check_extra_genes():
         # obtaining the new C.elegans genes id (number) list
         c_elegans_current_genes_id_number = FileReader(FileReader.research_path + r"\Executors",
                                                        r"\fixed-relevant-c-elegans-genes-and-their-id-110619",
@@ -354,7 +354,7 @@ class executor:
         fm.fromListToFile(extra_genes, "extra-c-elegans-gened-id-number-120619")
 
     @staticmethod
-    def fromAccessionsToBLAST():
+    def from_accessions_to_blast():
         # extra_genes_id_number_and_accessions_dict = FileReader(FileReader.research_path + r"\Data",
         #                                                        r"\extra-gene-ids-number-accession-numbers.txt",
         #                                                        FileType.TSV).fromFileToDictWithPluralValues(0,1)
@@ -362,7 +362,7 @@ class executor:
         # extra_genes_id_number_and_chosen_accessions = DataExtracter.from_multiple_accessions_to_one(
         #     extra_genes_id_number_and_accessions_dict)
         # print("Size of genes and chosen accessions is " + str(len(extra_genes_id_number_and_chosen_accessions)))
-        # FileMaker().fromDictToFile(extra_genes_id_number_and_chosen_accessions, "extra_genes_ids_number_and_
+        # FileMaker().from_dict_to_file(extra_genes_id_number_and_chosen_accessions, "extra_genes_ids_number_and_
         # chosen_accessions-120619")
 
         # accessions = FileReader(FileReader.research_path + r"\Executors",
@@ -371,36 +371,36 @@ class executor:
         # print("Got " + str(len(accessions)) + " accessions! let the work begin...")
         #
         # bp = BioPython()
-        # accessionsAndSeqs = bp.make_accession_number_and_seq_dict(accessions, "ORIGIN", "translation=")
-        # FileMaker().fromDictToFile(accessionsAndSeqs, "extra_chosen_accessions_and_sequences")
+        # accessions_and_seqs = bp.make_accession_number_and_seq_dict(accessions, "ORIGIN", "translation=")
+        # FileMaker().from_dict_to_file(accessions_and_seqs, "extra_chosen_accessions_and_sequences")
 
-        accessionsAndSeqs = FileReader(FileReader.research_path + r"\Test\Files\accessions-and-sequences",
+        accessions_and_seqs = FileReader(FileReader.research_path + r"\Test\Files\accessions-and-sequences",
                                        r"\accessions-and-sequences-part-helper",
-                                       FileType.TSV).fromFileToDict(0, 1)
-        BioPython().blastp_by_accessions("blastp", "nr", accessionsAndSeqs)
+                                       FileType.TSV).from_file_to_dict(0, 1)
+        BioPython().blastp_by_accessions("blastp", "nr", accessions_and_seqs)
 
     # one time function
     @staticmethod
-    def fixConservedDomainRatioFile(data_file_path, data_file_name, delete_first_line):
+    def fix_conserved_domain_ratio_file(data_file_path, data_file_name, delete_first_line):
         # first we need the c-elegans genes-number of domains dictionary
         fr1 = FileReader(FileReader.research_path + r"\Executors",
                          r"\c-elegans-genes-and-conserved-domains-110619",
                          FileType.TSV)
-        c_elegans_genes_domains_dic = fr1.fromFileToDict(0, 1)
-        tf1 = TestFunctions("fromFileToDict to read c.elegans genes and domains",
+        c_elegans_genes_domains_dic = fr1.from_file_to_dict(0, 1)
+        tf1 = TestFunctions("from_file_to_dict to read c.elegans genes and domains",
                             dictionary=c_elegans_genes_domains_dic)
         tf1.checkSize()
-        tf1.printFirstLinesInDict(2)
+        tf1.print_first_lines_in_dict(2)
 
         # second we need the human genes-number of domains dictionary
         fr2 = FileReader(FileReader.research_path + r"\Executors",
                          r"\human-genes-and-conserved-domains-110619",
                          FileType.TSV)
-        human_genes_domains_dic = fr2.fromFileToDict(0, 1)
-        tf2 = TestFunctions("fromFileToDict to read human genes and domains",
+        human_genes_domains_dic = fr2.from_file_to_dict(0, 1)
+        tf2 = TestFunctions("from_file_to_dict to read human genes and domains",
                             dictionary=human_genes_domains_dic)
         tf2.checkSize()
-        tf2.printFirstLinesInDict(2)
+        tf2.print_first_lines_in_dict(2)
 
         # now we change the data
         DataExtracter.fix_conserved_domain_info(data_file_path, data_file_name, c_elegans_genes_domains_dic,
@@ -418,7 +418,7 @@ class executor:
         print("List of genes with", str(len(cElegansGenes)), "have been obtained:", cElegansGenes[0], ",",
               cElegansGenes[1])
 
-        genesAndPhenotypes = DataExtracter().add_c_elegans_phenotypes(cElegansGenes, url)
+        genes_and_phenotypes = DataExtracter().add_c_elegans_phenotypes(cElegansGenes, url)
 
         in_file = open(data_file_path + data_file_name)
         out_file = open(new_file, FileMode.WRITE.value)
@@ -426,9 +426,9 @@ class executor:
             in_file.readline()
         for line in in_file:
             info = line.rstrip("\n").split("\t")
-            cElegansGene = info[2]
-            if cElegansGene in genesAndPhenotypes:
-                phenotypes: list = genesAndPhenotypes[cElegansGene]
+            c_elegans_gene = info[2]
+            if c_elegans_gene in genes_and_phenotypes:
+                phenotypes: list = genes_and_phenotypes[c_elegans_gene]
             else:
                 phenotypes = ["Not Found"]
             out_file.write(line.rstrip("\n") + "\t" + ", ".join(phenotypes) + "\n")
@@ -457,8 +457,8 @@ class executor:
         #     FileReader.research_path + r"\Test\Files",
         #     r"\blast-results-complete-200619")
         #
-        # FileMaker().fromPluralValuedDictToFile(accession_numbers_and_hit_ids, "accession numbers and hit ids")
-        # FileMaker().fromPluralValuedDictToFile(hit_ids_and_hsps, "hit ids and hsp")
+        # FileMaker().from_plural_valued_dict_to_file(accession_numbers_and_hit_ids, "accession numbers and hit ids")
+        # FileMaker().from_plural_valued_dict_to_file(hit_ids_and_hsps, "hit ids and hsp")
         # tf = TestFunctions("get hit ids for accession numbers", dictionary=accession_numbers_and_hit_ids)
         # tf.checkSize()
         # tf.printRandomLinesInDict(5)
@@ -515,11 +515,11 @@ class executor:
                                    r"\data-250619-fixed-domains").fromFileToDictWithPluralValues(1, 2, False)
         c_elegans_id_and_accessions = FileReader(
             FileReader.research_path + r"\Test\Files",
-            r"\c-elegans-genes-and-longest-accession_number_complete").fromFileToDict(0, 1, False)
+            r"\c-elegans-genes-and-longest-accession_number_complete").from_file_to_dict(0, 1, False)
         # new file: FileReader.research_path + r"\Test\Files\c-elegans-gene-ids-and-accession-numbers"
 
         accessions_and_sequences = FileReader(FileReader.research_path + r"\Test\Files",
-                                              r"\all-accession-numbers-and-sequences").fromFileToDict(0, 1)
+                                              r"\all-accession-numbers-and-sequences").from_file_to_dict(0, 1)
         # new file: FileReader.research_path + r"\Extraction\c-elegans-accession-numbers-and-sequences""
 
         mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
@@ -563,7 +563,7 @@ class executor:
                 print("variants: " + ", ".join(variants))
                 for variant in variants:
                     print("For variant: " + variant)
-                    former_aa, place, current_aa = Strings.fromVariantStringToTuple(variant)
+                    former_aa, place, current_aa = Strings.from_variant_string_to_tuple(variant)
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
                                                                c_elegans_seq,
@@ -636,7 +636,7 @@ class executor:
                 print("variants: " + ", ".join(variants))
                 for variant in variants:
                     print("For variant: " + variant)
-                    former_aa, place, current_aa = Strings.fromVariantStringToTuple(variant)
+                    former_aa, place, current_aa = Strings.from_variant_string_to_tuple(variant)
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
                                                                c_elegans_seq,
@@ -700,7 +700,7 @@ class executor:
                 print("variants: " + ", ".join(variants))
                 for variant in variants:
                     print("For variant: " + variant)
-                    former_aa, place, current_aa = Strings.fromVariantStringToTuple(variant)
+                    former_aa, place, current_aa = Strings.from_variant_string_to_tuple(variant)
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
                                                                c_elegans_seq,
@@ -810,15 +810,16 @@ class executor:
     def check_if_gene_has_ortholog(file_path, file_name):
         # first read the genes id
         fd = FileReader(file_path, file_name)
-        genes = fd.get_genes_list(0)[1:]  # without the headline
-        genes_and_ortholog_data = fd.fromFileToDict(0, 4)
-        result_list = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10))
+        genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', 'kinase')
+        genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog')
+        result_dictionary = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10))
+        orthologous_genes = [worm_gene for (worm_gene, human_gene) in result_dictionary]
         count = 0
-        for worm_gene in genes_and_ortholog_data:
-            res = 1 if worm_gene in result_list else 0
+        for worm_gene_name in genes_and_ortholog_data:
+            res = 1 if worm_gene_name in orthologous_genes else 0
             count += res
-            print(worm_gene, "input:", genes_and_ortholog_data[worm_gene], "output:", res)
-        print(count, "had ortholog out of", len(genes_and_ortholog_data))
+            print(worm_gene_name, "input:", genes_and_ortholog_data[worm_gene_name], "output:", res)
+        print(count, "had orthologs out of", len(genes_and_ortholog_data))
 
     # pipeline that provides you with humans genes that are orthologous for your worm ones
     @staticmethod
@@ -881,28 +882,28 @@ exec = executor()
 
 # executor.c_elegans_conserved_domains_file()
 # executor.human_conserved_domains_file()
-# executor.addDomainsScoreInfoToFile()
+# executor.add_domains_score_info_to_file()
 
-# executor.getOnlyGenesWithHumanOrtholog()
+# executor.get_only_genes_with_human_ortholog()
 
 # fixing the filtration by size:
-# executor.filterGenesBySize(FileReader.research_path + r"\Data",
+# executor.filter_genes_by_size(FileReader.research_path + r"\Data",
 #                            r"\human_cd_length.txt",
 #                            FileReader.research_path + r"\Data",
 #                            r"\c_elegans_genes_cds_length.txt"
 #                            "genes-orthologs-phenotypes-filteredBySize-100619")
 # executor.human_conserved_domains_file()
 # executor.c_elegans_conserved_domains_file()
-# executor.addDomainsScoreInfoToFile()
-# executor.checkExtraGenes()
-# executor.fromAccessionsToBLAST()
+# executor.add_domains_score_info_to_file()
+# executor.check_extra_genes()
+# executor.from_accessions_to_blast()
 
-# executor.getOnlyGenesWithHumanOrtholog()
+# executor.get_only_genes_with_human_ortholog()
 # executor.filterGenesAccordingToReversedBlast([FileReader.research_path + r"\Executors\true-homologs0-30"],
 #                                               FileReader.research_path + r"\Executors\genes_id-genes_names-orthologs-conditions-110619",
 #                                               "filterized-data-190619")
 
-# executor.fixConservedDomainRatioFile(FileReader.research_path + r"\Data",
+# executor.fix_conserved_domain_ratio_file(FileReader.research_path + r"\Data",
 #                                      r"\data-190619-short",
 #                                      True)
 
@@ -938,4 +939,7 @@ exec = executor()
 # exec.get_shinjini_data(human_genes_names=['CAPZA1', 'CAPZA2', 'CAPZB'],
 #                        c_elegans_genes_names=['cap-1', 'cap-1', 'cap-2'])
 
-print(exec.find_me_orthologs_for_worm(['WBGene00004951'], False, sources_bar=1))
+# print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
+
+exec.check_if_gene_has_ortholog(r"C:\Users\Liran\PycharmProjects\Research\Data",
+                                r"\C.elegans-kinase-phosphatase-genes.xlsx")

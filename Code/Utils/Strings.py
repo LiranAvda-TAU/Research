@@ -2,7 +2,7 @@ class Strings:
 
     # receives a string and return a tuple of (former amino acid, place, current amino acid)
     @staticmethod
-    def fromVariantStringToTuple(s):
+    def from_variant_string_to_tuple(s):
         former_amino_acid = ''
         current_amino_acid = ''
         place = ''

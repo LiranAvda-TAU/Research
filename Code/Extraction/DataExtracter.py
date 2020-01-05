@@ -14,7 +14,7 @@ class DataExtracter:
             fromFileToDictWithListsAsValues(0, 1)
         self.hit_ids_to_gene_names = FileReader(FileReader.research_path + r"\Executors",
                                                 r"\blast-hit-ids-and-human-gene-names0-30",
-                                                   FileType.TSV).fromFileToDict(0, 1)
+                                                   FileType.TSV).from_file_to_dict(0, 1)
 
     # receives (1) a dictionary of c.elegans genes id (number) as keys and accession numbers as values, enact the
     # function that chooses the longest isoform of all accession number, and returns a dictionary with c.elegans gene
@@ -648,10 +648,10 @@ class DataExtracter:
     def fix_conserved_domains_file():
         human_id_ENSG = FileReader(FileReader.research_path + r"\Data",
                                    r"\human-genes-and-conserved-domains-230619",
-                                      FileType.TSV).fromFileToDict(0, 1)
+                                      FileType.TSV).from_file_to_dict(0, 1)
         c_elegans_id_WB = FileReader(FileReader.research_path + r"\Data",
                                      r"\c-elegans-genes-and-conserved-domains-230619",
-                                        FileType.TSV).fromFileToDict(0, 1)
+                                        FileType.TSV).from_file_to_dict(0, 1)
         f = open(FileReader.research_path + r"\Executors\data-230619-fixed-ratio-with-C-elegans-phenotypes")
         new_file = open("data-250619-fixed-domains", FileMode.WRITE.value)
         f.readline()

@@ -21,7 +21,7 @@ class FileMakerTest:
     @staticmethod
     def fromDictToFileTest():
         det = DataExtracterTest()
-        d = det.findGenesWithValidConditionAndHomologTest()
+        d = det.find_genes_with_valid_condition_and_homolog_test()
 
         fm = FileMaker()
         fm.fromDictToUniqueFile(d, "genes, ortholougs and conditions")
@@ -29,7 +29,7 @@ class FileMakerTest:
     @staticmethod
     def fromTwoDictToFileTest():
         det = DataExtracterTest()
-        data = det.findGenesWithValidConditionAndHomologTest()
+        data = det.find_genes_with_valid_condition_and_homolog_test()
 
         fd_humans = FileReader(FileReader.research_path + r"\Data", r"\gene_id-gene_name-start-end.txt",
                                FileType.TSV)
@@ -61,21 +61,21 @@ class FileMakerTest:
         # testFunc.printRandomLinesInDict(5)
         #
         # fm = FileMaker()
-        # fm.fromDictToFile(gisDict, "relevant-c-elegans-genes-and-their-id")
+        # fm.from_dict_to_file(gisDict, "relevant-c-elegans-genes-and-their-id")
 
         # det = DataExtracterTest()
         # genesAndAccessions = det.fromMultipleAccessionsToOneTest()
         #
         # fm = FileMaker()
-        # fm.fromDictToFile(genesAndAccessions, "c-elegans-genes-and-longest-accession_number")
+        # fm.from_dict_to_file(genesAndAccessions, "c-elegans-genes-and-longest-accession_number")
 
         fr = FileReader(FileReader.research_path + r"\Test\Files",
                                              r"\c-elegans-genes-and-longest-accession_number",
                         FileType.TSV)
-        genesAndAccessions = fr.fromFileToDict(0, 1)
+        genesAndAccessions = fr.from_file_to_dict(0, 1)
 
         print("Done extracting file genesAndAccessions to a dictionary")
-        TestFunctions("fromFileToDict", dictionary=genesAndAccessions).printFirstLinesInDict(1)
+        TestFunctions("from_file_to_dict", dictionary=genesAndAccessions).print_first_lines_in_dict(1)
 
         accessions = list(genesAndAccessions.values())
 
@@ -83,10 +83,10 @@ class FileMakerTest:
         accessionsAndSeqs = bp.make_accession_number_and_seq_dict(accessions, "ORIGIN", "translation=")
 
         print("Done creating a dictionary for accession numbers and sequences")
-        TestFunctions("make_accession_number_and_seq_dict", dictionary=accessionsAndSeqs).printFirstLinesInDict(1)
+        TestFunctions("make_accession_number_and_seq_dict", dictionary=accessionsAndSeqs).print_first_lines_in_dict(1)
 
         fm = FileMaker()
-        fm.fromDictToFile(accessionsAndSeqs, "accession-numbers-and-sequences")
+        fm.from_dict_to_file(accessionsAndSeqs, "accession-numbers-and-sequences")
 
     @staticmethod
     def fromOneFileToManyTest():

@@ -43,7 +43,7 @@ class FileMaker:
 
     # receives a simple key-value dictionary and writes it to a file
     @staticmethod
-    def fromDictToFile(d: dict, file_name: str):
+    def from_dict_to_file(d: dict, file_name: str):
         f = open(file_name, FileMode.WRITE.value, encoding="utf-8")
         for key in d.keys():
             f.write(str(key) + "\t" + str(d[key]) + "\n")
@@ -59,7 +59,7 @@ class FileMaker:
         f.close()
 
     @staticmethod
-    def fromPluralValuedDictToFile(d: dict, file_name: str):
+    def from_plural_valued_dict_to_file(d: dict, file_name: str):
         f = open(file_name, FileMode.WRITE.value)
         keys = d.keys()
         for key in keys:
@@ -90,7 +90,7 @@ class FileMaker:
             in_file.close()
 
     @staticmethod
-    def fromTwoDictOfDifferentKeysToOneFile(d1: dict, d2: dict, converter: dict, file_name: str):
+    def from_two_dict_of_different_keys_to_one_file(d1: dict, d2: dict, converter: dict, file_name: str):
         f = open(file_name, FileMode.WRITE.value)
         keys = d1.keys()
         for d1_key in keys:

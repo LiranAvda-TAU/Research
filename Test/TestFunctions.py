@@ -28,7 +28,7 @@ class TestFunctions:
             print("no luck")
             self.result = False
 
-    def printFirstLinesInDict(self, x: int):
+    def print_first_lines_in_dict(self, x: int):
         size = len(self.dictionary)
         if size < x:
             x = size

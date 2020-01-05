@@ -37,7 +37,7 @@ class DataExtracterTest:
         return conditionsSet
 
     @staticmethod
-    def findGenesWithValidConditionAndHomologTest():
+    def find_genes_with_valid_condition_and_homolog_test():
         frt = FileReaderTest()
         genesWithoutNonValidConditions = frt.readFileFilterConditionsTest()
         humanGenes, homologousGenes = frt.readOrtholist()
@@ -92,7 +92,7 @@ class DataExtracterTest:
 
         print("number of genes id with accessions: ", str(len(genes_and_accessions)))
         if to_file:
-            FileMaker().fromDictToFile(genes_and_accessions, "c-elegans-gene-ids-and-accession-numbers")
+            FileMaker().from_dict_to_file(genes_and_accessions, "c-elegans-gene-ids-and-accession-numbers")
         return genes_and_accessions
 
     # the function read the most updates accession file (120919) and uses a function to extract the sequence for each
@@ -100,17 +100,17 @@ class DataExtracterTest:
     @staticmethod
     def get_c_elegans_sequences_for_accession_numbers(to_file: bool = False):
         accessions = list(FileReader(FileReader.research_path + r"\Data",
-                                     r"\c-elegans-gene-ids-and-accession-numbers").fromFileToDict().values())
+                                     r"\c-elegans-gene-ids-and-accession-numbers").from_file_to_dict().values())
 
         bp = BioPython()
         accessions_and_seqs = bp.make_accession_number_and_seq_dict(accessions, "ORIGIN", "translation=")
 
         print("Done creating a dictionary for accession numbers and sequences")
-        TestFunctions("make_accession_number_and_seq_dict", dictionary=accessions_and_seqs).printFirstLinesInDict(1)
+        TestFunctions("make_accession_number_and_seq_dict", dictionary=accessions_and_seqs).print_first_lines_in_dict(1)
 
         if to_file:
             fm = FileMaker()
-            fm.fromDictToFile(accessions_and_seqs, "c-elegans-accession-numbers-and-sequences")
+            fm.from_dict_to_file(accessions_and_seqs, "c-elegans-accession-numbers-and-sequences")
 
 # TESTING
 
@@ -125,11 +125,11 @@ det = DataExtracterTest()
 
 # det.getConditionsSetTest()
 
-# d: dict = det.findGenesWithValidConditionAndHomologTest()
+# d: dict = det.find_genes_with_valid_condition_and_homolog_test()
 # testFunc = TestFunctions("find_genes_with_valid_condition_and_homolog", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
-# testFunc.printFirstLinesInDict(5)
+# testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 
@@ -138,7 +138,7 @@ det = DataExtracterTest()
 # testFunc = TestFunctions("from_multiple_accessions_to_one", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
-# testFunc.printFirstLinesInDict(5)
+# testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 
@@ -146,7 +146,7 @@ det = DataExtracterTest()
 # testFunc = TestFunctions("get_conserved_domains", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
-# testFunc.printFirstLinesInDict(5)
+# testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 
@@ -156,14 +156,14 @@ det = DataExtracterTest()
 # testFunc = TestFunctions("get_hit_ids_for_accession_numbers - accessions and hit ids", d1)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
-# testFunc.printFirstLinesInDict(5)
+# testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 #
 # testFunc = TestFunctions("get_hit_ids_for_accession_numbers - hit ids and hsp values", d2)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
-# testFunc.printFirstLinesInDict(5)
+# testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 
