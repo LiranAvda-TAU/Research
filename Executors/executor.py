@@ -75,7 +75,7 @@ class executor:
         fm.from_dict_to_file(human_genes_and_conserved_domains, "human-genes-and-conserved-domains-110619")
 
     @staticmethod
-    def filter_by_conserved_domains_ratio(orthologs_dic, domains_range):
+    def filter_by_conserved_domains_ratio(orthologs_dic, domains_range, key_organism):
         # first we need the C.elegans genes id-number of domains dictionary
         c_elegans_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
                                                  r"\c-elegans-genes-and-conserved-domains-230619",
@@ -87,7 +87,8 @@ class executor:
         relevant_orthologs_dic = DataExtracter.filter_by_conserved_domains(c_elegans_genes_domains_dic,
                                                                            human_genes_domains_dic,
                                                                            orthologs_dic,
-                                                                           domains_range)
+                                                                           domains_range,
+                                                                           key_organism=key_organism)
         return relevant_orthologs_dic
 
     # using the (1) C.elegans genes conserved domains file, (2) human genes conserved domains file, (3) most
@@ -866,7 +867,8 @@ class executor:
         # now we have genes filtered by size and sources.
         # next step: by domains ratio
         filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
-                                                                                   domains_range)
+                                                                                   domains_range,
+                                                                                   key_organism="C.elegans")
         DataExtracter.check_if_dict_not_empty(filtered_by_conserved_domains, "after domains filtration")
         print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
               "after filtration by domains")
