@@ -121,9 +121,9 @@ class DataExtracter:
                                     human_domains_dic: dict,
                                     orthologs_dic: dict,
                                     domains_range,
-                                    key_organism: str = "human"):
-        key_domains_dic = human_domains_dic if key_organism == "human" else c_elegans_domains_dic
-        orthologs_domains_dic = c_elegans_domains_dic if key_organism == "human" else human_domains_dic
+                                    key_organism):
+        key_domains_dic = human_domains_dic if key_organism == "Human" else c_elegans_domains_dic
+        orthologs_domains_dic = c_elegans_domains_dic if key_organism == "Human" else human_domains_dic
 
         new_orthologs_dic = {}
         for key_gene_id in orthologs_dic:

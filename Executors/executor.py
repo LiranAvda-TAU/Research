@@ -776,7 +776,8 @@ class executor:
         # now we have genes filtered by size and sources.
         # next step: by domains ratio
         filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
-                                                                                   domains_range)
+                                                                                   domains_range,
+                                                                                   key_organism="Human")
         DataExtracter.check_if_dict_not_empty(filtered_by_conserved_domains, "after domains filtration")
         print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
               "after filtration by domains")
