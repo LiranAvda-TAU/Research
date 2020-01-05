@@ -132,13 +132,17 @@ class DataExtracter:
                 key_domains = human_domains_dic[key_gene_id]
             else:
                 key_domains = DataExtracter().get_conserved_domain_per_gene(key_gene_id)
-
             for ortholog in orthologs:
                 try:
                     ortholog_domains = orthologs_domains_dic[ortholog]
                 except:
                     ortholog_domains = DataExtracter().get_conserved_domain_per_gene(ortholog)
-                ratio = float(ortholog_domains) / float(key_domains)
+
+                try:
+                    ratio = float(ortholog_domains) / float(key_domains)
+                except:
+                    print("Problem occurred with dividing", ortholog_domains, "by", key_domains)
+                    exit()
                 if domains_range[0] <= ratio <= domains_range[1]:
                     print("Ratio between", ortholog, "and",  key_gene_id, "is", str(ratio), ", thus passes the"
                           " domains ratio bar!")
