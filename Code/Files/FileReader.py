@@ -5,7 +5,7 @@ import unicodedata
 import pandas as pd
 
 chromosomes = [str(i) for i in range(1, 23)] + ['x', 'y']
-fileTypesDelimeter = {FileType.TSV: "\t", FileType.CSV: ",", FileType.UNCLEAR: "\" \""}
+FILE_TYPES_DELIMETER = {FileType.TSV: "\t", FileType.CSV: ",", FileType.UNCLEAR: "\" \""}
 
 
 class FileReader:
@@ -20,53 +20,53 @@ class FileReader:
 
     # extracts all genes with confidence in orthology to C.elegans's genes
     # returns a dictionary with key: human gene id, value: c.elegans gene id
-    def readGenesWithOrthologyConfidence(self):
-        orthologousGenes = {}
+    def read_genes_with_orthology_confidence(self):
+        orthologous_genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         print("sanity check: " + f.readline())  # sanity check
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
 
             if line[10] == '1':  # confidence in orthology
-                orthologousGenes[line[0]] = line[4]  # genes
+                orthologous_genes[line[0]] = line[4]  # genes
         f.close()
-        return orthologousGenes
+        return orthologous_genes
 
     # receiving an open file for reading, extracts all genes with alleles and puts them in the dictionary
     # the dictionary contains key: gene id, value:chromosome, start, end, variantName, original bp, alleles, place
     @staticmethod
-    def __readGenesWithVariants(file, genesAndVariants, variantType):
+    def read_genes_with_variants(file, genes_and_variants, variantType):
         file.readline()  # skip the headlines
         for row in file:
             line = row.rstrip('\n').split('\t')
 
             if line[1] != "":  # variant exists
                 pass
-                variantAlleles = line[5]
-                if variantAlleles == "COSMIC_MUTATION":
+                variant_alleles = line[5]
+                if variant_alleles == "COSMIC_MUTATION":
                     alleles = ["cosmic", "cosmic"]
                 else:
-                    alleles = variantAlleles.split("/")
+                    alleles = variant_alleles.split("/")
                     # gene info = chromosome, start, end, original bp, alleles, place, somatic/germ line
                     geneInfo = [line[2], line[3], line[4], alleles[0], alleles[1:], line[7], variantType]
-                    genesAndVariants[(line[0], line[1])] = geneInfo
+                    genes_and_variants[(line[0], line[1])] = geneInfo
 
     # receives the path and goes through all number of chromosomes
-    def readAllGenesWithVariants(self):
-        genesAndVariants = {}
-        variantTypes = ["somatic", "germline"]
-        for variantType in variantTypes:
-            for chromosomeNumber in chromosomes:
-                filePath = self.path + "\\" + variantType + self.name + str(chromosomeNumber) + ".txt"
+    def read_all_genes_with_variants(self):
+        genes_and_variants = {}
+        variant_types = ["somatic", "germline"]
+        for variant_type in variant_types:
+            for chromosome_number in chromosomes:
+                filePath = self.path + "\\" + variant_type + self.name + str(chromosome_number) + ".txt"
                 try:
                     file = open(filePath, FileMode.READ.value)
-                    self.__readGenesWithVariants(file, genesAndVariants, variantType)
+                    self.read_genes_with_variants(file, genes_and_variants, variant_type)
                 except IOError:
                     print("Oops, File " + filePath + " does not exist :O")
-        return genesAndVariants
+        return genes_and_variants
 
     # half conditions - conditions that are to be filtered only when they are alone
-    def readFileFilterConditions(self, condition_column, conditions):
+    def read_file_filter_conditions(self, condition_column, conditions):
         genes = {}
         if self.type == FileType.XLS:
             wb = xlrd.open_workbook(self.path + self.name)
@@ -78,7 +78,7 @@ class FileReader:
             gene_conditions = sheet.cell_value(row, condition_column)
             invalid_conditions = 0
             listed_gene_conditions = FileReader.\
-                listCleaner(gene_conditions.replace("?", ",").replace("|", ",").split(","))
+                list_cleaner(gene_conditions.replace("?", ",").replace("|", ",").split(","))
             for gene_condition in listed_gene_conditions:
                 for condition in conditions:
                     if condition in gene_condition or condition.lower() in gene_condition:
@@ -91,7 +91,7 @@ class FileReader:
 
     # receives a list and returns the list without items that are empty or made of spaces
     @staticmethod
-    def listCleaner(l: list):
+    def list_cleaner(l: list):
         new_list = []
         for item in l:
             if item.strip():
@@ -102,39 +102,39 @@ class FileReader:
     # HGNC symbol, and one converting from human gene HGNC symbol to its c-elegans ortholog and number of programs
     # supporting that claim
 
-    def readOrtholist(self):
-        humanGenes = {}
-        homologousGenes = {}
+    def read_ortholist(self):
+        human_genes = {}
+        homologous_genes = {}
         wb = xlrd.open_workbook(self.path + self.name)
         sheet = wb.sheet_by_index(0)
         for row in range(1, sheet.nrows):
-            HGNCSymbol = sheet.cell_value(row, 5)
-            EnsemblId = sheet.cell_value(row, 4)
-            if EnsemblId not in humanGenes:
-                humanGenes[EnsemblId] = HGNCSymbol  # Ensembl ID
-                homologousGenes[HGNCSymbol] = []
+            hgnc_symbol = sheet.cell_value(row, 5)
+            ensembl_id = sheet.cell_value(row, 4)
+            if ensembl_id not in human_genes:
+                human_genes[ensembl_id] = hgnc_symbol  # Ensembl ID
+                homologous_genes[hgnc_symbol] = []
             # 0 - WormBase ID, 6 - number of programs out of 6
-            homologousGenes[HGNCSymbol].append(tuple([sheet.cell_value(row, 0), int(sheet.cell_value(row, 6))]))
-        return humanGenes, homologousGenes
+            homologous_genes[hgnc_symbol].append(tuple([sheet.cell_value(row, 0), int(sheet.cell_value(row, 6))]))
+        return human_genes, homologous_genes
 
     # receives a table of human genes and returns a dict that converts the human gene name to its id
-    def genesIdAndNames(self):
+    def genes_id_and_names(self):
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         f.readline()  # headlines
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             genes[line[1]] = line[0]  # geneName = geneId
         f.close()
         return genes
 
     # returns a dict with gene names as keys and their length in bp as values
-    def getGenesLength(self, gene_name_index, start_index, end_index):
+    def get_genes_length(self, gene_name_index, start_index, end_index):
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         f.readline()  # headlines
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             # line[3] - gene end, line[2] = gene start
             genes[line[gene_name_index]] = int(line[end_index])-int(line[start_index])
         f.close()
@@ -145,7 +145,7 @@ class FileReader:
         genes = []
         f = open(self.path + self.name, FileMode.READ.value)
         for row in f:
-            genes.append(row.strip("\n").split(fileTypesDelimeter[self.type])[column])
+            genes.append(row.strip("\n").split(FILE_TYPES_DELIMETER[self.type])[column])
         f.close()
         return genes
 
@@ -153,7 +153,7 @@ class FileReader:
         genes = []
         f = open(self.path + self.name, FileMode.READ.value)
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             genes.extend(FileReader.fromStringToGenesList(line[column], 0))
         f.close()
         return genes
@@ -166,7 +166,7 @@ class FileReader:
         if delete_first_line:
             f.readline()
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 gene = line[key_index]
                 length = line[value_index]
@@ -188,7 +188,7 @@ class FileReader:
         if delete_first_line:
             f.readline()
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 genes[line[key_index]] = line[value_index]
             except:
@@ -206,7 +206,7 @@ class FileReader:
         if delete_first_line:
             f.readline()
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 genes[(line[first_key_index], line[second_key_index])] = line[value_index]
             except:
@@ -232,7 +232,7 @@ class FileReader:
         if delete_first:
             f.readline()  # headline
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             if line[key_index] not in genes:
                 genes[line[key_index]] = {line[value_index]}
             else:
@@ -246,7 +246,7 @@ class FileReader:
         if delete_first:
             f.readline()  # headline
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             if line[7] == "intergenic":
                 # not in a gene
                 continue
@@ -263,7 +263,7 @@ class FileReader:
         if delete_first:
             f.readline()  # headline
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             key = line[key_index]
             values = line[value_index].strip("\n").split(", ")
             dic[key] = values
@@ -282,7 +282,7 @@ class FileReader:
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             cElegansGenesTuples = FileReader.fromStringToTuplesList(line[key_index])
             for t in cElegansGenesTuples:
                 genes[t[0]] = line[value_index]
@@ -321,7 +321,7 @@ class FileReader:
         if delete_first_line:
             f.readline()
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             if line[key_index] not in genes:
                 genes[line[key_index]] = line[value_index]
         f.close()
@@ -341,7 +341,7 @@ class FileReader:
         genes = []
         f = open(self.path + self.name, FileMode.READ.value)
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             c_elegans_part = line[orthologs_column]
             genes.extend(FileReader.fromStringToGenesList(c_elegans_part, gene_column))
         f.close()
@@ -353,7 +353,7 @@ class FileReader:
         if delete_first_line:
             f.readline()
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 genesDescription[line[key_index].strip("\"")] = line[value_index]
             except:
@@ -374,7 +374,7 @@ class FileReader:
         new_data = open(new_data_plus_summary, FileMode.WRITE.value)
 
         for row in data:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             human_gene_id = line[0]
             human_gene_name = line[1]
             orthologs = FileReader.fromStringToTuplesList(line[2])
@@ -423,7 +423,7 @@ class FileReader:
         if delete_first_line:
             f.readline()
         for row in f:
-            line = row.rstrip('\n').split(fileTypesDelimeter[self.type])
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             key = line[key_index]
             genes_data[key] = row.strip("\n")
         f.close()

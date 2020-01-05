@@ -33,10 +33,10 @@ class FileMakerTest:
 
         fd_humans = FileReader(FileReader.research_path + r"\Data", r"\gene_id-gene_name-start-end.txt",
                                FileType.TSV)
-        humanGenesLength = fd_humans.getGenesLength(1, 2, 3)
+        humanGenesLength = fd_humans.get_genes_length(1, 2, 3)
         fd_c_elegans = FileReader(FileReader.research_path + r"\Data", r"\c_elegans_genes-start-end.txt",
                                   FileType.TSV)
-        cElegansGenesLength = fd_c_elegans.getGenesLength(0, 1, 2)
+        cElegansGenesLength = fd_c_elegans.get_genes_length(0, 1, 2)
 
         de = DataExtracter()
         orthologs, phenotypes = de.filter_genes_with_size_differences(data, humanGenesLength, cElegansGenesLength, p=10)

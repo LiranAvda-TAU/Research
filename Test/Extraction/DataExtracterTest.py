@@ -15,14 +15,14 @@ class DataExtracterTest:
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        orthologousGenes = fd.readGenesWithOrthologyConfidence()
+        orthologousGenes = fd.read_genes_with_orthology_confidence()
 
         filePath = FileReader.research_path + r"\Data\GenesVariants"
         fileName = r"-human-c.elegans-variant-"
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        genesAndVariants = fd.readAllGenesWithVariants()
+        genesAndVariants = fd.read_all_genes_with_variants()
 
         de = DataExtracter().find_genes_variants_and_homologous(orthologousGenes, genesAndVariants)
         return de

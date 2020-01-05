@@ -12,7 +12,7 @@ class FileReaderTest:
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        orthologousGenes = fd.readGenesWithOrthologyConfidence()
+        orthologousGenes = fd.read_genes_with_orthology_confidence()
         return orthologousGenes
 
     @staticmethod
@@ -22,7 +22,7 @@ class FileReaderTest:
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        genesAndVariants = fd.readAllGenesWithVariants()
+        genesAndVariants = fd.read_all_genes_with_variants()
         return genesAndVariants
 
     @staticmethod
@@ -38,7 +38,7 @@ class FileReaderTest:
                                "susceptibility", "risk", "Intellectual disability"]
 
         fd = FileReader(filePath, fileName, fileType)
-        genesWithoutConditions = fd.readFileFilterConditions(1, unwanted_conditions)
+        genesWithoutConditions = fd.read_file_filter_conditions(1, unwanted_conditions)
         return genesWithoutConditions
 
     @staticmethod
@@ -48,7 +48,7 @@ class FileReaderTest:
         fileType = FileType.XLS
 
         fd = FileReader(filePath, fileName, fileType)
-        humanGenes, homologousGenes = fd.readOrtholist()
+        humanGenes, homologousGenes = fd.read_ortholist()
         return humanGenes, homologousGenes
 
     @staticmethod
@@ -58,7 +58,7 @@ class FileReaderTest:
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        fromGeneNameToIdDict = fd.genesIdAndNames()
+        fromGeneNameToIdDict = fd.genes_id_and_names()
         return fromGeneNameToIdDict
 
     @staticmethod
@@ -88,7 +88,7 @@ class FileReaderTest:
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        genesLength = fd.getGenesLength(1,2,3)
+        genesLength = fd.get_genes_length(1, 2, 3)
         return genesLength
 
     @staticmethod
@@ -151,7 +151,7 @@ frt = FileReaderTest()
 
 
 # d: dict = frt.readGenesWithOrthologyConfidenceTest()
-# testFunc = TestFunctions("readGenesWithOrthologyConfidence", d)
+# testFunc = TestFunctions("read_genes_with_orthology_confidence", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)
@@ -167,22 +167,22 @@ frt = FileReaderTest()
 # testFunc.testFinisher()
 
 # d: dict = frt.readFileFilterConditionsTest()
-# testFunc = TestFunctions("readFileFilterConditions", d)
+# testFunc = TestFunctions("read_file_filter_conditions", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 #
-# humanGenes, homologousGenes = frt.readOrtholist()
-# testFunc = TestFunctions("readOrtholist - humanGenes", humanGenes)
+# humanGenes, homologousGenes = frt.read_ortholist()
+# testFunc = TestFunctions("read_ortholist - humanGenes", humanGenes)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)
 # testFunc.printRandomLinesInDict(5)
 # testFunc.testFinisher()
 #
-# testFunc = TestFunctions("readOrtholist - humanGenes", homologousGenes)
+# testFunc = TestFunctions("read_ortholist - humanGenes", homologousGenes)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)
@@ -190,7 +190,7 @@ frt = FileReaderTest()
 # testFunc.testFinisher()
 #
 # d: dict = frt.genesIdAndNamesTest()
-# testFunc = TestFunctions("genesIdAndNames", d)
+# testFunc = TestFunctions("genes_id_and_names", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)
@@ -198,7 +198,7 @@ frt = FileReaderTest()
 # testFunc.testFinisher()
 #
 # d: dict = frt.getGenesLengthTest()
-# testFunc = TestFunctions("getGenesLength", d)
+# testFunc = TestFunctions("get_genes_length", d)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)
