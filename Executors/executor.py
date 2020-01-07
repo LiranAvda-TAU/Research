@@ -464,30 +464,27 @@ class executor:
         # tf.checkSize()
         # tf.printRandomLinesInDict(5)
 
-        true_matches, false_matches = {}, {}
+        true_matches = {}
         de = DataExtracter()
         for key_gene_name in pairs_in_names:
             ortholog_genes_names: list = pairs_in_names[key_gene_name]
             for ortholog_gene_name in ortholog_genes_names:
                 c_elegans_gene_name = key_gene_name if key_species == "C.elegans" else ortholog_gene_name
                 human_gene_name = ortholog_gene_name if key_species == "C.elegans" else key_gene_name
-                print("Now working on " + key_gene_name + " and " + ortholog_gene_name)
-                key_gene_id = Ensembl.get_gene_id_by_gene_name(key_gene_name, key_species)
-                result = de.check_reversed_blast_hit_ids(key_gene_name, key_gene_id, ortholog_gene_name, key_species)
+                print("Now working on", key_gene_name, "and", ortholog_gene_name)
+                result = de.check_reversed_blast_hit_ids(key_gene_name, ortholog_gene_name, key_species)
                 genes_tuple = (ortholog_gene_name, key_gene_name)
                 status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
                                 de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
                                 de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
-                                c_elegans_gene_name + " " + de.get_c_elegans_description_for_gene_id(
+                                c_elegans_gene_name + ": " + de.get_c_elegans_description_for_gene_id(
                                     Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
                 if result:
                     true_matches[genes_tuple] = status_tuple
-                else:
-                    false_matches[genes_tuple] = status_tuple
-                print("The domains ratio, number of sources, human gene length and C.elegans gene length: ",
-                      str(status_tuple))
+                    print("The domains ratio, number of sources, human gene length and C.elegans gene length: ",
+                            str(status_tuple))
 
-        print("true matches:", str(len(true_matches)), "false matches:", str(len(false_matches)))
+        print("true matches:", len(true_matches))
         return true_matches
 
     @staticmethod
@@ -681,7 +678,7 @@ class executor:
             orthologs_names = []
             for i in range(len(true_matches_pairs)):
                 pair = true_matches_pairs[i]
-                orthologs_names.append(pair[0])
+                orthologs_names.append(pair[1])
 
             orthologs_id_WB = Ensembl.get_c_elegans_genes_ids_by_genes_names(orthologs_names)
             print("Human gene name:", human_gene_name, ", seq:", human_seq, ", orthologs gene ids WB:",
@@ -733,21 +730,20 @@ class executor:
         f.close()
 
     @staticmethod
-    def find_me_orthologs(list_of_human_genes,
+    def find_me_orthologs(human_genes,
                           genes_in_names: bool = True,
                           sources_bar: int = 3,
                           length_bar: int = 10,
-                          domains_range: tuple = (0.5, 2)):
-        if genes_in_names:
-            list_of_human_genes_names = list_of_human_genes
-            list_of_human_genes = DataExtracter().convert_list_for_human(list_of_human_genes_names)
-            print("Genes Ids:" + ", ".join(list_of_human_genes))
+                          domains_range: tuple = (0.5, 2),
+                          species="Human"):
+
+        human_genes_ids = DataExtracter().get_genes_ids(human_genes, genes_in_names, species)
 
         # from human gene id to C.elegans gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\ortholist_master",
                                    FileType.TSV).fromFileToDictWithPluralValues(4, 0, True)
-        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(list_of_human_genes, orthologs_dic)
+        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(human_genes_ids, orthologs_dic)
         DataExtracter.check_if_dict_not_empty(relevant_orthologs_dic)
         print("Orthologs: " + str(relevant_orthologs_dic))
 
@@ -784,28 +780,26 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        true_matches = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
-        if not true_matches:
-            exit()
-        return true_matches
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
 
-    def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
-        de = DataExtracter()
-        for i in range(len(human_genes_names)):
-            human_gene_name = human_genes_names[i]
-            c_elegans_gene_name = c_elegans_genes_names[i]
-            conserved_domains_value = de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name,
-                                                                             human_gene_name)
-            human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
-            try:
-                c_elegans_id_wb = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
-            except:
-                print("Couldn't find id for", c_elegans_gene_name)
-                continue
-            c_elegans_seq = BioPython().\
-                get_c_elegans_aa_seq(c_elegans_id_wb)
-            conservation_score = BioPython.get_conservation_score(human_seq, c_elegans_seq)
-            print(human_gene_name, c_elegans_gene_name, conservation_score, conserved_domains_value)
+    # irrelevant function
+    # def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
+    #     de = DataExtracter()
+    #     for i in range(len(human_genes_names)):
+    #         human_gene_name = human_genes_names[i]
+    #         c_elegans_gene_name = c_elegans_genes_names[i]
+    #         conserved_domains_value = de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name,
+    #                                                                          human_gene_name)
+    #         human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
+    #         try:
+    #             c_elegans_id_wb = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
+    #         except:
+    #             print("Couldn't find id for", c_elegans_gene_name)
+    #             continue
+    #         c_elegans_seq = BioPython().\
+    #             get_c_elegans_aa_seq(c_elegans_id_wb)
+    #         conservation_score = BioPython.get_conservation_score(human_seq, c_elegans_seq)
+    #         print(human_gene_name, c_elegans_gene_name, conservation_score, conserved_domains_value)
 
     # this function is built to answer Ronen's list of genes:
     @staticmethod
@@ -829,17 +823,16 @@ class executor:
                                    genes_in_names: bool = True,
                                    sources_bar: int = 3,
                                    length_bar: int = 10,
-                                   domains_range: tuple = (0.5, 2)):
-        if genes_in_names:
-            list_of_worm_genes_names = list_of_worm_genes
-            list_of_human_genes = DataExtracter().convert_list_for_c_elegans(list_of_worm_genes_names)
-            print("Genes Ids:" + ", ".join(list_of_human_genes))
+                                   domains_range: tuple = (0.5, 2),
+                                   species="C.elegans"):
+
+        worm_genes_ids = DataExtracter().get_genes_ids(list_of_worm_genes, genes_in_names, species)
 
         # from C.elegans gene id to human gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\ortholist_master",
                                    FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
-        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(list_of_worm_genes, orthologs_dic)
+        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(worm_genes_ids, orthologs_dic)
         DataExtracter.check_if_dict_not_empty(relevant_orthologs_dic)
         print("Orthologs: " + str(relevant_orthologs_dic))
 
@@ -876,10 +869,7 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        true_matches = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="human")
-        if not true_matches:
-            exit()
-        return true_matches
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="human")
 
 exec = executor()
 
@@ -944,5 +934,5 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx")
+# exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+#                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx")

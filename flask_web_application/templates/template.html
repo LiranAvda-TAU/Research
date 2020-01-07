@@ -3,16 +3,40 @@
  <head>
    <meta charset="utf-8">
    <title>Flask Parent Template</title>
-   <link rel="stylesheet" href="{{ url_for('static',     filename='css/template.css') }}">
+   <!--<link rel="stylesheet" href="{{ url_for('static',     filename='css/template.css') }}">-->
+     <!--<link rel="stylesheet" type="text/css" href="mystyle.css">-->
+
  </head>
+ <style>
+ body {
+    background-color: linen;
+    font-family: Bookman, URW Bookman L, serif;
+ }
+
+ h1 {
+  color: maroon;
+  margin-left: 40px;
+  font-size: 24px;
+ }
+
+ p{
+    font-size: 115%;
+    margin-left: 40px;
+ }
+
+ form{
+    margin-left: 40px;
+ }
+</style>
  <body>
     <header>
       <div class="container">
-        <h1 class="logo">First Web App</h1>
+        <h1 class="logo">Ronen Zaidel Bar's Bioinformatic Toolbox</h1>
         <strong><nav>
           <ul class="menu">
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
+             <li><a href="{{ url_for('get_orthologs_input') }}">Orthologs Finder</a></li>
           </ul>
         </nav></strong>
       </div>

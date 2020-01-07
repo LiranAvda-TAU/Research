@@ -2,15 +2,20 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>About Flask</title>
+    <title>About Us</title>
   </head>
   <body>
     {% extends "template.html" %}
     {% block content %}
-    <h1> About Flask </h1>
-    <p> Flask is a micro web framework written in Python.</p>
-    <p> Applications that use the Flask framework include Pinterest,
-      LinkedIn, and the community web page for Flask itself.</p>
+    <h1> About Our Project </h1>
+    <p> We aim to offer you tools that will help you be a more efficient researcher!</p>
+    <p> We invite you to go ahead and try our homologs tool (to find C.elegans\Human homologs for your
+    Human\C.elegans genes), our variants tool and our automated CRIPSR planner</p>
+    <p><b>Orthologs Finder Pipeline:</b></p>
+    <p>A web interface that allow users to insert human genes and get their C.elegans orthologs.</p>
+    <p>Automated CRIPSR Planner:</b></p>
+    <p>A service that will plan the CRISPR for your gene, given only the gene name, the mutated amino acid site and the
+      current and desired amino acid</p>
     {% endblock %}
 
   </body>

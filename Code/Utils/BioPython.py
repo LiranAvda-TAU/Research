@@ -28,7 +28,7 @@ class BioPython:
             geneId = converter[geneName]
         else:
             print("There is no record for this gene in the dictionary")
-            exit()
+            return None
         Entrez.email = "liranavda@gmail.com"
         handle = Entrez.esearch(db="gene", retmax=10, term=geneId)
         record = Entrez.read(handle)

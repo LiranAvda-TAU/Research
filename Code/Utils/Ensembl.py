@@ -41,6 +41,10 @@ class Ensembl:
         return genes_ids
 
     @staticmethod
+    def get_genes_names_by_genes_ids(genes_ids):
+        return [Ensembl.get_gene_name_by_gene_id(gene_id) for gene_id in genes_ids]
+
+    @staticmethod
     def get_gene_name_by_gene_id(gene_id):
         try:
             record = ensembl_rest.lookup(gene_id)
@@ -76,5 +80,23 @@ class Ensembl:
             if "WBGene" not in record_cell["primary_id"] and "ENSG" not in record_cell["primary_id"]:
                 return record_cell["primary_id"]
         return None
+
+    # receives (1) list of genes names of human or c.elegans and (2) the string "human" or "c.elegans", and returns a
+    # new list with the relevant genes ids.
+    @staticmethod
+    def convert_from_names_to_ids(genes_list, subject):
+        new_list = []
+        for gene in genes_list:
+            gene_id = None
+            if subject == "Human":
+                gene_id = Ensembl.get_human_gene_id_by_gene_name(gene)
+            elif subject == "C.elegans":
+                gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene)
+            if gene_id:
+                new_list.append(gene_id)
+            else:
+                print("The name", gene, "is not listed as a", subject, "gene in our sources")
+
+        return new_list
 
 # print(Ensembl.get_nt_sequence_by_gene_name("cct-1"))

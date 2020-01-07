@@ -48,20 +48,42 @@ class DataExtracter:
     # receives (1) a gene id(WB/ENSG) and (2),(3) terms to extract only the needed number out of the line, makes an
     # http request to extract the domains of each gene, parses it to an integer and returns it
     @staticmethod
-    def get_conserved_domain_per_gene(gene, start_term: str = "Conserved Domains (", end_term: str = ")"):
-        hr = HttpRequester("https://www.ncbi.nlm.nih.gov/gene/?term=" + gene)
+    def get_conserved_domain_per_gene(gene_id):
+        hr = HttpRequester("https://www.ncbi.nlm.nih.gov/gene/?term=" + gene_id)
         data = hr.make_request()
+        number = DataExtracter.extract_number_from_data(data)
+        try:
+            parsed_number = int(number)
+            return parsed_number
+        except ValueError:
+            print("for gene id:", gene_id, "letter extracted is", number)
+            ncbi_id = Ensembl.get_ncbi_id_by_gene_id(gene_id)
+            if ncbi_id:
+                return DataExtracter().get_conserved_domain_per_ncbi_id(ncbi_id)
+        return None
+
+    # extracts number of conserved domains from data given by http request
+    @staticmethod
+    def extract_number_from_data(data, start_term: str = "Conserved Domains (", end_term: str = ")"):
         if isinstance(data, str):  # request was successful
             index = data.find(start_term)
             shorter_data = data[index + len(start_term):]
             end_index = shorter_data.find(end_term)
             number = shorter_data[:end_index]
-            try:
-                parsed_number = int(number)
-            except ValueError:
-                print("for gene: " + gene + " letter extracted is " + number)
-                parsed_number = None
-        return parsed_number
+            return number
+        return None
+
+    @staticmethod
+    def get_conserved_domain_per_ncbi_id(ncbi_id):
+        hr = HttpRequester("https://www.ncbi.nlm.nih.gov/gene/" + ncbi_id)
+        data = hr.make_request()
+        number = DataExtracter.extract_number_from_data(data)
+        try:
+            parsed_number = int(number)
+            return parsed_number
+        except ValueError:
+            print("for ncbi gene id: " + ncbi_id + " letter extracted is " + number)
+        return None
 
     # receives a worm gene name and a human gene name, get conserved domains for both genes, and returns their ratio
     @staticmethod
@@ -149,6 +171,7 @@ class DataExtracter:
                               ", thus not good enough")
                 except:
                     print("Problem occurred with dividing", ortholog_domains, "by", key_domains)
+                    DataExtracter.add_to_dictionary(new_orthologs_dic, key_gene_id, ortholog)
         return new_orthologs_dic
 
     # receives (1) a dictionary of c.elegans genes and number of domains, (2) a dictionary of human genes ids and
@@ -399,11 +422,12 @@ class DataExtracter:
         print("Length of hit ids list is: " + str(len(hit_ids)))
         return hit_ids
 
-    # receives (1) blasted gene name, (2) blasted gene id(WB), (3) ortholog gene name, (4) whether the blasted gene is
+    # receives (1) blasted gene name, (2) ortholog gene name, (3) whether the blasted gene is
     # human or C.elegans, and runs a reverse blast on the genes to see if we get a match in the form of the ortholog gene
     # scheme: blasted gene id(WB) -> blasted gene id(number) -> accession numbers -> accession number -> hit ids -> ortholog
     # genes names -> check if our ortholog gene is in there
-    def check_reversed_blast_hit_ids(self, gene_name, gene_id, ortholog_gene_name, gene_species="C.elegans"):
+    def check_reversed_blast_hit_ids(self, gene_name, ortholog_gene_name, gene_species="C.elegans"):
+        gene_id = Ensembl.get_gene_id_by_gene_name(gene_name, gene_species)
         if gene_species == "C.elegans":
             hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
         else:
@@ -513,29 +537,6 @@ class DataExtracter:
 
         return filtered_dic
 
-    # receives (1) list of genes names of human or c.elegans and (2) the string "human" or "c.elegans", and returns a
-    # new list with the relevant genes ids.
-    @staticmethod
-    def convert_list(genes_list, subject):
-        new_list = []
-        for gene in genes_list:
-            if subject == "human":
-                gene_id = Ensembl.get_human_gene_id_by_gene_name(gene)
-            elif subject == "c.elegans":
-                gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene)
-            if gene_id:
-                new_list.append(gene_id)
-            else:
-                print("The name", gene, "is not listed as a", subject, "gene in our sources")
-
-        return new_list
-
-    def convert_list_for_human(self, genes_list):
-        return self.convert_list(genes_list, "human")
-
-    def convert_list_for_c_elegans(self, genes_list):
-        return self.convert_list(genes_list, "C.elegans")
-
     @staticmethod
     def get_pair_cd_length(c_elegans_gene_name, human_gene_name):
         humans_id_cd_length = FileReader(FileReader.research_path + r"\Data",
@@ -628,6 +629,14 @@ class DataExtracter:
         if not dic:
             print("dictionary has no genes left", step)
             exit()
+
+    @staticmethod
+    def get_genes_ids(list_of_genes, genes_in_names, species):
+        if genes_in_names:
+            genes_ids = Ensembl.convert_from_names_to_ids(list_of_genes, species)
+        else:  # genes in ids
+            genes_ids = list_of_genes
+        return genes_ids
 
     ########### irrelevant functions ###########
 

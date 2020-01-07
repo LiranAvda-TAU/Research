@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Orthologs Finder</title>
+  </head>
+<body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h1> Ronen Zaidel Bar's tool to find Huamn-C.elegans homologous genes </h1>
+    <p> The Orthologs Finder project is consisted of  two sub services:</p>
+    <p> 1. Find the orthologs:
+	A service that aims to find the best C.elegans orthologs for your human gene.</p>
+    <p>2.  Check the variants
+	A service that aims to provide you with information regarding a specific variant you’d like to CRISPR.</p>
+
+    <h1><b>Find The Orthologs </b></h1>
+    <p> In order to use it please insert your genes names (separated by commas if there are more than one), for
+    example: TCP1,DDR1,SRSF5</p>
+    <form method="POST">
+        <input name="text">
+        <input type="submit">
+    </form>
+
+    <h1><b> Check The Variants </b></h1>
+    <p><i>TBD</i></p>
+    {% endblock %}
+</body>
+</html>

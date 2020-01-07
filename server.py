@@ -40,8 +40,8 @@ class HomologyHandler(BaseHTTPRequestHandler):
             print(str(human_genes))
             try:
                 c_elegans_homologs = executor.find_me_orthologs(human_genes)
-            except SystemExit:
-                c_elegans_homologs = "Couldn't find orthologs for " + str(human_genes)
+                if not c_elegans_homologs:
+                    c_elegans_homologs = "Couldn't find orthologs for " + str(human_genes)
             except:
                 c_elegans_homologs = "Something went wrong, please check your service log"
             self.wfile.write(("Done! The results are: " + "<br />" + str(c_elegans_homologs)).encode())
