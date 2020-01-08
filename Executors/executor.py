@@ -877,7 +877,7 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="human")
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="Human")
 
     # parses input for the flask server's variants function
     @staticmethod

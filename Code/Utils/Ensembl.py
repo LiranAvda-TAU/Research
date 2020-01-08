@@ -30,8 +30,6 @@ class Ensembl:
         else:
             return Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name)
 
-
-
     @staticmethod
     def get_c_elegans_genes_ids_by_genes_names(genes_names: list):
         genes_ids = []
