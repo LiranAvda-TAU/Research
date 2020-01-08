@@ -59,7 +59,7 @@ class DataExtracter:
             print("for gene id:", gene_id, "letter extracted is", number)
             ncbi_id = Ensembl.get_ncbi_id_by_gene_id(gene_id)
             if ncbi_id:
-                return DataExtracter().get_conserved_domain_per_ncbi_id(ncbi_id)
+                return DataExtracter().get_conserved_domains_per_ncbi_id(ncbi_id)
         return None
 
     # extracts number of conserved domains from data given by http request
@@ -74,7 +74,7 @@ class DataExtracter:
         return None
 
     @staticmethod
-    def get_conserved_domain_per_ncbi_id(ncbi_id):
+    def get_conserved_domains_per_ncbi_id(ncbi_id):
         hr = HttpRequester("https://www.ncbi.nlm.nih.gov/gene/" + ncbi_id)
         data = hr.make_request()
         number = DataExtracter.extract_number_from_data(data)
