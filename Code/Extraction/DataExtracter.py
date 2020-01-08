@@ -415,6 +415,7 @@ class DataExtracter:
         print("Seq:", seq)
         if not seq:
             return None
+        print("reversed blast time...")
         hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", seq, "Caenorhabditis elegans[organism]",
                                                       "Caenorhabditis elegans")
         if not hit_ids:
@@ -625,10 +626,11 @@ class DataExtracter:
 
     # receives (1) a dict and checks if it is empty. if so, it exits the function
     @staticmethod
-    def check_if_dict_not_empty(dic: dict, step=""):
+    def is_dict_empty(dic: dict, step=""):
         if not dic:
             print("dictionary has no genes left", step)
-            exit()
+            return True
+        return False
 
     @staticmethod
     def get_genes_ids(list_of_genes, genes_in_names, species):

@@ -7,23 +7,41 @@
 <body>
     {% extends "template.html" %}
     {% block content %}
-    <h1> Ronen Zaidel Bar's tool to find Huamn-C.elegans homologous genes </h1>
+    <h1> Find your Human-C.elegans orthologous genes and check your variants</h1>
     <p> The Orthologs Finder project is consisted of  two sub services:</p>
-    <p> 1. Find the orthologs:
-	A service that aims to find the best C.elegans orthologs for your human gene.</p>
-    <p>2.  Check the variants
-	A service that aims to provide you with information regarding a specific variant you’d like to CRISPR.</p>
+    <p><b> 1. Find the C.elegans orthologs:</b></p>
+	<p>A service that aims to find the best C.elegans orthologs for your human genes.</p>
+    <p><b> 2. Find the Human orthologs:</b></p>
+	<p>A service that aims to find the best Human orthologs for your C.elegans genes.</p>
+    <p><b> 3.  Check the variants</b></p>
+	<p>A service that aims to provide you with information regarding a specific variant you’d like to CRISPR.</p>
 
-    <h1><b>Find The Orthologs </b></h1>
-    <p> In order to use it please insert your genes names (separated by commas if there are more than one), for
-    example: TCP1,DDR1,SRSF5</p>
-    <form method="POST">
-        <input name="text">
-        <input type="submit">
+    <h1>Find The C.elegans Orthologs</h1>
+    <p> In order to use the service, please insert your human genes names (separated by commas if there are more than
+        one), for example: TCP1,DDR1,SRSF5</p>
+    <div class="gap-10"></div>
+    <form action="/c_elegans_orthologs" method="POST">
+        Your human genes: <input name="text">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h1>Find The Human Orthologs</h1>
+    <p> In order to use the service, please insert your C.elegans genes names (separated by commas if there are more
+        than one), for example: cct-1,cap-1,arx-2</p>
+    <div class="gap-10"></div>
+    <form action="/human_orthologs" method="POST">
+        Your C.elegans genes: <input name="text">
+        <input type="submit" value="Submit">
     </form>
 
     <h1><b> Check The Variants </b></h1>
-    <p><i>TBD</i></p>
+    <p> In order to use the service, please insert your genes names and variants according to the format below:</p>
+    <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: TCP1:[Asn284Ser,Ala453Glu]</p>
+    <div class="gap-10"></div>
+    <form action="/variants" method="POST">
+        Your human genes and their variants: <input name="text">
+        <input type="submit" value="Submit">
+    </form>
     {% endblock %}
 </body>
 </html>

@@ -744,7 +744,8 @@ class executor:
                                    r"\ortholist_master",
                                    FileType.TSV).fromFileToDictWithPluralValues(4, 0, True)
         relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(human_genes_ids, orthologs_dic)
-        DataExtracter.check_if_dict_not_empty(relevant_orthologs_dic)
+        if DataExtracter.is_dict_empty(relevant_orthologs_dic):
+            return None
         print("Orthologs: " + str(relevant_orthologs_dic))
 
         # now we have the ortholist-orthologs to our human genes.
@@ -757,7 +758,8 @@ class executor:
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
                                                                             sources_dic,
                                                                             sources_bar)
-        DataExtracter.check_if_dict_not_empty(filtered_by_sources_orthologs, "after sources filtration")
+        if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
+            return None
         print(str(len(filtered_by_sources_orthologs)) + " genes are left " + str(filtered_by_sources_orthologs),
               "after filtration by sources")
 
@@ -765,7 +767,8 @@ class executor:
         # next step - filtration by length ratio
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
                                                                                         length_bar)
-        DataExtracter.check_if_dict_not_empty(filtered_by_length_orthologs, "after length filtration")
+        if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
+            return None
         print(str(len(filtered_by_length_orthologs)) + " genes are left " + str(filtered_by_length_orthologs),
               "after filtration by length")
 
@@ -774,7 +777,8 @@ class executor:
         filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
                                                                                    domains_range,
                                                                                    key_organism="Human")
-        DataExtracter.check_if_dict_not_empty(filtered_by_conserved_domains, "after domains filtration")
+        if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
+            return None
         print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
               "after filtration by domains")
 
@@ -833,7 +837,8 @@ class executor:
                                    r"\ortholist_master",
                                    FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
         relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(worm_genes_ids, orthologs_dic)
-        DataExtracter.check_if_dict_not_empty(relevant_orthologs_dic)
+        if DataExtracter.is_dict_empty(relevant_orthologs_dic):
+            return None
         print("Orthologs: " + str(relevant_orthologs_dic))
 
         # now we have the ortholist-orthologs to our human genes.
@@ -846,7 +851,8 @@ class executor:
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
                                                                             sources_dic,
                                                                             sources_bar)
-        DataExtracter.check_if_dict_not_empty(filtered_by_sources_orthologs, "after sources filtration")
+        if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
+            return None
         print(str(len(filtered_by_sources_orthologs)) + " genes are left " + str(filtered_by_sources_orthologs),
               "after filtration by sources")
 
@@ -854,7 +860,8 @@ class executor:
         # next step - filtration by length ratio
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
                                                                                         length_bar, "c_elegans")
-        DataExtracter.check_if_dict_not_empty(filtered_by_length_orthologs, "after length filtration")
+        if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
+            return None
         print(str(len(filtered_by_length_orthologs)) + " genes are left " + str(filtered_by_length_orthologs),
               "after filtration by length")
 
@@ -863,13 +870,28 @@ class executor:
         filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
                                                                                    domains_range,
                                                                                    key_organism="C.elegans")
-        DataExtracter.check_if_dict_not_empty(filtered_by_conserved_domains, "after domains filtration")
+        if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
+            return None
         print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
               "after filtration by domains")
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
         return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="human")
+
+    # parses input for the flask server's variants function
+    @staticmethod
+    def parse_input(input_genes):
+        # input = "TCP1:[Asn284Ser,Ala453Glu],DAP3:[Leu138Phe,Glu369Lys]"
+        dic = {}
+        while input:
+            gene = input_genes[:input_genes.find(":")]
+            input_genes = input_genes[len(gene)+1:]
+            variations_str = input_genes[input_genes.find("[")+1:input_genes.find("]")]
+            variations = variations_str.split(",")
+            dic[gene] = variations
+            input_genes = input_genes[len(variations_str)+3:]
+        return dic
 
 exec = executor()
 

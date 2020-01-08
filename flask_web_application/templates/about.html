@@ -11,11 +11,25 @@
     <p> We aim to offer you tools that will help you be a more efficient researcher!</p>
     <p> We invite you to go ahead and try our homologs tool (to find C.elegans\Human homologs for your
     Human\C.elegans genes), our variants tool and our automated CRIPSR planner</p>
+
+    <div class="gap-10"></div>
     <p><b>Orthologs Finder Pipeline:</b></p>
-    <p>A web interface that allow users to insert human genes and get their C.elegans orthologs.</p>
-    <p>Automated CRIPSR Planner:</b></p>
+    <p>A web interface that allow users to insert human genes and get their C.elegans orthologs and conservation
+        information for given variants.</p>
+    <p><u>How does it work?</u></p>
+    <p>Out of the possible orthologs for your gene, extracted from the database of OrthoList2, the candidates are
+        filtered by number of sources, ratio of gene’s conserved domains, ratio of gene’s size and validated by
+        reversed BLAST.</p>
+    <p>After finding the best C.elegans ortholog for your gene, the service will check whether this amino acid is
+        conserved (and how conserved it is) and provide you with the corresponding site in the C.elegans gene sequence</p>
+
+    <div class="gap-10"></div>
+    <p><b>Automated CRIPSR Planner:</b></p>
     <p>A service that will plan the CRISPR for your gene, given only the gene name, the mutated amino acid site and the
       current and desired amino acid</p>
+    <div class="gap-80"></div>
+    <p>Developed by: Liran Avda, Email: Liranavda@gmail.com</p>
+
     {% endblock %}
 
   </body>
