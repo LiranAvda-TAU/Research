@@ -20,10 +20,10 @@ class HttpRequester:
             response.raise_for_status()
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')
-            exit()
+            return None
         except Exception as err:
             print(f'Other error occurred: {err}')
-            exit()
+            return None
         else:
             # success
             return str(response.content)

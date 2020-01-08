@@ -81,8 +81,8 @@ class DataExtracter:
         try:
             parsed_number = int(number)
             return parsed_number
-        except ValueError:
-            print("for ncbi gene id: " + ncbi_id + " letter extracted is " + number)
+        except:
+            print("for ncbi gene id:", ncbi_id, " letter extracted is", number)
         return None
 
     # receives a worm gene name and a human gene name, get conserved domains for both genes, and returns their ratio
@@ -679,6 +679,8 @@ class DataExtracter:
 
     @staticmethod
     def get_c_elegans_description_for_gene_id(gene_id):
+        if not gene_id:
+            return None
         start_term: str = "\"text\":\""
         end_term: str = "\",\"evidence\""
         try:
@@ -687,7 +689,6 @@ class DataExtracter:
         except:
             description = "no description was found"
             return description
-            return
         info_index = record.find("concise_description")
         shorter_info = record[info_index + len("concise_description"):]
         start_index = shorter_info.find(start_term)

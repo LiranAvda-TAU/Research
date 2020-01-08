@@ -25,7 +25,7 @@ class Ensembl:
     # receives a gene name and a species ("human" or "C.elegans") and returns the gene id
     @staticmethod
     def get_gene_id_by_gene_name(gene_name, species):
-        if species == "human":
+        if species == "Human":
             return Ensembl.get_human_gene_id_by_gene_name(gene_name)
         else:
             return Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name)
