@@ -21,7 +21,7 @@
         one), for example: TCP1,DDR1,SRSF5</p>
     <div class="gap-10"></div>
     <form action="/c_elegans_orthologs" method="POST">
-        Your human genes: <input name="text">
+        Your human genes: <input style=width:400px; name="text">
         <input type="submit" value="Submit">
     </form>
 
@@ -30,7 +30,7 @@
         than one), for example: cct-1,cap-1,arx-2</p>
     <div class="gap-10"></div>
     <form action="/human_orthologs" method="POST">
-        Your C.elegans genes: <input name="text">
+        Your C.elegans genes: <input style=width:400px; name="text">
         <input type="submit" value="Submit">
     </form>
 
@@ -39,9 +39,10 @@
     <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: TCP1:[Asn284Ser,Ala453Glu]</p>
     <div class="gap-10"></div>
     <form action="/variants" method="POST">
-        Your human genes and their variants: <input name="text">
+        Your human genes and their variants: <input style=width:400px; name="text">
         <input type="submit" value="Submit">
     </form>
+
     {% endblock %}
 </body>
 </html>

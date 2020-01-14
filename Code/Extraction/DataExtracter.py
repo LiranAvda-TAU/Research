@@ -327,19 +327,20 @@ class DataExtracter:
         for gene in list_of_genes:
             print("gene: " + gene)
             info = HttpRequester(url + gene + "/" + "phenotype").make_request()
-            search_index = info.find(search_term)
-            while -1 < search_index < info.find("\"phenotype_not_observed\":") and \
-                            search_index < info.find("\"phenotype_by_interaction\""):
-                info = info[search_index:]
-                label_index = info.find(label_term)
-                info = info[label_index:]
-                phenotype = info[len(label_term):info.find(",")].strip("\"")
-                print(phenotype)
-                if gene in genes_and_phenotypes:
-                    genes_and_phenotypes[gene].append(phenotype)
-                else:
-                    genes_and_phenotypes[gene] = [phenotype]
+            if info:
                 search_index = info.find(search_term)
+                while -1 < search_index < info.find("\"phenotype_not_observed\":") and \
+                            search_index < info.find("\"phenotype_by_interaction\""):
+                    info = info[search_index:]
+                    label_index = info.find(label_term)
+                    info = info[label_index:]
+                    phenotype = info[len(label_term):info.find(",")].strip("\"")
+                    print(phenotype)
+                    if gene in genes_and_phenotypes:
+                        genes_and_phenotypes[gene].append(phenotype)
+                    else:
+                        genes_and_phenotypes[gene] = [phenotype]
+                    search_index = info.find(search_term)
 
         return genes_and_phenotypes
 
@@ -349,6 +350,8 @@ class DataExtracter:
         search_term: str = "\"class\":\"phenotype\""
         label_term: str = "\"label\":"
         info = HttpRequester(url + gene_id + "/" + "phenotype").make_request()
+        if not info:
+            return None
         search_index = info.find(search_term)
         while -1 < search_index < info.find("\"phenotype_not_observed\":") and \
                         search_index < info.find("\"phenotype_by_interaction\""):
@@ -438,7 +441,7 @@ class DataExtracter:
             hit_gene_name = self.hit_ids_to_gene_names.get(hit_id, None)
             if hit_gene_name:
                 if hit_gene_name == ortholog_gene_name:
-                    print(gene_id, "and", ortholog_gene_name + "are orthologs indeed!")
+                    print(gene_id, "and", ortholog_gene_name, "are orthologs indeed!")
                     return True
                 else:
                     print("hit human gene name is", hit_gene_name, "thus there is no match")
@@ -447,7 +450,7 @@ class DataExtracter:
                     hit_gene_name = BioPython().get_gene_name_from_protein_accession([hit_id])[hit_id]
                     print("The gene's name for hit id:", hit_id, "is:", hit_gene_name)
                     if hit_gene_name == ortholog_gene_name:
-                        print(gene_name + " and " + ortholog_gene_name + " are orthologs indeed!")
+                        print(gene_name, "and", ortholog_gene_name, "are orthologs indeed!")
                         return True
                 except:
                     print("Couldn't find the human gene name to hit id: " + hit_id)
@@ -680,17 +683,16 @@ class DataExtracter:
         new_file.close()
 
     @staticmethod
-    def get_c_elegans_description_for_gene_id(gene_id):
+    def get_c_elegans_description_for_gene_id(gene_id, start_term: str = "\"text\":\"", end_term: str = "\",\"evidence\""):
         if not gene_id:
             return None
-        start_term: str = "\"text\":\""
-        end_term: str = "\",\"evidence\""
         try:
             record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
                                     gene_id + "/overview").make_request()
         except:
-            description = "no description was found"
-            return description
+            return "no description was found"
+        if not record:
+            return "no description was found"
         info_index = record.find("concise_description")
         shorter_info = record[info_index + len("concise_description"):]
         start_index = shorter_info.find(start_term)

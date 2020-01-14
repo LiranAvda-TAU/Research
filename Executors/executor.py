@@ -659,7 +659,7 @@ class executor:
     @staticmethod
     def get_variants_data_for_server(human_genes_and_variants):
         conserved_variants = 0
-        output = ''
+        output = []
         genes_names = human_genes_and_variants.keys()
 
         mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
@@ -706,9 +706,9 @@ class executor:
                                                                place)
                     print("For gene: " + human_gene_name + " with variant " + variant + ", the amino acid is " + result)
                     conserved_variants += 1
-                    line = variant + "\t" + result + "\t" + str(c_elegans_location) + "\t" + \
-                        str(alignment_conservation_score) + "\t" + str(count) + "\t" + mmp_data + "\n"
-                    output += line
+                    line = [variant, Ensembl.get_gene_name_by_gene_id(ortholog_id_WB), result, c_elegans_location,
+                            alignment_conservation_score, count, mmp_data]
+                    output.append(line)
             if not conserved_variants:
                 print("No variants are conserved")
         return output
@@ -784,7 +784,12 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
+        result_dict = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
+        result_list = []
+        for genes_tuple in result_dict:
+            data = result_dict[genes_tuple]
+            result_list += [genes_tuple[0], genes_tuple[1], data[0], data[1], data[2][0], data[2][1], data[3]]
+        return result_dict
 
     # irrelevant function
     # def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
@@ -877,14 +882,19 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="Human")
+        result_dict = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="Human")
+        result_list = []
+        for genes_tuple in result_dict:
+            data = result_dict[genes_tuple]
+            result_list += [genes_tuple[0], genes_tuple[1], data[0], data[1], data[2][0], data[2][1], data[3]]
+        return result_list
 
     # parses input for the flask server's variants function
     @staticmethod
     def parse_input(input_genes):
-        # input = "TCP1:[Asn284Ser,Ala453Glu],DAP3:[Leu138Phe,Glu369Lys]"
+        # input_genes = "TCP1:[Asn284Ser,Ala453Glu],DAP3:[Leu138Phe,Glu369Lys]"
         dic = {}
-        while input:
+        while input_genes:
             gene = input_genes[:input_genes.find(":")]
             input_genes = input_genes[len(gene)+1:]
             variations_str = input_genes[input_genes.find("[")+1:input_genes.find("]")]
@@ -892,6 +902,21 @@ class executor:
             dic[gene] = variations
             input_genes = input_genes[len(variations_str)+3:]
         return dic
+
+    # parses output for the flask's server finding functions (works only for dictionaries)
+    @staticmethod
+    def dictionary_output_parser(results):
+        if isinstance(results, dict):
+            output = ''
+            for key in results:
+                if isinstance(key, tuple):
+                    output += ", ".join(key)
+                else:
+                    output += key
+                if results.get(key) and results.get(key) != [""]:
+                    output += ": " + ", ".join([str(item) for item in results.get(key)]) + "\n"
+            return output
+        return results
 
 exec = executor()
 
