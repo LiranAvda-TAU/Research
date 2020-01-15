@@ -210,7 +210,12 @@ class BioPython:
     @staticmethod
     def get_aa_seq_from_ensembl(gene_id):
         chosen_seq = ''
-        res = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
+        try:
+            res = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
+        except:
+            return None
+        if not res:
+            return None
         sequences = res.split(">")
         for seq in sequences:
             if seq == "":
