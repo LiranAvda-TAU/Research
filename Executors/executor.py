@@ -473,19 +473,24 @@ class executor:
                 human_gene_name = ortholog_gene_name if key_species == "C.elegans" else key_gene_name
                 print("Now working on", key_gene_name, "and", ortholog_gene_name)
                 result = de.check_reversed_blast_hit_ids(key_gene_name, ortholog_gene_name, key_species)
-                genes_tuple = (ortholog_gene_name, key_gene_name)
-                status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
-                                de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
-                                de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
-                                c_elegans_gene_name + ": " + de.get_c_elegans_description_for_gene_id(
-                                    Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
                 if result:
+                    genes_tuple = (ortholog_gene_name, key_gene_name)
+                    status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
+                                    de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
+                                    de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
+                                    c_elegans_gene_name + ": " + de.get_c_elegans_description_for_gene_id(
+                                        Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
+
                     true_matches[genes_tuple] = status_tuple
                     print("The domains ratio, number of sources, human gene length and C.elegans gene length: ",
                             str(status_tuple))
 
-        print("true matches:", len(true_matches))
-        return true_matches
+        print("true matches:\n", true_matches)
+        result_list = []
+        for genes_tuple in true_matches:
+            data = true_matches[genes_tuple]
+            result_list.append([genes_tuple[0], genes_tuple[1], data[0], data[1], data[2][0], data[2][1], data[3]])
+        return result_list
 
     @staticmethod
     def filterGenesTest():
@@ -784,12 +789,8 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        result_dict = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
-        result_list = []
-        for genes_tuple in result_dict:
-            data = result_dict[genes_tuple]
-            result_list += [genes_tuple[0], genes_tuple[1], data[0], data[1], data[2][0], data[2][1], data[3]]
-        return result_dict
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
+
 
     # irrelevant function
     # def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
@@ -882,12 +883,7 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        result_dict = executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="Human")
-        result_list = []
-        for genes_tuple in result_dict:
-            data = result_dict[genes_tuple]
-            result_list += [genes_tuple[0], genes_tuple[1], data[0], data[1], data[2][0], data[2][1], data[3]]
-        return result_list
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="Human")
 
     # parses input for the flask server's variants function
     @staticmethod
@@ -981,5 +977,5 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx")
+# exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+#                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx")

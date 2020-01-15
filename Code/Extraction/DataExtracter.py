@@ -263,7 +263,8 @@ class DataExtracter:
     @staticmethod
     def add_to_dictionary(d: dict, key: str, value):
         if key in d:
-            d[key].append(value)
+            if value not in d[key]:
+                d[key].append(value)
         else:
             d[key] = [value]
 
@@ -367,7 +368,7 @@ class DataExtracter:
         c_elegans_accession_number = None
 
         c_elegans_ncbi_id = BioPython.get_ncbi_id(c_elegans_gene_id)
-        print("gene ncbi id is: " + c_elegans_ncbi_id)
+        print("gene ncbi id is: ", c_elegans_ncbi_id)
         if c_elegans_ncbi_id:
             c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
             if c_elegans_accession_number:
