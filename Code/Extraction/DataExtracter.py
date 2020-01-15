@@ -55,7 +55,7 @@ class DataExtracter:
         try:
             parsed_number = int(number)
             return parsed_number
-        except ValueError:
+        except:
             print("for gene id:", gene_id, "letter extracted is", number)
             ncbi_id = Ensembl.get_ncbi_id_by_gene_id(gene_id)
             if ncbi_id:

@@ -54,6 +54,8 @@ class HttpRequester:
         return chosen_seq
 
     def get_protein_sequence_from_ensembl(self, gene_id):
+        if not gene_id:
+            return None
         request_url = self.url + gene_id + "?type=protein;multiple_sequences=1"
         try:
             r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
