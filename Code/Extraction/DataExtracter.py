@@ -11,10 +11,18 @@ class DataExtracter:
     def __init__(self):
         self.accession_numbers_to_hit_ids = FileReader(FileReader.research_path + r"\Executors",
                                                        r"\accession numbers and hit ids").\
-            fromFileToDictWithListsAsValues(0, 1)
+            from_file_to_dict_with_lists_as_values(0, 1)
         self.hit_ids_to_gene_names = FileReader(FileReader.research_path + r"\Executors",
                                                 r"\blast-hit-ids-and-human-gene-names0-30",
-                                                   FileType.TSV).from_file_to_dict(0, 1)
+                                                FileType.TSV).from_file_to_dict(0, 1)
+
+        self.c_elegans_domains_dic = FileReader(FileReader.research_path + r"\Data",
+                                                      r"\c-elegans-genes-and-conserved-domains-230619",
+                                                FileType.TSV).from_file_to_dict(0, 1)
+
+        self.human_domains_dic = FileReader(FileReader.research_path + r"\Data",
+                                                  r"\human-genes-and-conserved-domains-230619",
+                                            FileType.TSV).from_file_to_dict(0, 1)
 
     # receives (1) a dictionary of c.elegans genes id (number) as keys and accession numbers as values, enact the
     # function that chooses the longest isoform of all accession number, and returns a dictionary with c.elegans gene
@@ -39,7 +47,7 @@ class DataExtracter:
     @staticmethod
     def get_conserved_domains(genes: list):
         genes_and_conserved_domain = {}
-        parsed_number = DataExtracter().get_conserved_domain_per_gene(genes)
+        parsed_number = DataExtracter().get_conserved_domain_per_gene_id(genes)
         for gene in genes:
             if parsed_number is not None:
                 genes_and_conserved_domain[gene] = parsed_number
@@ -48,7 +56,7 @@ class DataExtracter:
     # receives (1) a gene id(WB/ENSG) and (2),(3) terms to extract only the needed number out of the line, makes an
     # http request to extract the domains of each gene, parses it to an integer and returns it
     @staticmethod
-    def get_conserved_domain_per_gene(gene_id):
+    def get_conserved_domain_per_gene_id(gene_id):
         hr = HttpRequester("https://www.ncbi.nlm.nih.gov/gene/?term=" + gene_id)
         data = hr.make_request()
         number = DataExtracter.extract_number_from_data(data)
@@ -98,8 +106,8 @@ class DataExtracter:
             return None
 
         de = DataExtracter()
-        c_elegans_domains = de.get_conserved_domain_per_gene(c_elegans_id)
-        human_domains = de.get_conserved_domain_per_gene(human_id)
+        c_elegans_domains = de.get_conserved_domain_per_gene_id(c_elegans_id)
+        human_domains = de.get_conserved_domain_per_gene_id(human_id)
         return float(c_elegans_domains) / float(human_domains)
 
     # receives worm gene name and human gene name, reads the ortholist file to a dictionary with
@@ -111,10 +119,10 @@ class DataExtracter:
         human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
         orthologs = FileReader(FileReader.research_path + r"\Data",
                                r"\ortholist_master",
-                                  FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
+                                  FileType.TSV).from_file_to_dict_with_plural_values(0, 4, True)
         sources = FileReader(FileReader.research_path + r"\Data",
                              r"\ortholist_master",
-                                FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
+                                FileType.TSV).from_file_to_dict_with_tuple_key(0, 4, 6, True)
 
         if c_elegans_gene_id in orthologs:
             if human_gene_id in orthologs[c_elegans_gene_id]:
@@ -138,14 +146,12 @@ class DataExtracter:
     # receives (1) a dictionary of c.elegans genes and number of domains, (2) a dictionary of human genes ids and
     # number of domains, (3) a dictionary with human genes ids as keys and c.elegans orthologs as values, and
     # returns a new dic with the human genes and their orthologs if they are inside the range of ratio
-    @staticmethod
-    def filter_by_conserved_domains(c_elegans_domains_dic: dict,
-                                    human_domains_dic: dict,
+    def filter_by_conserved_domains(self,
                                     orthologs_dic: dict,
                                     domains_range,
                                     key_organism):
-        key_domains_dic = human_domains_dic if key_organism == "Human" else c_elegans_domains_dic
-        orthologs_domains_dic = c_elegans_domains_dic if key_organism == "Human" else human_domains_dic
+        key_domains_dic = self.human_domains_dic if key_organism == "Human" else self.c_elegans_domains_dic
+        orthologs_domains_dic = self.c_elegans_domains_dic if key_organism == "Human" else self.human_domains_dic
 
         new_orthologs_dic = {}
         for key_gene_id in orthologs_dic:
@@ -153,21 +159,21 @@ class DataExtracter:
             if key_gene_id in key_domains_dic:
                 key_domains = key_domains_dic[key_gene_id]
             else:
-                key_domains = DataExtracter().get_conserved_domain_per_gene(key_gene_id)
+                key_domains = DataExtracter().get_conserved_domain_per_gene_id(key_gene_id)
             for ortholog in orthologs:
                 try:
                     ortholog_domains = orthologs_domains_dic[ortholog]
                 except:
-                    ortholog_domains = DataExtracter().get_conserved_domain_per_gene(ortholog)
+                    ortholog_domains = DataExtracter().get_conserved_domain_per_gene_id(ortholog)
 
                 try:
                     ratio = float(ortholog_domains) / float(key_domains)
                     if domains_range[0] <= ratio <= domains_range[1]:
-                        print("Ratio between", ortholog, "and", key_gene_id, "is", str(ratio),
-                              ", thus passes the domains ratio bar!")
+                        print("Ratio between", ortholog, "and", key_gene_id, "is", ratio,
+                              ", thus passes the domains ratio bar")
                         DataExtracter.add_to_dictionary(new_orthologs_dic, key_gene_id, ortholog)
                     else:
-                        print("Ratio between", key_gene_id, "and", ortholog + " is", str(ratio),
+                        print("Ratio between", key_gene_id, "and", ortholog + " is", ratio,
                               ", thus not good enough")
                 except:
                     print("Problem occurred with dividing", ortholog_domains, "by", key_domains)
@@ -231,7 +237,7 @@ class DataExtracter:
         accession_number = "default"
         hit_id = "default"
         for result_index in range(start_file, end_file):
-            f = fd.readResultsFile()
+            f = fd.read_results_file()
             print("created a file to extract the results!")
             line = f.readline()  # accession-number...
             while line:  # line is not an empty string, thus we haven't reached the end of the file yet
@@ -272,8 +278,7 @@ class DataExtracter:
     @staticmethod
     def from_plural_valued_dict_to_plural_valued_reversed_dict(d: dict):
         reversed_dict = {}
-        keys = d.keys()
-        for key in keys:
+        for key in d:
             value_list = d[key]
             for value in value_list:
                 DataExtracter().add_to_dictionary(reversed_dict, value, key)
@@ -367,29 +372,33 @@ class DataExtracter:
     def get_human_hit_ids(self, c_elegans_gene_id, c_elegans_gene_name):
         c_elegans_accession_number = None
 
+        # gene id -> ncbi id -> accession number -> hit ids
         c_elegans_ncbi_id = BioPython.get_ncbi_id(c_elegans_gene_id)
-        print("gene ncbi id is: ", c_elegans_ncbi_id)
         if c_elegans_ncbi_id:
+            print("gene ncbi id is: ", c_elegans_ncbi_id)
             c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
             if c_elegans_accession_number:
                 print("Gene's accession number is: " + c_elegans_accession_number)
                 hit_ids = self.accession_numbers_to_hit_ids.get(c_elegans_accession_number, None)
                 if hit_ids:
                     return hit_ids
-        c_elegans_seq = BioPython().get_c_elegans_aa_seq(c_elegans_gene_id, c_elegans_accession_number)
+
+        # gene id -> amino acid seq -> blast -> hit ids
+        c_elegans_seq = BioPython().get_c_elegans_aa_seq(c_elegans_gene_id, c_elegans_accession_number, c_elegans_ncbi_id)
         if c_elegans_seq:
             hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", c_elegans_seq)
             if not hit_ids:
-                print("Couldn't find hit ids for", c_elegans_gene_name)
+                print("Couldn't get hit ids for", c_elegans_gene_name)
                 return None
-            print("Length of hit ids list is: " + str(len(hit_ids)))
+            print("Length of hit ids list is:", len(hit_ids))
             return hit_ids
+        return None
 
     # receives human gene id (ENSG) and returns a set of all related accession numbers
     @staticmethod
     def get_human_accession_number(human_gene_id):
         accessions_dic = FileReader(FileReader.research_path + r"\Data",
-                                    r"\human_genes_ids_to_accession_numbers.txt").fromFileToDictWithPluralValues(0, 1, True)
+                                    r"\human_genes_ids_to_accession_numbers.txt").from_file_to_dict_with_plural_values(0, 1, True)
         if human_gene_id not in accessions_dic:
             print("Human gene id", human_gene_id, "didn't have an accession number")
             return None
@@ -404,7 +413,7 @@ class DataExtracter:
         if not seq:
             seq = BioPython.get_aa_seq_from_ensembl(human_gene_id)  # try from ensembl
             if not seq:
-                human_accession_number = DataExtracter.get_human_accession_number(human_gene_id) # try by accession
+                human_accession_number = DataExtracter.get_human_accession_number(human_gene_id)  # try by accession
                 if human_accession_number:
                     seq = BioPython().get_aa_seq_from_entrez(human_accession_number)
                     if not seq:
@@ -416,7 +425,7 @@ class DataExtracter:
     @staticmethod
     def get_c_elegans_hit_ids(human_gene_id, human_gene_name):
         seq = DataExtracter.get_human_aa_seq(human_gene_id)
-        print("Seq:", seq)
+        print("Human Seq:", seq)
         if not seq:
             return None
         print("reversed blast time...")
@@ -437,6 +446,8 @@ class DataExtracter:
             hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
         else:
             hit_ids = DataExtracter.get_c_elegans_hit_ids(gene_id, gene_name)
+        if not hit_ids:
+            return False
         for hit_id in hit_ids:
             print("current hit id:", hit_id)
             hit_gene_name = self.hit_ids_to_gene_names.get(hit_id, None)
@@ -488,7 +499,7 @@ class DataExtracter:
     @staticmethod
     def filter_genes_by_name(unwanted_genes_file_path, unwanted_genes_file_name, data_path, data_name, new_data_name):
         unwanted_genes_dic = FileReader(unwanted_genes_file_path,
-                                           unwanted_genes_file_name).fromFileToDictWithPluralValues(0, 2, False)
+                                           unwanted_genes_file_name).from_file_to_dict_with_plural_values(0, 2, False)
         data = open(data_path + data_name)
         new_data = open(new_data_name, FileMode.WRITE.value)
         data.readline()
@@ -517,7 +528,7 @@ class DataExtracter:
     # receives (1) list of keys, and (2) dictionary of keys and values and returns a new dictionary containing only the
     # keys and values for the keys given in input (1)
     @staticmethod
-    def get_specific_dic_of_orthologs(list_of_genes, gene_converting_dic):
+    def get_filtered_dic_of_orthologs(list_of_genes, gene_converting_dic):
         dic = {}
         for gene in list_of_genes:
             try:
@@ -533,13 +544,14 @@ class DataExtracter:
     @staticmethod
     def filter_dic_by_sources(orthologs_dic, sources_dic, bar):
         filtered_dic = {}
-        keys = orthologs_dic.keys()
-        for key in keys:
+        for key in orthologs_dic:
             for ortholog in orthologs_dic[key]:
-                if int(sources_dic[(key, ortholog)]) >= bar:
-                    print(key + " with its ortholog " + ortholog + " have passes the sources bar!")
-                    DataExtracter.add_to_dictionary(filtered_dic, key, ortholog)
-
+                try:
+                    if int(sources_dic[(key, ortholog)]) >= bar:
+                        print(key + " with its ortholog " + ortholog + " have passes the sources bar!")
+                        DataExtracter.add_to_dictionary(filtered_dic, key, ortholog)
+                except:
+                    print("The tuple", key, ortholog, "doesn't appear in the sources dic")
         return filtered_dic
 
     @staticmethod
@@ -568,8 +580,8 @@ class DataExtracter:
     # deletes genes for which the length differences between the human gene and its ortholog
     # are too high
     @staticmethod
-    def filter_genes_by_length_differences(d: dict, p: int, key_gene: str = "human"):
-        if key_gene == "human":
+    def filter_genes_by_length_differences(d: dict, p: int, key_gene: str = "Human"):
+        if key_gene == "Human":
             key_id_cd_length = FileReader(FileReader.research_path + r"\Data",
                                           r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
             value_id_cd_length = FileReader(FileReader.research_path + r"\Data",
@@ -584,48 +596,52 @@ class DataExtracter:
             try:
                 key_gene_length = float(key_id_cd_length[key])
             except:
-                print("gene " + key + " wasn't found...")
+                print("gene:", key, "wasn't found in length dictionary")
                 continue
-            d_values = d[key]
-            for value_gene in d_values:
+            values = d[key]
+            for value_gene in values:
                 try:
                     value_gene_length = float(value_id_cd_length[value_gene])
                 except:
-                    print("gene " + value_gene + " wasn't found...")
+                    print("gene:", value_gene + "wasn't found in length dictionary")
                     continue
                 if (key_gene_length * p) / 100 <= value_gene_length and \
                                         (value_gene_length * p) / 100 <= key_gene_length:
-                    print("Gene:", key, "has length of", str(int(key_gene_length)), "bp, and its",
-                          "ortholog", value_gene, "has length of", str(int(value_gene_length)),
-                          "bp, so they pass the length bar")
+                    print("Gene:", key, "has length of", int(key_gene_length), "bp, and its ortholog", value_gene,
+                          "has length of", int(value_gene_length), "bp, so they pass the length bar")
                     DataExtracter.add_to_dictionary(genes_and_orthologs, key, value_gene)
                 else:  # genes have too different sizes
                     print("value gene's length is", value_gene_length, "and key gene's length is",
-                          key_gene_length, "thus the value gene is", str((value_gene_length * 100) / key_gene_length),
+                          key_gene_length, "thus the value gene is", (value_gene_length * 100) / key_gene_length,
                             "percent of the key gene's length")
         return genes_and_orthologs
 
     # receives (1) a possible-plural-valued-dictionary of worm-human orthologs and (2) a boolean value indicating if we
     # are interested in converting id to name or name to id, and returns a new worm-human dictionary with the converted keys and values
-    def convert_dic(self, dic, from_id_to_name, key_organism: str = "C.elegans"):
+    @staticmethod
+    def convert_dic(dic, from_id_to_name, key_organism: str = "C.elegans"):
         converted_dic = {}
         for key in dic:
             values = dic[key]
             for value in values:
                 if from_id_to_name:
-                    DataExtracter().add_to_dictionary(converted_dic,
-                                                      Ensembl.get_gene_name_by_gene_id(key),
-                                                      Ensembl.get_gene_name_by_gene_id(value))
+                    key_name = Ensembl.get_gene_name_by_gene_id(key)
+                    value_name = Ensembl.get_gene_name_by_gene_id(value)
+                    if key_name and value_name:
+                        DataExtracter.add_to_dictionary(converted_dic, key_name, value_name)
+                    else:
+                        print("Couldn't find the gene name for either", key, "or/and", value)
                 else:
                     if key_organism == "C.elegans":
-                        DataExtracter().add_to_dictionary(converted_dic,
-                                                          Ensembl.get_c_elegans_gene_id_by_gene_name(key),
-                                                          Ensembl.get_human_gene_id_by_gene_name(value))
+                        key_id = Ensembl.get_c_elegans_gene_id_by_gene_name(key)
+                        value_id = Ensembl.get_human_gene_id_by_gene_name(value)
                     else:
-                        DataExtracter().add_to_dictionary(converted_dic,
-                                                          Ensembl.get_human_gene_id_by_gene_name(key),
-                                                          Ensembl.get_c_elegans_gene_id_by_gene_name(value))
-
+                        key_id = Ensembl.get_human_gene_id_by_gene_name(key)
+                        value_id = Ensembl.get_c_elegans_gene_id_by_gene_name(value)
+                    if key_id and value_id:
+                        DataExtracter.add_to_dictionary(converted_dic, key_id, value_id)
+                    else:
+                        print("Couldn't find the gene id for either", key, "or/and", value)
         return converted_dic
 
     # receives (1) a dict and checks if it is empty. if so, it exits the function

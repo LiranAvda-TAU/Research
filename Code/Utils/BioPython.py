@@ -20,7 +20,7 @@ class BioPython:
     def __init__(self):
         self.c_elegans_id_multiple_accessions = FileReader(FileReader.research_path + r"\Data",
                                                            r"\\all-genes-ids-and-accession-numbers.txt",
-                                                           FileType.TSV).fromFileToDictWithPluralValues(0, 1)
+                                                           FileType.TSV).from_file_to_dict_with_plural_values(0, 1)
 
     @staticmethod
     def get_human_gene_sequence(geneName: str, converter: dict):
@@ -46,7 +46,7 @@ class BioPython:
         index = 0
         for gene in c_elegans_genes:
             Entrez.email = "liranavda@gmail.com"
-            gene_id = BioPython.get_gene_id(gene)
+            gene_id = BioPython.get_gene_id_by_entrez(gene)
             if gene_id:
                 genes[gene] = gene_id
                 index += 1
@@ -59,15 +59,15 @@ class BioPython:
 
     # retrieves the id (number)
     @staticmethod
-    def get_gene_id(c_elegans_gene: str):
+    def get_gene_id_by_entrez(c_elegans_gene_id: str):
         Entrez.email = "liranavda@gmail.com"
         try:
-            handle = Entrez.esearch(db="gene", retmax=1, term=c_elegans_gene)
+            handle = Entrez.esearch(db="gene", retmax=1, term=c_elegans_gene_id)
             record = Entrez.read(handle)
             handle.close()
             if len(record["IdList"]) > 0:
-                gene_id = record["IdList"][0]
-                return gene_id
+                gene_ncbi_id = record["IdList"][0]
+                return gene_ncbi_id
         except:
             return None
 
@@ -122,19 +122,25 @@ class BioPython:
     def pipeline_blast_with_seq(program, db, sequence, query_organism: str = "Homo sapiens[organism]",
                                 org_name: str = "Homo sapiens"):
         hit_ids = []
-        result_handle = NCBIWWW.qblast(program=program, database=db, sequence=sequence,
-                                       entrez_query=query_organism)
-        record: Record = NCBIXML.read(result_handle)
-        result_handle.close()
+        try:
+            result_handle = NCBIWWW.qblast(program=program, database=db, sequence=sequence,
+                                        entrez_query=query_organism)
+            record: Record = NCBIXML.read(result_handle)
+            result_handle.close()
+        except:
+            return None
         for alignment in record.alignments:
-            if BioPython.get_species(alignment.hit_def).startswith(org_name):
-                hit_id_record = alignment.hit_id
-                hit_id = hit_id_record[hit_id_record.find("|") + 1:hit_id_record.find("|", hit_id_record.find("|") + 1)]
-                extra_letter = hit_id_record[hit_id_record.find(hit_id) +
-                                             len(hit_id) + 1:hit_id_record.find(hit_id) + len(hit_id) + 2]
-                if extra_letter:
-                    hit_id = hit_id + "_" + extra_letter
-                hit_ids.append(hit_id)
+            try:
+                if BioPython.get_species(alignment.hit_def).startswith(org_name):
+                    hit_id_record = alignment.hit_id
+                    hit_id = hit_id_record[hit_id_record.find("|") + 1:hit_id_record.find("|", hit_id_record.find("|") + 1)]
+                    extra_letter = hit_id_record[hit_id_record.find(hit_id) +
+                                                len(hit_id) + 1:hit_id_record.find(hit_id) + len(hit_id) + 2]
+                    if extra_letter:
+                        hit_id = hit_id + "_" + extra_letter
+                    hit_ids.append(hit_id)
+            except:
+                continue
         return hit_ids
 
     @staticmethod
@@ -202,7 +208,7 @@ class BioPython:
                     longest_isoform = accession_number
                     longest_isoform_length = seq_length
             else:
-                print(index_word + "does not exist in record for " + accession_number)
+                print(index_word, "does not exist in record for", accession_number)
         if not longest_isoform:  # longest isoform stayed the empty string
             print("Error: no isoform was found longer than the empty string")
         return longest_isoform
@@ -212,33 +218,36 @@ class BioPython:
         chosen_seq = ''
         try:
             res = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
+            if not res:
+                return None
         except:
-            return None
-        if not res:
             return None
         sequences = res.split(">")
         for seq in sequences:
             if seq == "":
                 continue
             else:
-                parsed_seq = Strings.fromFastaSeqToSeq(seq)
+                parsed_seq = Strings.from_fasta_seq_to_seq(seq)
                 if len(chosen_seq) < len(parsed_seq):
                     chosen_seq = parsed_seq
-        return chosen_seq
+        return chosen_seq if chosen_seq else None
 
     @staticmethod
     def get_aa_seq_from_entrez(accession_number, end_word="ORIGIN", translation_word="translation=",
                                database: str = "nucleotide"):
         Entrez.email = "liranavda@gmail.com"
-        info = Entrez.efetch(db=database, id=accession_number, rettype="gb", retmode="text")
-        record = info.read()
-        info.close()
-        # extracting aa sequence out of chosen isoform
-        translation_index = record.find(translation_word)
-        end_index = record.find(end_word)
-        seq = record[translation_index + len(translation_word):end_index]
-        extracted_seq = BioPython.get_amino_acid_seq(seq)
-        return extracted_seq
+        try:
+            info = Entrez.efetch(db=database, id=accession_number, rettype="gb", retmode="text")
+            record = info.read()
+            info.close()
+            # extracting aa sequence out of chosen isoform
+            translation_index = record.find(translation_word)
+            end_index = record.find(end_word)
+            seq = record[translation_index + len(translation_word):end_index]
+            extracted_seq = BioPython.get_amino_acid_seq(seq)
+            return extracted_seq
+        except:
+            return None
 
     @staticmethod
     def get_amino_acid_seq(seq: str):
@@ -256,7 +265,7 @@ class BioPython:
         end_index = alignment_hit.find("]")
         species = alignment_hit[start_index + 1:end_index]
         if species == "imported":
-            return BioPython.get_species(alignment_hit[end_index + 1:])
+                return BioPython.get_species(alignment_hit[end_index + 1:])
         return species
 
     @staticmethod
@@ -397,28 +406,27 @@ class BioPython:
         c_elegans_id_number = Ensembl.get_ncbi_id_by_gene_id(gene_id)
         if c_elegans_id_number:
             return c_elegans_id_number
-        c_elegans_id_number = BioPython.get_gene_id(gene_id)
-        if c_elegans_id_number:
-            return c_elegans_id_number
-        print("Couldn't find C.elegans' id (number), moving on to the next gene")
+        else:
+            c_elegans_id_number = BioPython.get_gene_id_by_entrez(gene_id)
+            if c_elegans_id_number:
+                return c_elegans_id_number
+        print("Couldn't find C.elegans's ncbi id for gene id:", gene_id)
         return None
 
     # receives the C.elegans gene id (WB) and returns the gene's sequence
-    def get_c_elegans_aa_seq(self, c_elegans_id_WB, c_elegans_accession_number = None):
+    def get_c_elegans_aa_seq(self, c_elegans_id_WB, c_elegans_accession_number, c_elegans_ncbi_id):
         c_elegans_seq = self.get_aa_seq_from_ensembl(c_elegans_id_WB)
         if c_elegans_seq:
             return c_elegans_seq
-        if not c_elegans_accession_number:
-            c_elegans_ncbi_id = BioPython.get_ncbi_id(c_elegans_id_WB)
+
+        if not c_elegans_accession_number:  # hasn't been extracted yet
             if c_elegans_ncbi_id:
                 c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
-                if not c_elegans_accession_number:
-                    print("C.elegans gene's accession number cannot be extracted")
-                    return None
-        c_elegans_seq = BioPython.get_aa_seq_from_entrez(c_elegans_accession_number)
-        if not c_elegans_seq:
-            print("C.elegans gene's sequence cannot be extracted")
-            return None
+        if c_elegans_accession_number:
+            c_elegans_seq = self.get_aa_seq_from_entrez(c_elegans_accession_number)
+            if not c_elegans_seq:
+                print("C.elegans gene's sequence cannot be extracted")
+                return None
         return c_elegans_seq
 
     @staticmethod

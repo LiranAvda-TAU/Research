@@ -10,7 +10,7 @@ class HttpRequester:
     def __init__(self, url=""):
         self.url = url
         self.id_upi_converter = FileReader(FileReader.research_path + r"\Data",
-                                           r"\human_gene_id_upi.txt").fromFileToDictWithPluralValues(0, 1, True)
+                                           r"\human_gene_id_upi.txt").from_file_to_dict_with_plural_values(0, 1, True)
 
     def make_request(self):
         # sending get request and saving the response as response object
@@ -40,7 +40,7 @@ class HttpRequester:
                 r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
             except:
                 print("Communication failure, please check your internet connection")
-                exit()
+                return None
             if not r.ok:
                 r.raise_for_status()
                 print("Something went wrong with get_human_protein_sequence_from_uniprot() while trying to extract sequence"
@@ -48,7 +48,7 @@ class HttpRequester:
                 return None
 
             response_body = r.text
-            optional_seq = Strings.fromFastaSeqToSeq(response_body)
+            optional_seq = Strings.from_fasta_seq_to_seq(response_body)
             if len(optional_seq) > len(chosen_seq):
                 chosen_seq = optional_seq
         return chosen_seq
@@ -61,7 +61,7 @@ class HttpRequester:
             r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
         except:
             print("Communication failure, please check your internet connection")
-            exit()
+            return None
         if not r.ok:
             r.raise_for_status()
             print("Something went wrong with get_human_protein_sequence_from_uniprot() while trying to extract sequence"

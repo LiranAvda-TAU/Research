@@ -12,8 +12,8 @@ def splitDict(d):
 
 def filter_out_duplicated_genes(sent_file_path, sent_path_name, in_file_path, in_file_name, out_file_name):
     filtered_lst = []
-    sent_genes = FileReader(sent_file_path, sent_path_name).fromFileToList(False)
-    lst = FileReader(in_file_path, in_file_name).fromFileToList(False)
+    sent_genes = FileReader(sent_file_path, sent_path_name).from_file_to_list(False)
+    lst = FileReader(in_file_path, in_file_name).from_file_to_list(False)
     # to filter out self-duplicates
     lst_without_duplicates = list(set(lst))
     for gene in lst_without_duplicates:

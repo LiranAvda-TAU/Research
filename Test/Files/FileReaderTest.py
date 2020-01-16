@@ -108,7 +108,7 @@ class FileReaderTest:
         fileType = FileType.TSV
 
         fd = FileReader(filePath, fileName, fileType)
-        genes = fd.fromFileToDictWithPluralValues(key_index=0, value_index=1)
+        genes = fd.from_file_to_dict_with_plural_values(key_index=0, value_index=1)
         return genes
 
     @staticmethod
@@ -228,7 +228,7 @@ frt = FileReaderTest()
 # testFunc.printRandomLinesInDict(5)
 
 # genesDict = frt.fromFileToDictWithPluralValuesTest()
-# testFunc = TestFunctions("fromFileToDictWithPluralValues", dictionary=genesDict)
+# testFunc = TestFunctions("from_file_to_dict_with_plural_values", dictionary=genesDict)
 # testFunc.checkSize()
 # testFunc.checkBooleanResult()
 # testFunc.print_first_lines_in_dict(5)

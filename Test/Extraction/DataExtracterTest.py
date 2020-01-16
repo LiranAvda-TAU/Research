@@ -84,9 +84,9 @@ class DataExtracterTest:
     def get_c_elegans_longest_accession_numbers(to_file: bool = False):
         genes_and_many_accessions = \
             FileReader(FileReader.research_path + r"\Data",
-                       r"\all-genes-ids-and-accession-numbers.txt").fromFileToDictWithPluralValues(key_index=0,
-                                                                                                   value_index=1,
-                                                                                                   delete_first=True)
+                       r"\all-genes-ids-and-accession-numbers.txt").from_file_to_dict_with_plural_values(key_index=0,
+                                                                                                         value_index=1,
+                                                                                                         delete_first=True)
 
         genes_and_accessions = DataExtracter().from_multiple_accessions_to_one(genes_and_many_accessions)
 

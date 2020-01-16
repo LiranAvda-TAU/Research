@@ -5,7 +5,7 @@ from Code.Http.HttpRequester import HttpRequester
 
 def getNumberOfAffectedPopulations(file_path, file_name, url, start_term, end_term):
     diseases_and_numbers = {}
-    diseases = FileReader(file_path, file_name).fromFileToList(True)
+    diseases = FileReader(file_path, file_name).from_file_to_list(True)
     for disease in diseases:
         info: str = HttpRequester(url + putHyphenInName(disease)).make_request()
         start_index = info.find(start_term)

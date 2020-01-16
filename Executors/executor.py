@@ -74,23 +74,6 @@ class executor:
         fm = FileMaker()
         fm.from_dict_to_file(human_genes_and_conserved_domains, "human-genes-and-conserved-domains-110619")
 
-    @staticmethod
-    def filter_by_conserved_domains_ratio(orthologs_dic, domains_range, key_organism):
-        # first we need the C.elegans genes id-number of domains dictionary
-        c_elegans_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
-                                                 r"\c-elegans-genes-and-conserved-domains-230619",
-                                                 FileType.TSV).from_file_to_dict(0, 1)
-        # second we need the human genes id-number of domains dictionary
-        human_genes_domains_dic = FileReader(FileReader.research_path + r"\Data",
-                                             r"\human-genes-and-conserved-domains-230619",
-                                             FileType.TSV).from_file_to_dict(0, 1)
-        relevant_orthologs_dic = DataExtracter.filter_by_conserved_domains(c_elegans_genes_domains_dic,
-                                                                           human_genes_domains_dic,
-                                                                           orthologs_dic,
-                                                                           domains_range,
-                                                                           key_organism=key_organism)
-        return relevant_orthologs_dic
-
     # using the (1) C.elegans genes conserved domains file, (2) human genes conserved domains file, (3) most
     # recent data file, and (4) human gene id-gene name file, extracts the info needed, conducts the calculation
     # needed and creates a file of data that includes the ratio of conserved domains
@@ -224,9 +207,9 @@ class executor:
 
         gene_ids_WB_and_human_names = FileReader(FileReader.research_path + r"\Executors",
                                                  r"\genes_id-genes_names-orthologs-conditions-110619",
-                                                 FileType.TSV).getCelegansIdToHumanNameDict()
+                                                 FileType.TSV).get_celegans_id_to_human_name_dict()
 
-        tf4 = TestFunctions("getCelegansIdToHumanNameDict",
+        tf4 = TestFunctions("get_celegans_id_to_human_name_dict",
                             dictionary=gene_ids_WB_and_human_names)
         tf4.checkSize()
         tf4.print_first_lines_in_dict(2)
@@ -276,7 +259,7 @@ class executor:
 
         human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-30",
-                                                     FileType.TSV).fromFileToDictWithPluralValues(1, 0)
+                                                     FileType.TSV).from_file_to_dict_with_plural_values(1, 0)
         print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
 
     # uses the true homologs files created by the former function to filter the list of genes
@@ -325,7 +308,7 @@ class executor:
     def get_human_genes_and_true_orthologs():
         human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-18",
-                                                     FileType.TSV).fromFileToDictWithPluralValues(1, 0)
+                                                     FileType.TSV).from_file_to_dict_with_plural_values(1, 0)
         print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
         FileMaker().from_plural_valued_dict_to_file(human_genes_and_c_elegans_WB_id, "human-genes-and-true-orthologs")
 
@@ -358,7 +341,7 @@ class executor:
     def from_accessions_to_blast():
         # extra_genes_id_number_and_accessions_dict = FileReader(FileReader.research_path + r"\Data",
         #                                                        r"\extra-gene-ids-number-accession-numbers.txt",
-        #                                                        FileType.TSV).fromFileToDictWithPluralValues(0,1)
+        #                                                        FileType.TSV).from_file_to_dict_with_plural_values(0,1)
         # print("Size of genes and accessions is " + str(len(extra_genes_id_number_and_accessions_dict)))
         # extra_genes_id_number_and_chosen_accessions = DataExtracter.from_multiple_accessions_to_one(
         #     extra_genes_id_number_and_accessions_dict)
@@ -442,16 +425,16 @@ class executor:
     @staticmethod
     def pair_pipeline(list_of_pairs_file_path="", list_of_pair_file_name="", dic_of_optional_orthologs: dict = None,
                       key_species="C.elegans"):
-        if not dic_of_optional_orthologs:
+        if not dic_of_optional_orthologs:  # read dict from file
             pairs_in_names = FileReader(list_of_pairs_file_path, list_of_pair_file_name,
-                                        FileType.TSV).fromFileToDictWithPluralValues(0, 1, True)
+                                        FileType.TSV).from_file_to_dict_with_plural_values(0, 1, True)
         else:
-            orthologs_key_pairs_id = DataExtracter().from_plural_valued_dict_to_plural_valued_reversed_dict(dic_of_optional_orthologs)
-            print("reversed dic:", orthologs_key_pairs_id)
-            pairs_in_names = DataExtracter().convert_dic(orthologs_key_pairs_id, True)
+            reversed_dic = DataExtracter().from_plural_valued_dict_to_plural_valued_reversed_dict(dic_of_optional_orthologs)
+            print("reversed dic:", reversed_dic)
+            pairs_in_names = DataExtracter.convert_dic(reversed_dic, True, key_species)
             print("pairs in names:", pairs_in_names)
 
-        print("List of all pairs have been obtained! we have " + str(len(pairs_in_names)) + " pairs to check")
+        print("List of all pairs have been obtained! we have", len(pairs_in_names), "pairs to check")
 
         # accession_numbers_and_hit_ids, hit_ids_and_hsps = DataExtracter.get_hit_ids_for_accession_numbers(
         #     31,
@@ -515,7 +498,7 @@ class executor:
         genes_names = human_genes_and_variants.keys()
 
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
-                                   r"\data-250619-fixed-domains").fromFileToDictWithPluralValues(1, 2, False)
+                                   r"\data-250619-fixed-domains").from_file_to_dict_with_plural_values(1, 2, False)
         c_elegans_id_and_accessions = FileReader(
             FileReader.research_path + r"\Test\Files",
             r"\c-elegans-genes-and-longest-accession_number_complete").from_file_to_dict(0, 1, False)
@@ -544,7 +527,7 @@ class executor:
             for ortholog_id_WB in orthologs_id_WB:
                 ortholog_id_number = Ensembl.get_ncbi_id_by_gene_id(ortholog_id_WB)
                 if not ortholog_id_number:
-                    ortholog_id_number = BioPython.get_gene_id(ortholog_id_WB)
+                    ortholog_id_number = BioPython.get_gene_id_by_entrez(ortholog_id_WB)
                     if not ortholog_id_number:
                         print("Couldn't find C.elegans' id (number), moving on to the next gene")
                         continue
@@ -747,11 +730,11 @@ class executor:
         # from human gene id to C.elegans gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\ortholist_master",
-                                   FileType.TSV).fromFileToDictWithPluralValues(4, 0, True)
-        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(human_genes_ids, orthologs_dic)
+                                   FileType.TSV).from_file_to_dict_with_plural_values(4, 0, True)
+        relevant_orthologs_dic = DataExtracter.get_filtered_dic_of_orthologs(human_genes_ids, orthologs_dic)
         if DataExtracter.is_dict_empty(relevant_orthologs_dic):
             return None
-        print("Orthologs: " + str(relevant_orthologs_dic))
+        print("Orthologs: ", relevant_orthologs_dic)
 
         # now we have the ortholist-orthologs to our human genes.
         # next step - filtration by sources
@@ -759,13 +742,13 @@ class executor:
         # sources supporting the pair is homologous
         sources_dic = FileReader(FileReader.research_path + r"\Data",
                                  r"\ortholist_master",
-                                 FileType.TSV).fromFileToDictWithTupleKey(4, 0, 6, True)
+                                 FileType.TSV).from_file_to_dict_with_tuple_key(4, 0, 6, True)
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
                                                                             sources_dic,
                                                                             sources_bar)
         if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
             return None
-        print(str(len(filtered_by_sources_orthologs)) + " genes are left " + str(filtered_by_sources_orthologs),
+        print(len(filtered_by_sources_orthologs), "genes are left:", filtered_by_sources_orthologs,
               "after filtration by sources")
 
         # now orthologs are filtered by sources
@@ -774,17 +757,17 @@ class executor:
                                                                                         length_bar)
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
             return None
-        print(str(len(filtered_by_length_orthologs)) + " genes are left " + str(filtered_by_length_orthologs),
+        print(len(filtered_by_length_orthologs), "genes are left:", filtered_by_length_orthologs,
               "after filtration by length")
 
         # now we have genes filtered by size and sources.
         # next step: by domains ratio
-        filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
-                                                                                   domains_range,
-                                                                                   key_organism="Human")
+        filtered_by_conserved_domains = DataExtracter().filter_by_conserved_domains(filtered_by_length_orthologs,
+                                                                                    domains_range,
+                                                                                    key_organism="Human")
         if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
             return None
-        print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
+        print(len(filtered_by_conserved_domains), "genes are left", filtered_by_conserved_domains,
               "after filtration by domains")
 
         # now we have genes filtered by size, sources and domains ratio.
@@ -841,8 +824,8 @@ class executor:
         # from C.elegans gene id to human gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
                                    r"\ortholist_master",
-                                   FileType.TSV).fromFileToDictWithPluralValues(0, 4, True)
-        relevant_orthologs_dic = DataExtracter.get_specific_dic_of_orthologs(worm_genes_ids, orthologs_dic)
+                                   FileType.TSV).from_file_to_dict_with_plural_values(0, 4, True)
+        relevant_orthologs_dic = DataExtracter.get_filtered_dic_of_orthologs(worm_genes_ids, orthologs_dic)
         if DataExtracter.is_dict_empty(relevant_orthologs_dic):
             return None
         print("Orthologs: " + str(relevant_orthologs_dic))
@@ -853,7 +836,7 @@ class executor:
         # sources supporting the pair is homologous
         sources_dic = FileReader(FileReader.research_path + r"\Data",
                                  r"\ortholist_master",
-                                 FileType.TSV).fromFileToDictWithTupleKey(0, 4, 6, True)
+                                 FileType.TSV).from_file_to_dict_with_tuple_key(0, 4, 6, True)
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
                                                                             sources_dic,
                                                                             sources_bar)
@@ -873,9 +856,9 @@ class executor:
 
         # now we have genes filtered by size and sources.
         # next step: by domains ratio
-        filtered_by_conserved_domains = executor.filter_by_conserved_domains_ratio(filtered_by_length_orthologs,
-                                                                                   domains_range,
-                                                                                   key_organism="C.elegans")
+        filtered_by_conserved_domains = DataExtracter().filter_by_conserved_domains(filtered_by_length_orthologs,
+                                                                                    domains_range,
+                                                                                    key_organism="C.elegans")
         if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
             return None
         print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),

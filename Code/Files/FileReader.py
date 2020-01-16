@@ -176,9 +176,7 @@ class FileReader:
                 else:
                     lengths[gene] = length
             except:
-                print(line)
-                f.close()
-                exit()
+                print("There has been a problem with extracting the following gene's length:", gene)
         f.close()
         return lengths
 
@@ -192,15 +190,12 @@ class FileReader:
             try:
                 genes[line[key_index]] = line[value_index]
             except:
-                print("An error has occured!")
-                print(line)
-                f.close()
-                exit()
+                print("An error has occured with reading the file", self.name, "in row", row)
         f.close()
         return genes
 
-    def fromFileToDictWithTupleKey(self, first_key_index: int = 0, second_key_index: int = 1, value_index: int = 2,
-                                   delete_first_line: bool = False):
+    def from_file_to_dict_with_tuple_key(self, first_key_index: int = 0, second_key_index: int = 1, value_index: int = 2,
+                                         delete_first_line: bool = False):
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         if delete_first_line:
@@ -210,14 +205,11 @@ class FileReader:
             try:
                 genes[(line[first_key_index], line[second_key_index])] = line[value_index]
             except:
-                print("An error has occured!")
-                print(line)
-                f.close()
-                exit()
+                print("An error has occured while reading the file", self.name, "in row", row)
         f.close()
         return genes
 
-    def fromFileToList(self, delete_first_line: bool = False):
+    def from_file_to_list(self, delete_first_line: bool = False):
         keys = []
         f = open(self.path + self.name, FileMode.READ.value)
         if delete_first_line:
@@ -226,17 +218,20 @@ class FileReader:
             keys.append(row.rstrip('\n'))
         return keys
 
-    def fromFileToDictWithPluralValues(self, key_index, value_index, delete_first: bool = False):
+    def from_file_to_dict_with_plural_values(self, key_index, value_index, delete_first: bool = False):
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         if delete_first:
             f.readline()  # headline
         for row in f:
             line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
-            if line[key_index] not in genes:
-                genes[line[key_index]] = {line[value_index]}
-            else:
-                genes[line[key_index]].add(line[value_index])
+            try:
+                if line[key_index] not in genes:
+                    genes[line[key_index]] = {line[value_index]}
+                else:
+                    genes[line[key_index]].add(line[value_index])
+            except:
+                print("An error has occured while reading the file", self.name, "in row", row)
         f.close()
         return genes
 
@@ -257,7 +252,7 @@ class FileReader:
         f.close()
         return dic
 
-    def fromFileToDictWithListsAsValues(self, key_index, value_index, delete_first: bool = False):
+    def from_file_to_dict_with_lists_as_values(self, key_index, value_index, delete_first: bool = False):
         dic = {}
         f = open(self.path + self.name, FileMode.READ.value)
         if delete_first:
@@ -270,7 +265,7 @@ class FileReader:
         f.close()
         return dic
 
-    def readResultsFile(self):
+    def read_results_file(self):
         try:
             f = open(self.path + self.name, FileMode.READ.value)
         except:
@@ -278,7 +273,7 @@ class FileReader:
             exit()
         return f
 
-    def getCelegansIdToHumanNameDict(self, value_index: int = 1, key_index: int = 2):
+    def get_celegans_id_to_human_name_dict(self, value_index: int = 1, key_index: int = 2):
         genes = {}
         f = open(self.path + self.name, FileMode.READ.value)
         for row in f:

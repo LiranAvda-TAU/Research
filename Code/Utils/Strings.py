@@ -26,7 +26,7 @@ class Strings:
         return symbols[amino_acid_name]
 
     @staticmethod
-    def fromFastaSeqToSeq(fastaSeq):
+    def from_fasta_seq_to_seq(fastaSeq):
         seq = ''
         fastaSeq = fastaSeq[fastaSeq.find("\n") + len("\n"):]
         for ch in fastaSeq:
