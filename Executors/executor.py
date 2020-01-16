@@ -27,15 +27,15 @@ class executor:
 
         fd_humans = FileReader(human_length_file_path, human_length_file_name, FileType.TSV)
         human_genes_length = fd_humans.from_file_to_dict(1, 2, True)
-        print("number of items in human genes length dictionary is: " + str(len(human_genes_length)))
+        print("number of items in human genes length dictionary is:", len(human_genes_length))
         fd_c_elegans = FileReader(c_elegans_length_file_path, c_elegans_length_file_name, FileType.TSV)
         c_elegans_genes_length = fd_c_elegans.get_genes_cd_length(0, 2, True)
-        print("number of items in C.elegans genes length dictionary is: " + str(len(c_elegans_genes_length)))
+        print("number of items in C.elegans genes length dictionary is:", len(c_elegans_genes_length))
 
         de = DataExtracter()
         orthologs, phenotypes = de.filter_genes_with_size_differences(data, human_genes_length, c_elegans_genes_length, p=10)
-        print("genes and orthologs dict: " + str(len(orthologs)))
-        print("genes and phenotypes dict: " + str(len(phenotypes)))
+        print("genes and orthologs dict:", len(orthologs))
+        print("genes and phenotypes dict:", len(phenotypes))
 
         fm = FileMaker()
         fm.fromTwoDictToFile(orthologs, phenotypes, new_file_name)
@@ -51,7 +51,7 @@ class executor:
 
         de = DataExtracter()
         c_elegans_genes_and_conserved_domains = de.get_conserved_domains(c_elegans_genes_id_WB)
-        print("The length of the genes_id_domain is " + str(len(c_elegans_genes_and_conserved_domains)))
+        print("The length of the genes_id_domain is", len(c_elegans_genes_and_conserved_domains))
 
         fm = FileMaker()
         fm.from_dict_to_file(c_elegans_genes_and_conserved_domains, "c-elegans-genes-and-conserved-domains-230619")
@@ -66,8 +66,8 @@ class executor:
 
         de = DataExtracter()
         genes_id = de.from_human_genes_names_to_human_genes_id(genes_names)
-        print("The length of the genes ids list is " + str(len(genes_id)))
-        print("human genes ids for example: " + genes_id[0] + ", " + genes_id[1])
+        print("The length of the genes ids list is", len(genes_id))
+        print("human genes ids for example:", genes_id[0], genes_id[1])
 
         human_genes_and_conserved_domains = de.get_conserved_domains(genes_id)
 
@@ -217,34 +217,34 @@ class executor:
         gene_ids_WB_and_true_homologs = {}
 
         WBGenes = gene_ids_WB_and_human_names.keys()
-        print("There are " + str(len(WBGenes)) + " WBGenes")
+        print("There are", len(WBGenes), "WBGenes")
         for WBGene in WBGenes:
             gene_name = gene_ids_WB_and_human_names[WBGene]
-            print("human gene name for " + WBGene + ": " + gene_name)
+            print("human gene name for", WBGene, ":", gene_name)
             try:
                 gene_id = gene_names_WB_and_gene_ids[WBGene]
-                print("c-elegans gene id for " + gene_name + ": " + gene_id)
+                print("c-elegans gene id for", gene_name, ":", gene_id)
             except:
-                print("couldn't find the gene id for " + gene_name)
+                print("couldn't find the gene id for", gene_name)
                 continue
             try:
                 accession_number = gene_ids_and_accession_numbers[gene_id]
             except:
-                print("couldn't find the accession number for " + gene_id)
+                print("couldn't find the accession number for", gene_id)
                 continue
-            print("c-elegans accession number for " + gene_id + ": " + accession_number)
+            print("c-elegans accession number for", gene_id, ":", accession_number)
             try:
                 hit_ids = accession_numbers_and_hit_ids[accession_number]
-                print("hit ids for " + accession_number + ": " + str(hit_ids))
+                print("hit ids for " + accession_number, ":", hit_ids)
             except KeyError:
-                print("couldn't find hit ids for " + accession_number)
+                print("couldn't find hit ids for", accession_number)
                 continue
 
             for hit_id in hit_ids:
                 try:
                     blasted_gene_name = hit_ids_and_gene_names[hit_id]
                 except KeyError:
-                    print("couldn't find " + hit_id + " in the hit_ids_and_gene_names_dict")
+                    print("couldn't find", hit_id, "in the hit_ids_and_gene_names_dict")
                     continue
                 print(blasted_gene_name, gene_name)
                 if blasted_gene_name == gene_name:
@@ -260,7 +260,7 @@ class executor:
         human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-30",
                                                      FileType.TSV).from_file_to_dict_with_plural_values(1, 0)
-        print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
+        print("There are", len(human_genes_and_c_elegans_WB_id), "human genes with homologs")
 
     # uses the true homologs files created by the former function to filter the list of genes
     @staticmethod
@@ -294,7 +294,7 @@ class executor:
                     if maybe_ortholog in true_orthologs:
                         orthologs_to_be_written.append(gene_tuple)
             else:
-                print("human gene name " + human_gene_name + " wasn't found in the dictionary of true orthologs :(")
+                print("human gene name", human_gene_name, "wasn't found in the dictionary of true orthologs :(")
                 print("meaning no one of his claimed orthologs was found to be real... check it")
                 continue
             new_data_file.write(human_gene_id + "\t" +
@@ -309,7 +309,7 @@ class executor:
         human_genes_and_c_elegans_WB_id = FileReader(FileReader.research_path + r"\Executors",
                                                      r"\true-homologs0-18",
                                                      FileType.TSV).from_file_to_dict_with_plural_values(1, 0)
-        print("There are " + str(len(human_genes_and_c_elegans_WB_id)) + " human genes with homologs")
+        print("There are", len(human_genes_and_c_elegans_WB_id), "human genes with homologs")
         FileMaker().from_plural_valued_dict_to_file(human_genes_and_c_elegans_WB_id, "human-genes-and-true-orthologs")
 
     @staticmethod
@@ -324,15 +324,14 @@ class executor:
                                                       r"\relevant-c-elegans-genes-and-their-id",
                                                       FileType.TSV).get_genes_list(1)
 
-        print("length of now-genes is: " + str(len(c_elegans_current_genes_id_number)) + " and length of former genes "
-                                                                                         "is: " + str(
-            len(c_elegans_former_genes_id_number)))
+        print("length of now-genes is:", len(c_elegans_current_genes_id_number), "and length of former genes is:",
+            len(c_elegans_former_genes_id_number))
         extra_genes = []
         for gene in c_elegans_current_genes_id_number:
             if gene not in c_elegans_former_genes_id_number:
                 print(gene + " does not exist in the former list")
                 extra_genes.append(gene.rstrip("\n"))
-        print("There are " + str(len(extra_genes)) + " extra genes ids_number that needs a blast")
+        print("There are", len(extra_genes), "extra genes ids_number that needs a blast")
 
         fm = FileMaker()
         fm.fromListToFile(extra_genes, "extra-c-elegans-gened-id-number-120619")
@@ -399,8 +398,7 @@ class executor:
     def add_c_elegans_phenotypes(data_file_path, data_file_name, url, new_file, delete_first_line: bool = False):
         # first we achieve a list of all relevant C.elegans genes
         cElegansGenes = FileReader(data_file_path, data_file_name, FileType.TSV).get_genes_list(2)
-        print("List of genes with", str(len(cElegansGenes)), "have been obtained:", cElegansGenes[0], ",",
-              cElegansGenes[1])
+        print("List of genes with", len(cElegansGenes), "have been obtained:", cElegansGenes[0], cElegansGenes[1])
 
         genes_and_phenotypes = DataExtracter().add_c_elegans_phenotypes(cElegansGenes, url)
 
@@ -513,16 +511,16 @@ class executor:
 
         f = open("data-with-variants-230919", FileMode.WRITE.value) if file_type != FileType.CONSOLE else ""
         print(human_genes_and_variants)
-        print("Number of genes: " + str(len(human_genes_and_variants)))
+        print("Number of genes:", len(human_genes_and_variants))
         for human_gene_name in genes_names:
             human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
             human_seq = HttpRequester().get_human_protein_sequence_from_uniprot(human_gene_id)
             human_genes_and_sequences[human_gene_name] = human_seq
             mmp_data = mmp_data_by_gene_name[human_gene_name] if human_gene_name in mmp_data_by_gene_name \
                 else "Not mention in MMP"
-            print("Human gene name: " + human_gene_name + ", seq: " + human_seq)
+            print("Human gene name:", human_gene_name, ", seq:", human_seq)
             orthologs_id_WB = orthologs_dic[human_gene_name]
-            print("Ortholog gene id WB: ", str(orthologs_id_WB))
+            print("Ortholog gene id WB:", orthologs_id_WB)
             for ortholog_id_WB in orthologs_id_WB:
                 ortholog_id_number = Ensembl.get_ncbi_id_by_gene_id(ortholog_id_WB)
                 if not ortholog_id_number:
@@ -530,7 +528,7 @@ class executor:
                     if not ortholog_id_number:
                         print("Couldn't find C.elegans' id (number), moving on to the next gene")
                         continue
-                print("id: " + ortholog_id_number)
+                print("id:", ortholog_id_number)
                 try:
                     c_elegans_accession_number = c_elegans_id_and_accessions[ortholog_id_number]
                 except:
@@ -582,7 +580,7 @@ class executor:
 
         f = open("data-with-variants", FileMode.WRITE.value) if file_type != FileType.CONSOLE else ""
         print(human_genes_and_variants)
-        print("Number of human genes: " + str(len(human_genes_and_variants)))
+        print("Number of human genes:", len(human_genes_and_variants))
         for human_gene_name in genes_names:
             human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
             if not human_seq:
@@ -653,7 +651,7 @@ class executor:
                                            r"\mmp_mut_strains_data_Mar14.txt"). \
             from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
 
-        print("Human genes: " + str(list(genes_names)))
+        print("Human genes:", list(genes_names))
         for human_gene_name in genes_names:
             human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
             if not human_seq:
@@ -827,7 +825,7 @@ class executor:
         relevant_orthologs_dic = DataExtracter.get_filtered_dic_of_orthologs(worm_genes_ids, orthologs_dic)
         if DataExtracter.is_dict_empty(relevant_orthologs_dic):
             return None
-        print("Orthologs: " + str(relevant_orthologs_dic))
+        print("Orthologs: ", relevant_orthologs_dic)
 
         # now we have the ortholist-orthologs to our human genes.
         # next step - filtration by sources
@@ -841,7 +839,7 @@ class executor:
                                                                             sources_bar)
         if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
             return None
-        print(str(len(filtered_by_sources_orthologs)) + " genes are left " + str(filtered_by_sources_orthologs),
+        print(len(filtered_by_sources_orthologs), "genes are left", filtered_by_sources_orthologs,
               "after filtration by sources")
 
         # now orthologs are filtered by sources
@@ -850,7 +848,7 @@ class executor:
                                                                                         length_bar, "c_elegans")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
             return None
-        print(str(len(filtered_by_length_orthologs)) + " genes are left " + str(filtered_by_length_orthologs),
+        print(len(filtered_by_length_orthologs), "genes are left", filtered_by_length_orthologs,
               "after filtration by length")
 
         # now we have genes filtered by size and sources.
@@ -860,7 +858,7 @@ class executor:
                                                                                     key_organism="C.elegans")
         if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
             return None
-        print(str(len(filtered_by_conserved_domains)) + " genes are left " + str(filtered_by_conserved_domains),
+        print(len(filtered_by_conserved_domains), "genes are left", filtered_by_conserved_domains,
               "after filtration by domains")
 
         # now we have genes filtered by size, sources and domains ratio.

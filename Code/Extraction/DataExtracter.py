@@ -555,7 +555,7 @@ class DataExtracter:
             for ortholog in orthologs_dic[key]:
                 try:
                     if int(sources_dic[(key, ortholog)]) >= bar:
-                        print(key + " with its ortholog " + ortholog + " have passes the sources bar!")
+                        print(key, "with its ortholog", ortholog, "have passes the sources bar!")
                         DataExtracter.add_to_dictionary(filtered_dic, key, ortholog)
                 except:
                     print("The tuple", key, ortholog, "doesn't appear in the sources dic")
