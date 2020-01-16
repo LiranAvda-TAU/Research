@@ -465,8 +465,7 @@ class executor:
                                         Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
 
                     true_matches[genes_tuple] = status_tuple
-                    print("The domains ratio, number of sources, human gene length and C.elegans gene length: ",
-                            str(status_tuple))
+                    print("The domains ratio, number of sources, human and C.elegans gene length: ", status_tuple)
 
         print("true matches:\n", true_matches)
         result_list = []

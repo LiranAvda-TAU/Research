@@ -11,7 +11,7 @@ class DataExtracter:
     def __init__(self):
         self.accession_numbers_to_hit_ids = FileReader(FileReader.research_path + r"\Executors",
                                                        r"\accession numbers and hit ids").\
-            from_file_to_dict_with_lists_as_values(0, 1)
+                                                       from_file_to_dict_with_lists_as_values(0, 1)
         self.hit_ids_to_gene_names = FileReader(FileReader.research_path + r"\Executors",
                                                 r"\blast-hit-ids-and-human-gene-names0-30",
                                                 FileType.TSV).from_file_to_dict(0, 1)
@@ -21,8 +21,22 @@ class DataExtracter:
                                                 FileType.TSV).from_file_to_dict(0, 1)
 
         self.human_domains_dic = FileReader(FileReader.research_path + r"\Data",
-                                                  r"\human-genes-and-conserved-domains-230619",
+                                            r"\human-genes-and-conserved-domains-230619",
                                             FileType.TSV).from_file_to_dict(0, 1)
+
+        self.orthologs = FileReader(FileReader.research_path + r"\Data",
+                         r"\ortholist_master",
+                         FileType.TSV).from_file_to_dict_with_plural_values(0, 4, True)
+
+        self.sources = FileReader(FileReader.research_path + r"\Data",
+                                  r"\ortholist_master",
+                                  FileType.TSV).from_file_to_dict_with_tuple_key(0, 4, 6, True)
+
+        self.humans_id_cd_length = FileReader(FileReader.research_path + r"\Data",
+                                              r"\human_cd_length.txt").get_genes_cd_length(1, 2, True)
+
+        self.c_elegans_cd_length = FileReader(FileReader.research_path + r"\Data",
+                                              r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(1, 2, True)
 
     # receives (1) a dictionary of c.elegans genes id (number) as keys and accession numbers as values, enact the
     # function that chooses the longest isoform of all accession number, and returns a dictionary with c.elegans gene
@@ -108,28 +122,22 @@ class DataExtracter:
         de = DataExtracter()
         c_elegans_domains = de.get_conserved_domain_per_gene_id(c_elegans_id)
         human_domains = de.get_conserved_domain_per_gene_id(human_id)
-        return float(c_elegans_domains) / float(human_domains)
+        try:
+            return float(c_elegans_domains) / float(human_domains)
+        except:
+            return None
 
     # receives worm gene name and human gene name, reads the ortholist file to a dictionary with
     # (worm gene id, human gene id) keys and number of sources as values, and returns the number of sources if the tuple
     # is in the dictionary, otherwise returns -1
-    @staticmethod
-    def get_sources(c_elegans_gene_name, human_gene_name):
+    def get_sources(self, c_elegans_gene_name, human_gene_name):
         c_elegans_gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
         human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-        orthologs = FileReader(FileReader.research_path + r"\Data",
-                               r"\ortholist_master",
-                                  FileType.TSV).from_file_to_dict_with_plural_values(0, 4, True)
-        sources = FileReader(FileReader.research_path + r"\Data",
-                             r"\ortholist_master",
-                                FileType.TSV).from_file_to_dict_with_tuple_key(0, 4, 6, True)
-
-        if c_elegans_gene_id in orthologs:
-            if human_gene_id in orthologs[c_elegans_gene_id]:
-                return int(sources[(c_elegans_gene_id, human_gene_id)])
-            else:
-                print(orthologs[c_elegans_gene_id])
-                return -1
+        if c_elegans_gene_id and human_gene_id:
+            if c_elegans_gene_id in self.orthologs:
+                if human_gene_id in self.orthologs[c_elegans_gene_id]:
+                    return int(self.sources[(c_elegans_gene_id, human_gene_id)])
+            print("Couldn't find number of sources for tuple:", c_elegans_gene_name, human_gene_name)
         return -1
 
     # receives a (1) dictionary with gene name as key and the gene id as value, and (2) a list of gene names, and
@@ -458,15 +466,14 @@ class DataExtracter:
                 else:
                     print("hit human gene name is", hit_gene_name, "thus there is no match")
             else:  # need to extract gene's name
-                try:
-                    hit_gene_name = BioPython().get_gene_name_from_protein_accession([hit_id])[hit_id]
-                    print("The gene's name for hit id:", hit_id, "is:", hit_gene_name)
-                    if hit_gene_name == ortholog_gene_name:
-                        print(gene_name, "and", ortholog_gene_name, "are orthologs indeed!")
-                        return True
-                except:
+                hit_gene_name = BioPython.get_gene_name_from_protein_accession([hit_id]).get(hit_id, None)
+                print("The gene's name for hit id:", hit_id, "is:", hit_gene_name)
+                if not hit_gene_name:
                     print("Couldn't find the human gene name to hit id: " + hit_id)
-        print("No match between " + gene_name + " and " + ortholog_gene_name)
+                elif hit_gene_name == ortholog_gene_name:
+                    print(gene_name, "and", ortholog_gene_name, "are orthologs indeed!")
+                    return True
+        print("No match between", gene_name, "and", ortholog_gene_name)
         return False
 
     # receives (1) list of genes, (2) path of data file, (3) name of data file, (4) name for filtered file,
@@ -554,22 +561,15 @@ class DataExtracter:
                     print("The tuple", key, ortholog, "doesn't appear in the sources dic")
         return filtered_dic
 
-    @staticmethod
-    def get_pair_cd_length(c_elegans_gene_name, human_gene_name):
-        humans_id_cd_length = FileReader(FileReader.research_path + r"\Data",
-                                            r"\human_cd_length.txt").get_genes_cd_length(1, 2, True)
-
-        c_elegans_cd_length = FileReader(FileReader.research_path + r"\Data",
-                                            r"\c_elegans_genes_cd_length.txt").get_genes_cd_length(1, 2, True)
-
-        human_gene_length = humans_id_cd_length.get(human_gene_name, None)
+    def get_pair_cd_length(self, c_elegans_gene_name, human_gene_name):
+        human_gene_length = self.humans_id_cd_length.get(human_gene_name, None)
         if not human_gene_length:
-            print("gene " + human_gene_name + "'s length wasn't found...")
+            print("Gene", human_gene_name, "'s length wasn't found")
         else:
             human_gene_length = int(human_gene_length)
-        c_elegans_gene_length = c_elegans_cd_length.get(c_elegans_gene_name, None)
+        c_elegans_gene_length = self.c_elegans_cd_length.get(c_elegans_gene_name, None)
         if not c_elegans_gene_length:
-            print("gene " + c_elegans_gene_name + "'s length wasn't found...")
+            print("Gene", c_elegans_gene_name, "'s length wasn't found")
         else:
             c_elegans_gene_length = int(c_elegans_gene_length)
 
@@ -706,16 +706,16 @@ class DataExtracter:
         try:
             record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
                                     gene_id + "/overview").make_request()
+            if not record:
+                return "no description was found"
+            info_index = record.find("concise_description")
+            shorter_info = record[info_index + len("concise_description"):]
+            start_index = shorter_info.find(start_term)
+            end_index = shorter_info.find(end_term)
+            description = shorter_info[start_index + len(start_term): end_index]
+            return description
         except:
             return "no description was found"
-        if not record:
-            return "no description was found"
-        info_index = record.find("concise_description")
-        shorter_info = record[info_index + len("concise_description"):]
-        start_index = shorter_info.find(start_term)
-        end_index = shorter_info.find(end_term)
-        description = shorter_info[start_index + len(start_term): end_index]
-        return description
 
     # receives (1) a dictionary containing gene name as keys, and orthologs and phenotypes as values, (2) a
     # dictionary for human genes and their lengths, (3) dictionary for c.elegans genes and

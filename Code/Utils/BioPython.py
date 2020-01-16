@@ -285,11 +285,11 @@ class BioPython:
             try:
                 info = Entrez.efetch(db="protein", id=hit_id, rettype="gb", retmode="text")
                 print("extraction was successful for: " + hit_id)
+                record = info.read()
+                info.close()
             except:
                 print("extraction was not successful for: " + hit_id)
                 continue
-            record = info.read()
-            info.close()
             # extracting aa sequence out of chosen isoform
             start_index = record.find(search_term)
             if start_index < 0:  # no gene name in record
