@@ -21,6 +21,7 @@ class BioPython:
         self.c_elegans_id_multiple_accessions = FileReader(FileReader.research_path + r"\Data",
                                                            r"\\all-genes-ids-and-accession-numbers.txt",
                                                            FileType.TSV).from_file_to_dict_with_plural_values(0, 1)
+        self.blast_results = {}
 
     @staticmethod
     def get_human_gene_sequence(geneName: str, converter: dict):
@@ -116,6 +117,42 @@ class BioPython:
                         print("hsp score:", hsp.score)
         return state
 
+    def blast_with_sequences(self, genes_names_sequences_dict, program="blastp", db="nr", query_organism: str = "Homo sapiens[organism]",
+                                org_name: str = "Homo sapiens"):
+        sequences_string = ''
+        for gene_name in genes_names_sequences_dict:
+            sequences_string += ">" + gene_name + "\n" + genes_names_sequences_dict[gene_name] + "\n"
+        try:
+            result_handle = NCBIWWW.qblast(program=program, database=db, sequence=sequences_string,
+                                           entrez_query=query_organism)
+            records_list = list(NCBIXML.parse(result_handle))
+            result_handle.close()
+        except:
+            return None
+
+        for record in records_list:
+            hit_ids = []
+            alignments = record.alignments
+            for alignment in alignments:
+                try:
+                    if BioPython.get_species(alignment.hit_def).startswith(org_name):
+                        hit_id_record = alignment.hit_id
+                        hit_id = hit_id_record[
+                                 hit_id_record.find("|") + 1:hit_id_record.find("|", hit_id_record.find("|") + 1)]
+                        extra_letter = hit_id_record[hit_id_record.find(hit_id) +
+                                                     len(hit_id) + 1:hit_id_record.find(hit_id) + len(hit_id) + 2]
+                        if extra_letter:
+                            hit_id = hit_id + "_" + extra_letter
+                        hit_ids.append(hit_id)
+                except:
+                    continue
+        self.blast_results[record.query] = hit_ids
+
+    def build_genes_hit_ids_dictionary(self, c_elegans_genes_names):
+        genes_sequences_dict = self.get_aa_seqs_by_genes_names(c_elegans_genes_names)
+        self.blast_with_sequences(genes_sequences_dict)  # now we have dictionary of genes names and hit ids
+
+
     # receives (1) an accession numbers and (2) the relevant sequencec, runs BLAST and returns a list of all
     # id of homo sapiens reported (first 50 by default)
     @staticmethod
@@ -124,7 +161,7 @@ class BioPython:
         hit_ids = []
         try:
             result_handle = NCBIWWW.qblast(program=program, database=db, sequence=sequence,
-                                        entrez_query=query_organism)
+                                           entrez_query=query_organism)
             record: Record = NCBIXML.read(result_handle)
             result_handle.close()
         except:
@@ -332,7 +369,7 @@ class BioPython:
         for alignment in alignments:
             human_alignment = alignment[0]
             c_elegans_alignment = alignment[1]
-            alignment_index = Strings.getAminoAcidInLocationInAlignment(variant_index, human_alignment)
+            alignment_index = Strings.get_amino_acid_in_location_in_alignment(variant_index, human_alignment)
             status = human_alignment[alignment_index - 1], c_elegans_alignment[alignment_index - 1]
 
             if original_amino_acid == '-':  # termination
@@ -349,8 +386,8 @@ class BioPython:
                 ultimate_result = "conserved: " + original_amino_acid
                 c_elegans_aa_location = BioPython.get_place_in_sequence(c_elegans_alignment, alignment_index)
 
-            elif Strings.areAminoAcidsSimilar(human_alignment[alignment_index - 1],
-                                              c_elegans_alignment[alignment_index - 1]):
+            elif Strings.are_amino_acids_similar(human_alignment[alignment_index - 1],
+                                                 c_elegans_alignment[alignment_index - 1]):
                 result = "not conserved, but similar: " + ", ".join(status)
             else:
                 result = "not conserved: " + ", ".join(status)
@@ -392,6 +429,18 @@ class BioPython:
         else:
             return None
 
+    # receives a list of C.elegans' genes and returns a dictionary with genes names as keys and sequences as values
+    @staticmethod
+    def get_aa_seqs_by_genes_names(c_elegans_genes_names):
+        genes_names_and_sequences = {}
+        for gene_name in c_elegans_genes_names:
+            seq = BioPython.get_aa_seq_by_c_elegans_gene_name(gene_name)
+            if seq:
+                genes_names_and_sequences[gene_name] = seq
+        print(len(c_elegans_genes_names), "genes names", "and gene name-sequence dictionary of",
+              len(genes_names_and_sequences), "items")
+        return genes_names_and_sequences
+
     @staticmethod
     def get_aa_seq_by_c_elegans_gene_name(c_elegans_gene_name):
         gene_id_WB = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
@@ -414,12 +463,13 @@ class BioPython:
         return None
 
     # receives the C.elegans gene id (WB) and returns the gene's sequence
-    def get_c_elegans_aa_seq(self, c_elegans_id_WB, c_elegans_accession_number, c_elegans_ncbi_id):
+    def get_c_elegans_aa_seq(self, c_elegans_id_WB, c_elegans_accession_number=None):
         c_elegans_seq = self.get_aa_seq_from_ensembl(c_elegans_id_WB)
         if c_elegans_seq:
             return c_elegans_seq
 
         if not c_elegans_accession_number:  # hasn't been extracted yet
+            c_elegans_ncbi_id = BioPython.get_ncbi_id(c_elegans_id_WB)
             if c_elegans_ncbi_id:
                 c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
         if c_elegans_accession_number:
@@ -455,3 +505,9 @@ class BioPython:
 # print("c-elegans seq", c_elegans_seq)
 
 # print(BioPython.get_aa_seq_by_c_elegans_gene_name("repo-1"))
+
+print(BioPython.get_aa_seq_by_human_gene_name('TCP1'))
+print(BioPython.get_aa_seq_by_human_gene_name('DDR1'))
+print(BioPython.get_ncbi_id(Ensembl.get_gene_id_by_gene_name('TCP1', "Human")))
+print(BioPython.get_ncbi_id(Ensembl.get_gene_id_by_gene_name('DDR1', "Human")))
+

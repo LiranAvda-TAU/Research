@@ -15,6 +15,11 @@ import ast
 
 class executor:
 
+    def __init__(self):
+        self.mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
+                                                r"\mmp_mut_strains_data_Mar14.txt"). \
+            from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
+
     # obtained the data of genes after filtering out genes by condition, reads files of human and C.elegans'
     # genes' coding domains length, and passes the info to a DE method, who computed the ratio between each gene
     # and its ortholog, and keeps only those who passes the bar. The compatible data is written to a new file.
@@ -422,7 +427,7 @@ class executor:
     # orthologous.
     @staticmethod
     def pair_pipeline(list_of_pairs_file_path="", list_of_pair_file_name="", dic_of_optional_orthologs: dict = None,
-                      key_species="C.elegans"):
+                      result_in_dict=False, key_species="C.elegans"):
         if not dic_of_optional_orthologs:  # read dict from file
             pairs_in_names = FileReader(list_of_pairs_file_path, list_of_pair_file_name,
                                         FileType.TSV).from_file_to_dict_with_plural_values(0, 1, True)
@@ -447,6 +452,7 @@ class executor:
 
         true_matches = {}
         de = DataExtracter()
+        bp = BioPython()
         for key_gene_name in pairs_in_names:
             ortholog_genes_names: list = pairs_in_names[key_gene_name]
             for ortholog_gene_name in ortholog_genes_names:
@@ -466,6 +472,8 @@ class executor:
                     print("The domains ratio, number of sources, human and C.elegans gene length: ", status_tuple)
 
         print("true matches:\n", true_matches)
+        if result_in_dict:
+            return true_matches
         result_list = []
         for genes_tuple in true_matches:
             data = true_matches[genes_tuple]
@@ -550,7 +558,7 @@ class executor:
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
                                                                c_elegans_seq,
-                                                               Strings.fromNameToSymbol(former_aa),
+                                                               Strings.from_name_to_symbol(former_aa),
                                                                place)
                     if result.startswith("not conserved") or result.startswith("not in the human"):
                         # filter if amino acid is not conserved
@@ -623,7 +631,7 @@ class executor:
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
                                                                c_elegans_seq,
-                                                               Strings.fromNameToSymbol(former_aa),
+                                                               Strings.from_name_to_symbol(former_aa),
                                                                place)
                     print("For gene: " + human_gene_name + " with variant " + variant + ", the amino acid is " + result)
                     if not result.startswith("conserved"):
@@ -641,28 +649,22 @@ class executor:
     # receives (1) file type to know whether to print to a file or to console, human genes and variants dictionary, read
     # all variants and extracts for each variant the sequence of its human gene and its C.elegans ortholog, runs
     # pairwise alignment and returns data regarding the alignments of the two sequences.
-    @staticmethod
-    def get_variants_data_for_server(human_genes_and_variants):
+    def get_variants_data_for_server(self, human_genes_names_and_variants):
         conserved_variants = 0
         output = []
-        genes_names = human_genes_and_variants.keys()
 
-        mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
-                                           r"\mmp_mut_strains_data_Mar14.txt"). \
-            from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
-
-        print("Human genes:", list(genes_names))
-        for human_gene_name in genes_names:
+        print("Human genes:", list(human_genes_names_and_variants.keys()))
+        for human_gene_name in human_genes_names_and_variants:
             human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
             if not human_seq:
                 continue
-            mmp_data = mmp_data_by_gene_name[human_gene_name] if human_gene_name in mmp_data_by_gene_name \
+            mmp_data = self.mmp_data_by_gene_name[human_gene_name] if human_gene_name in self.mmp_data_by_gene_name \
                 else "No mention in MMP"
 
-            true_matches_pairs = list(executor.find_me_orthologs([human_gene_name]).keys())
+            true_matches_pairs: dict = executor.find_me_orthologs(human_genes=[human_gene_name],
+                                                                  result_in_dict=True)
             orthologs_names = []
-            for i in range(len(true_matches_pairs)):
-                pair = true_matches_pairs[i]
+            for pair in true_matches_pairs:
                 orthologs_names.append(pair[1])
 
             orthologs_id_WB = Ensembl.get_c_elegans_genes_ids_by_genes_names(orthologs_names)
@@ -670,26 +672,23 @@ class executor:
                    orthologs_id_WB)
 
             for ortholog_id_WB in orthologs_id_WB:
-                if not ortholog_id_WB:
-                    print("Ortholog id WB couldn't be reached")
-                    continue
                 print("for ortholog:", ortholog_id_WB)
                 c_elegans_seq = BioPython().get_c_elegans_aa_seq(ortholog_id_WB)
                 if not c_elegans_seq:
                     continue
                 print("C.elegans seq:", c_elegans_seq)
 
-                variants = human_genes_and_variants[human_gene_name]
-                print("variants: " + ", ".join(variants))
+                variants = human_genes_names_and_variants[human_gene_name]
+                print("variants: ", ", ".join(variants))
                 for variant in variants:
                     print("For variant: " + variant)
                     former_aa, place, current_aa = Strings.from_variant_string_to_tuple(variant)
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
                                                                c_elegans_seq,
-                                                               Strings.fromNameToSymbol(former_aa),
+                                                               Strings.from_name_to_symbol(former_aa),
                                                                place)
-                    print("For gene: " + human_gene_name + " with variant " + variant + ", the amino acid is " + result)
+                    print("For gene:", human_gene_name, "with variant", variant + ", the amino acid is" + result)
                     conserved_variants += 1
                     line = [variant, Ensembl.get_gene_name_by_gene_id(ortholog_id_WB), result, c_elegans_location,
                             alignment_conservation_score, count, mmp_data]
@@ -720,7 +719,8 @@ class executor:
                           sources_bar: int = 3,
                           length_bar: int = 10,
                           domains_range: tuple = (0.5, 2),
-                          species="Human"):
+                          species="Human",
+                          result_in_dict=False):
 
         human_genes_ids = DataExtracter().get_genes_ids(human_genes, genes_in_names, species)
 
@@ -769,7 +769,8 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains)
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains,
+                                      result_in_dict=result_in_dict)
 
 
     # irrelevant function
@@ -814,7 +815,8 @@ class executor:
                                    sources_bar: int = 3,
                                    length_bar: int = 10,
                                    domains_range: tuple = (0.5, 2),
-                                   species="C.elegans"):
+                                   species="C.elegans",
+                                   result_in_dict=False):
 
         worm_genes_ids = DataExtracter().get_genes_ids(list_of_worm_genes, genes_in_names, species)
 
@@ -863,7 +865,9 @@ class executor:
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
-        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains, key_species="Human")
+        return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains,
+                                      result_in_dicts=result_in_dict,
+                                      key_species="Human")
 
     # parses input for the flask server's variants function
     @staticmethod

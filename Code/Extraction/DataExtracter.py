@@ -386,13 +386,13 @@ class DataExtracter:
             print("gene ncbi id is: ", c_elegans_ncbi_id)
             c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
             if c_elegans_accession_number:
-                print("Gene's accession number is: " + c_elegans_accession_number)
+                print("Gene's accession number is:", c_elegans_accession_number)
                 hit_ids = self.accession_numbers_to_hit_ids.get(c_elegans_accession_number, None)
                 if hit_ids:
                     return hit_ids
 
         # gene id -> amino acid seq -> blast -> hit ids
-        c_elegans_seq = BioPython().get_c_elegans_aa_seq(c_elegans_gene_id, c_elegans_accession_number, c_elegans_ncbi_id)
+        c_elegans_seq = BioPython().get_c_elegans_aa_seq(c_elegans_gene_id, c_elegans_accession_number)
         if c_elegans_seq:
             hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", c_elegans_seq)
             if not hit_ids:
@@ -453,7 +453,7 @@ class DataExtracter:
         if gene_species == "C.elegans":
             hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
         else:
-            hit_ids = DataExtracter.get_c_elegans_hit_ids(gene_id, gene_name)
+            hit_ids = DataExtracter().get_c_elegans_hit_ids(gene_id, gene_name)
         if not hit_ids:
             return False
         for hit_id in hit_ids:

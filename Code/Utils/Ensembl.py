@@ -35,7 +35,8 @@ class Ensembl:
         genes_ids = []
         for gene_name in genes_names:
             gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name)
-            genes_ids.append(gene_id)
+            if gene_id:
+                genes_ids.append(gene_id)
         return genes_ids
 
     @staticmethod

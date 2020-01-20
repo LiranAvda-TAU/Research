@@ -48,7 +48,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
         elif program == "Variants":
             genes_and_variants = self.parse_input()
             try:
-                results = executor.get_variants_data_for_server(genes_and_variants)
+                results = executor().get_variants_data_for_server(genes_and_variants)
             except SystemExit:
                 results = "Couldn't find data for " + str(genes_and_variants)
             print("results:", results)
