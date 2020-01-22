@@ -402,37 +402,10 @@ class DataExtracter:
             return hit_ids
         return None
 
-    # receives human gene id (ENSG) and returns a set of all related accession numbers
-    @staticmethod
-    def get_human_accession_number(human_gene_id):
-        accessions_dic = FileReader(FileReader.research_path + r"\Data",
-                                    r"\human_genes_ids_to_accession_numbers.txt").from_file_to_dict_with_plural_values(0, 1, True)
-        if human_gene_id not in accessions_dic:
-            print("Human gene id", human_gene_id, "didn't have an accession number")
-            return None
-        accessions = set(accessions_dic[human_gene_id])
-        accession = BioPython.get_longest_accession(accessions=accessions)
-        return accession
-
-    # this function unites all the ways to extract a human sequence from human gene id
-    @staticmethod
-    def get_human_aa_seq(human_gene_id):
-        seq = BioPython.get_aa_seq_by_human_gene_id(human_gene_id)  # try from uniprot
-        if not seq:
-            seq = BioPython.get_aa_seq_from_ensembl(human_gene_id)  # try from ensembl
-            if not seq:
-                human_accession_number = DataExtracter.get_human_accession_number(human_gene_id)  # try by accession
-                if human_accession_number:
-                    seq = BioPython().get_aa_seq_from_entrez(human_accession_number)
-                    if not seq:
-                        print("Couldn't find gene sequence for gene: " + human_gene_id)
-                        return None
-        return seq
-
     # receives the human gene id and extracts the sequence, runs a blast search with the sequence and returns the human hit ids
     @staticmethod
     def get_c_elegans_hit_ids(human_gene_id, human_gene_name):
-        seq = DataExtracter.get_human_aa_seq(human_gene_id)
+        seq = BioPython.get_human_aa_seq(human_gene_id)
         print("Human Seq:", seq)
         if not seq:
             return None
@@ -448,14 +421,20 @@ class DataExtracter:
     # human or C.elegans, and runs a reverse blast on the genes to see if we get a match in the form of the ortholog gene
     # scheme: blasted gene id(WB) -> blasted gene id(number) -> accession numbers -> accession number -> hit ids -> ortholog
     # genes names -> check if our ortholog gene is in there
-    def check_reversed_blast_hit_ids(self, gene_name, ortholog_gene_name, gene_species="C.elegans"):
+    def check_reversed_blast_hit_ids(self, bp: BioPython, gene_name, ortholog_gene_name, gene_species="C.elegans"):
         gene_id = Ensembl.get_gene_id_by_gene_name(gene_name, gene_species)
-        if gene_species == "C.elegans":
-            hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
-        else:
-            hit_ids = DataExtracter().get_c_elegans_hit_ids(gene_id, gene_name)
+        # if gene_species == "C.elegans":
+        #     hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
+        # else:
+        #     hit_ids = DataExtracter().get_c_elegans_hit_ids(gene_id, gene_name)
+        # if not hit_ids:
+        #     return False
+        # for hit_id in hit_ids:
+
+        hit_ids = bp.blast_results.get(gene_name, None)
         if not hit_ids:
-            return False
+            print("No hit ids were found for gene", gene_name, gene_id)
+            return None
         for hit_id in hit_ids:
             print("current hit id:", hit_id)
             hit_gene_name = self.hit_ids_to_gene_names.get(hit_id, None)
@@ -655,10 +634,18 @@ class DataExtracter:
     @staticmethod
     def get_genes_ids(list_of_genes, genes_in_names, species):
         if genes_in_names:
+            print("got here :(")
             genes_ids = Ensembl.convert_from_names_to_ids(list_of_genes, species)
         else:  # genes in ids
             genes_ids = list_of_genes
         return genes_ids
+
+    def get_status_tuple(self, c_elegans_gene_name, human_gene_name):
+        return (self.get_sources(c_elegans_gene_name, human_gene_name),
+                self.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
+                self.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
+                c_elegans_gene_name + ": " + self.get_c_elegans_description_for_gene_id(
+                    Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
 
     ########### irrelevant functions ###########
 

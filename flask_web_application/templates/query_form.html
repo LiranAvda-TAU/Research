@@ -23,6 +23,10 @@
     <form action="/c_elegans_orthologs" method="POST">
         Your human genes: <input style=width:400px; name="text">
         <input type="submit" value="Submit">
+        <select name="type_select">
+            <option value=True>Genes Names</option>
+            <option value=>Genes Ids</option>
+        </select>
     </form>
 
     <h1>Find The Human Orthologs</h1>
@@ -32,11 +36,15 @@
     <form action="/human_orthologs" method="POST">
         Your C.elegans genes: <input style=width:400px; name="text">
         <input type="submit" value="Submit">
+        <select name="type_select">
+            <option value=True>Genes Names</option>
+            <option value=>Genes Ids</option>
+        </select>
     </form>
 
     <h1><b> Check The Variants </b></h1>
     <p> In order to use the service, please insert your genes names and variants according to the format below:</p>
-    <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: TCP1:[Asn284Ser,Ala453Glu]</p>
+    <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: TCP1:[Asn284Ser,Ala453Glu],KDELR3:[Arg169Trp,Val199Gly]</p>
     <div class="gap-10"></div>
     <form action="/variants" method="POST">
         Your human genes and their variants: <input style=width:400px; name="text">

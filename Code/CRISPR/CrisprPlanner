@@ -59,7 +59,7 @@ class CrisprPlanner:
         self.sense_strand = sense_strand
         self.anti_sense_strand = CrisprPlanner.get_anti_sense_strand(sense_strand)
         self.amino_acid_sequence = amino_acid_sequence if amino_acid_sequence else \
-            BioPython.get_aa_seq_by_c_elegans_gene_name(gene_name)
+            BioPython().get_aa_seq_by_c_elegans_gene_name(gene_name)
         self.amino_acid_mutation_site = aa_mutation_site
         self.sense_mutation_site = -1
         self.anti_sense_mutation_site = -1

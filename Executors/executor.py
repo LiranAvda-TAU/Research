@@ -11,6 +11,7 @@ from Test.Extraction.DataExtracterTest import DataExtracterTest
 from Test.TestFunctions import TestFunctions
 
 import ast
+import socket
 
 
 class executor:
@@ -429,54 +430,43 @@ class executor:
     def pair_pipeline(list_of_pairs_file_path="", list_of_pair_file_name="", dic_of_optional_orthologs: dict = None,
                       result_in_dict=False, key_species="C.elegans"):
         if not dic_of_optional_orthologs:  # read dict from file
-            pairs_in_names = FileReader(list_of_pairs_file_path, list_of_pair_file_name,
-                                        FileType.TSV).from_file_to_dict_with_plural_values(0, 1, True)
+            gene_name_to_gene_name_dict = FileReader(list_of_pairs_file_path, list_of_pair_file_name,
+                                                     FileType.TSV).from_file_to_dict_with_plural_values(0, 1, True)
         else:
             reversed_dic = DataExtracter().from_plural_valued_dict_to_plural_valued_reversed_dict(dic_of_optional_orthologs)
             print("reversed dic:", reversed_dic)
-            pairs_in_names = DataExtracter.convert_dic(reversed_dic, True, key_species)
-            print("pairs in names:", pairs_in_names)
+            gene_name_to_gene_name_dict = DataExtracter.convert_dic(reversed_dic, True, key_species)
 
-        print("List of all pairs have been obtained! we have", len(pairs_in_names), "pairs to check")
-
-        # accession_numbers_and_hit_ids, hit_ids_and_hsps = DataExtracter.get_hit_ids_for_accession_numbers(
-        #     31,
-        #     FileReader.research_path + r"\Test\Files",
-        #     r"\blast-results-complete-200619")
-        #
-        # FileMaker().from_plural_valued_dict_to_file(accession_numbers_and_hit_ids, "accession numbers and hit ids")
-        # FileMaker().from_plural_valued_dict_to_file(hit_ids_and_hsps, "hit ids and hsp")
-        # tf = TestFunctions("get hit ids for accession numbers", dictionary=accession_numbers_and_hit_ids)
-        # tf.checkSize()
-        # tf.printRandomLinesInDict(5)
+        print("List of all pairs have been obtained! we have", len(gene_name_to_gene_name_dict), "genes to check")
 
         true_matches = {}
-        de = DataExtracter()
-        bp = BioPython()
-        for key_gene_name in pairs_in_names:
-            ortholog_genes_names: list = pairs_in_names[key_gene_name]
+        de, bp = DataExtracter(), BioPython()
+        bp.build_genes_hit_ids_dictionary([gene_name for gene_name in gene_name_to_gene_name_dict], key_species)
+        for key_gene_name in gene_name_to_gene_name_dict:
+            ortholog_genes_names: list = gene_name_to_gene_name_dict[key_gene_name]
             for ortholog_gene_name in ortholog_genes_names:
+
                 c_elegans_gene_name = key_gene_name if key_species == "C.elegans" else ortholog_gene_name
                 human_gene_name = ortholog_gene_name if key_species == "C.elegans" else key_gene_name
                 print("Now working on", key_gene_name, "and", ortholog_gene_name)
-                result = de.check_reversed_blast_hit_ids(key_gene_name, ortholog_gene_name, key_species)
+
+                result = de.check_reversed_blast_hit_ids(bp, key_gene_name, ortholog_gene_name, key_species)
                 if result:
                     genes_tuple = (ortholog_gene_name, key_gene_name)
-                    status_tuple = (de.get_sources(c_elegans_gene_name, human_gene_name),
-                                    de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
-                                    de.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
-                                    c_elegans_gene_name + ": " + de.get_c_elegans_description_for_gene_id(
-                                        Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
-
+                    status_tuple = de.get_status_tuple(c_elegans_gene_name, human_gene_name)
                     true_matches[genes_tuple] = status_tuple
                     print("The domains ratio, number of sources, human and C.elegans gene length: ", status_tuple)
 
         print("true matches:\n", true_matches)
         if result_in_dict:
-            return true_matches
+            return true_matches, "ok"
+        return executor.get_result_list(true_matches), "ok"
+
+    @staticmethod
+    def get_result_list(true_matches_dictionary):
         result_list = []
-        for genes_tuple in true_matches:
-            data = true_matches[genes_tuple]
+        for genes_tuple in true_matches_dictionary:
+            data = true_matches_dictionary[genes_tuple]
             result_list.append([genes_tuple[0], genes_tuple[1], data[0], data[1], data[2][0], data[2][1], data[3]])
         return result_list
 
@@ -563,7 +553,7 @@ class executor:
                     if result.startswith("not conserved") or result.startswith("not in the human"):
                         # filter if amino acid is not conserved
                         continue
-                    print("For gene: " + human_gene_name + " with variant " + variant + ", the amino acid is " + result)
+                    print("For gene:", human_gene_name, "with variant", variant + ", the amino acid is", result)
                     line = data[human_gene_name] + "\t" + variant + "\t" + result + "\t" + str(
                         c_elegans_location) + "\t" + str(alignment_conservation_score) + "\t" + str(count) + "\t" + \
                            mmp_data + "\n"
@@ -633,7 +623,7 @@ class executor:
                                                                c_elegans_seq,
                                                                Strings.from_name_to_symbol(former_aa),
                                                                place)
-                    print("For gene: " + human_gene_name + " with variant " + variant + ", the amino acid is " + result)
+                    print("For gene:", human_gene_name, "with variant", variant + ", the amino acid is", result)
                     if not result.startswith("conserved"):
                         # filter if amino acid is not conserved
                         continue
@@ -650,6 +640,9 @@ class executor:
     # all variants and extracts for each variant the sequence of its human gene and its C.elegans ortholog, runs
     # pairwise alignment and returns data regarding the alignments of the two sequences.
     def get_variants_data_for_server(self, human_genes_names_and_variants):
+        if not executor.is_connected():
+            return None, "No Internet Connection"
+
         conserved_variants = 0
         output = []
 
@@ -661,8 +654,8 @@ class executor:
             mmp_data = self.mmp_data_by_gene_name[human_gene_name] if human_gene_name in self.mmp_data_by_gene_name \
                 else "No mention in MMP"
 
-            true_matches_pairs: dict = executor.find_me_orthologs(human_genes=[human_gene_name],
-                                                                  result_in_dict=True)
+            true_matches_pairs, _ = executor.find_me_orthologs(human_genes=[human_gene_name],
+                                                               result_in_dict=True)
             orthologs_names = []
             for pair in true_matches_pairs:
                 orthologs_names.append(pair[1])
@@ -688,7 +681,7 @@ class executor:
                                                                c_elegans_seq,
                                                                Strings.from_name_to_symbol(former_aa),
                                                                place)
-                    print("For gene:", human_gene_name, "with variant", variant + ", the amino acid is" + result)
+                    print("For gene:", human_gene_name, "with variant", variant + ", the amino acid is", result)
                     conserved_variants += 1
                     line = [variant, Ensembl.get_gene_name_by_gene_id(ortholog_id_WB), result, c_elegans_location,
                             alignment_conservation_score, count, mmp_data]
@@ -722,7 +715,9 @@ class executor:
                           species="Human",
                           result_in_dict=False):
 
-        human_genes_ids = DataExtracter().get_genes_ids(human_genes, genes_in_names, species)
+        if not executor.is_connected():
+            return None, "No Internet Connection"
+        human_genes_ids = DataExtracter.get_genes_ids(human_genes, genes_in_names, species)
 
         # from human gene id to C.elegans gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
@@ -730,7 +725,7 @@ class executor:
                                    FileType.TSV).from_file_to_dict_with_plural_values(4, 0, True)
         relevant_orthologs_dic = DataExtracter.get_filtered_dic_of_orthologs(human_genes_ids, orthologs_dic)
         if DataExtracter.is_dict_empty(relevant_orthologs_dic):
-            return None
+            return None, "No orthologs found"
         print("Orthologs: ", relevant_orthologs_dic)
 
         # now we have the ortholist-orthologs to our human genes.
@@ -744,7 +739,7 @@ class executor:
                                                                             sources_dic,
                                                                             sources_bar)
         if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
-            return None
+            return None, "No orthologs left after sources filtration"
         print(len(filtered_by_sources_orthologs), "genes are left:", filtered_by_sources_orthologs,
               "after filtration by sources")
 
@@ -753,7 +748,7 @@ class executor:
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
                                                                                         length_bar)
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
-            return None
+            return None, "No orthologs left after length filtration"
         print(len(filtered_by_length_orthologs), "genes are left:", filtered_by_length_orthologs,
               "after filtration by length")
 
@@ -763,7 +758,7 @@ class executor:
                                                                                     domains_range,
                                                                                     key_organism="Human")
         if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
-            return None
+            return None, "No orthologs left after ratio of conserved domains filtration"
         print(len(filtered_by_conserved_domains), "genes are left", filtered_by_conserved_domains,
               "after filtration by domains")
 
@@ -771,26 +766,6 @@ class executor:
         # next step: by opposite blast
         return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains,
                                       result_in_dict=result_in_dict)
-
-
-    # irrelevant function
-    # def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
-    #     de = DataExtracter()
-    #     for i in range(len(human_genes_names)):
-    #         human_gene_name = human_genes_names[i]
-    #         c_elegans_gene_name = c_elegans_genes_names[i]
-    #         conserved_domains_value = de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name,
-    #                                                                          human_gene_name)
-    #         human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
-    #         try:
-    #             c_elegans_id_wb = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
-    #         except:
-    #             print("Couldn't find id for", c_elegans_gene_name)
-    #             continue
-    #         c_elegans_seq = BioPython().\
-    #             get_c_elegans_aa_seq(c_elegans_id_wb)
-    #         conservation_score = BioPython.get_conservation_score(human_seq, c_elegans_seq)
-    #         print(human_gene_name, c_elegans_gene_name, conservation_score, conserved_domains_value)
 
     # this function is built to answer Ronen's list of genes:
     @staticmethod
@@ -817,8 +792,9 @@ class executor:
                                    domains_range: tuple = (0.5, 2),
                                    species="C.elegans",
                                    result_in_dict=False):
-
-        worm_genes_ids = DataExtracter().get_genes_ids(list_of_worm_genes, genes_in_names, species)
+        if not executor.is_connected():
+            return None, "No Internet Connection"
+        worm_genes_ids = DataExtracter.get_genes_ids(list_of_worm_genes, genes_in_names, species)
 
         # from C.elegans gene id to human gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
@@ -826,7 +802,7 @@ class executor:
                                    FileType.TSV).from_file_to_dict_with_plural_values(0, 4, True)
         relevant_orthologs_dic = DataExtracter.get_filtered_dic_of_orthologs(worm_genes_ids, orthologs_dic)
         if DataExtracter.is_dict_empty(relevant_orthologs_dic):
-            return None
+            return None, "No orthologs found"
         print("Orthologs: ", relevant_orthologs_dic)
 
         # now we have the ortholist-orthologs to our human genes.
@@ -840,7 +816,7 @@ class executor:
                                                                             sources_dic,
                                                                             sources_bar)
         if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
-            return None
+            return None, "No orthologs left after sources filtration"
         print(len(filtered_by_sources_orthologs), "genes are left", filtered_by_sources_orthologs,
               "after filtration by sources")
 
@@ -849,7 +825,7 @@ class executor:
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
                                                                                         length_bar, "c_elegans")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
-            return None
+            return None, "No orthologs left after length filtration"
         print(len(filtered_by_length_orthologs), "genes are left", filtered_by_length_orthologs,
               "after filtration by length")
 
@@ -859,14 +835,14 @@ class executor:
                                                                                     domains_range,
                                                                                     key_organism="C.elegans")
         if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
-            return None
+            return None, "No orthologs left after ratio of conserved domains filtration"
         print(len(filtered_by_conserved_domains), "genes are left", filtered_by_conserved_domains,
               "after filtration by domains")
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
         return executor.pair_pipeline(dic_of_optional_orthologs=filtered_by_conserved_domains,
-                                      result_in_dicts=result_in_dict,
+                                      result_in_dict=result_in_dict,
                                       key_species="Human")
 
     # parses input for the flask server's variants function
@@ -897,6 +873,37 @@ class executor:
                     output += ": " + ", ".join([str(item) for item in results.get(key)]) + "\n"
             return output
         return results
+
+    @staticmethod
+    def is_connected():
+        try:
+            # connect to the host -- tells us if the host is actually reachable
+            socket.create_connection(("www.google.com", 80))
+            return True
+        except OSError:
+            pass
+        print("No Internet Connection")
+        return False
+
+# irrelevant function
+    # def get_shinjini_data(self, human_genes_names, c_elegans_genes_names):
+    #     de = DataExtracter()
+    #     for i in range(len(human_genes_names)):
+    #         human_gene_name = human_genes_names[i]
+    #         c_elegans_gene_name = c_elegans_genes_names[i]
+    #         conserved_domains_value = de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name,
+    #                                                                          human_gene_name)
+    #         human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
+    #         try:
+    #             c_elegans_id_wb = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
+    #         except:
+    #             print("Couldn't find id for", c_elegans_gene_name)
+    #             continue
+    #         c_elegans_seq = BioPython().\
+    #             get_c_elegans_aa_seq(c_elegans_id_wb)
+    #         conservation_score = BioPython.get_conservation_score(human_seq, c_elegans_seq)
+    #         print(human_gene_name, c_elegans_gene_name, conservation_score, conserved_domains_value)
+
 
 exec = executor()
 
