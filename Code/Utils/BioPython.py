@@ -158,7 +158,7 @@ class BioPython:
 
         query_organism = "Homo sapiens[organism]" if key_species == "C.elegans" else "Caenorhabditis elegans[organism]"
         org_name = "Homo sapiens" if key_species == "C.elegans" else "Caenorhabditis elegans"
-        self.blast_with_sequences(genes_sequences_dict,query_organism=query_organism, org_name=org_name)
+        self.blast_with_sequences(genes_sequences_dict, query_organism=query_organism, org_name=org_name)
 
     # receives (1) an accession numbers and (2) the relevant sequencec, runs BLAST and returns a list of all
     # id of homo sapiens reported (first 50 by default)

@@ -414,6 +414,7 @@ class DataExtracter:
                                                       "Caenorhabditis elegans")
         if not hit_ids:
             print("Couldn't find hit ids for", human_gene_name)
+            return None
         print("Length of hit ids list is: " + str(len(hit_ids)))
         return hit_ids
 
