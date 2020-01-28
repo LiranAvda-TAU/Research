@@ -41,6 +41,8 @@ class Strings:
                    'T': 2, 'V': 0, 'W': 1, 'Y': 1, '-': 6}
         return True if symbols[first]-symbols[second] == 0 else False
 
+    # receives (1) location (count starts at one) of amino acid in the sequence, and (2) the sequence alignment and
+    # returns the corresponding index of the relevant amino acid in the alignment sequence
     @staticmethod
     def get_amino_acid_in_location_in_alignment(location: int, sequence_alignment):
         if location > len(sequence_alignment.replace("-", "")):

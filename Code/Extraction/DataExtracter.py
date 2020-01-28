@@ -634,12 +634,12 @@ class DataExtracter:
 
     @staticmethod
     def get_genes_ids(list_of_genes, genes_in_names, species):
+        error = None
         if genes_in_names:
-            print("got here :(")
-            genes_ids = Ensembl.convert_from_names_to_ids(list_of_genes, species)
+            genes_ids, error = Ensembl.convert_from_names_to_ids(list_of_genes, species)
         else:  # genes in ids
             genes_ids = list_of_genes
-        return genes_ids
+        return genes_ids, error
 
     def get_status_tuple(self, c_elegans_gene_name, human_gene_name):
         return (self.get_sources(c_elegans_gene_name, human_gene_name),

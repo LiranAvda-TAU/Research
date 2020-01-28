@@ -377,8 +377,6 @@ class BioPython:
             human_alignment = alignment[0]
             c_elegans_alignment = alignment[1]
             alignment_index = Strings.get_amino_acid_in_location_in_alignment(variant_index, human_alignment)
-            print("alignment index:", alignment_index, "variant index:", variant_index, "amino acid:",
-                  human_alignment[alignment_index-1])
             status = human_alignment[alignment_index - 1], c_elegans_alignment[alignment_index - 1]
 
             if original_amino_acid == '-':  # termination

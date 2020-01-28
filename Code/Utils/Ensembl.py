@@ -85,6 +85,7 @@ class Ensembl:
     @staticmethod
     def convert_from_names_to_ids(genes_list, subject):
         new_list = []
+        error = None
         for gene in genes_list:
             gene_id = None
             if subject == "Human":
@@ -94,8 +95,8 @@ class Ensembl:
             if gene_id:
                 new_list.append(gene_id)
             else:
-                print("The name", gene, "is not listed as a", subject, "gene in our sources")
+                error = "The name " + gene + " is not listed as a " + subject + " gene in our sources"
 
-        return new_list
+        return new_list, error
 
 # print(Ensembl.get_nt_sequence_by_gene_name("cct-1"))

@@ -459,8 +459,8 @@ class executor:
 
         print("true matches:\n", true_matches)
         if result_in_dict:
-            return true_matches, "ok"
-        return executor.get_result_list(true_matches), "ok"
+            return true_matches, None
+        return executor.get_result_list(true_matches), None
 
     @staticmethod
     def get_result_list(true_matches_dictionary):
@@ -688,7 +688,7 @@ class executor:
                     output.append(line)
             if not conserved_variants:
                 print("No variants are conserved")
-        return output
+        return output, None
 
     # keys = human gene names
     @staticmethod
@@ -717,7 +717,10 @@ class executor:
 
         if not executor.is_connected():
             return None, "No Internet Connection"
-        human_genes_ids = DataExtracter.get_genes_ids(human_genes, genes_in_names, species)
+        human_genes_ids, error = DataExtracter.get_genes_ids(human_genes, genes_in_names, species)
+        if error:
+            print(error)
+            return None, error
 
         # from human gene id to C.elegans gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",
@@ -794,7 +797,10 @@ class executor:
                                    result_in_dict=False):
         if not executor.is_connected():
             return None, "No Internet Connection"
-        worm_genes_ids = DataExtracter.get_genes_ids(list_of_worm_genes, genes_in_names, species)
+        worm_genes_ids, error = DataExtracter.get_genes_ids(list_of_worm_genes, genes_in_names, species)
+        if error:
+            print(error)
+            return None, error
 
         # from C.elegans gene id to human gene id dictionary
         orthologs_dic = FileReader(FileReader.research_path + r"\Data",

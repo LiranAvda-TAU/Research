@@ -8,7 +8,8 @@
     {% extends "template.html" %}
     {% block content %}
     <h1> Your Results Are Here! </h1>
-    <p>{{ result }} </p>
+    <p>Couldn't find data for {{ query }} </p>
+    <p>Reason: {{ error }} </p>
     {% endblock %}
   </body>
 </html>
