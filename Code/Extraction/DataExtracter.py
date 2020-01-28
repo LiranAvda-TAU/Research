@@ -583,7 +583,7 @@ class DataExtracter:
                 try:
                     value_gene_length = float(value_id_cd_length[value_gene])
                 except:
-                    print("gene:", value_gene + "wasn't found in length dictionary")
+                    print("gene:", value_gene, "wasn't found in length dictionary")
                     continue
                 if (key_gene_length * p) / 100 <= value_gene_length and \
                                         (value_gene_length * p) / 100 <= key_gene_length:
@@ -690,12 +690,12 @@ class DataExtracter:
     @staticmethod
     def get_c_elegans_description_for_gene_id(gene_id, start_term: str = "\"text\":\"", end_term: str = "\",\"evidence\""):
         if not gene_id:
-            return None
+            return "No description was found"
         try:
             record = HttpRequester("http://rest.wormbase.org/rest/widget/gene/" +
                                     gene_id + "/overview").make_request()
             if not record:
-                return "no description was found"
+                return "No description was found"
             info_index = record.find("concise_description")
             shorter_info = record[info_index + len("concise_description"):]
             start_index = shorter_info.find(start_term)
