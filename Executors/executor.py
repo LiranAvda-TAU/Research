@@ -541,7 +541,7 @@ class executor:
                 print("C.elegans seq: " + c_elegans_seq)
 
                 variants = human_genes_and_variants[human_gene_name]
-                print("variants: " + ", ".join(variants))
+                print("variants:", ", ".join(variants))
                 for variant in variants:
                     print("For variant: " + variant)
                     former_aa, place, current_aa = Strings.from_variant_string_to_tuple(variant)
@@ -616,7 +616,7 @@ class executor:
                 variants = human_genes_and_variants[human_gene_name]
                 print("variants: " + ", ".join(variants))
                 for variant in variants:
-                    print("For variant: " + variant)
+                    print("For variant:", variant)
                     former_aa, place, current_aa = Strings.from_variant_string_to_tuple(variant)
                     result, count, c_elegans_location, alignment_conservation_score = \
                         BioPython.pairwise_alignment_inspector(human_seq,
@@ -777,8 +777,9 @@ class executor:
         fd = FileReader(file_path, file_name)
         genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', 'kinase')
         genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog')
-        result_dictionary = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10))
+        result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10), result_in_dict=True)
         orthologous_genes = [worm_gene for (worm_gene, human_gene) in result_dictionary]
+        print("orthologous_genes:", orthologous_genes)
         count = 0
         for worm_gene_name in genes_and_ortholog_data:
             res = 1 if worm_gene_name in orthologous_genes else 0

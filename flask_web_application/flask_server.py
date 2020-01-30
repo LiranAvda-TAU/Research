@@ -98,4 +98,4 @@ def need_input():
         print("key: {0}, value: {1}".format(key, value))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run('0.0.0.0', debug=True)
