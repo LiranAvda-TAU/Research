@@ -586,7 +586,7 @@ class executor:
             mmp_data = mmp_data_by_gene_name[human_gene_name] if human_gene_name in mmp_data_by_gene_name \
                 else "No mention in MMP"
             try:
-                true_matches_pairs = list(executor.find_me_orthologs([human_gene_name]).keys())
+                true_matches_pairs = list(executor.find_me_orthologs_for_human([human_gene_name]).keys())
                 orthologs_names = []
                 for i in range(len(true_matches_pairs)):
                     pair = true_matches_pairs[i]
@@ -654,8 +654,8 @@ class executor:
             mmp_data = self.mmp_data_by_gene_name[human_gene_name] if human_gene_name in self.mmp_data_by_gene_name \
                 else "No mention in MMP"
 
-            true_matches_pairs, _ = executor.find_me_orthologs(human_genes=[human_gene_name],
-                                                               result_in_dict=True)
+            true_matches_pairs, _ = executor.find_me_orthologs_for_human(human_genes=[human_gene_name],
+                                                                         result_in_dict=True)
             orthologs_names = []
             for pair in true_matches_pairs:
                 orthologs_names.append(pair[1])
@@ -707,13 +707,13 @@ class executor:
         f.close()
 
     @staticmethod
-    def find_me_orthologs(human_genes,
-                          genes_in_names: bool = True,
-                          sources_bar: int = 3,
-                          length_bar: int = 10,
-                          domains_range: tuple = (0.5, 2),
-                          species="Human",
-                          result_in_dict=False):
+    def find_me_orthologs_for_human(human_genes,
+                                    genes_in_names: bool = True,
+                                    sources_bar: int = 3,
+                                    length_bar: int = 10,
+                                    domains_range: tuple = (0.5, 2),
+                                    species="Human",
+                                    result_in_dict=False):
 
         if not executor.is_connected():
             return None, "No Internet Connection"

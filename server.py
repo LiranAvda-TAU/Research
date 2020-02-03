@@ -39,7 +39,7 @@ class HomologyHandler(BaseHTTPRequestHandler):
             human_genes = self.path.split(";")[1:]
             print(str(human_genes))
             try:
-                c_elegans_homologs = executor.find_me_orthologs(human_genes)
+                c_elegans_homologs = executor.find_me_orthologs_for_human(human_genes)
                 if not c_elegans_homologs:
                     c_elegans_homologs = "Couldn't find orthologs for " + str(human_genes)
             except:

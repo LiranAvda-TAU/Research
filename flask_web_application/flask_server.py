@@ -33,7 +33,7 @@ def return_c_elegans_orthologs():
     genes_in_names = request.form.get('type_select')
     print("genes in names:", genes_in_names)
     try:
-        results, error = executor.find_me_orthologs(human_genes=human_genes, genes_in_names=genes_in_names)
+        results, error = executor.find_me_orthologs_for_human(human_genes=human_genes, genes_in_names=genes_in_names)
         if not results:
             query = ", ".join(human_genes)
             return render_template('failure_response.html', query=query, error=error)

@@ -15,11 +15,11 @@ def main(program):
                  'PIK3CB', 'RPS6KB1', 'RPS6KA3', 'RPS6KA1', 'RPS6KB2', 'RPS6KA2', 'RPS6KA6', 'RPS6KA5', 'IRS1', 'PRKCA',
                  'KRAS', 'NRAS', 'HRAS', 'MAPK1', 'MAPK3', 'CREB1', 'CREBBP', 'SMAD2', 'SMAD4', 'SMAD1']
         input = ['SMAD3', 'MAPK14', 'MAPK8']
-        true_matches = executor.find_me_orthologs(input,
-                                                  genes_in_names=True,
-                                                  sources_bar=3,
-                                                  length_bar=10,
-                                                  domains_range=(0.3, 2))
+        true_matches = executor.find_me_orthologs_for_human(input,
+                                                            genes_in_names=True,
+                                                            sources_bar=3,
+                                                            length_bar=10,
+                                                            domains_range=(0.3, 2))
         print("We are left with " + str(len(true_matches)) + " matches")
         print(str(true_matches))
 

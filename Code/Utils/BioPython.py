@@ -322,13 +322,11 @@ class BioPython:
 
     @staticmethod
     def get_gene_name_from_protein_accession(hit_ids: [], search_term: str = "gene=\"", end_search_term: str = "\"\n"):
-        print("Started working on extracting the gene name by the protein accession")
         accessions_and_names = {}
         Entrez.email = "liranavda@gmail.com"
         for hit_id in hit_ids:
             try:
                 info = Entrez.efetch(db="protein", id=hit_id, rettype="gb", retmode="text")
-                print("extraction was successful for: " + hit_id)
                 record = info.read()
                 info.close()
             except:
