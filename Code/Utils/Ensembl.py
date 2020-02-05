@@ -85,7 +85,7 @@ class Ensembl:
     @staticmethod
     def convert_from_names_to_ids(genes_list, subject):
         new_list = []
-        error = None
+        not_found_genes = []
         for gene in genes_list:
             gene_id = None
             if subject == "Human":
@@ -95,7 +95,11 @@ class Ensembl:
             if gene_id:
                 new_list.append(gene_id)
             else:
-                error = "The name " + gene + " is not listed as a " + subject + " gene in our sources"
+                not_found_genes.append(gene)
+
+        error = None
+        if not_found_genes:
+            error = "Our resources don't have record for genes: " + ", ".join(not_found_genes)
 
         return new_list, error
 

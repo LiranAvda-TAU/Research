@@ -718,7 +718,7 @@ class executor:
         if not executor.is_connected():
             return None, "No Internet Connection"
         human_genes_ids, error = DataExtracter.get_genes_ids(human_genes, genes_in_names, species)
-        if error:
+        if not human_genes_ids:
             print(error)
             return None, error
 
@@ -799,7 +799,7 @@ class executor:
         if not executor.is_connected():
             return None, "No Internet Connection"
         worm_genes_ids, error = DataExtracter.get_genes_ids(list_of_worm_genes, genes_in_names, species)
-        if error:
+        if not worm_genes_ids:
             print(error)
             return None, error
 
