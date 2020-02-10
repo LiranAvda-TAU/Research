@@ -9,9 +9,7 @@ from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
 from Test.Extraction.DataExtracterTest import DataExtracterTest
 from Test.TestFunctions import TestFunctions
-from flask import render_template
 
-import ast
 import socket
 
 
