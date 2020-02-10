@@ -644,7 +644,7 @@ class executor:
     @staticmethod
     def find_me_orthologs_for_human(human_genes,
                                     genes_in_names: bool = True,
-                                    sources_bar: int = 3,
+                                    sources_bar: int = 2,
                                     length_bar: int = 10,
                                     domains_range: tuple = (0.5, 2),
                                     species="Human"):
@@ -714,12 +714,14 @@ class executor:
 
     # this function is built to answer Ronen's list of genes:
     @staticmethod
-    def check_if_gene_has_ortholog(file_path, file_name):
+    def check_if_gene_has_ortholog(file_path, file_name, sheet_name='kinase'):
         # first read the genes id
         fd = FileReader(file_path, file_name)
-        genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', 'kinase')
-        genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog')
+        genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', sheet_name)
+        genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog',
+                                                                            sheet_name=sheet_name)
         result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10), result_in_dict=True)
+        # parameters =
         orthologous_genes = [worm_gene for (worm_gene, human_gene) in result_dictionary]
         print("orthologous_genes:", orthologous_genes)
         count = 0
@@ -733,7 +735,7 @@ class executor:
     @staticmethod
     def find_me_orthologs_for_worm(list_of_worm_genes,
                                    genes_in_names: bool = True,
-                                   sources_bar: int = 3,
+                                   sources_bar: int = 2,
                                    length_bar: int = 10,
                                    domains_range: tuple = (0.5, 2),
                                    species="C.elegans"):
@@ -924,5 +926,6 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-# exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-#                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx")
+exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
+                                sheet_name="kinase")

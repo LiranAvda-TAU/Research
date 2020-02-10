@@ -90,5 +90,6 @@ def need_input():
     for key, value in request.form.items():
         print("key: {0}, value: {1}".format(key, value))
 
+
 if __name__ == "__main__":
-    app.run('0.0.0.0', debug=True)
+    app.run(host="0.0.0.0", debug=True, port=5005)

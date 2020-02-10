@@ -419,8 +419,9 @@ class DataExtracter:
         return hit_ids
 
     # receives (1) blasted gene name, (2) ortholog gene name, (3) whether the blasted gene is
-    # human or C.elegans, and runs a reverse blast on the genes to see if we get a match in the form of the ortholog gene
-    # scheme: blasted gene id(WB) -> blasted gene id(number) -> accession numbers -> accession number -> hit ids -> ortholog
+    # human or C.elegans, and runs a reverse blast on the genes to see if we get a match in the form of the ortholog
+    # gene scheme: blasted gene id(WB) -> blasted gene id(number) -> accession numbers -> accession number -> hit ids
+    # -> ortholog
     # genes names -> check if our ortholog gene is in there
     def check_reversed_blast_hit_ids(self, bp: BioPython, gene_name, ortholog_gene_name, gene_species="C.elegans"):
         gene_id = Ensembl.get_gene_id_by_gene_name(gene_name, gene_species)
@@ -437,7 +438,6 @@ class DataExtracter:
             print("No hit ids were found for gene", gene_name, gene_id)
             return None
         for hit_id in hit_ids:
-            print("current hit id:", hit_id)
             hit_gene_name = self.hit_ids_to_gene_names.get(hit_id, None)
             if hit_gene_name:
                 if hit_gene_name == ortholog_gene_name:
