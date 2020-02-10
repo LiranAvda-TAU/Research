@@ -22,10 +22,10 @@
     {% block content %}
     <h1> Your Results Are Here! </h1>
     <table>
-        <thead><tr><th> Variant </th><th> C.elegans Ortholog </th><th> Conservation Status </th>
+        <thead><tr><th> Human Gene </th><th> Variant </th><th> C.elegans Ortholog </th><th> Conservation Status </th>
             <th> Position in C.elegans Sequence </th><th> Window Conservation Score </th><th> # Conservation Supporting
                 AlignmentS </th><th> MMP Mention </th></tr></thead>
-        {%for result in results%}
+        {%for result in true_results%}
         <tr>
             <td> {{result[0]}} </td>
             <td> {{result[1]}} </td>
@@ -34,7 +34,20 @@
             <td> {{result[4]}} </td>
             <td> {{result[5]}} </td>
             <td> {{result[6]}} </td>
+            <td> {{result[7]}} </td>
 
+        </tr>
+        {%endfor%}
+    </table>
+
+    <div class="gap-30"></div>
+    <h1> Genes we could not find variants data for: </h1>
+    <table>
+        <thead><tr><th> Your Gene </th><th> Reason for failing </th></tr></thead>
+        {%for result in false_results%}
+        <tr>
+            <td> {{result[0]}} </td>
+            <td> {{result[1]}} </td>
         </tr>
         {%endfor%}
     </table>

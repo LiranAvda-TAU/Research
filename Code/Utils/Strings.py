@@ -4,19 +4,14 @@ class Strings:
     @staticmethod
     def from_variant_string_to_tuple(s):
         former_amino_acid = ''
-        current_amino_acid = ''
         place = ''
-        next_amino_acid = False
         for char in s:
-            if 'A' <= char <= 'z' and not next_amino_acid:
+            if 'A' <= char <= 'z':
                 former_amino_acid += char
-            elif 'A' <= char <= 'z' and next_amino_acid:
-                current_amino_acid += char
             else:
                 place += char
-                next_amino_acid = True
         place = int(place)
-        return former_amino_acid, place, current_amino_acid
+        return former_amino_acid, place
 
     @staticmethod
     def from_name_to_symbol(amino_acid_name):

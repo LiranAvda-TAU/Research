@@ -633,10 +633,10 @@ class DataExtracter:
         return False
 
     @staticmethod
-    def get_genes_ids(list_of_genes, genes_in_names, species):
+    def get_genes_ids(list_of_genes, genes_in_names, species, failed_genes):
         error = None
         if genes_in_names:
-            genes_ids, error = Ensembl.convert_from_names_to_ids(list_of_genes, species)
+            genes_ids, error = Ensembl.convert_from_names_to_ids(list_of_genes, species, failed_genes)
         else:  # genes in ids
             genes_ids = list_of_genes
         return genes_ids, error

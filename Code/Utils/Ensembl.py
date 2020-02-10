@@ -83,7 +83,7 @@ class Ensembl:
     # receives (1) list of genes names of human or c.elegans and (2) the string "human" or "c.elegans", and returns a
     # new list with the relevant genes ids.
     @staticmethod
-    def convert_from_names_to_ids(genes_list, subject):
+    def convert_from_names_to_ids(genes_list, subject, failed_genes):
         new_list = []
         not_found_genes = []
         for gene in genes_list:
@@ -100,6 +100,8 @@ class Ensembl:
         error = None
         if not_found_genes:
             error = "Our resources don't have record for genes: " + ", ".join(not_found_genes)
+        for not_found_gene in not_found_genes:
+            failed_genes[not_found_gene] = "Couldn't find ID number"
 
         return new_list, error
 

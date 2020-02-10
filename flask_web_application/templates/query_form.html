@@ -2,11 +2,45 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+      <style>
+          .loader {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+           }
+           @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+           }
+      </style>
+      <script type="text/javascript">
+        function toggle_visibility(id1,id2) {
+            var e1 = document.getElementById(id1);
+            var e2 = document.getElementById(id2);
+            if(e1.style.display == 'block'){
+                e1.style.display = 'none';
+                e2.style.display = 'block';
+            }
+            else{
+                e1.style.display = 'block';
+                e2.style.display = 'none';
+            }
+          }
+</script>
     <title>Orthologs Finder</title>
   </head>
 <body>
     {% extends "template.html" %}
     {% block content %}
+    <div class="loader" id="myloader" style="display: none;"></div>
+    <div class="container" id="mycontainer" style="display: block;">
     <h1> Find your Human-C.elegans orthologous genes and check your variants</h1>
     <p> The Orthologs Finder project is consisted of  two sub services:</p>
     <p><b> 1. Find the C.elegans orthologs:</b></p>
@@ -22,7 +56,7 @@
     <div class="gap-10"></div>
     <form action="/c_elegans_orthologs" method="POST">
         Your human genes: <input style=width:400px; name="text">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
         <select name="type_select">
             <option value=True>Genes Names</option>
             <option value=>Genes Ids</option>
@@ -35,7 +69,7 @@
     <div class="gap-10"></div>
     <form action="/human_orthologs" method="POST">
         Your C.elegans genes: <input style=width:400px; name="text">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
         <select name="type_select">
             <option value=True>Genes Names</option>
             <option value=>Genes Ids</option>
@@ -44,13 +78,17 @@
 
     <h1><b> Check The Variants </b></h1>
     <p> In order to use the service, please insert your genes names and variants according to the format below:</p>
-    <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: TCP1:[Asn284Ser,Ala453Glu],KDELR3:[Arg169Trp,Val199Gly]</p>
+    <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: FBXO11:[Arg138,Ser840],KDELR3:[Arg169,Val199]</p>
     <div class="gap-10"></div>
     <form action="/variants" method="POST">
         Your human genes and their variants: <input style=width:400px; name="text">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
     </form>
 
+    <div class="gap-30"></div>
+    <p>***The process takes between 1-3 minutes, please be patient***</p>
+
+    </div>
     {% endblock %}
 </body>
 </html>

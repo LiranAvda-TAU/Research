@@ -22,9 +22,10 @@
     {% block content %}
     <h1> Your Results Are Here! </h1>
     <table>
-        <thead><tr><th> Your Gene </th><th> Ortholog </th><th> # Sources (out of 6) </th><th> Conserved Domains Ratio </th>
-            <th> Human Gene Length </th><th>C.elegans Gene Length </th><th> C.elegans Gene Description </th></tr></thead>
-        {%for result in results%}
+        <thead><tr><th> Your Gene </th><th> Ortholog </th><th> # Sources (out of 6) </th>
+            <th> Conserved Domains Ratio(C.elegans\Human) </th><th> Human Gene Length </th>
+            <th>C.elegans Gene Length </th><th> C.elegans Gene Description </th></tr></thead>
+        {%for result in true_results%}
         <tr>
             <td> {{result[0]}} </td>
             <td> {{result[1]}} </td>
@@ -33,7 +34,18 @@
             <td> {{result[4]}} </td>
             <td> {{result[5]}} </td>
             <td> {{result[6]}} </td>
+        </tr>
+        {%endfor%}
+    </table>
 
+    <div class="gap-30"></div>
+    <h1> Genes we could not find orthologs for: </h1>
+    <table>
+        <thead><tr><th> Your Gene </th><th> Reason for failing </th></tr></thead>
+        {%for result in false_results%}
+        <tr>
+            <td> {{result[0]}} </td>
+            <td> {{result[1]}} </td>
         </tr>
         {%endfor%}
     </table>
