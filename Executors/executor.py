@@ -720,9 +720,10 @@ class executor:
         genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', sheet_name)
         genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog',
                                                                             sheet_name=sheet_name)
-        result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10), result_in_dict=True)
+        result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10))
+        true_results, _ = result_dictionary
         # parameters =
-        orthologous_genes = [worm_gene for (worm_gene, human_gene) in result_dictionary]
+        orthologous_genes = [lst[1] for lst in true_results]
         print("orthologous_genes:", orthologous_genes)
         count = 0
         for worm_gene_name in genes_and_ortholog_data:
