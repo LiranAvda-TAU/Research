@@ -1,6 +1,7 @@
 import random
 import re
 from statistics import mean
+import time
 
 from Code.CRISPR.NamedTuples.CodonData import CodonData
 from Code.CRISPR.NamedTuples.CodonMutation import CodonMutation
@@ -1092,18 +1093,27 @@ if work6:
 
 work7 = True
 if work7:
+    start = time.time()
     fin = open(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Code\CRISPR\restriction_enzymes.txt")
     for line in fin:
         lst = line.rstrip("\n").split("\t")
         enzyme_site = lst[0]
         enzyme_name = lst[1]
         parsed_sites_rec = FileReader.find_enzymes_derivatives(enzyme_site, rec=True)
-        parsed_sites_iter = FileReader.find_enzymes_derivatives(enzyme_site, rec=False)
-        if parsed_sites_iter != parsed_sites_rec:
-            print("enzyme:", enzyme_site)
-            print(parsed_sites_rec)
-            print(parsed_sites_iter)
     fin.close()
+    end = time.time()
+    print(end - start)
+    start = time.time()
+    fin = open(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Code\CRISPR\restriction_enzymes.txt")
+    for line in fin:
+        lst = line.rstrip("\n").split("\t")
+        enzyme_site = lst[0]
+        enzyme_name = lst[1]
+        parsed_sites_iter = FileReader.find_enzymes_derivatives(enzyme_site, rec=False)
+    fin.close()
+    end = time.time()
+    print(end - start)
+
 
 work8 = False
 if work8:
