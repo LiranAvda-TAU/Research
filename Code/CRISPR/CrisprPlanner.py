@@ -1090,19 +1090,20 @@ work6 = False
 if work6:
     print(CrisprPlanner.how_to_get_b_from_a("ACG", AminoAcid.ALANINE))
 
-work7 = False
+work7 = True
 if work7:
-    fin = open(r"C:\Users\Liran\PycharmProjects\Research\Code\CRISPR\restriction_enzymes.txt")
-    fout = open(r"parsed_restriction_enzymes.txt", "w")
+    fin = open(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Code\CRISPR\restriction_enzymes.txt")
     for line in fin:
         lst = line.rstrip("\n").split("\t")
         enzyme_site = lst[0]
         enzyme_name = lst[1]
-        parsed_sites = FileReader.find_enzymes_derivatives(enzyme_site)
-        print("enzyme:", enzyme_site, enzyme_name, ":", parsed_sites)
-        fout.write(enzyme_name + "\t" + enzyme_site + "\t" + "\t".join(parsed_sites) + "\n")
+        parsed_sites_rec = FileReader.find_enzymes_derivatives(enzyme_site, rec=True)
+        parsed_sites_iter = FileReader.find_enzymes_derivatives(enzyme_site, rec=False)
+        if parsed_sites_iter != parsed_sites_rec:
+            print("enzyme:", enzyme_site)
+            print(parsed_sites_rec)
+            print(parsed_sites_iter)
     fin.close()
-    fout.close()
 
 work8 = False
 if work8:
@@ -1114,7 +1115,7 @@ if work8:
                                       sense_strand=nt_seq).restriction_enzymes
     print(restriction_sites)
 
-work9 = True
+work9 = False
 if work9:
     human_gene_name = 'cct-1'
     amino_acid_mutation_site = 287
