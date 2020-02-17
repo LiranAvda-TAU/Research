@@ -723,7 +723,7 @@ class executor:
         result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, 1, 5, (0.1, 10))
         true_results, _ = result_dictionary
         # parameters =
-        orthologous_genes = [lst[1] for lst in true_results]
+        orthologous_genes = [lst[0] for lst in true_results]
         print("orthologous_genes:", orthologous_genes)
         count = 0
         for worm_gene_name in genes_and_ortholog_data:
@@ -927,6 +927,6 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-# exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-#                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
-#                                 sheet_name="kinase")
+exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
+                                sheet_name="kinase")

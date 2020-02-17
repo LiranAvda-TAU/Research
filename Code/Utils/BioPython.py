@@ -128,7 +128,8 @@ class BioPython:
                                            entrez_query=query_organism)
             records_list = list(NCBIXML.parse(result_handle))
             result_handle.close()
-        except:
+        except Exception as e:
+            print(e)
             return None
 
         for record in records_list:

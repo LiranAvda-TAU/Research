@@ -472,17 +472,20 @@ class FileReader:
         return word.replace("/", "") == sample
 
     @staticmethod
-    def find_enzymes_derivatives(word):
+    def find_enzymes_derivatives(word, rec=True):
         variables = {'B': ('C', 'G', 'T'), 'D': ('A', 'G', 'T'),
                      'H': ('A', 'C', 'T'), 'K': ('G', 'T'), 'M': ('A', 'C'),
                      'N': ('A', 'C', 'G', 'T'), 'R': ('A', 'G'), 'S': ('C', 'G'),
                      'V': ('A', 'C', 'G'), 'W': ('A', 'T'), 'Y': ('C', 'T')}
-        s = set()
-        return FileReader.find_derivatives(word, 0, s, variables)
+        if rec:
+            s = set()
+            return FileReader.find_derivatives_rec(word, 0, s, variables)
+        else:
+            return FileReader.find_derivatives_iter(word, variables)
 
     # the recursive function that parses word with non terminals to terminals
     @staticmethod
-    def find_derivatives(word, i, s, variables):
+    def find_derivatives_rec(word, i, s, variables):
         if i == len(word) - 1:
             if word[i] in variables:
                 new_word = list(word)
@@ -498,11 +501,25 @@ class FileReader:
                 terminals = variables[word[i]]
                 for terminal in terminals:
                     new_word[i] = terminal
-                    FileReader.find_derivatives("".join(new_word), i + 1, s, variables)
+                    FileReader.find_derivatives_rec("".join(new_word), i + 1, s, variables)
             else:
-                FileReader.find_derivatives(word, i + 1, s, variables)
+                FileReader.find_derivatives_rec(word, i + 1, s, variables)
         return s
 
+    # the iterative function that parses word with non terminals to terminals
+    @staticmethod
+    def find_derivatives_iter(word, variables):
+        s = {word}
+        for i in range(len(word)):
+            if word[i] in variables:
+                terminals = variables[word[i]]
+                for derivative in s.copy():
+                    for terminal in terminals:
+                        new_derivative = list(derivative)
+                        new_derivative[i] = terminal
+                        s.add("".join(new_derivative))
+                    s.remove(derivative)
+        return s
 
 
 
