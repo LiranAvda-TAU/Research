@@ -1091,7 +1091,7 @@ work6 = False
 if work6:
     print(CrisprPlanner.how_to_get_b_from_a("ACG", AminoAcid.ALANINE))
 
-work7 = True
+work7 = False
 if work7:
     start = time.time()
     fin = open(r"C:\Users\RZBlab\PycharmProjects\Research-RZB\Code\CRISPR\restriction_enzymes.txt")
