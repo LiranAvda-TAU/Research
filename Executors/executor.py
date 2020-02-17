@@ -634,8 +634,8 @@ class executor:
     def add_failed_genes(failed_genes_dic, original_genes_list, current_genes, reason):
         for gene_id in original_genes_list:
             gene_name = Ensembl.get_gene_name_by_gene_id(gene_id)
-            if gene_id not in current_genes or gene_name not in current_genes:
-                if gene_name not in failed_genes_dic or gene_id not in failed_genes_dic:
+            if gene_id not in current_genes and gene_name not in current_genes:
+                if gene_name not in failed_genes_dic and gene_id not in failed_genes_dic:
                     if gene_name:
                         failed_genes_dic[gene_name] = reason
                     else:  # gene id didn't have gene name
@@ -927,6 +927,6 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
-                                sheet_name="kinase")
+# exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+#                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
+#                                 sheet_name="kinase")

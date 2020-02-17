@@ -1,4 +1,5 @@
 import xlrd
+from Code.CRISPR.NamedTuples.RestrictionEnzyme import RestrictionEnzyme
 from Code.Enum.FileMode import FileMode
 from Code.Enum.FileType import FileType
 import unicodedata
@@ -434,6 +435,73 @@ class FileReader:
         df = pd.read_excel(xls, sheet_name)
         two_list = [(key, value) for key, value in zip(df[key_column_name], df[value_column_name])]
         return dict(two_list)
+
+    def get_restriction_enzymes_list(self, name_column=0, site_column=1):
+        restriction_enzymes = []
+        f = open(self.path + self.name, FileMode.READ.value)
+        for row in f:
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
+            name = line[name_column]
+            site = line[site_column]
+            filtered_site = ''
+            for ch in site:
+                if 'A' <= ch <= 'Z' or ch == "/":
+                    filtered_site += ch
+
+            restriction_enzymes.append(RestrictionEnzyme(name, filtered_site, self.find_enzymes_derivatives(filtered_site)))
+        f.close()
+        return restriction_enzymes
+
+    @staticmethod
+    def is_derivative(word, sample):
+        variables = {'B': ('C', 'G', 'T'), 'D': ('A', 'G', 'T'),
+                     'H': ('A', 'C', 'T'), 'K': ('G', 'T'), 'M': ('A', 'C'),
+                     'N': ('A', 'C', 'G', 'T'), 'R': ('A', 'G'), 'S': ('C', 'G'),
+                     'V': ('A', 'C', 'G'), 'W': ('A', 'T'), 'Y': ('C', 'T')}
+        if len(word.replace("/", "")) != len(sample):
+            return False
+        for i in range(len(word)):
+            if word[i] in variables:
+                terminals = variables[word[i]]
+                for terminal in terminals:
+                    new_word = list(word)
+                    new_word[i] = terminal
+                    res = FileReader.is_derivative("".join(new_word), sample)
+                    if res:
+                        return True
+        return word.replace("/", "") == sample
+
+    @staticmethod
+    def find_enzymes_derivatives(word):
+        variables = {'B': ('C', 'G', 'T'), 'D': ('A', 'G', 'T'),
+                     'H': ('A', 'C', 'T'), 'K': ('G', 'T'), 'M': ('A', 'C'),
+                     'N': ('A', 'C', 'G', 'T'), 'R': ('A', 'G'), 'S': ('C', 'G'),
+                     'V': ('A', 'C', 'G'), 'W': ('A', 'T'), 'Y': ('C', 'T')}
+        s = set()
+        return FileReader.find_derivatives(word, 0, s, variables)
+
+    # the recursive function that parses word with non terminals to terminals
+    @staticmethod
+    def find_derivatives(word, i, s, variables):
+        if i == len(word) - 1:
+            if word[i] in variables:
+                new_word = list(word)
+                terminals = variables[word[i]]
+                for terminal in terminals:
+                    new_word[i] = terminal
+                    s.add("".join(new_word))
+            else:
+                s.add(word)
+        else:
+            if word[i] in variables:
+                new_word = list(word)
+                terminals = variables[word[i]]
+                for terminal in terminals:
+                    new_word[i] = terminal
+                    FileReader.find_derivatives("".join(new_word), i + 1, s, variables)
+            else:
+                FileReader.find_derivatives(word, i + 1, s, variables)
+        return s
 
 
 
