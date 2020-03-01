@@ -84,12 +84,18 @@ def return_variants_data():
         return render_template('failure_response.html', query=query, error="Unknown")
     return render_template('variants_table_response.html', true_results=true_results, false_results = false_results)
 
+@app.route("/cripr")
+def crispr():
+    return render_template("crispr_form.html")
 
-@app.route("/post_field", methods=["GET", "POST"])
-def need_input():
-    for key, value in request.form.items():
-        print("key: {0}, value: {1}".format(key, value))
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
+@app.route("/references")
+def references():
+    return render_template("references.html")
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=5005)
+    app.run(host="127.0.0.1", debug=True, port=5005)
