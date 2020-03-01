@@ -149,7 +149,7 @@ class BioPython:
                 except:
                     continue
             self.blast_results[record.query] = hit_ids
-        print("blast results", self.blast_results)
+        print("blast results:", self.blast_results)
 
     def build_genes_hit_ids_dictionary(self, genes_names_to_blast, key_species="C.elegans"):
         if key_species == "C.elegans":
