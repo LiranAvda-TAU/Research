@@ -31,9 +31,12 @@ def return_c_elegans_orthologs():
     human_genes = text.split(",")
     print("human genes:", human_genes)
     genes_in_names = request.form.get('type_select')
+    sources_bar = request.form.get('sources_bar')
     print("genes in names:", genes_in_names)
     try:
-        results, error = executor.find_me_orthologs_for_human(human_genes=human_genes, genes_in_names=genes_in_names)
+        results, error = executor.find_me_orthologs_for_human(human_genes=human_genes,
+                                                              genes_in_names=genes_in_names,
+                                                              sources_bar=sources_bar)
     except:
         query = ", ".join(human_genes)
         error = "Something went wrong, please check your service log"
@@ -54,9 +57,12 @@ def return_human_orthologs():
     c_elegans_genes = text.split(",")
     print("C.elegans genes:", c_elegans_genes)
     genes_in_names = request.form.get('type_select')
+    sources_bar = request.form.get('sources_bar')
     print("genes in names:", genes_in_names)
     try:
-        results, error = executor.find_me_orthologs_for_worm(c_elegans_genes, genes_in_names=genes_in_names)
+        results, error = executor.find_me_orthologs_for_worm(worm_genes=c_elegans_genes,
+                                                             genes_in_names=genes_in_names,
+                                                             sources_bar=sources_bar)
     except:
         query = ", ".join(c_elegans_genes)
         error = "Something went wrong, please check your service log"
@@ -76,21 +82,25 @@ def return_variants_data():
     text = text.replace(" ", "")
     print(text)
     genes_and_variants = executor.parse_input(text)
+    sources_bar = request.form.get('sources_bar')
     print(genes_and_variants)
     try:
-        true_results, false_results = executor().get_variants_data_for_server(genes_and_variants)
+        true_results, false_results = executor().get_variants_data_for_server(genes_and_variants, sources_bar)
     except:
         query = executor.dictionary_output_parser(genes_and_variants)
         return render_template('failure_response.html', query=query, error="Unknown")
     return render_template('variants_table_response.html', true_results=true_results, false_results = false_results)
 
+
 @app.route("/cripr")
 def crispr():
     return render_template("crispr_form.html")
 
+
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
+
 
 @app.route("/references")
 def references():

@@ -562,7 +562,7 @@ class executor:
     # receives (1) file type to know whether to print to a file or to console, human genes and variants dictionary, read
     # all variants and extracts for each variant the sequence of its human gene and its C.elegans ortholog, runs
     # pairwise alignment and returns data regarding the alignments of the two sequences.
-    def get_variants_data_for_server(self, human_genes_names_and_variants):
+    def get_variants_data_for_server(self, human_genes_names_and_variants, sources_bar = 2):
         if not executor.is_connected():
             return None, "No Internet Connection"
 
@@ -578,7 +578,7 @@ class executor:
             mmp_data = self.mmp_data_by_gene_name[human_gene_name] if human_gene_name in self.mmp_data_by_gene_name \
                 else "No mention in MMP"
 
-            results, _ = executor.find_me_orthologs_for_human(human_genes=[human_gene_name])
+            results, _ = executor.find_me_orthologs_for_human(human_genes=[human_gene_name], sources_bar=sources_bar)
             true_matches_pairs, false_matches = results
             for gene_list in false_matches:
                 failed_genes.append([gene_list[0], "No orthologs were found"])
@@ -734,7 +734,7 @@ class executor:
 
     # pipeline that provides you with humans genes that are orthologous for your worm ones
     @staticmethod
-    def find_me_orthologs_for_worm(list_of_worm_genes,
+    def find_me_orthologs_for_worm(worm_genes,
                                    genes_in_names: bool = True,
                                    sources_bar: int = 2,
                                    length_bar: int = 10,
@@ -744,7 +744,7 @@ class executor:
         failed_genes = {}
         if not executor.is_connected():
             return None, "No Internet Connection"
-        worm_genes_ids, error = DataExtracter.get_genes_ids(list_of_worm_genes, genes_in_names, species, failed_genes)
+        worm_genes_ids, error = DataExtracter.get_genes_ids(worm_genes, genes_in_names, species, failed_genes)
         if not worm_genes_ids:
             print(error)
             return executor.get_result_list(true_matches, failed_genes), error
@@ -927,6 +927,6 @@ exec = executor()
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-                                file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
-                                sheet_name="kinase")
+# exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+#                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
+#                                 sheet_name="kinase")
