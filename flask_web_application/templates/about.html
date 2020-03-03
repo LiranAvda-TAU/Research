@@ -13,7 +13,7 @@
     <div class="gap-10"></div>
     <p><b>The Ortholog Finder</b></p>
     <p>The Orthologs Finder is a tool designed to deliver you with Human\Caenorhabditis elegans orthologous genes for
-        your Caenorhabditis elegans \Human query genes.</p>
+        your Caenorhabditis elegans\Human query genes.</p>
     <p>Our algorithm extracts the raw data from the already-analyzed list of orthologous candidates (extracted from
         OrthoList2 data base) and carries several more filtration tests upon those carried by OrthoList2. Those
         tests aim to increase the found orthologs accuracy and filter out candidates that might not be strong
@@ -25,10 +25,10 @@
     <li><p>Filtration based on number of sources (OrthoList2): OrthList2 mentions along its orthologs, the number of
         tools (out of six) that predict the genes pair to be orthologous. Our analysis rules out (as a default)
         the candidates for whom the number of sources is 2 or lower.</p></li>
-    <li><p>Filtration based on length ratio: each gene's number of conserve domains is extracted from the data
-        presented in GeneBank, and if the ratio between the numbers of two is higher than 2 or lower than 0.5, the pair
+    <li><p>Filtration based on length ratio: each gene's amino acid sequence length is extracted from the data
+        presented in GeneBank, and if the ratio between the C.elegans gene to the human gene is lower than 1:10, the pair
         is ruled out.</p></li>
-    <li><p>Filtration based on conserved domains ration: each gene's amino acid sequence length is extracted from the
+    <li><p>Filtration based on conserved domains ration: each gene's number of conserved domains is extracted from the
         data presented in GeneBank, and if the ratio between the numbers of two is higher than 2 or lower than 0.5, the
         pair is ruled out.</p></li>
     <li><p>Filtration based on reversed BLAST: each pair is consisted of the query gene and the candidate ortholog.
