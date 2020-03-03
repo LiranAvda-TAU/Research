@@ -21,18 +21,20 @@
     <p>Our defaulted bars for filtrations are decided upon after examining large amount of data through the pipeline.
         Some bars can be changed by the user.</p>
     <p>On our analysis, we focused on these extra examinations:</p>
-    <p>-	Filtration based on number of sources (OrthoList2): OrthList2 mentions along its orthologs, the number of
+    <ol>
+    <li><p>Filtration based on number of sources (OrthoList2): OrthList2 mentions along its orthologs, the number of
         tools (out of six) that predict the genes pair to be orthologous. Our analysis rules out (as a default)
-        the candidates for whom the number of sources is 2 or lower.</p>
-    <p>-	Filtration based on length ratio: each gene's number of conserve domains is extracted from the data
+        the candidates for whom the number of sources is 2 or lower.</p></li>
+    <li><p>Filtration based on length ratio: each gene's number of conserve domains is extracted from the data
         presented in GeneBank, and if the ratio between the numbers of two is higher than 2 or lower than 0.5, the pair
-        is ruled out.</p>
-    <p>-	Filtration based on conserved domains ration: each gene's amino acid sequence length is extracted from the
+        is ruled out.</p></li>
+    <li><p>Filtration based on conserved domains ration: each gene's amino acid sequence length is extracted from the
         data presented in GeneBank, and if the ratio between the numbers of two is higher than 2 or lower than 0.5, the
-        pair is ruled out.</p>
-    <p>-	Filtration based on reversed BLAST: each pair is consisted of the query gene and the candidate ortholog.
+        pair is ruled out.</p></li>
+    <li><p>Filtration based on reversed BLAST: each pair is consisted of the query gene and the candidate ortholog.
         On this step we BLAST the candidate ortholog for its own orthologs in the relevant species, if the query gene is
-        among the first 50 matches, the orthologous pair is valid. </p>
+        among the first 50 matches, the orthologous pair is valid. </p></li>
+    </ol>
     <p>The pipeline will return all pairs that have passed the bars for all examinations, and mention the values in each
         test.</p>
 
