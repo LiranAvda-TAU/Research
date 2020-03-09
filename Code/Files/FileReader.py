@@ -436,6 +436,25 @@ class FileReader:
         two_list = [(key, value) for key, value in zip(df[key_column_name], df[value_column_name])]
         return dict(two_list)
 
+    # reads parsed enzymes and returns list of objects
+    def get_parsed_restriction_enzymes_list(self, name_column=0, site_column=1, parsed_sites_column=2,
+                                            full_site_column=3):
+        restriction_enzymes = []
+        f = open(self.path + self.name, FileMode.READ.value)
+        for row in f:
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
+            name = line[name_column]
+            filtered_site = line[site_column]
+            full_site = line[full_site_column]
+            parsed_sites = tuple(line[parsed_sites_column].split(","))
+            restriction_enzymes.append(RestrictionEnzyme(name,
+                                                         filtered_site,
+                                                         parsed_sites,
+                                                         full_site))
+        f.close()
+        return restriction_enzymes
+
+    # calculates parsed enzymes and returns list of objects
     def get_restriction_enzymes_list(self, name_column=0, site_column=1):
         restriction_enzymes = []
         f = open(self.path + self.name, FileMode.READ.value)
@@ -445,30 +464,34 @@ class FileReader:
             site = line[site_column]
             filtered_site = ''
             for ch in site:
-                if 'A' <= ch <= 'Z' or ch == "/":
+                if 'A' <= ch <= 'Z':
                     filtered_site += ch
 
-            restriction_enzymes.append(RestrictionEnzyme(name, filtered_site, self.find_enzymes_derivatives(filtered_site)))
+            restriction_enzymes.append(RestrictionEnzyme(name,
+                                                         filtered_site,
+                                                         self.find_enzymes_derivatives(filtered_site),
+                                                         site))
         f.close()
         return restriction_enzymes
 
     @staticmethod
-    def is_derivative(word, sample):
+    def is_derivative(word, sample, i=0):
         variables = {'B': ('C', 'G', 'T'), 'D': ('A', 'G', 'T'),
                      'H': ('A', 'C', 'T'), 'K': ('G', 'T'), 'M': ('A', 'C'),
                      'N': ('A', 'C', 'G', 'T'), 'R': ('A', 'G'), 'S': ('C', 'G'),
                      'V': ('A', 'C', 'G'), 'W': ('A', 'T'), 'Y': ('C', 'T')}
-        if len(word.replace("/", "")) != len(sample):
-            return False
-        for i in range(len(word)):
+        if i < len(word):
             if word[i] in variables:
                 terminals = variables[word[i]]
                 for terminal in terminals:
                     new_word = list(word)
                     new_word[i] = terminal
-                    res = FileReader.is_derivative("".join(new_word), sample)
-                    if res:
+                    if FileReader.is_derivative("".join(new_word), sample, i+1):
                         return True
+                return False
+            else:
+                if FileReader.is_derivative(word, sample, i+1):
+                    return True
         return word.replace("/", "") == sample
 
     @staticmethod
@@ -479,9 +502,9 @@ class FileReader:
                      'V': ('A', 'C', 'G'), 'W': ('A', 'T'), 'Y': ('C', 'T')}
         if rec:
             s = set()
-            return FileReader.find_derivatives_rec(word, 0, s, variables)
+            return tuple(FileReader.find_derivatives_rec(word, 0, s, variables))
         else:
-            return FileReader.find_derivatives_iter(word, variables)
+            return tuple(FileReader.find_derivatives_iter(word, variables))
 
     # the recursive function that parses word with non terminals to terminals
     @staticmethod
@@ -520,6 +543,14 @@ class FileReader:
                         s.add("".join(new_derivative))
                     s.remove(derivative)
         return s
+
+    @staticmethod
+    def get_plain_site(site):
+        plain_site = ''
+        for ch in site:
+            if 'A' <= ch <= 'Z':
+                plain_site += ch
+        return plain_site
 
 
 
