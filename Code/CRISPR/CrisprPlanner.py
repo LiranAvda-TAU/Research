@@ -56,7 +56,7 @@ class CrisprPlanner:
                    'GUA': 9.8, 'GCA': 19.8, 'GAA': 40.8, 'GGA': 31.7, 'GUG': 14.3, 'GCG': 8.2, 'GAG': 24.5, 'GGG': 4.4}
 
     def __init__(self, gene_name, aa_mutation_site, sense_strand, amino_acid_sequence: str = "",
-                 f_enzymes=None):
+                 existing_enzymes=None):
         self.gene_name = gene_name
         self.sense_strand = sense_strand
         self.anti_sense_strand = CrisprPlanner.get_anti_sense_strand(sense_strand)
@@ -72,7 +72,7 @@ class CrisprPlanner:
         self.mutated_sites = []
         self.restriction_enzymes = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Code\CRISPR",
                                               r"\parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
-        self.relevant_restriction_enzymes = self.get_relevant_restriction_enzymes(f_enzymes) if f_enzymes else self.restriction_enzymes
+        self.relevant_restriction_enzymes = self.get_relevant_restriction_enzymes(existing_enzymes) if existing_enzymes else self.restriction_enzymes
 
     def get_relevant_strand(self, direction):
         if direction > 0:
@@ -910,9 +910,12 @@ class CrisprPlanner:
         for rest_site in restriction_sites_dic:
             if self.check_for_distance(rest_site, 100) < 100:
                 rest_sites_list.remove(rest_site)
-        self.sort_restriction_sites(rest_sites_list)
-        # also put insertion restriction sites before, False values have priority
-        rest_sites_list.sort(key=lambda r_site: restriction_sites_dic[r_site] == RestrictionSiteType.REMOVED)
+        rest_sites_list.sort(key=lambda r_site: (r_site.enzyme in self.relevant_restriction_enzymes,
+                                                 restriction_sites_dic[r_site] == RestrictionSiteType.INSERTED,
+                                                 -(abs((r_site.index.start + r_site.index.end) / 2 - self.DSB)),
+                                                 self.check_for_distance(r_site, vicinity=250),
+                                                 - self.check_rareness(r_site, 250)),
+                             reverse=True)
         print("Found restriction sits after sort:", *rest_sites_list, sep="\n")
         return rest_sites_list
 
@@ -1183,10 +1186,8 @@ class CrisprPlanner:
                             sites.append((enzyme.name, enzyme.site, derivative, i, j))
         return sites
 
-    def get_relevant_restriction_enzymes(self, r_file):
-        sites_names = []
-        for line in r_file:
-            r_site = line.rstrip("\n")
-            sites_names.append(r_site)
-        return list(filter(lambda r_enzyme: r_enzyme.name in sites_names, self.restriction_enzymes))
+    def get_relevant_restriction_enzymes(self, existing_enzymes_names: list):
+        relevant_enzymes = list(filter(lambda r_enzyme: r_enzyme.name in existing_enzymes_names, self.restriction_enzymes))
+        print("relevant enzymes:", relevant_enzymes)
+        return relevant_enzymes
 
