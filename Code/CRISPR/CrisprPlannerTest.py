@@ -11,6 +11,18 @@ from Code.CRISPR.NamedTuples.RestrictionSite import RestrictionSite
 from Code.CRISPR.NamedTuples.SequenceSites import SequenceSites
 from Code.Files.FileReader import FileReader
 
+
+def initiate_cp():
+    human_gene_name = 'cct-1'
+    amino_acid_mutation_site = 287
+    nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
+    cp = CrisprPlanner(gene_name=human_gene_name, aa_mutation_site=amino_acid_mutation_site, sense_strand=nt_seq)
+    cp.initiate_crispr(check_consistency=True)
+    chosen_crrna, crrna_strand = cp.get_crrna(window_size=30, PAM_size=3, start_crrna_index=1150)
+    pam_sites = SequenceSites(start=chosen_crrna[1][1] + 1, end=chosen_crrna[1][1] + 3)
+    cp.complete_fields(crrna_strand, pam_sites)
+    return cp
+
 work1 = False
 if work1:
     repo_1_sense_strand = "ATGGACTTTCAGAACAGAGCTGGAGGAAAAACGGGAAGCGGAGGAGTGGCTTCGGCCGCCGATGCTGGTGTTGATCGACGGGAACGGCTCCGCCAGTTGGCTCTAGAGACAATTGATCTTCAAAAGGATCCGTATTTCATGCGAAATCACATTGGAACGTACGAATGCAAGCTGTGTCTTACTCTTCACAACAATGAAGGATCTTATTTGGCACATACACAAGGAAAGAAGCATCAAGCGAATCTTGCACGGCGTGCCGCTAAAGAACAATCTGAACAACCATTTCTACCAGCTCCACAGAAAGCTGCAGTTGAAACTAAAAAGTTTGTGAAAATCGGACGTCCTGGATACAAGGTAACAAAAGAACGTGATCCAGGAGCTGGCCAGCAAGCACTTCTCTTCCAAATTGATTATCCGGAGATTGCTGACGGTATTGCGCCACGTCATCGATTTATGTCTGCTTATGAGCAAAAGATTCAGCCTCCAGACAAGAGATGGCAATACCTCTTGTTTGCTGCTGAGCCGTATGAAACGATTGGATTCAAAATTCCATCAAGgtgaggctttacaacattttagcacttttctatctcatagttacgattaaaaaaattgtatataccaagtaattttttccagAGAAGTTGACAAATCTGAAAAATTTTGGACGATGTGGAACAAAGACACGAAGCAATTCTTCTTACAAGTCGCATTCAAATTGGAACGACTCGATGATCAGCCGTACTATTGAtactctatgtttttatctttttgatttcaaaattcaaaacaattttttcgtgtttttcgatgatctaacaataaattattttcctttttttt"
@@ -231,7 +243,8 @@ if work15:
     print(cp.restriction_enzymes[100])
 
 
-work16 = True
+work16 = False
+# to check sorting by relevant restriction enzymes
 if work16:
     human_gene_name = 'cct-1'
     amino_acid_mutation_site = 287
@@ -242,3 +255,49 @@ if work16:
                   existing_enzymes=enzymes).plan_my_crispr(from_aa=AminoAcid.ASPARAGINE,
                                                              to_aa=AminoAcid.SERINE,
                                                              check_consistency=True)
+
+work17 = False
+# to check sorting by distance - no other near site
+if work17:
+    human_gene_name = 'cct-1'
+    amino_acid_mutation_site = 287
+    nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
+    cp = CrisprPlanner(gene_name=human_gene_name, aa_mutation_site=amino_acid_mutation_site, sense_strand=nt_seq)
+    cp.initiate_crispr(check_consistency=True)
+    chosen_crrna, crrna_strand = cp.get_crrna(window_size=30, PAM_size=3, start_crrna_index=1150)
+    pam_sites = SequenceSites(start=chosen_crrna[1][1] + 1, end=chosen_crrna[1][1] + 3)
+    cp.complete_fields(crrna_strand, pam_sites)
+    rs = RestrictionSite(index=SequenceSites(start=1162, end=1168),
+                         enzyme=RestrictionEnzyme(name='Cac8I', site='GCNNGC', derivatives=('GCTGGC', 'GCACGC', 'GCCTGC',
+                                                                                            'GCGAGC', 'GCGTGC', 'GCGCGC',
+                                                                                            'GCTAGC', 'GCTCGC', 'GCTTGC',
+                                                                                            'GCCCGC', 'GCCAGC', 'GCCGGC',
+                                                                                            'GCGGGC', 'GCAGGC', 'GCAAGC',
+                                                                                            'GCATGC'),
+                                                  full_site='GCN/NGC'))
+
+    print("distance from other sites within 100 nt distance", cp.check_distance(restriction_site=rs))
+    print("rareness:", cp.check_rareness(rs))
+
+
+work18 = True
+# to check sorting by distance - other near site
+if work18:
+    cp = initiate_cp()
+    rs = RestrictionSite(index=SequenceSites(start=1163, end=1167),
+                         enzyme=RestrictionEnzyme(name='MspJI', site='CNNR',
+                                                  derivatives=('CGGA', 'CTGG', 'CGGG', 'CGAA', 'CATA', 'CAGA', 'CCCA',
+                                                               'CACA', 'CCGA', 'CTTG', 'CTAG', 'CGCG', 'CATG', 'CCTG',
+                                                               'CTCA', 'CGTG', 'CGAG', 'CACG', 'CGCA', 'CCGG', 'CTCG',
+                                                               'CCAG', 'CCAA', 'CTTA', 'CTGA', 'CCCG', 'CGTA', 'CAGG',
+                                                               'CAAG', 'CAAA', 'CTAA', 'CCTA'), full_site='CNNR(9/13)'))
+    print("distance from other sites within 100 nt distance", cp.check_distance(restriction_site=rs))
+    print("rareness:", cp.check_rareness(rs))
+
+mutate_rest_site_test = False
+# this test is designed to check what happens if no restriction site is created\removed naturally and we have to insert
+# mutations
+if mutate_rest_site_test:
+    rest_site = RestrictionEnzyme(name='BsaWI', site='WCCGGW', derivatives = ('ACCGGA','TCCGGA','TCCGGT','ACCGGT'),
+                                  full_site='W/CCGGW')
+
