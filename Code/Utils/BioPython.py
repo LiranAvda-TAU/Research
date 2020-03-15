@@ -365,12 +365,15 @@ class BioPython:
         return max_score
 
     @staticmethod
-    def pairwise_alignment_inspector(human_seq, c_elegans_seq, original_amino_acid, variant_index, window_size: int = 60):
-        result = ''
+    def pairwise_alignment_inspector(human_seq, c_elegans_seq, original_amino_acid, variant_index, window_size: int = 30):
+        answers_count = [0, 0, 0]
         ultimate_result = ''
+        similar_answer_result = ''
+        different_answer_result = ''
+        wrong_answer_result = ''
         count = 0
         c_elegans_aa_location = '-'
-        window_conservation_score = 0
+        sum_window_conservation_scores = 0
         alignments = BioPython.get_alignments(human_seq, c_elegans_seq)
         for alignment in alignments:
             human_alignment = alignment[0]
@@ -379,27 +382,38 @@ class BioPython:
             status = human_alignment[alignment_index - 1], c_elegans_alignment[alignment_index - 1]
 
             if original_amino_acid == '-':  # termination
-                return "Stop Codon", count, c_elegans_aa_location, window_conservation_score
+                return "Stop Codon", count, c_elegans_aa_location, 0
             if human_alignment[alignment_index - 1] != original_amino_acid:
-                result = "not in the human sequence, wanted: " + original_amino_acid + \
+                answers_count[2] += 1
+                wrong_answer_result = "not in the human sequence, wanted: " + original_amino_acid + \
                          " and found: " + human_alignment[alignment_index - 1] + " alignment index " + str(alignment_index)
             elif human_alignment[alignment_index - 1] == c_elegans_alignment[
                         alignment_index - 1] == original_amino_acid:
                 start = max(0, alignment_index - window_size)
                 end = min(len(alignment[0]) - 1, alignment_index + window_size)
-                window_conservation_score = BioPython.alignment_window_conservation_checker(alignment, start, end)
+                tmp_window_conservation_score = BioPython.alignment_window_conservation_checker(alignment, start, end)
+                sum_window_conservation_scores += tmp_window_conservation_score
                 count += 1
                 ultimate_result = "conserved: " + original_amino_acid
                 c_elegans_aa_location = BioPython.get_place_in_sequence(c_elegans_alignment, alignment_index)
 
             elif Strings.are_amino_acids_similar(human_alignment[alignment_index - 1],
                                                  c_elegans_alignment[alignment_index - 1]):
-                result = "not conserved, but similar: " + ", ".join(status)
+                answers_count[0] += 1
+                similar_answer_result = "not conserved, but similar: " + ", ".join(status)
             else:
-                result = "not conserved: " + ", ".join(status)
+                answers_count[1] += 1
+                different_answer_result = "not conserved: " + ", ".join(status)
 
-        return (ultimate_result, count, c_elegans_aa_location, window_conservation_score) if ultimate_result else \
-            (result, count, c_elegans_aa_location, window_conservation_score)
+        if answers_count[0] >= answers_count[1] and answers_count[0] >= answers_count[2]:
+            answer_result = similar_answer_result
+        elif answers_count[1] >= answers_count[0] and answers_count[1] >= answers_count[2]:
+            answer_result = different_answer_result
+        else:
+            answer_result = wrong_answer_result
+        print("counts:", answers_count)
+        return (ultimate_result, count, c_elegans_aa_location, sum_window_conservation_scores/count) if ultimate_result else \
+            (answer_result, count, c_elegans_aa_location, 0)
 
     @staticmethod
     def get_place_in_sequence(c_elegans_alignment, alignment_index):
@@ -411,7 +425,6 @@ class BioPython:
 
     @staticmethod
     def alignment_window_conservation_checker(alignment, start, end, whole_alignment=False):
-
         lst = format_alignment(*alignment).split("\n")
         equals = 0
         if whole_alignment:
@@ -420,11 +433,13 @@ class BioPython:
             segment_two = lst[2]
         else:
             segment_one = lst[0][start:end]
+            # print(segment_one)
             segment_two = lst[2][start:end]
         for i in range(len(segment_one)):
+            # print(segment_one[i], segment_two[i])
             if segment_one[i] == segment_two[i]:
                 equals += 1
-        return equals / alignment[4]
+        return (equals / len(segment_one))*100
 
     # receives C.elegans ncbi gene id and return the longest isoform (accession number) of the gene
     def get_c_elegans_accession_number(self, c_elegans_gene_id):
