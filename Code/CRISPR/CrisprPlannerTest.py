@@ -12,7 +12,7 @@ from Code.CRISPR.NamedTuples.SequenceSites import SequenceSites
 from Code.Files.FileReader import FileReader
 
 
-def initiate_cp():
+def initiate_cp(complete_fiels = True):
     human_gene_name = 'cct-1'
     aa_mutation_site = 287
     nuc_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
@@ -20,7 +20,8 @@ def initiate_cp():
     cp.initiate_crispr(check_consistency=True)
     chosen_crrna, crrna_strand = cp.get_crrna(window_size=30, PAM_size=3, start_crrna_index=1150)
     cp.pam_sites = SequenceSites(start=chosen_crrna[1][1] + 1, end=chosen_crrna[1][1] + 3)
-    cp.complete_fields(crrna_strand)
+    if complete_fiels:
+        cp.complete_fields(crrna_strand, to_aa=AminoAcid.GLUTAMINE)
     return cp
 
 test1 = False
@@ -299,11 +300,11 @@ if mutate_rest_site_test:
     cp.plan_my_crispr(from_aa=AminoAcid.ASPARAGINE,
                        to_aa=AminoAcid.SERINE)
 
-
-mutate_rest_site_test = True
+# outdated
+mutate_rest_site_test1 = False
 # this test is designed to check what happens if no restriction site is created\removed naturally and we have to insert
 # mutations - more monitored
-if mutate_rest_site_test:
+if mutate_rest_site_test1:
     cp = initiate_cp()
     rest_enzyme = RestrictionEnzyme(name='BsaWI', site='WCCGGW', derivatives=('ACCGGA', 'TCCGGA', 'TCCGGT', 'ACCGGT'),
                                     full_site='W/CCGGW')
@@ -315,3 +316,65 @@ if mutate_rest_site_test:
     cp.get_possible_restriction_sites(mutated_strand, mutation_zone, mutated_sites, ssodn_mutation_codon_start)
 
 
+mutate_rest_site_test2 = False
+# this test is designed to check what happens if no restriction site is created\removed naturally and we have to insert
+# mutations - more monitored, using different not recursive function
+if mutate_rest_site_test2:
+    cp = initiate_cp()
+    rest_enzyme = RestrictionEnzyme(name='BsaWI', site='WCCGGW', derivatives=('ACCGGA', 'TCCGGA', 'TCCGGT', 'ACCGGT'),
+                                    full_site='W/CCGGW')
+    cp.restriction_enzymes = [rest_enzyme]
+    mutation_zone = SequenceSites(1162, 1167)
+    cp.mutated_sites = [PointMutation(index=1163, new_nucleotide="C"), PointMutation(index=1170, new_nucleotide="A")]
+    ssodn_mutation_codon_start = 1162
+    cp.mutated_strand = "gtggcaaagcttcttcattgtttgaataatgaaaaacgaatacaaacaactttgaaatcaaaacattaaaacttacaacatttcgttcaataaagtatcatcaaaagaagaaaacaaaagctgaacatgagaatttgggataaggagcagcagatcggaattatgtgagaagcacgcggaaaacagggatatataaacggggtaaacgggaaaatTTAAGCGTGGCAATCATCTCCTCCAAGTGGCTCTTGCTTGTCAAGTTTGATGAGGTCATCAATACGCAATATCGTAATGGCTGCCTCAGTGGCGAACTTCAGAGACTTGACCTTACTAAGAGCTGGCTCCAAAATTCCAGCCTCCTTGTTATCGCGGATCGTGCCTTCTTCGAGATCCAAACCAGCCctaaaaaaagagtgaataaactgactcaaattcagaaaacatgaattagacgctttttctaagcacaaaacgaaattttttgaaataaattattttaattttattacattaagctaacatgtaataacctactctttaaaaaaaacattttcacttacCACTTGAGGTGTTGAAGTTGTGGGATCAATTGAGCTTTGGAGTGGTACGCGCGGAGTTTTGTCACTAAATCAGTAGAATCTCTTGCAGCATTGCTTGCCAAAACCTTCGGAATGATGAGAAGCGCTGAAGCGAATTCAGCAACAGCAAGCTGCTCGCGAGAAGACAAGGTTTGTGCATAAGTTTCAAGGAAAAGACTGAGAGAAGTCTCAACAGCACCTCCTCCAGCCACAAGTTTCTTGCTTTCCAGAACTCTACGAACAACACAGAGTGAGTCGTGAACCGATCTCTCCATTTCATCGAGCATCACATCGTTCGCTCCACGGAGGATAATGCTGCTGGCAGTACGAGATTTCGGTCCCTTGATGAGAATGAGCTCGTCGTCACTAATTCTTTCTTGAACAATTTCATCGGCATGTCCAAGAAGCGAGGCATCGAAAGCTTCATCTCCTTCCAAAGTAGCCAAGGAAACAGTCAATGTGGCTCCAGTAGCTTTGGCAATTCTCTTCAAGTCTGATTTCTTGCATCGACGAACAGCCATAGCTCCAGATTCGACAAATTGCTTCAAGCACAAATCATCGATACCTCCAGTTGTAAGAACAACGCTGGCTCAGGCTTTCAAAATTTTATCAATGCGGCGTTTGGTAATATCGAATTCTctgaaaattccatagcttaaaaagaaacgaatagtttcaactcacTCTCTGCGAATAGCCTCAAGCTTGGCTGGATCTTCAACAACGACTGAAATACCGAGGTGCATCTTAGCCTTCATCAAAGAGAAATCGAGACATGCGATCTTGGCATTTTGAACACGAAGTGGCATGGCCTGACTGGCAACTGTGCAATTGAGTGCATATCCTTTCACCAAAACTGATTCGCGAGCGCTCTTTCCGTGGGCCTTCAGAACATTGACTGCATTGATAGGATAAGTGACTTTCCCGTTATTTTCCACACGAACAGCTTCCGCGGCATCAACAACCAGCTCTCCGAAGAAATCGGCGTCTctgaaaaatcaattttcttgaagcatagacaacaccaaactcacGGTCCGATAATCTTACTGCTCATGGAAGTTTTGGCAGCGTTGACAACTGATTGTCTACCAATCGAGTCGGAAGTGAATGAGATGTTTTCACTAATGTACTTGACGGCTTCCTTGCACGCGAGACGGTAACCATTGATAATAGTCGTCGGATGAACTTTTTGTTTCACAAGCTCATCGGCTCTCTTCAAGAGCTCAGCCGCCACAATAACGACAGAAGTAGTTCCATCTCCGACCTCCTCGTCTTGCAGCTGTGCAAGTTCTACAAGCACTTTTCCAGCCGGATGCTCAACCTCGAGTTGTTTCAGAATTGTGGCTCCGTCATTTGTGACAATGACATCTCCAACATCATCGACAAGCATTTTATCAAGTCCGACAGGGCCAAGAGATGACTTCACAATATTGGCGATCGCAACTGCCGCGGTGActgcaattaattaatgtatacttatattgagctttcggtgttacCATTCTGAGATCTGATGCCTTGTCCAGTAGTTCTTTTACCGGTGAGGGCAAGAATGGAATCTCCAGCTGATGCCATtac"
+    cp.get_possible_restriction_mutations(mutation_zone, ssodn_mutation_codon_start)
+
+
+mutate_rest_site_test3 = True
+# this test is designed to check the two function, the recursive get_possible_restriction_sites and its improvement
+# get_possible_restriction_mutations can both find a restriction site after mutating
+if mutate_rest_site_test3:
+    cp = initiate_cp()
+    rest_enzyme = RestrictionEnzyme(name='Liran', site='GCCGGW', derivatives=('GCCGGA', 'GCCGGT'),
+                                    full_site='G/CCGGW')
+    cp.restriction_enzymes = [rest_enzyme]
+    mutation_zone = SequenceSites(1162, 1167)
+    cp.mutated_sites = [PointMutation(index=1163, new_nucleotide="C"), PointMutation(index=1170, new_nucleotide="A")]
+    ssodn_mutation_codon_start = 1162
+    cp.mutated_strand = "gtggcaaagcttcttcattgtttgaataatgaaaaacgaatacaaacaactttgaaatcaaaacattaaaacttacaacatttcgttcaataaagtatcatcaaaagaagaaaacaaaagctgaacatgagaatttgggataaggagcagcagatcggaattatgtgagaagcacgcggaaaacagggatatataaacggggtaaacgggaaaatTTAAGCGTGGCAATCATCTCCTCCAAGTGGCTCTTGCTTGTCAAGTTTGATGAGGTCATCAATACGCAATATCGTAATGGCTGCCTCAGTGGCGAACTTCAGAGACTTGACCTTACTAAGAGCTGGCTCCAAAATTCCAGCCTCCTTGTTATCGCGGATCGTGCCTTCTTCGAGATCCAAACCAGCCctaaaaaaagagtgaataaactgactcaaattcagaaaacatgaattagacgctttttctaagcacaaaacgaaattttttgaaataaattattttaattttattacattaagctaacatgtaataacctactctttaaaaaaaacattttcacttacCACTTGAGGTGTTGAAGTTGTGGGATCAATTGAGCTTTGGAGTGGTACGCGCGGAGTTTTGTCACTAAATCAGTAGAATCTCTTGCAGCATTGCTTGCCAAAACCTTCGGAATGATGAGAAGCGCTGAAGCGAATTCAGCAACAGCAAGCTGCTCGCGAGAAGACAAGGTTTGTGCATAAGTTTCAAGGAAAAGACTGAGAGAAGTCTCAACAGCACCTCCTCCAGCCACAAGTTTCTTGCTTTCCAGAACTCTACGAACAACACAGAGTGAGTCGTGAACCGATCTCTCCATTTCATCGAGCATCACATCGTTCGCTCCACGGAGGATAATGCTGCTGGCAGTACGAGATTTCGGTCCCTTGATGAGAATGAGCTCGTCGTCACTAATTCTTTCTTGAACAATTTCATCGGCATGTCCAAGAAGCGAGGCATCGAAAGCTTCATCTCCTTCCAAAGTAGCCAAGGAAACAGTCAATGTGGCTCCAGTAGCTTTGGCAATTCTCTTCAAGTCTGATTTCTTGCATCGACGAACAGCCATAGCTCCAGATTCGACAAATTGCTTCAAGCACAAATCATCGATACCTCCAGTTGTAAGAACAACGCTGGCTCAGGCTTTCAAAATTTTATCAATGCGGCGTTTGGTAATATCGAATTCTctgaaaattccatagcttaaaaagaaacgaatagtttcaactcacTCTCTGCGAATAGCCTCAAGCTTGGCTGGATCTTCAACAACGACTGAAATACCGAGGTGCATCTTAGCCTTCATCAAAGAGAAATCGAGACATGCGATCTTGGCATTTTGAACACGAAGTGGCATGGCCTGACTGGCAACTGTGCAATTGAGTGCATATCCTTTCACCAAAACTGATTCGCGAGCGCTCTTTCCGTGGGCCTTCAGAACATTGACTGCATTGATAGGATAAGTGACTTTCCCGTTATTTTCCACACGAACAGCTTCCGCGGCATCAACAACCAGCTCTCCGAAGAAATCGGCGTCTctgaaaaatcaattttcttgaagcatagacaacaccaaactcacGGTCCGATAATCTTACTGCTCATGGAAGTTTTGGCAGCGTTGACAACTGATTGTCTACCAATCGAGTCGGAAGTGAATGAGATGTTTTCACTAATGTACTTGACGGCTTCCTTGCACGCGAGACGGTAACCATTGATAATAGTCGTCGGATGAACTTTTTGTTTCACAAGCTCATCGGCTCTCTTCAAGAGCTCAGCCGCCACAATAACGACAGAAGTAGTTCCATCTCCGACCTCCTCGTCTTGCAGCTGTGCAAGTTCTACAAGCACTTTTCCAGCCGGATGCTCAACCTCGAGTTGTTTCAGAATTGTGGCTCCGTCATTTGTGACAATGACATCTCCAACATCATCGACAAGCATTTTATCAAGTCCGACAGGGCCAAGAGATGACTTCACAATATTGGCGATCGCAACTGCCGCGGTGActgcaattaattaatgtatacttatattgagctttcggtgttacCATTCTGAGATCTGATGCCTTGTCCAGTAGTTCTTTTACCGGTGAGGGCAAGAATGGAATCTCCAGCTGATGCCATtac"
+    # print("###RECURSIVE FUNCTION###")
+    # print(*cp.get_possible_restriction_sites(cp.mutated_strand, mutation_zone, cp.mutated_sites,
+    #                                         ssodn_mutation_codon_start), sep="\n")
+    print("###IMPROVED FUNCTION###")
+    print(*cp.get_possible_restriction_mutations(mutation_zone, ssodn_mutation_codon_start), sep="\n")
+
+
+dsb_vs_mutation_site_test = False
+# this test is designed to check if the mutation direction is rightfully chosen even when the DSB is inside the to be
+# mutated codon. shouldn't affect if the codon doesn't touch the DSB.
+if dsb_vs_mutation_site_test:
+    cp = initiate_cp(complete_fiels=False)
+    # to use the instance method choose_ssODN_strand, some changes are to be made:
+    cp.pam_sites = SequenceSites(31,33) # DSB = 28
+    cp.sense_mutation_site = 25
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.ARGININE))
+
+    cp.sense_mutation_site = 26
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.ARGININE))
+
+    # different amino acid, different site to mutate
+    cp.sense_mutation_site = 26
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.TRYPTOPHAN))
+
+    cp.sense_mutation_site = 27
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.CYSTEINE))
+
+    cp.sense_mutation_site = 27
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.GLUTAMIC_ACID))
+
+    cp.sense_mutation_site = 28
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.TRYPTOPHAN))
+
+    cp.sense_mutation_site = 29
+    print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.TRYPTOPHAN))
