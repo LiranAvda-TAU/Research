@@ -677,32 +677,33 @@ class executor:
         filtered_by_sources_orthologs = DataExtracter.filter_dic_by_sources(relevant_orthologs_dic,
                                                                             sources_dic,
                                                                             sources_bar)
+        executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_sources_orthologs,
+                                  "Failed at sources filtration")
         if DataExtracter.is_dict_empty(filtered_by_sources_orthologs, "after sources filtration"):
             return executor.get_result_list(true_matches, failed_genes), "No orthologs left after sources filtration"
         print(len(filtered_by_sources_orthologs), "genes are left:", filtered_by_sources_orthologs,
               "after filtration by sources")
-        executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_sources_orthologs, "Failed at sources filtration")
 
         # now orthologs are filtered by sources
         # next step - filtration by length ratio
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
                                                                                         length_bar)
+        executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_length_orthologs, "Failed at length filtration")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
             return executor.get_result_list(true_matches, failed_genes), "No orthologs left after length filtration"
         print(len(filtered_by_length_orthologs), "genes are left:", filtered_by_length_orthologs,
               "after filtration by length")
-        executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_length_orthologs, "Failed at length filtration")
 
         # now we have genes filtered by size and sources.
         # next step: by domains ratio
         filtered_by_conserved_domains = DataExtracter().filter_by_conserved_domains(filtered_by_length_orthologs,
                                                                                     domains_range,
                                                                                     key_organism="Human")
+        executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_conserved_domains, "Failed at domains filtration")
         if DataExtracter.is_dict_empty(filtered_by_conserved_domains, "after domains filtration"):
             return executor.get_result_list(true_matches, failed_genes), "No orthologs left after ratio of conserved domains filtration"
         print(len(filtered_by_conserved_domains), "genes are left", filtered_by_conserved_domains,
               "after filtration by domains")
-        executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_conserved_domains, "Failed at domains filtration")
 
         # now we have genes filtered by size, sources and domains ratio.
         # next step: by opposite blast
