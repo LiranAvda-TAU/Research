@@ -8,52 +8,74 @@
     {% extends "template.html" %}
     {% block content %}
     <h1> About Our Project </h1>
-    <p>The Worm Cool Kit (WCK) is a web tools interface that offers several web services for scientists that work
-        with Caenorhabditis elegans genes. The interface offers three main services:<p>
+    <p>The Worm Cool Kit (WCK) is a web interface that offers several online bioinformatic tools for scientists who work
+        with the nematode <i>Caenorhabditis elegans</i> (henceforth “worms”).</p>
+    <p>The WCK is especially useful for researchers who wish to model human disease-causing mutations in worms, but it
+        will be helpful for any analysis of gene and residue conservation between worms and humans and for CRISPR design
+        of point mutations. Starting with the identification of the most likely worm ortholog of the human gene of
+        interest, the WCK can then check whether a given variation in the human gene is in a residue conserved in worms.
+        Finally, the WCK can help design the CRISPR strategy to insert the variation into the worm genome.</p>
+    <p>A detailed description of each bioinformatic tool can be found on their respective pages.</p>
     <div class="gap-10"></div>
     <p><b>The Ortholog Finder</b></p>
-    <p>The Orthologs Finder is a tool designed to deliver you with Human\Caenorhabditis elegans orthologous genes for
-        your Caenorhabditis elegans\Human query genes.</p>
-    <p>Our algorithm extracts the raw data from the already-analyzed list of orthologous candidates (extracted from
-        OrthoList2 data base) and carries several more filtration tests upon those carried by OrthoList2. Those
-        tests aim to increase the found orthologs accuracy and filter out candidates that might not be strong
-        enough orthologs for the user's purpose.</p>
-    <p>Our defaulted bars for filtrations are decided upon after examining large amount of data through the pipeline.
-        Some bars can be changed by the user.</p>
-    <p>On our analysis, we focused on these extra examinations:</p>
+    <p>The Orthologs Finder is a tool designed to deliver the Caenorhabditis elegans genes most likely orthologous to
+        your human query genes or the other way around (find human orthologs of worm genes). </p>
+    <p>Our algorithm extracts candidates from the OrthoList2 database (see References) and carries several additional
+        filtration steps, aimed to increase the likelihood that candidates are true orthologs.</p>
+    <p>The default thresholds for filtration were determined after examining a large number of established ortholog
+        pairs through the pipeline. Some thresholds can be changed by the user.</p>
+    <p>ur analysis includes the following steps: </p>
     <ol>
-    <li><p>Filtration based on number of sources (OrthoList2): OrthList2 mentions along its orthologs, the number of
-        tools (out of six) that predict the genes pair to be orthologous. Our analysis rules out (as a default)
-        the candidates for whom the number of sources is 2 or lower.</p></li>
-    <li><p>Filtration based on length ratio: each gene's amino acid sequence length is extracted from the data
-        presented in GeneBank, and if the ratio between the C.elegans gene to the human gene is lower than 1:10, the pair
-        is ruled out.</p></li>
-    <li><p>Filtration based on conserved domains ration: each gene's number of conserved domains is extracted from the
-        data presented in GeneBank, and if the ratio between the numbers of two is higher than 2 or lower than 0.5, the
-        pair is ruled out.</p></li>
-    <li><p>Filtration based on reversed BLAST: each pair is consisted of the query gene and the candidate ortholog.
-        On this step we BLAST the candidate ortholog for its own orthologs in the relevant species, if the query gene is
-        among the first 50 matches, the orthologous pair is valid. </p></li>
+    <li><p>Filtration based on number of sources in OrthoList2: OrthList2 specifies the number of tools (out of six)
+        that predicted a pair of genes to be orthologous. Our analysis filters out (as a default) candidates with only 1
+        or 2 sources.</p></li>
+    <li><p>Filtration based on gene's length: each gene's coding sequence length is extracted from Ensembl, and if the
+        ratio between the worm gene to the human gene is lower than 1:10, the pair is ruled out.</p></li>
+    <li><p>Filtration based on number of conserved protein domains: each gene's number of conserved protein domains is
+        extracted from GeneBank, and if the ratio between the numbers of domains in the query to the number of domains
+        in the candidate is higher than 2 or lower than 0.5, the pair is ruled out.</p></li>
+    <li><p>Filtration based on reversed BLAST: In this step we BLAST the candidate ortholog in the query gene’s species,
+        and if the query gene is among the first 50 matches, the orthologous pair is valid.</p></li>
     </ol>
-    <p>The pipeline will return all pairs that have passed the bars for all examinations, and mention the values in each
-        test.</p>
+    <p>The pipeline will return all pairs that have passed the threshold in all examinations, and mention the values in
+        each test.</p>
 
     <div class="gap-10"></div>
     <p><b>The Variant Checker</b></p>
-    <p>The Variant Checker is a tool designed to inform you if a certain amino acid in a specific place in the
-        Caenorhabditis elegans protein's sequence is conserved or not in its human ortholog sequence as well. If this
-        amino acid is conserved, the tool will provide you with the corresponding site in the Caenorhabditis elegans
-        gene amino acid sequence. </p>
-    <p>This tool uses the Ortholog Finder to find the human orthologs on which the conservation is checked.</p>
+    <p>The Variant Checker is a tool designed to inform whether a specific amino acid in a human protein is conserved or
+        not in its Caenorhabditis elegans ortholog sequence.</p>
+    <p>It uses the Ortholog Finder to find the human orthologs on which the conservation is checked. If this amino acid
+        is conserved, the tool will provide you with the corresponding site in the worm protein amino acid sequence.
+        If not, the tool will notify whether the amino acid in the worm sequence is similar or not conserved at all.</p>
+    <p>In order to identify conservation status, the algorithm uses different methods of sequence alignments, and
+        therefore each conserved amino acid is delivered with the number of alignments (out of 2000~) supporting the
+        conservation, thus amino acids that appear conserved but have only few alignments to support the status are not
+        necessarily conserved. </p>
+    <p>The tool also provides an alignment score for the region surrounding the relevant amino acid, in order to assess
+        whether the variation lies within a conserved region of the protein. The score shows what percentage of the 60
+        amino acids around the variable amino acid in the human sequence and the corresponding amino acid in the worm
+        sequence are equal. </p>
+    <p>Lastly, the tool also checks if the variant was formerly registered in the Million Mutation Project.</p>
 
     <div class="gap-10"></div>
     <p><b>Automated CRISPR Planner - IN PROGRESS</b></p>
-    <p>The Automated CRISPR Planner aims to design your CRIPSPR process given only the amino acid mutation you wish to
-        insert and the gene name.</p>
-    <p>For now, the tool only works for point mutations (one amino acid to another) in the Caenorhabditis elegans genome.
-        The algorithm is designed to mimic the human way to insert the fittest nucleotides mutation in the right place
-        in order to mutate the gene, to prevent re-attachment and to insert\remove a new restriction site to test the
-        specific gene mutation insertion.</p>
+    <p>The Automated CRISPR Planner aims to streamline your CRISPR design process given only the gene name and the amino
+        acid mutation you wish to insert.</p>
+    <p>For now, the tool only works for point mutations (one amino acid changed to another) in the Caenorhabditis
+        elegans genome.</p>
+    <p>The algorithm is designed find the best way to insert the nucleotides mutation in the right place in order to
+        mutate the gene, to prevent re-attachment of the crRNA and to insert or remove a restriction enzyme site to
+        facilitate identification of the specific gene mutation insertion. </p>
+    <p>The algorithm starts with recognizing the best crRNA for the process, defines the relevant parameters such as PAM
+        sites, Double Strand Break point and mutation zone, and goes through all possible options to mutate the strand
+        as needed. </p>
+    <p>Once the relevant amino acid is changed and the re-attachment section is properly mutated, the algorithm checks
+        whether a new restriction site was inserted or removed in the process. If not, or if the restriction enzyme
+        needed is not available for the user, the tool will try to introduce additional mutations to create or remove a
+        different restriction site.</p>
+    <p>In each step, the algorithm goes through all possible mutations and chooses the ones that have the highest
+        chances to be successfully inserted and would be most convenient for the user’s needs.</p>
+
     <div class="gap-80"></div>
     <p>Developed by: Liran Avda, for every question you might have, don't hesitate to contact: Liranavda@gmail.com</p>
 
