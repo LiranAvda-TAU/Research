@@ -534,11 +534,11 @@ class DataExtracter:
         for key in orthologs_dic:
             for ortholog in orthologs_dic[key]:
                 try:
-                    if int(sources_dic[(key, ortholog)]) >= bar:
+                    if int(sources_dic[(key, ortholog)]) >= int(bar):
                         print(key, "with its ortholog", ortholog, "have passes the sources bar!")
                         DataExtracter.add_to_dictionary(filtered_dic, key, ortholog)
-                except:
-                    print("The tuple", key, ortholog, "doesn't appear in the sources dic")
+                except Exception as e:
+                    print("Problem has occurred with:", e)
         return filtered_dic
 
     def get_pair_cd_length(self, c_elegans_gene_name, human_gene_name):
