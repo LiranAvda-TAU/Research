@@ -69,7 +69,8 @@ class BioPython:
             if len(record["IdList"]) > 0:
                 gene_ncbi_id = record["IdList"][0]
                 return gene_ncbi_id
-        except:
+        except Exception as e:
+            print("Exception in get_gene_id_by_entrez:", e)
             return None
 
     @staticmethod
@@ -146,7 +147,8 @@ class BioPython:
                         if extra_letter:
                             hit_id = hit_id + "_" + extra_letter
                         hit_ids.append(hit_id)
-                except:
+                except Exception as e:
+                    print("Exception in blast_with_sequences:", e)
                     continue
             self.blast_results[record.query] = hit_ids
         print("blast results:", self.blast_results)
@@ -172,7 +174,8 @@ class BioPython:
                                            entrez_query=query_organism)
             record: Record = NCBIXML.read(result_handle)
             result_handle.close()
-        except:
+        except Exception as e:
+            print("Exception in pipeline_blast_with_seq:", e)
             return None
         for alignment in record.alignments:
             try:
@@ -184,7 +187,9 @@ class BioPython:
                     if extra_letter:
                         hit_id = hit_id + "_" + extra_letter
                     hit_ids.append(hit_id)
-            except:
+            except Exception as e:
+                print("Exception in pipeline_blast_with_seq:", e)
+
                 continue
         return hit_ids
 
@@ -265,7 +270,8 @@ class BioPython:
             res = HttpRequester(url="https://rest.ensembl.org/sequence/id/").get_protein_sequence_from_ensembl(gene_id=gene_id)
             if not res:
                 return None
-        except:
+        except Exception as e:
+            print("Exception in get_aa_seq_from_ensembl:", e)
             return None
         sequences = res.split(">")
         for seq in sequences:
@@ -291,7 +297,8 @@ class BioPython:
             seq = record[translation_index + len(translation_word):end_index]
             extracted_seq = BioPython.get_amino_acid_seq(seq)
             return extracted_seq
-        except:
+        except Exception as e:
+            print("Exception in get_aa_seq_from_entrez:", e)
             return None
 
     @staticmethod
@@ -330,7 +337,8 @@ class BioPython:
                 info = Entrez.efetch(db="protein", id=hit_id, rettype="gb", retmode="text")
                 record = info.read()
                 info.close()
-            except:
+            except Exception as e:
+                print("Exception in get_gene_name_from_protein_accession:", e)
                 print("extraction was not successful for: " + hit_id)
                 continue
             # extracting aa sequence out of chosen isoform
