@@ -38,7 +38,8 @@ class HttpRequester:
             request_url = "https://www.ebi.ac.uk/proteins/api/uniparc/upi/" + upi + "?rfTaxId=9606"
             try:
                 r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
-            except:
+            except Exception as e:
+                print("Exception in get_human_protein_sequence_from_uniprot:", e)
                 print("Communication failure, please check your internet connection")
                 return None
             if not r.ok:
@@ -59,8 +60,8 @@ class HttpRequester:
         request_url = self.url + gene_id + "?type=protein;multiple_sequences=1"
         try:
             r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
-        except:
-            print("Communication failure, please check your internet connection")
+        except Exception as e:
+            print("Communication failure, please check your internet connection:", e)
             return None
         if not r.ok:
             r.raise_for_status()
