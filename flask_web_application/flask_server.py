@@ -37,9 +37,9 @@ def return_c_elegans_orthologs():
         results, error = executor.find_me_orthologs_for_human(human_genes=human_genes,
                                                               genes_in_names=genes_in_names,
                                                               sources_bar=sources_bar)
-    except:
+    except Exception as e:
         query = ", ".join(human_genes)
-        error = "Something went wrong, please check your service log"
+        error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=query, error=error)
     true_results, false_results = results
     return render_template('orthologs_table_response.html', true_results=true_results, false_results=false_results)
@@ -63,9 +63,9 @@ def return_human_orthologs():
         results, error = executor.find_me_orthologs_for_worm(worm_genes=c_elegans_genes,
                                                              genes_in_names=genes_in_names,
                                                              sources_bar=sources_bar)
-    except:
+    except Exception as e:
         query = ", ".join(c_elegans_genes)
-        error = "Something went wrong, please check your service log"
+        error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=query, error=error)
     true_results, false_result = results
     return render_template('orthologs_table_response.html', true_results=true_results, false_results=false_result)
@@ -86,9 +86,9 @@ def return_variants_data():
     print(genes_and_variants)
     try:
         true_results, false_results = executor().get_variants_data_for_server(genes_and_variants, sources_bar)
-    except:
+    except Exception as e:
         query = executor.dictionary_output_parser(genes_and_variants)
-        return render_template('failure_response.html', query=query, error="Unknown")
+        return render_template('failure_response.html', query=query, error=e)
     return render_template('variants_table_response.html', true_results=true_results, false_results = false_results)
 
 
