@@ -96,13 +96,15 @@ class FileMaker:
         for d1_key in keys:
             try:
                 d2_key = converter[d1_key]
-            except:
+            except Exception as e:
+                print("Exception in from_two_dict_of_different_keys_to_one_file:", e)
                 print(d1_key + " doesn't have an equivalent in the second dictionary")
                 pass
             d1_val = d1[d1_key]
             try:
                 d2_val = d2[d2_key]
-            except:
+            except Exception as e:
+                print("Exception in from_two_dict_of_different_keys_to_one_file:", e)
                 print(d2_key + " doesn't exist as a key in d2")
                 pass
             f.write(d1_key + "\t" + d2_key + "\t" + str(d1_val).strip("[]") + "\t" + d2_val + "\n")
