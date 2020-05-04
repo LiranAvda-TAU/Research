@@ -42,8 +42,8 @@ class HomologyHandler(BaseHTTPRequestHandler):
                 c_elegans_homologs = executor.find_me_orthologs_for_human(human_genes)
                 if not c_elegans_homologs:
                     c_elegans_homologs = "Couldn't find orthologs for " + str(human_genes)
-            except:
-                c_elegans_homologs = "Something went wrong, please check your service log"
+            except Exception as e:
+                c_elegans_homologs = "Something went wrong: " + str(e)
             self.wfile.write(("Done! The results are: " + "<br />" + str(c_elegans_homologs)).encode())
         elif program == "Variants":
             genes_and_variants = self.parse_input()
