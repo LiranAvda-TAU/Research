@@ -77,7 +77,8 @@ class DataExtracter:
         try:
             parsed_number = int(number)
             return parsed_number
-        except:
+        except Exception as e:
+            print("Exception in get_conserved_domain_per_gene_id:", e)
             print("for gene id:", gene_id, "letter extracted is", number)
             ncbi_id = Ensembl.get_ncbi_id_by_gene_id(gene_id)
             if ncbi_id:
@@ -103,7 +104,8 @@ class DataExtracter:
         try:
             parsed_number = int(number)
             return parsed_number
-        except:
+        except Exception as e:
+            print("Exception in get_conserved_domains_per_ncbi_id:", e)
             print("for ncbi gene id:", ncbi_id, " letter extracted is", number)
         return None
 
@@ -124,7 +126,8 @@ class DataExtracter:
         human_domains = de.get_conserved_domain_per_gene_id(human_id)
         try:
             return float(c_elegans_domains) / float(human_domains)
-        except:
+        except Exception as e:
+            print("Exception in get_conserved_domains_ratio_of_pair:", e)
             return None
 
     # receives worm gene name and human gene name, reads the ortholist file to a dictionary with
@@ -171,7 +174,8 @@ class DataExtracter:
             for ortholog in orthologs:
                 try:
                     ortholog_domains = orthologs_domains_dic[ortholog]
-                except:
+                except Exception as e:
+                    print("Exception in filter_by_conserved_domains:", e)
                     ortholog_domains = DataExtracter().get_conserved_domain_per_gene_id(ortholog)
 
                 try:
@@ -183,7 +187,8 @@ class DataExtracter:
                     else:
                         print("Ratio between", key_gene_id, "and", ortholog + " is", ratio,
                               ", thus not good enough")
-                except:
+                except Exception as e:
+                    print("Exception in filter_by_conserved_domains:", e)
                     print("Problem occurred with dividing", ortholog_domains, "by", key_domains)
                     DataExtracter.add_to_dictionary(new_orthologs_dic, key_gene_id, ortholog)
         return new_orthologs_dic
@@ -424,7 +429,6 @@ class DataExtracter:
     # -> ortholog
     # genes names -> check if our ortholog gene is in there
     def check_reversed_blast_hit_ids(self, bp: BioPython, gene_name, ortholog_gene_name, gene_species="C.elegans"):
-        gene_id = Ensembl.get_gene_id_by_gene_name(gene_name, gene_species)
         # if gene_species == "C.elegans":
         #     hit_ids = DataExtracter().get_human_hit_ids(gene_id, gene_name)
         # else:
@@ -435,13 +439,13 @@ class DataExtracter:
 
         hit_ids = bp.blast_results.get(gene_name, None)
         if not hit_ids:
-            print("No hit ids were found for gene", gene_name, gene_id)
+            print("No hit ids were found for gene", gene_name)
             return None
         for hit_id in hit_ids:
             hit_gene_name = self.hit_ids_to_gene_names.get(hit_id, None)
             if hit_gene_name:
                 if hit_gene_name == ortholog_gene_name:
-                    print(gene_id, "and", ortholog_gene_name, "are orthologs indeed!")
+                    print(gene_name, "and", ortholog_gene_name, "are orthologs indeed!")
                     return True
                 else:
                     print("hit human gene name is", hit_gene_name, "thus there is no match")
@@ -520,7 +524,8 @@ class DataExtracter:
         for gene in list_of_genes:
             try:
                 dic[gene] = gene_converting_dic[gene]
-            except:
+            except Exception as e:
+                print("Exception in get_filtered_dic_of_orthologs:", e)
                 print("Couldn't find orthologs for", gene)
         return dic
 
@@ -575,14 +580,16 @@ class DataExtracter:
         for key in d:
             try:
                 key_gene_length = float(key_id_cd_length[key])
-            except:
+            except Exception as e:
+                print("Exception in filter_genes_by_length_differences:", e)
                 print("gene:", key, "wasn't found in length dictionary")
                 continue
             values = d[key]
             for value_gene in values:
                 try:
                     value_gene_length = float(value_id_cd_length[value_gene])
-                except:
+                except Exception as e:
+                    print("Exception in filter_genes_by_length_differences:", e)
                     print("gene:", value_gene, "wasn't found in length dictionary")
                     continue
                 if (key_gene_length * p) / 100 <= value_gene_length and \
@@ -702,7 +709,8 @@ class DataExtracter:
             end_index = shorter_info.find(end_term)
             description = shorter_info[start_index + len(start_term): end_index]
             return description
-        except:
+        except Exception as e:
+            print("Exception in get_c_elegans_description_for_gene_id:", e)
             return "no description was found"
 
     # receives (1) a dictionary containing gene name as keys, and orthologs and phenotypes as values, (2) a
@@ -717,7 +725,8 @@ class DataExtracter:
         for key in d_keys:
             try:
                 humanGeneLength = float(human_genes[key])
-            except:
+            except Exception as e:
+                print("Exception in filter_genes_with_size_differences:", e)
                 print("gene " + key + " wasn't found...")
                 continue
             d_values = d[key]
@@ -726,7 +735,8 @@ class DataExtracter:
                     c_elegans_gene = value[0]
                     try:
                         cElegansGeneLength = float(c_elegans_genes[c_elegans_gene])
-                    except:
+                    except Exception as e:
+                        print("Exception in filter_genes_with_size_differences:", e)
                         print("gene " + c_elegans_gene + " wasn't found...")
                         continue
                     if (humanGeneLength * p) / 100 <= cElegansGeneLength:
