@@ -3,6 +3,7 @@ import time
 from Code.CRISPR.CrisprPlanner import CrisprPlanner
 from Code.CRISPR.Enum.AminoAcid import AminoAcid
 from Code.CRISPR.Enum.DNASection import DNASection
+from Code.CRISPR.Enum.RestrictionSiteType import RestrictionSiteType
 from Code.CRISPR.NamedTuples.CodonData import CodonData
 from Code.CRISPR.NamedTuples.PointMutation import PointMutation
 from Code.CRISPR.NamedTuples.ReattachmentSection import ReattachmentSection
@@ -12,16 +13,15 @@ from Code.CRISPR.NamedTuples.SequenceSites import SequenceSites
 from Code.Files.FileReader import FileReader
 
 
-def initiate_cp(complete_fiels = True):
+def initiate_cp(complete_fiels=True):
     human_gene_name = 'cct-1'
     aa_mutation_site = 287
     nuc_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
     cp = CrisprPlanner(gene_name=human_gene_name, aa_mutation_site=aa_mutation_site, sense_strand=nuc_seq)
     cp.initiate_crispr(check_consistency=True)
     chosen_crrna, crrna_strand = cp.get_crrna(window_size=30, PAM_size=3, start_crrna_index=1150)
-    cp.pam_sites = SequenceSites(start=chosen_crrna[1][1] + 1, end=chosen_crrna[1][1] + 3)
     if complete_fiels:
-        cp.complete_fields(crrna_strand, to_aa=AminoAcid.GLUTAMINE)
+        cp.complete_fields(crrna_strand, to_aa=AminoAcid.GLUTAMINE, chosen_crrna=chosen_crrna)
     return cp
 
 test1 = False
@@ -328,10 +328,10 @@ if mutate_rest_site_test2:
     cp.mutated_sites = [PointMutation(index=1163, new_nucleotide="C"), PointMutation(index=1170, new_nucleotide="A")]
     ssodn_mutation_codon_start = 1162
     cp.mutated_strand = "gtggcaaagcttcttcattgtttgaataatgaaaaacgaatacaaacaactttgaaatcaaaacattaaaacttacaacatttcgttcaataaagtatcatcaaaagaagaaaacaaaagctgaacatgagaatttgggataaggagcagcagatcggaattatgtgagaagcacgcggaaaacagggatatataaacggggtaaacgggaaaatTTAAGCGTGGCAATCATCTCCTCCAAGTGGCTCTTGCTTGTCAAGTTTGATGAGGTCATCAATACGCAATATCGTAATGGCTGCCTCAGTGGCGAACTTCAGAGACTTGACCTTACTAAGAGCTGGCTCCAAAATTCCAGCCTCCTTGTTATCGCGGATCGTGCCTTCTTCGAGATCCAAACCAGCCctaaaaaaagagtgaataaactgactcaaattcagaaaacatgaattagacgctttttctaagcacaaaacgaaattttttgaaataaattattttaattttattacattaagctaacatgtaataacctactctttaaaaaaaacattttcacttacCACTTGAGGTGTTGAAGTTGTGGGATCAATTGAGCTTTGGAGTGGTACGCGCGGAGTTTTGTCACTAAATCAGTAGAATCTCTTGCAGCATTGCTTGCCAAAACCTTCGGAATGATGAGAAGCGCTGAAGCGAATTCAGCAACAGCAAGCTGCTCGCGAGAAGACAAGGTTTGTGCATAAGTTTCAAGGAAAAGACTGAGAGAAGTCTCAACAGCACCTCCTCCAGCCACAAGTTTCTTGCTTTCCAGAACTCTACGAACAACACAGAGTGAGTCGTGAACCGATCTCTCCATTTCATCGAGCATCACATCGTTCGCTCCACGGAGGATAATGCTGCTGGCAGTACGAGATTTCGGTCCCTTGATGAGAATGAGCTCGTCGTCACTAATTCTTTCTTGAACAATTTCATCGGCATGTCCAAGAAGCGAGGCATCGAAAGCTTCATCTCCTTCCAAAGTAGCCAAGGAAACAGTCAATGTGGCTCCAGTAGCTTTGGCAATTCTCTTCAAGTCTGATTTCTTGCATCGACGAACAGCCATAGCTCCAGATTCGACAAATTGCTTCAAGCACAAATCATCGATACCTCCAGTTGTAAGAACAACGCTGGCTCAGGCTTTCAAAATTTTATCAATGCGGCGTTTGGTAATATCGAATTCTctgaaaattccatagcttaaaaagaaacgaatagtttcaactcacTCTCTGCGAATAGCCTCAAGCTTGGCTGGATCTTCAACAACGACTGAAATACCGAGGTGCATCTTAGCCTTCATCAAAGAGAAATCGAGACATGCGATCTTGGCATTTTGAACACGAAGTGGCATGGCCTGACTGGCAACTGTGCAATTGAGTGCATATCCTTTCACCAAAACTGATTCGCGAGCGCTCTTTCCGTGGGCCTTCAGAACATTGACTGCATTGATAGGATAAGTGACTTTCCCGTTATTTTCCACACGAACAGCTTCCGCGGCATCAACAACCAGCTCTCCGAAGAAATCGGCGTCTctgaaaaatcaattttcttgaagcatagacaacaccaaactcacGGTCCGATAATCTTACTGCTCATGGAAGTTTTGGCAGCGTTGACAACTGATTGTCTACCAATCGAGTCGGAAGTGAATGAGATGTTTTCACTAATGTACTTGACGGCTTCCTTGCACGCGAGACGGTAACCATTGATAATAGTCGTCGGATGAACTTTTTGTTTCACAAGCTCATCGGCTCTCTTCAAGAGCTCAGCCGCCACAATAACGACAGAAGTAGTTCCATCTCCGACCTCCTCGTCTTGCAGCTGTGCAAGTTCTACAAGCACTTTTCCAGCCGGATGCTCAACCTCGAGTTGTTTCAGAATTGTGGCTCCGTCATTTGTGACAATGACATCTCCAACATCATCGACAAGCATTTTATCAAGTCCGACAGGGCCAAGAGATGACTTCACAATATTGGCGATCGCAACTGCCGCGGTGActgcaattaattaatgtatacttatattgagctttcggtgttacCATTCTGAGATCTGATGCCTTGTCCAGTAGTTCTTTTACCGGTGAGGGCAAGAATGGAATCTCCAGCTGATGCCATtac"
-    cp.get_possible_restriction_mutations(mutation_zone, ssodn_mutation_codon_start)
+    cp.get_possible_restriction_mutations(mutation_zone)
 
 
-mutate_rest_site_test3 = True
+mutate_rest_site_test3 = False
 # this test is designed to check the two function, the recursive get_possible_restriction_sites and its improvement
 # get_possible_restriction_mutations can both find a restriction site after mutating
 if mutate_rest_site_test3:
@@ -347,7 +347,7 @@ if mutate_rest_site_test3:
     # print(*cp.get_possible_restriction_sites(cp.mutated_strand, mutation_zone, cp.mutated_sites,
     #                                         ssodn_mutation_codon_start), sep="\n")
     print("###IMPROVED FUNCTION###")
-    print(*cp.get_possible_restriction_mutations(mutation_zone, ssodn_mutation_codon_start), sep="\n")
+    print(*cp.get_possible_restriction_mutations(mutation_zone), sep="\n")
 
 
 dsb_vs_mutation_site_test = False
@@ -378,3 +378,81 @@ if dsb_vs_mutation_site_test:
 
     cp.sense_mutation_site = 29
     print(cp.choose_ssODN_strand(1, to_aa=AminoAcid.TRYPTOPHAN))
+
+
+mutate_rest_site_test5 = False
+# this test is designed to check whether a restriction site originated mutations in codon\reattachment section will be
+# found
+if mutate_rest_site_test5:
+    cp = initiate_cp()
+    rest_enzyme = RestrictionEnzyme(name='Liran', site='GCCGGW', derivatives=('GCCGGA', 'GCCGGT'),
+                                    full_site='G/CCGGW')
+    cp.restriction_enzymes = [rest_enzyme]
+    mutation_zone = SequenceSites(1162, 1167)
+    cp.mutated_sites = [PointMutation(index=1163, new_nucleotide="C"), PointMutation(index=1170, new_nucleotide="A")]
+    cp.mutated_strand = "gtggcaaagcttcttcattgtttgaataatgaaaaacgaatacaaacaactttgaaatcaaaacattaaaacttacaacatttcgttcaataaagtatcatcaaaagaagaaaacaaaagctgaacatgagaatttgggataaggagcagcagatcggaattatgtgagaagcacgcggaaaacagggatatataaacggggtaaacgggaaaatTTAAGCGTGGCAATCATCTCCTCCAAGTGGCTCTTGCTTGTCAAGTTTGATGAGGTCATCAATACGCAATATCGTAATGGCTGCCTCAGTGGCGAACTTCAGAGACTTGACCTTACTAAGAGCTGGCTCCAAAATTCCAGCCTCCTTGTTATCGCGGATCGTGCCTTCTTCGAGATCCAAACCAGCCctaaaaaaagagtgaataaactgactcaaattcagaaaacatgaattagacgctttttctaagcacaaaacgaaattttttgaaataaattattttaattttattacattaagctaacatgtaataacctactctttaaaaaaaacattttcacttacCACTTGAGGTGTTGAAGTTGTGGGATCAATTGAGCTTTGGAGTGGTACGCGCGGAGTTTTGTCACTAAATCAGTAGAATCTCTTGCAGCATTGCTTGCCAAAACCTTCGGAATGATGAGAAGCGCTGAAGCGAATTCAGCAACAGCAAGCTGCTCGCGAGAAGACAAGGTTTGTGCATAAGTTTCAAGGAAAAGACTGAGAGAAGTCTCAACAGCACCTCCTCCAGCCACAAGTTTCTTGCTTTCCAGAACTCTACGAACAACACAGAGTGAGTCGTGAACCGATCTCTCCATTTCATCGAGCATCACATCGTTCGCTCCACGGAGGATAATGCTGCTGGCAGTACGAGATTTCGGTCCCTTGATGAGAATGAGCTCGTCGTCACTAATTCTTTCTTGAACAATTTCATCGGCATGTCCAAGAAGCGAGGCATCGAAAGCTTCATCTCCTTCCAAAGTAGCCAAGGAAACAGTCAATGTGGCTCCAGTAGCTTTGGCAATTCTCTTCAAGTCTGATTTCTTGCATCGACGAACAGCCATAGCTCCAGATTCGACAAATTGCTTCAAGCACAAATCATCGATACCTCCAGTTGTAAGAACAACGCTGGCTCAGGCTTTCAAAATTTTATCAATGCGGCGTTTGGTAATATCGAATTCTctgaaaattccatagcttaaaaagaaacgaatagtttcaactcacTCTCTGCGAATAGCCTCAAGCTTGGCTGGATCTTCAACAACGACTGAAATACCGAGGTGCATCTTAGCCTTCATCAAAGAGAAATCGAGACATGCGATCTTGGCATTTTGAACACGAAGTGGCATGGCCTGACTGGCAACTGTGCAATTGAGTGCATATCCTTTCACCAAAACTGATTCGCGAGCGCTCTTTCCGTGGGCCTTCAGAACATTGACTGCATTGATAGGATAAGTGACTTTCCCGTTATTTTCCACACGAACAGCTTCCGCGGCATCAACAACCAGCTCTCCGAAGAAATCGGCGTCTctgaaaaatcaattttcttgaagcatagacaacaccaaactcacGGTCCGATAATCTTACTGCTCATGGAAGTTTTGGCAGCGTTGACAACTGATTGTCTACCAATCGAGTCGGAAGTGAATGAGATGTTTTCACTAATGTACTTGACGGCTTCCTTGCACGCGAGACGGTAACCATTGATAATAGTCGTCGGATGAACTTTTTGTTTCACAAGCTCATCGGCTCTCTTCAAGAGCTCAGCCGCCACAATAACGACAGAAGTAGTTCCATCTCCGACCTCCTCGTCTTGCAGCTGTGCAAGTTCTACAAGCACTTTTCCAGCCGGATGCTCAACCTCGAGTTGTTTCAGAATTGTGGCTCCGTCATTTGTGACAATGACATCTCCAACATCATCGACAAGCATTTTATCAAGTCCGACAGGGCCAAGAGATGACTTCACAATATTGGCGATCGCAACTGCCGCGGTGActgcaattaattaatgtatacttatattgagctttcggtgttacCATTCTGAGATCTGATGCCTTGTCCAGTAGTTCTTTTACCGGTGAGGGCAAGAATGGAATCTCCAGCTGATGCCATtac"
+    print(*cp.add_remove_restriction_sites(RestrictionSiteType.INSERTED), sep="\n")
+
+
+get_codons_test = True
+# This test is designed to check if all codons from given range will be extracted. has to be PAM cause CR_RNA cannot cross the end
+if get_codons_test:
+    def get_codons(section_sites):
+        cp = initiate_cp()
+        cp.ssODN_mutation_codon_start = 17
+        section_to_mutate = ReattachmentSection(4,
+                                                DNASection.PAM_SITE,
+                                                section_sites)
+        return cp.get_relevant_codons(section_to_mutate, cp.ssODN_mutation_codon_start, cp.mutated_strand)
+
+    section_sites = SequenceSites(17, 19)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 1 else print(False)
+
+    section_sites = SequenceSites(17, 20)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(17, 21)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(17, 22)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(16, 18)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(16, 19)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(16, 20)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 3 else print(False)
+
+    section_sites = SequenceSites(15, 18)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(15, 19)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(15, 20)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 3 else print(False)
+
+    section_sites = SequenceSites(13, 20)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 4 else print(False)
+
+    section_sites = SequenceSites(18, 20)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 2 else print(False)
+
+    section_sites = SequenceSites(19, 23)
+    codons_data = get_codons(section_sites)
+    print(True) if len(codons_data) == 3 else print(False)
