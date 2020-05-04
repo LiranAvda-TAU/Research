@@ -229,12 +229,14 @@ class executor:
             try:
                 gene_id = gene_names_WB_and_gene_ids[WBGene]
                 print("c-elegans gene id for", gene_name, ":", gene_id)
-            except:
+            except Exception as e:
+                print("Exception in get_only_genes_with_human_ortholog:", e)
                 print("couldn't find the gene id for", gene_name)
                 continue
             try:
                 accession_number = gene_ids_and_accession_numbers[gene_id]
-            except:
+            except Exception as e:
+                print("Exception in get_only_genes_with_human_ortholog:", e)
                 print("couldn't find the accession number for", gene_id)
                 continue
             print("c-elegans accession number for", gene_id, ":", accession_number)
@@ -527,7 +529,8 @@ class executor:
                 print("id:", ortholog_id_number)
                 try:
                     c_elegans_accession_number = c_elegans_id_and_accessions[ortholog_id_number]
-                except:
+                except Exception as e:
+                    print("Exception in get_variants_dict:", e)
                     print("Couldn't find C.elegans' accession number, moving on to the next gene")
                     # right now no way to get accession number other that DAVID
                     continue
@@ -903,8 +906,12 @@ exec = executor()
 #                                "data-230619-fixed-ratio-with-C-elegans-phenotypes",
 #                                False)
 
-# executor.pair_pipeline(FileReader.research_path + r"\Data",
-#                        r"\positive-control-orthologs-pairs")
+print("#CHECKING ORTHOLOGS PAIRS#")
+true_matches = executor.pair_pipeline(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs")
+print("results:")
+for pair in true_matches:
+    human_length, worm_length = true_matches[pair][2]
+    print(pair + "\t" + human_length + "\t" + worm_length + "\t" + worm_length/human_length*100)
 
 # executor.filterGenesTest()
 
