@@ -170,14 +170,16 @@ class FileReader:
             line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 gene = line[key_index]
-                length = line[value_index]
+                str_length = line[value_index]
+                if str_length:
+                    length = int(str_length)
                 if gene in lengths:
                     if length > lengths[gene]:
                         lengths[gene] = length
                 else:
                     lengths[gene] = length
-            except:
-                print("There has been a problem with extracting the following gene's length:", gene)
+            except Exception as e:
+                print("There has been a problem with extracting the following gene's length:", gene, e)
         f.close()
         return lengths
 
@@ -190,8 +192,8 @@ class FileReader:
             line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 genes[line[key_index]] = line[value_index]
-            except:
-                print("An error has occured with reading the file", self.name, "in row", row)
+            except Exception as e:
+                print("An error has occured with reading the file", self.name, "in row", row, ":", e)
         f.close()
         return genes
 
@@ -205,8 +207,8 @@ class FileReader:
             line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 genes[(line[first_key_index], line[second_key_index])] = line[value_index]
-            except:
-                print("An error has occured while reading the file", self.name, "in row", row)
+            except Exception as e:
+                print("An error has occured while reading the file", self.name, "in row", row, ":", e)
         f.close()
         return genes
 
@@ -231,8 +233,8 @@ class FileReader:
                     genes[line[key_index]] = {line[value_index]}
                 else:
                     genes[line[key_index]].add(line[value_index])
-            except:
-                print("An error has occured while reading the file", self.name, "in row", row)
+            except Exception as e:
+                print("An error has occured while reading the file", self.name, "in row", row, ":", e)
         f.close()
         return genes
 
@@ -269,8 +271,8 @@ class FileReader:
     def read_results_file(self):
         try:
             f = open(self.path + self.name, FileMode.READ.value)
-        except:
-            print("file cannot be opened, maybe it doesn't exist")
+        except Exception as e:
+            print("file cannot be opened, maybe it doesn't exist:", e)
             exit()
         return f
 
@@ -352,8 +354,8 @@ class FileReader:
             line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
             try:
                 genesDescription[line[key_index].strip("\"")] = line[value_index]
-            except:
-                print(line)
+            except Exception as e:
+                print("Exception in makeDictFromSummary:", e)
                 f.close()
                 exit()
         f.close()
