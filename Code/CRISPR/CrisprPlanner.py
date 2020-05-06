@@ -107,7 +107,7 @@ class CrisprPlanner:
                                                  RestrictionSiteType.INSERTED)
         if not insertion_result:
             self.mutated_strand = first_strand
-            self.mutated_sites = first_mutated_sites
+            self.mutated_sites = first_mutated_sites[:]
             deletion_result = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
                                                     RestrictionSiteType.REMOVED)
             if not deletion_result:
@@ -147,15 +147,15 @@ class CrisprPlanner:
         print("Sense crRNAs: ")
         for sequence in sense_strand_sequences:
             print(sequence)
-            pam_site_start = sequence[1][1]
-            pam_site_end = sequence[1][1] + 3
-            print("PAM sequence: " + self.sense_strand[pam_site_start:pam_site_end])
+            pam_site_start = sequence[1][1]+1
+            pam_site_end = sequence[1][1]+3
+            print("PAM sequence: " + self.sense_strand[pam_site_start:pam_site_end+1])
         print("Anti Sense crRNAs: ")
         for sequence in anti_sense_strand_sequences:
             print(sequence)
-            pam_site_start = sequence[1][1]
+            pam_site_start = sequence[1][1]+1
             pam_site_end = sequence[1][1] + 3
-            print("PAM sequence: " + self.anti_sense_strand[pam_site_start:pam_site_end])
+            print("PAM sequence: " + self.anti_sense_strand[pam_site_start:pam_site_end+1])
 
         return self.choose_best_crrna(sense_strand_sequences, anti_sense_strand_sequences, start_crrna_index)
 
@@ -187,11 +187,12 @@ class CrisprPlanner:
         # 1. mutation to change codon to change the amino acid
         possible_codon_mutations = self.get_possible_mutations_demands(from_aa, to_aa, self.sense_mutation_site)
         second_strand = self.mutated_strand
-        second_mutated_sites = self.mutated_sites
+        second_mutated_sites = self.mutated_sites[:]
+        print("original mutated sites:", second_mutated_sites)
         for possible_codon_mutation in possible_codon_mutations:
             print("Now working on codon mutation:", possible_codon_mutation)
             self.mutated_strand = second_strand
-            self.mutated_sites = second_mutated_sites
+            self.mutated_sites = second_mutated_sites[:]
             self.apply_codon_mutation(ssODN_codon_mutation_site,
                                       possible_codon_mutation.dict_of_mutations)
 
@@ -213,17 +214,16 @@ class CrisprPlanner:
             print("section to mutate to prevent re-attachment:", section_to_mutate.section_sites, "(close segment) in",
                   section_to_mutate.section_type)
 
-            possible_mutations, number_of_mutants = self.get_possible_codon_mutations(section_to_mutate,
-                                                                                      ssODN_codon_mutation_site)
+            possible_mutations, number_of_mutants = self.get_possible_codon_mutations(section_to_mutate)
             # subsets with indexes that represent mutations that sum up to enough mutations overall
             valid_index_subsets = CrisprPlanner.get_valid_subsets(number_of_mutants, possible_mutations, self.pam_sites,
                                                                   self.mutation_direction)
             third_strand = self.mutated_strand
-            third_mutated_sites = self.mutated_sites
+            third_mutated_sites = self.mutated_sites[:]
             print("all valid index subsets:", valid_index_subsets)
             for index_subset in valid_index_subsets:
                 self.mutated_strand = third_strand
-                self.mutated_sites = third_mutated_sites
+                self.mutated_sites = third_mutated_sites[:]
                 point_mutations = self.get_point_mutations(possible_mutations,
                                                            index_subset)  # also mutates the sequence
                 print("now working on index subset:", index_subset, "and point mutations:", point_mutations)
@@ -340,8 +340,7 @@ class CrisprPlanner:
     # mutation codon on the ssODN strand,(3) the mutation direction, and (4) the sites that have
     #  changed while mutating the amino acid, computes which indexes can be changed in order to insert the section with
     # silent mutations and returns the possibilities for silent mutations
-    def get_possible_codon_mutations(self,
-                                     section_to_mutate: ReattachmentSection):
+    def get_possible_codon_mutations(self, section_to_mutate: ReattachmentSection):
         # format of codons_data: ('GCG', (1, 3))
         codons_data = CrisprPlanner.get_relevant_codons(section_to_mutate, self.ssODN_mutation_codon_start, self.mutated_strand)
         possible_mutations = []
@@ -351,7 +350,7 @@ class CrisprPlanner:
             print("for codon:", codon_data, "same aa codons:", same_aa_codons)
             if section_to_mutate.section_type == DNASection.PAM_SITE:
                 # removes PAM mutations of sequence NGA and NGG
-                CrisprPlanner.check_PAM_mutation(codon_data, same_aa_codons, section_to_mutate, self.mutation_direction)
+                CrisprPlanner.check_PAM_mutation(codon_data, same_aa_codons, section_to_mutate)
             # removes codons that run over the nucleotide change to change amino acid
             CrisprPlanner.check_already_mutated_sites(codon_data, same_aa_codons, self.mutated_sites)
             # removes codons in which the difference is in part that in outside of the mutation zone
@@ -459,59 +458,39 @@ class CrisprPlanner:
     # mutations is substituting NGG site with an NGA or NGG site, and if so, removes it from the valid list of codons
     # returned.
     @staticmethod
-    def check_PAM_mutation(codon_data: CodonData, possible_codons, section_to_mutate, mutation_direction):
-
+    def check_PAM_mutation(codon_data: CodonData, possible_codons, section_to_mutate):
         if codon_data.codon_sites.start < section_to_mutate.section_sites.start:
             # before beginning of PAM site
-            if codon_data.codon_sites.end == section_to_mutate.section_sites.end:
+            if codon_data.codon_sites.end == section_to_mutate.section_sites.start:
                 # only contains first nucleotide
-                if mutation_direction == MutationDirection.DOWNSTREAM:
-                    # cannot be T to prevent NGA
-                    for possible_codon in possible_codons[:]:
-                        if possible_codon[0] == 'T':
-                            print("possible codon removed:", possible_codon, "in", codon_data)
-                            possible_codons.remove(possible_codon)
-                else:
-                    # mutation only changes the N part of NGG PAM site - not useful
-                    possible_codons.clear()
+                for possible_codon in possible_codons[:]:
+                    if possible_codon[2] == 'T':
+                        print("possible codon removed:", possible_codon, "in", codon_data)
+                        possible_codons.remove(possible_codon)
             elif codon_data.codon_sites.end > section_to_mutate.section_sites.start:
                 # contains first two amino acids
-                if mutation_direction == MutationDirection.DOWNSTREAM:
-                    for possible_codon in possible_codons[:]:
-                        if possible_codon[1:] == 'TC':
-                            print("possible codon removed:", possible_codon, "in", codon_data)
-                            possible_codons.remove(possible_codon)
+                for possible_codon in possible_codons[:]:
+                    if possible_codon[1:] == 'TC':
+                        print("possible codon removed:", possible_codon, "in", codon_data)
+                        possible_codons.remove(possible_codon)
         elif codon_data.codon_sites == section_to_mutate.section_sites:
             for possible_codon in possible_codons[:]:
-                if mutation_direction == MutationDirection.UPSTREAM:
-                    # the site is NGG
-                    if possible_codon[1:] == 'GA':
-                        print("possible codon removed:", possible_codon, "in", codon_data)
-                        possible_codons.remove(possible_codon)
-                else:
-                    # the site is CCN
-                    if possible_codon[:2] == 'TC':
-                        print("possible codon removed:", possible_codon, "in", codon_data)
-                        possible_codons.remove(possible_codon)
+                # the site is CCN
+                if possible_codon[:2] == 'TC':
+                    print("possible codon removed:", possible_codon, "in", codon_data)
+                    possible_codons.remove(possible_codon)
         else:
             if codon_data.codon_sites.start < section_to_mutate.section_sites.end:
                 # contains two last amino acids
-                if mutation_direction == MutationDirection.UPSTREAM:
-                    for possible_codon in possible_codons[:]:
-                        if possible_codon[:2] == 'GA':
-                            print("possible codon removed:", possible_codon, "in", codon_data)
-                            possible_codons.remove(possible_codon)
+                for possible_codon in possible_codons[:]:
+                    if possible_codon[0] == 'C':
+                        print("possible codon removed:", possible_codon, "in", codon_data)
+                        possible_codons.remove(possible_codon)
             elif codon_data.codon_sites.start == section_to_mutate.section_sites.end:
                 # contains only last PAM nucleotide
-                if mutation_direction == MutationDirection.UPSTREAM:
-                    for possible_codon in possible_codons[:]:
-                        if possible_codon[0] == 'A':
-                            print("possible codon removed:", possible_codon, "in", codon_data)
-                            possible_codons.remove(possible_codon)
-                else:
-                    print(
-                        "all mutations of this sort must be erased since mutation in that codon will leave out the NGG")
-                    possible_codons.clear()
+                print(
+                      "all mutations of this sort must be erased since mutation in that codon will leave out the NGG")
+                possible_codons.clear()
 
     # receives (1) a codon and returns all other codons that translated to the same amino acid
     @staticmethod
@@ -603,15 +582,18 @@ class CrisprPlanner:
         potential_cr_rnas = []
         start_point = max(0, mutation_site - window_size + PAM_size)
         end_point = min(mutation_site + window_size + PAM_size, len(strand) - 1)
+        print("range to find crRNA:", start_point, end_point)
         for i in range(start_point, end_point):
-            if strand[i + 1:i + 3] == "GG":
-                try:
-                    potential_cr_rna = strand[i - cr_rna_size:i]
-                    potential_cr_rnas.append((potential_cr_rna, SequenceSites(i - cr_rna_size, i-1)))
-                except Exception as e:
-                    print("Not enough space for a whole crRNA, i = " + str(i))
-                    print("Exception in get_list_of_potential_sequences:", e)
-                    continue
+            if i+3<len(strand):
+                if strand[i + 1:i + 3] == "GG":
+                    try:
+                        if i-cr_rna_size >= 0:
+                            potential_cr_rna = strand[i-cr_rna_size:i]
+                            potential_cr_rnas.append((potential_cr_rna, SequenceSites(i - cr_rna_size, i-1)))
+                    except Exception as e:
+                        print("Not enough space for a whole crRNA, i = " + str(i))
+                        print("Exception in get_list_of_potential_sequences:", e)
+                        continue
         return potential_cr_rnas
 
     # receives (1) the mutation position in the sense strand, and returns the position of this mutation in the
@@ -638,12 +620,12 @@ class CrisprPlanner:
         return complementary_strands
 
     # this function gets a nucleotide sequence and adds to a dictionary all restriction sites in the sequence
-    def find_restriction_sites(self, nucleotide_seq, start_point, methylated: bool = False):
+    def find_restriction_sites(self, nucleotide_seq, start_point):
         restriction_sites_in_seq = []
         for restriction_enzyme in self.restriction_enzymes:
             for restriction_site in restriction_enzyme.derivatives:
-                opposite_restriction_site = self.get_complementary_sequence(restriction_site)
-                sites = [restriction_site, opposite_restriction_site]
+                complementary_restriction_site = self.get_complementary_sequence(restriction_site)
+                sites = [restriction_site, complementary_restriction_site]
                 for site in sites:
                     indexes = [m.start() for m in re.finditer('(?=' + site + ')', nucleotide_seq)]
                     for index in indexes:
@@ -865,17 +847,20 @@ class CrisprPlanner:
         # first we'll find the boundaries in which to search
         lowest_site = min(list(map(lambda item: item.index, self.mutated_sites)))
         highest_site = max(list(map(lambda item: item.index, self.mutated_sites)))
+        print("lowest site:", lowest_site, "highest site:", highest_site)
         # max_restriction_site = max(list(map(lambda item: len(item.site), self.restriction_enzymes)))
         max_restriction_site = 30  # prior analyze
 
         original_sequence = self.sense_strand if self.ssODN_direction > 0 else self.anti_sense_strand
-        original_section = original_sequence[lowest_site - max_restriction_site:highest_site + max_restriction_site]
-        mutated_section = self.mutated_strand[lowest_site - max_restriction_site:highest_site + max_restriction_site]
+        original_section = original_sequence[max(0, lowest_site - max_restriction_site):
+                                             min(len(original_sequence)-1, highest_site + max_restriction_site)]
+        mutated_section = self.mutated_strand[max(0, lowest_site - max_restriction_site):
+                                              min(len(self.mutated_strand)-1, highest_site + max_restriction_site)]
 
         restrictions_sites_in_original_seq = self.find_restriction_sites(original_section,
-                                                                         lowest_site - max_restriction_site)
+                                                                         max(0, lowest_site - max_restriction_site))
         restrictions_sites_in_mutated_seq = self.find_restriction_sites(mutated_section,
-                                                                        lowest_site - max_restriction_site)
+                                                                        max(0, lowest_site - max_restriction_site))
 
         if self.do_restriction_lists_dictionaries_match(restrictions_sites_in_original_seq,
                                                         restrictions_sites_in_mutated_seq):
@@ -913,8 +898,7 @@ class CrisprPlanner:
                     return rest_sites_list[0]
 
             # dictionaries match
-            print("let's modify some sites! first, trying to add...")
-            print("mutation zone:", mutation_zone)
+            print("let's modify some sites! first, trying to add with mutation zone:", mutation_zone)
             inserted_restriction_mutation = self.get_new_restriction_site(mutation_zone)
             if inserted_restriction_mutation:
                 print("restriction mutation added!", inserted_restriction_mutation)
@@ -922,7 +906,6 @@ class CrisprPlanner:
                 return inserted_restriction_mutation
             else:
                 return None
-
         else:  # trying to remove a restriction site
             print("now let's try to remove...")
             return self.choose_restriction_site_to_remove(mutation_zone)
@@ -976,10 +959,10 @@ class CrisprPlanner:
         section_to_mutate = ReattachmentSection(1, DNASection.MutationZone, rest_site.index)
         possible_mutations, _ = self.get_possible_codon_mutations(section_to_mutate)
         fourth_strand = self.mutated_strand
-        fourth_sites = self.mutated_sites
+        fourth_mutated_sites = self.mutated_sites[:]
         for index in range(len(possible_mutations)):
             self.mutated_strand = fourth_strand
-            self.mutated_sites = fourth_sites
+            self.mutated_sites = fourth_mutated_sites[:]
             point_mutations = self.get_point_mutations(possible_mutations, [index])  # also mutates the sequence
             if self.is_restriction_site_well_removed(point_mutations, rest_site, mutation_zone, num_rest_sites):
                 self.mutated_sites.append(point_mutations)
@@ -1076,7 +1059,7 @@ class CrisprPlanner:
         for occurrence in occurrences:
             if 0 < abs(start_point + occurrence - restriction_site.index.start) < distance:
                 distance = abs(start_point + occurrence - restriction_site.index.start)
-                print(distance, start_point+occurrence, mutated_section[occurrence:occurrence+9])
+                print("distant from other same rest site:", distance, "in index:", start_point+occurrence)
         return distance
 
     def get_mean_of_subtracted_lists(self, item: RestrictionMutation):
@@ -1116,7 +1099,7 @@ class CrisprPlanner:
         index_power_set = CrisprPlanner.get_power_set(list(range(len(possible_mutations))))
 
         original_strand = self.mutated_strand
-        original_mutated_sites = self.mutated_sites
+        original_mutated_sites = self.mutated_sites[:]
         print("The one and only original!!!!", original_mutated_sites)
         print("All index subsets to insert restriction site:", index_power_set)
         for index_subset in index_power_set:
