@@ -906,12 +906,12 @@ exec = executor()
 #                                "data-230619-fixed-ratio-with-C-elegans-phenotypes",
 #                                False)
 
-print("#CHECKING ORTHOLOGS PAIRS#")
-true_matches = executor.pair_pipeline(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs")
-print("results:")
-for pair in true_matches:
-    human_length, worm_length = true_matches[pair][2]
-    print(pair + "\t" + human_length + "\t" + worm_length + "\t" + worm_length/human_length*100)
+# print("#CHECKING ORTHOLOGS PAIRS#")
+# true_matches = executor.pair_pipeline(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs")
+# print("results:")
+# for pair in true_matches:
+#     human_length, worm_length = true_matches[pair][2]
+#     print(pair + "\t" + human_length + "\t" + worm_length + "\t" + worm_length/human_length*100)
 
 # executor.filterGenesTest()
 

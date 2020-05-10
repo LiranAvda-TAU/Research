@@ -70,6 +70,7 @@ class CrisprPlanner:
         self.pam_sites = None
         self.ssODN_direction = None
         self.mutated_sites = []
+        self.reattachment_site_mutated = False
         self.restriction_enzymes = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Code\CRISPR",
                                               r"\parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
         self.relevant_restriction_enzymes = self.get_relevant_restriction_enzymes(existing_enzymes) if existing_enzymes else self.restriction_enzymes
@@ -86,6 +87,10 @@ class CrisprPlanner:
                        check_consistency: bool = True,
                        window_size: int = 30,
                        PAM_size: int = 3):
+
+        if from_aa == to_aa:
+            print("Amino acid in", self.amino_acid_mutation_site, "is already", from_aa)
+            return True
 
         self.initiate_crispr(check_consistency)
 
@@ -105,6 +110,10 @@ class CrisprPlanner:
         # first try - when at last we try to insert restriction site
         insertion_result = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
                                                  RestrictionSiteType.INSERTED)
+        if not self.reattachment_site_mutated:
+            # couldn't find a way to mutate reattachment site
+            print("Reattachment section could not be mutated, a different crRNA needs to be chosen")
+            return False
         if not insertion_result:
             self.mutated_strand = first_strand
             self.mutated_sites = first_mutated_sites[:]
@@ -222,6 +231,7 @@ class CrisprPlanner:
             third_mutated_sites = self.mutated_sites[:]
             print("all valid index subsets:", valid_index_subsets)
             for index_subset in valid_index_subsets:
+                self.reattachment_site_mutated = True
                 self.mutated_strand = third_strand
                 self.mutated_sites = third_mutated_sites[:]
                 point_mutations = self.get_point_mutations(possible_mutations,
@@ -662,21 +672,35 @@ class CrisprPlanner:
 
     def choose_ssODN_strand(self, strand_direction, to_aa: AminoAcid):
 
-        def check_inside_dsb():
+        def check_inside_dsb(sense_strand, sense_mutation_site):
             downstream = 0
             upstream = 0
-            codon_mutation = CrisprPlanner.how_to_get_b_from_a(crrna_strand[mutation_site:mutation_site+3], to_aa)
+            if strand_direction < 0:
+                # anti-sense, to_aa needs to get complementary
+                comp_codon_mutation = \
+                    CrisprPlanner.how_to_get_b_from_a(sense_strand[sense_mutation_site:sense_mutation_site + 3], to_aa)
+                dict_of_mutations = {}
+                for key in comp_codon_mutation.dict_of_mutations:
+                    dict_of_mutations[2-key] = CrisprPlanner.get_complementary_sequence(comp_codon_mutation.dict_of_mutations[key])
+                codon = CrisprPlanner.get_complementary_sequence(comp_codon_mutation.codon)
+                codon_mutation = CodonMutation(codon=codon,
+                                               number_of_mutations=comp_codon_mutation.number_of_mutations,
+                                               dict_of_mutations=dict_of_mutations,
+                                               usage=CrisprPlanner.codon_usage[codon])
+            else:
+                codon_mutation = CrisprPlanner.how_to_get_b_from_a(sense_strand[mutation_site:mutation_site+3], to_aa)
+            print(codon_mutation)
             for key in codon_mutation.dict_of_mutations:
                 if mutation_site + key >= DSB:
                     downstream += 1
                 else:
                     upstream += 1
+            print("downstream:", downstream, "upstream:", upstream)
             if downstream > upstream:
                 return MutationDirection.DOWNSTREAM
             return MutationDirection.UPSTREAM
 
         mutation_site = self.sense_mutation_site if strand_direction > 0 else self.anti_sense_mutation_site
-        crrna_strand = self.sense_strand if strand_direction > 0 else self.anti_sense_strand
 
         DSB = self.pam_sites.start - 3
         # default assignment
@@ -684,7 +708,7 @@ class CrisprPlanner:
         print("mutation site: " + str(mutation_site) + ", pam start: " + str(self.pam_sites.start) + ", DSB: " + str(DSB))
         if mutation_site <= DSB <= mutation_site + 2:
             # DSB is inside the codon we need to mutate, further investigation is needed
-            mutation_direction = check_inside_dsb()
+            mutation_direction = check_inside_dsb(self.sense_strand, self.sense_mutation_site)
         elif mutation_site >= DSB:
             mutation_direction = MutationDirection.DOWNSTREAM
         elif mutation_site < DSB:
@@ -847,7 +871,6 @@ class CrisprPlanner:
         # first we'll find the boundaries in which to search
         lowest_site = min(list(map(lambda item: item.index, self.mutated_sites)))
         highest_site = max(list(map(lambda item: item.index, self.mutated_sites)))
-        print("lowest site:", lowest_site, "highest site:", highest_site)
         # max_restriction_site = max(list(map(lambda item: len(item.site), self.restriction_enzymes)))
         max_restriction_site = 30  # prior analyze
 
@@ -871,7 +894,6 @@ class CrisprPlanner:
 
     def get_restriction_sites(self, mutation_zone):
         max_len_site = max(list(map(lambda item: len(item.site), self.restriction_enzymes)))
-        print("max len site:", max_len_site)
 
         start = max(0, mutation_zone.start-max_len_site)
         end = min(mutation_zone.end+1+max_len_site, len(self.mutated_strand)-1)
@@ -1054,7 +1076,6 @@ class CrisprPlanner:
         for derivative in restriction_site.enzyme.derivatives:
             occurrences += [m.start() for m in re.finditer('(?=' + derivative + ')', mutated_section)]
             occurrences += [m.start() for m in re.finditer('(?=' + self.get_complementary_sequence(derivative) + ')', mutated_section)]
-            print("derivative", derivative, "complementary:", self.get_complementary_sequence(derivative))
         print("occurrences:", occurrences, ", start:", start_point)
         for occurrence in occurrences:
             if 0 < abs(start_point + occurrence - restriction_site.index.start) < distance:
@@ -1177,7 +1198,7 @@ class CrisprPlanner:
                                                                             num_of_mutations))
         return possible_results
 
-    # gets two dictionaries of the format of: {(3, 9): 'TCTAGA'}) and checks if both dictionaries have the same restriction sites
+    # gets two dictionaries of the format of RestrictionSite:RestrictionSiteType and checks if both dictionaries have the same restriction sites
     @staticmethod
     def do_restriction_lists_dictionaries_match(sites_in_original_dic, sites_in_mutated_dic):
         if len(sites_in_original_dic) != len(sites_in_mutated_dic):
@@ -1189,7 +1210,7 @@ class CrisprPlanner:
                 if not filtered_list:
                     return False
                 else:
-                    if restriction_site.site != filtered_list[0].site:
+                    if restriction_site.enzyme != filtered_list[0].enzyme:
                         return False
         return True
 
