@@ -938,7 +938,7 @@ class CrisprPlanner:
     def check_mutated_restriction_sites(self, restriction_sites_dic: dict):
         rest_sites_list = list(restriction_sites_dic.keys())
         for rest_site in restriction_sites_dic:
-            if self.check_distance(rest_site, 100) < 100:
+            if self.check_distance(rest_site) < 150:
                 rest_sites_list.remove(rest_site)
         rest_sites_list.sort(key=lambda r_site: (r_site.enzyme in self.relevant_restriction_enzymes,
                                                  restriction_sites_dic[r_site] == RestrictionSiteType.INSERTED,
@@ -1058,14 +1058,14 @@ class CrisprPlanner:
     # sites in the vicinity of certain nucleotides. if the vicinity is too close, remove the restriction site from the
     # list
     @staticmethod
-    def filter_out_restriction_sites_with_no_space(rest_sites, mutated_strand, vicinity: int = 100):
+    def filter_out_restriction_sites_with_no_space(rest_sites, mutated_strand, vicinity: int = 150):
         for restriction_site in rest_sites[:]:
             if CrisprPlanner.check_distance(restriction_site, mutated_strand, vicinity) < vicinity:
                 rest_sites.remove(restriction_site)
 
     # receives a restriction site and a strand, and checks in what distance there is another restriction site from the
     # same type
-    def check_distance(self, restriction_site: RestrictionSite, vicinity: int = 100):
+    def check_distance(self, restriction_site: RestrictionSite, vicinity: int = 150):
         occurrences = []
         distance = vicinity + 1
         site_length = len(restriction_site.enzyme.site)
@@ -1138,7 +1138,7 @@ class CrisprPlanner:
                 restriction_sites = self.get_distinctive_restriction_sites()
                 if restriction_sites:
                     for restriction_site in restriction_sites:
-                        if self.check_distance(restriction_site) > 100 and \
+                        if self.check_distance(restriction_site) > 150 and \
                                         restriction_sites[restriction_site] == RestrictionSiteType.INSERTED:
                             possible_restriction_mutations.append(RestrictionMutation(restriction_site,
                                                                                       len(index_subset),
@@ -1186,7 +1186,7 @@ class CrisprPlanner:
                 if restriction_sites:
                     print("restriction sites found:", restriction_sites, codon_data, mutated_codon_details)
                     for restriction_site in restriction_sites:
-                        if self.check_distance(restriction_site) > 100 and \
+                        if self.check_distance(restriction_site) > 150 and \
                                         restriction_sites[restriction_site] == RestrictionSiteType.INSERTED:
                             possible_results.append(RestrictionMutation(restriction_site,
                                                                         num_of_mutations,
