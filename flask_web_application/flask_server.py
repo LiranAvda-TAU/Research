@@ -1,8 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
+from Code.CRISPR.CrisprPlanner import CrisprPlanner
+from Code.CRISPR.Enum.AminoAcid import AminoAcid
 from Executors.executor import executor
 
-app = Flask(__name__)
 
+# project_root = os.path.dirname(os.path.realpath('__file__'))
+# template_path = os.path.join(project_root, 'flask_web_application/templates')
+# static_path = os.path.join(project_root, 'flask_web_application/static')
+app = Flask(__name__)
+# app = Flask(__name__, template_folder=template_path, static_folder=static_path)
 
 @app.route("/")
 def home():
@@ -21,7 +27,7 @@ def salvador():
 
 @app.route('/c_elegans_orthologs')
 def get_c_elegans_orthologs_input():
-    return render_template('query_form.html')
+    return render_template('crispr_form.html')
 
 
 @app.route('/c_elegans_orthologs', methods=['POST'])
@@ -38,7 +44,6 @@ def return_c_elegans_orthologs():
                                                               genes_in_names=genes_in_names,
                                                               sources_bar=sources_bar)
     except Exception as e:
-        query = ", ".join(human_genes)
         error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=query, error=error)
     true_results, false_results = results
@@ -92,9 +97,28 @@ def return_variants_data():
     return render_template('variants_table_response.html', true_results=true_results, false_results = false_results)
 
 
-@app.route("/cripr")
-def crispr():
+@app.route("/crispr")
+def crispr_planner():
     return render_template("crispr_form.html")
+
+
+@app.route('/crispr', methods=['POST'])
+def return_crispr_plan():
+    worm_gene_name = request.form['name']
+    nt_seq = request.form['seq']
+    site = request.form['site']
+    from_aa = AminoAcid[request.form.get('from_aa')]
+    to_aa = AminoAcid[request.form.get('to_aa')]
+    print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa)
+    try:
+        result = CrisprPlanner(gene_name=worm_gene_name,
+                               aa_mutation_site=site,
+                               sense_strand=nt_seq).plan_my_crispr(from_aa=from_aa, to_aa=to_aa)
+    except Exception as e:
+        error = "Something went wrong: " + str(e)
+        return render_template('failure_response.html', query=worm_gene_name, error=error)
+    # true_results, false_results = result
+    # return render_template('orthologs_table_response.html', true_results=true_results, false_results=false_results)
 
 
 @app.route("/faq")

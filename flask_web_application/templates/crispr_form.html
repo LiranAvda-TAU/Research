@@ -1,15 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Automated CRISPR Planner</title>
-</head>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+      <style>
+          .loader {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+           }
+           @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+           }
+      </style>
+      <script type="text/javascript">
+        function toggle_visibility(id1,id2) {
+            var e1 = document.getElementById(id1);
+            var e2 = document.getElementById(id2);
+            if(e1.style.display == 'block'){
+                e1.style.display = 'none';
+                e2.style.display = 'block';
+            }
+            else{
+                e1.style.display = 'block';
+                e2.style.display = 'none';
+            }
+          }
+</script>
+    <title>The Automated CRISPR Planner</title>
+  </head>
 <body>
     {% extends "template.html" %}
     {% block content %}
-    <h1> Automated CRISPR Planner </h1>
-    <p>TBD</p>
-    <p>Developed by: Liran Avda, Email: Liranavda@gmail.com</p>
+    <div class="loader" id="myloader" style="display: none;"></div>
+    <div class="container" id="mycontainer" style="display: block;">
+    <h1> Get a complete CRISPR plan for your point mutation request</h1>
+    <p> The Automated CRISPR Planner aims to streamline your CRIPSPR design process given only the gene name and the
+        amino acid mutation you wish to insert.</p>
+    <p>For now, the tool only works for point mutations (one amino acid changed to another) in the Caenorhabditis
+        elegans genome.</p>
+
+    <h1>Automated CRISPR Planner</h1>
+    <p> In order to use the service, please insert your worm gene name, nucleotide strand sequence (unspliced + UTR),
+    amino acid site you wish to mutate, the amino acid you wish to alter from and the amino acid you wish to alter to.</p>
+    <div class="gap-10"></div>
+    <form action="/crispr" method="POST">
+        Your worm gene name: <input name="name">
+        <br> The nucleotide strand: <input style=width:700px; name="seq">
+        <br> The amino acid site: <input name="site">
+        <br> From: <select name="from_aa">
+                    <option value="ALANINE">Alanine</option>
+                    <option value="ARGININE">Arginine</option>
+                    <option value="ASPARAGINE">Asparagine</option>
+                    <option value="ASPARTIC_ACID">Aspartic Acid</option>
+                    <option value="CYSTEINE">Cysteine</option>
+                    <option value="GLUTAMINE">Glutamine</option>
+                    <option value="GLUTAMIC_ACID">Glutamic Acid</option>
+                    <option value="GLYCINE">Glycine</option>
+                    <option value="HISTIDINE">Histidine</option>
+                    <option value="ISOLEUCINE">Isoleucine</option>
+                    <option value="LEUCINE">Leucine</option>
+                    <option value="LYSINE">Lysine</option>
+                    <option value="METHIONINE">Methionine</option>
+                    <option value="PHENYLALANINE">Phenylalanine</option>
+                    <option value="PROLINE">Proline</option>
+                    <option value="SERINE">Serine</option>
+                    <option value="THREONINE">Threonine</option>
+                    <option value="TRYPTOPHAN">tryptophan</option>
+                    <option value="TYROSINE">Tyrosine</option>
+                    <option value="VALINE">Valine</option>
+                </select>
+        To: <select name="to_aa">
+                <option value="ALANINE">Alanine</option>
+                <option value="ARGININE">Arginine</option>
+                <option value="ASPARAGINE">Asparagine</option>
+                <option value="ASPARTIC_ACID">Aspartic Acid</option>
+                <option value="CYSTEINE">Cysteine</option>
+                <option value="GLUTAMINE">Glutamine</option>
+                <option value="GLUTAMIC_ACID">Glutamic Acid</option>
+                <option value="GLYCINE">Glycine</option>
+                <option value="HISTIDINE">Histidine</option>
+                <option value="ISOLEUCINE">Isoleucine</option>
+                <option value="LEUCINE">Leucine</option>
+                <option value="LYSINE">Lysine</option>
+                <option value="METHIONINE">Methionine</option>
+                <option value="PHENYLALANINE">Phenylalanine</option>
+                <option value="PROLINE">Proline</option>
+                <option value="SERINE">Serine</option>
+                <option value="THREONINE">Threonine</option>
+                <option value="TRYPTOPHAN">tryptophan</option>
+                <option value="TYROSINE">Tyrosine</option>
+                <option value="VALINE">Valine</option>
+            </select>
+        <br><input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
+    </form>
+
+    <div class="gap-30"></div>
+    <p>***The process takes between 1-3 minutes, please be patient***</p>
+
+    </div>
     {% endblock %}
-  </body>
+</body>
 </html>
