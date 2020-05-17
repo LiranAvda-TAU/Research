@@ -546,7 +546,7 @@ class DataExtracter:
                     print("Problem has occurred with:", e)
         return filtered_dic
 
-    def get_pair_cd_length(self, c_elegans_gene_name, human_gene_name):
+    def get_pair_cd_length(self, human_gene_name, c_elegans_gene_name):
         human_gene_length = self.humans_id_cd_length.get(human_gene_name, None)
         if not human_gene_length:
             print("Gene", human_gene_name, "'s length wasn't found")
@@ -651,7 +651,7 @@ class DataExtracter:
     def get_status_tuple(self, c_elegans_gene_name, human_gene_name):
         return (self.get_sources(c_elegans_gene_name, human_gene_name),
                 self.get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name),
-                self.get_pair_cd_length(c_elegans_gene_name, human_gene_name),
+                self.get_pair_cd_length(human_gene_name, c_elegans_gene_name),
                 c_elegans_gene_name + ": " + self.get_c_elegans_description_for_gene_id(
                     Ensembl.get_gene_id_by_gene_name(c_elegans_gene_name, "C.elegans")))
 
