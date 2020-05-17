@@ -908,10 +908,11 @@ exec = executor()
 
 # print("#CHECKING ORTHOLOGS PAIRS#")
 # true_matches = executor.pair_pipeline(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs")
+# # true_matches = executor.pair_pipeline(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs-test")
 # print("results:")
 # for pair in true_matches:
 #     human_length, worm_length = true_matches[pair][2]
-#     print(pair + "\t" + human_length + "\t" + worm_length + "\t" + worm_length/human_length*100)
+#     print(pair, human_length, worm_length, worm_length/human_length*100, sep="\t")
 
 # executor.filterGenesTest()
 
@@ -941,3 +942,11 @@ exec = executor()
 # exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
 #                                 file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
 #                                 sheet_name="kinase")
+
+
+# #CHECKING POSITIVE CONTROL ORTHOLOG PAIRS
+# fd = FileReader(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs")
+# c_elegans_human_orthologs = fd.from_file_to_dict(delete_first_line=True)
+# for worm in c_elegans_human_orthologs:
+#     worm_length, human_length = DataExtracter().get_pair_cd_length(c_elegans_human_orthologs[worm], worm)
+#     print(c_elegans_human_orthologs[worm], worm, human_length, worm_length, worm_length/human_length*100, sep="\t")
