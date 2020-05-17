@@ -69,3 +69,73 @@ class HttpRequester:
                   ", please check")
             return None
         return r.text
+
+    @staticmethod
+    def get_transcript(gene_id):
+        chosen_transcript = ''
+        transcript_ids = HttpRequester(url="http://rest.wormbase.org/rest/widget/gene/").\
+            get_list_of_transcript_ids(gene_id)
+        if not transcript_ids or not len(transcript_ids):
+            return None
+        for transcript_id in transcript_ids:
+            transcript = HttpRequester(url="http://rest.wormbase.org/rest/field/transcript/").\
+                get_transcript_by_transcript_id(transcript_id)
+            if transcript and len(transcript) > len(chosen_transcript):
+                chosen_transcript = transcript
+                print(transcript_id, "is better:", len(transcript))
+        if not chosen_transcript:
+            print("Couldn't find transcript")
+            return None
+        return chosen_transcript
+
+    def get_transcript_by_transcript_id(self, transcript_id):
+        if not transcript_id:
+            return None
+        request_url = self.url + transcript_id + "/unspliced_sequence_context"
+        try:
+            r = requests.get(request_url)
+        except Exception as e:
+            print("Communication failure in get_transcript_by_gene_id, please check your internet connection:", e)
+            return None
+        if not r.ok:
+            r.raise_for_status()
+            print("Something went wrong with get_transcript_by_gene_id while trying to extract transcript"
+                  ", please check")
+            return None
+        try:
+            sequence = r.json()['unspliced_sequence_context']['data']['positive_strand']['sequence']
+        except Exception as e:
+            print("Couldn't extract sequence from worm base:", e)
+            return None
+        return sequence
+
+    def get_list_of_transcript_ids(self, gene_id):
+        transcript_ids = []
+        # url = "http://rest.wormbase.org/rest/widget/gene/"
+        if not gene_id:
+            return None
+        request_url = self.url + gene_id + "/sequences"
+        try:
+            r = requests.get(request_url)
+        except Exception as e:
+            print("Communication failure in get_list_of_transcript_ids, please check your internet connection:", e)
+            return None
+        if not r.ok:
+            r.raise_for_status()
+            print("Something went wrong with get_list_of_transcript_ids while trying to extract transcript ids"
+                  ", please check")
+            return None
+        try:
+            records = r.json()['fields']['gene_models']['data']['table'][0]['model']
+            if type(records) == list:
+                for record in records:
+                    transcript_ids.append(record['label'])
+            if type(records) == dict:  # one dict, no list of dicts
+                transcript_ids.append(records['label'])
+        except Exception as e:
+            print("Error in get_list_of_transcript_ids: couldn't extract transcript ids:", e)
+            return None
+        print("list of transcript ids:", *transcript_ids, sep="\n")
+        return transcript_ids
+
+
