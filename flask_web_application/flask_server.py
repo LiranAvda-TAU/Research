@@ -44,6 +44,7 @@ def return_c_elegans_orthologs():
                                                               genes_in_names=genes_in_names,
                                                               sources_bar=sources_bar)
     except Exception as e:
+        query = ", ".join(human_genes)
         error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=query, error=error)
     true_results, false_results = results
