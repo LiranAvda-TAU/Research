@@ -27,7 +27,7 @@ def salvador():
 
 @app.route('/c_elegans_orthologs')
 def get_c_elegans_orthologs_input():
-    return render_template('crispr_form.html')
+    return render_template('query_form.html')
 
 
 @app.route('/c_elegans_orthologs', methods=['POST'])
@@ -106,7 +106,7 @@ def crispr_planner():
 def return_crispr_plan():
     worm_gene_name = request.form['name']
     nt_seq = request.form['seq']
-    site = request.form['site']
+    site = int(request.form['site'])
     from_aa = AminoAcid[request.form.get('from_aa')]
     to_aa = AminoAcid[request.form.get('to_aa')]
     print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa)
@@ -117,8 +117,7 @@ def return_crispr_plan():
     except Exception as e:
         error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=worm_gene_name, error=error)
-    # true_results, false_results = result
-    # return render_template('orthologs_table_response.html', true_results=true_results, false_results=false_results)
+    return render_template('crispr_response.html', result=result)
 
 
 @app.route("/faq")
