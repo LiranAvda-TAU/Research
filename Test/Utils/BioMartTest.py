@@ -1,10 +1,11 @@
 from Code.Files.FileReader import FileReader
 from Code.Utils.BioMart import BioMart
 
+
 class BioMartTest:
 
     @staticmethod
-    def test_get_uniport_swissport_id():
+    def test_get_uniprot_swissprot_id():
         human_gene_ids = FileReader.get_human_genes_ids()
         bm = BioMart()
         for gene_id in human_gene_ids:
@@ -13,4 +14,4 @@ class BioMartTest:
 
 ### TESTING ###
 
-# BioMartTest.test_get_uniport_swissport_id()
+# BioMartTest.test_get_uniprot_swissprot_id()
