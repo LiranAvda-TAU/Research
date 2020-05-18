@@ -142,9 +142,11 @@ class FileReader:
         return genes
 
     # returns a list of all c.elegans genes
-    def get_genes_list(self, column: int = 0):
+    def get_genes_list(self, column: int = 0, delete_first: bool = False):
         genes = []
         f = open(self.path + self.name, FileMode.READ.value)
+        if delete_first:
+            f.readline()
         for row in f:
             genes.append(row.strip("\n").split(FILE_TYPES_DELIMETER[self.type])[column])
         f.close()
@@ -553,6 +555,16 @@ class FileReader:
             if 'A' <= ch <= 'Z':
                 plain_site += ch
         return plain_site
+
+    @staticmethod
+    def get_human_genes_ids():
+        return FileReader(FileReader.research_path + r"\Data",
+                          r"\human_gene_id-gene_name.txt").get_genes_list(0, True)
+
+    @staticmethod
+    def get_c_elegans_genes_ids():
+        return FileReader(FileReader.research_path + r"\Data",
+                          r"\c-elegans-gene-id_gene-name_ncbi-id.txt").get_genes_list(0, True)
 
 
 
