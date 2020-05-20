@@ -95,14 +95,16 @@ class CrisprPlanner:
 
         if from_aa == to_aa:
             print("Amino acid in", self.amino_acid_mutation_site, "is already", from_aa)
-            return True
+            return True, None
 
-        self.initiate_crispr(check_consistency)
+        possible_error = self.initiate_crispr(check_consistency)
+        if possible_error:
+            return False, possible_error
 
         chosen_crrna, crrna_strand = self.get_crrna(window_size, PAM_size)
 
         if not chosen_crrna:
-            return None
+            return False, "Couldn't find crRNA sequence"
         # now we have our cr_rna
         print("chosen crRNA: " + str(chosen_crrna))
         strand_str = "anti-" if crrna_strand < 0 else ""
@@ -117,36 +119,36 @@ class CrisprPlanner:
                                                  RestrictionSiteType.INSERTED)
         if not self.reattachment_site_mutated:
             # couldn't find a way to mutate reattachment site
-            print("Reattachment section could not be mutated, a different crRNA needs to be chosen")
-            return False
+            e = "Reattachment section could not be mutated, a different crRNA needs to be chosen"
+            print(e)
+            return False, e
         if not insertion_result:
             self.mutated_strand = first_strand
             self.mutated_sites = first_mutated_sites[:]
             deletion_result = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
                                                     RestrictionSiteType.REMOVED)
             if not deletion_result:
-                print("Could not insert or remove restriction site")
-                return False
-        return True
+                e = "Could not insert or remove restriction site"
+                return False, e
+        return True, None
 
     # initiates the CRISPR planner. fills in the amino_acid_sequence if not already filled in, and finds the nt site in
     # sense strand and anti-sense strand
     def initiate_crispr(self, check_consistency: bool):
-        if self.sense_strand:
-            print("Gene's sense sequence:", self.sense_strand)
-            print("Gene's anti-sense strand:", self.anti_sense_strand)
-        else:
-            self.sense_strand = input("Insert sense strand (unspliced + UTR) sequence for gene " + self.gene_name + ":")
-            if not self.sense_strand:
-                print("Exception in initiate_crispr: no sense strand sequence was delivered or could be extracted")
-                return None
-            self.anti_sense_strand = CrisprPlanner.get_complementary_sequence(self.sense_strand)
+        if not self.sense_strand:
+            # sense strand was not given and extraction has failed
+            e = "Exception in initiate_crispr: no sense strand sequence was delivered or could be extracted, " \
+                "please send a new request with the needed sequence."
+            print(e)
+            return e
+        print("Gene's sense sequence:", self.sense_strand)
+        print("Gene's anti-sense strand:", self.anti_sense_strand)
+
         if not self.amino_acid_sequence:
             # amino acid couldn't be extracted
-            self.amino_acid_sequence = input("Insert amino acid sequence for gene " + self.gene_name + ":")
-            if not self.amino_acid_sequence:
-                print("Exception in initiate_crispr: no amino acid sequence was delivered or could be extracted")
-                return None
+            e = "Exception in initiate_crispr: no amino acid sequence could be extracted"
+            print(e)
+            return e
         print("Gene's amino acid sequence: ", self.amino_acid_sequence)
         self.sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_mutation_site,
                                                             check_sequence_consistency=check_consistency)
@@ -154,6 +156,7 @@ class CrisprPlanner:
               self.sense_strand[self.sense_mutation_site:self.sense_mutation_site + 3])
         self.anti_sense_mutation_site = self.get_mutation_site_for_anti_sense(self.sense_mutation_site)
         print("mutation site in anti-sense strand: " + str(self.anti_sense_mutation_site))
+        return None
 
     # start_crrna_index = for testing purposes
     def get_crrna(self, window_size, PAM_size, start_crrna_index=None):
