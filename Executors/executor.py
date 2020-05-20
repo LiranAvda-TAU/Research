@@ -445,6 +445,8 @@ class executor:
         de, bp = DataExtracter(), BioPython()
         print("***BLAST***")
         bp.build_genes_hit_ids_dictionary([gene_name for gene_name in gene_name_to_gene_name_dict], key_species)
+        if not bp.blast_results:
+            return true_matches
         for key_gene_name in gene_name_to_gene_name_dict:
             ortholog_genes_names: list = gene_name_to_gene_name_dict[key_gene_name]
             for ortholog_gene_name in ortholog_genes_names:
