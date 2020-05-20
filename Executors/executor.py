@@ -4,6 +4,7 @@ from Code.Extraction.DataExtracter import DataExtracter
 from Code.Files.FileMaker import FileMaker
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
+from Code.Utils.BioMart import BioMart
 from Code.Utils.BioPython import BioPython
 from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
@@ -512,7 +513,7 @@ class executor:
         print("Number of genes:", len(human_genes_and_variants))
         for human_gene_name in genes_names:
             human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-            human_seq = HttpRequester().get_longest_human_protein_sequence_from_uniprot(human_gene_id)
+            human_seq = HttpRequester().get_human_protein_from_uniprot(human_gene_id)
             human_genes_and_sequences[human_gene_name] = human_seq
             mmp_data = mmp_data_by_gene_name[human_gene_name] if human_gene_name in mmp_data_by_gene_name \
                 else "Not mention in MMP"
@@ -573,8 +574,9 @@ class executor:
         output = []
 
         print("Human genes:", list(human_genes_names_and_variants.keys()))
+        bm = BioMart()
         for human_gene_name in human_genes_names_and_variants:
-            human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
+            human_seq = bm.get_human_protein_from_uniprot_by_gene_name(human_gene_name)
             if not human_seq:
                 failed_genes.append([human_gene_name, "Couldn't find gene sequence"])
                 continue
@@ -859,7 +861,7 @@ class executor:
     #         c_elegans_gene_name = c_elegans_genes_names[i]
     #         conserved_domains_value = de.get_conserved_domains_ratio_of_pair(c_elegans_gene_name,
     #                                                                          human_gene_name)
-    #         human_seq = BioPython().get_aa_seq_by_human_gene_name(human_gene_name)
+    #         human_seq = BioPython().get_human_protein_from_uniprot_by_gene_name(human_gene_name)
     #         try:
     #             c_elegans_id_wb = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
     #         except:
