@@ -40,62 +40,62 @@ class BioPythonTest:
         self.bp.blastp_by_accessions("blastp", "nr", accessionsAndSequences, end_word="ORIGIN",
                                      translation_word="translation=")
 
-    def pairwise_alignment_inspector_test1(self):
-        human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
-        print("human seq:", human_aa_seq)
-        c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
-        print("C.elegans seq:", c_elegans_aa_seq)
-        original_aa = "V"
-        variant_index = 74
-        print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
-                                                   c_elegans_seq=c_elegans_aa_seq,
-                                                   original_amino_acid=original_aa,
-                                                   variant_index=variant_index))
+    # def pairwise_alignment_inspector_test1(self):
+    #     human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
+    #     print("human seq:", human_aa_seq)
+    #     c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
+    #     print("C.elegans seq:", c_elegans_aa_seq)
+    #     original_aa = "V"
+    #     variant_index = 74
+    #     print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
+    #                                                c_elegans_seq=c_elegans_aa_seq,
+    #                                                original_amino_acid=original_aa,
+    #                                                variant_index=variant_index))
 
     # testing if answer_count works correctly - not conserved
-    def pairwise_alignment_inspector_test2(self):
-        human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
-        print("human seq:", human_aa_seq)
-        c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
-        print("C.elegans seq:", c_elegans_aa_seq)
-        original_aa = "T"
-        variant_index = 53
-        print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
-                                                   c_elegans_seq=c_elegans_aa_seq,
-                                                   original_amino_acid=original_aa,
-                                                   variant_index=variant_index))
-
-    # similar
-    def pairwise_alignment_inspector_test3(self):
-        human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
-        print("human seq:", human_aa_seq)
-        c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
-        print("C.elegans seq:", c_elegans_aa_seq)
-        original_aa = "I"
-        variant_index = 49
-        print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
-                                                   c_elegans_seq=c_elegans_aa_seq,
-                                                   original_amino_acid=original_aa,
-                                                   variant_index=variant_index))
-
-    # doesn't exist in human sequence
-    def pairwise_alignment_inspector_test4(self):
-        human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
-        print("human seq:", human_aa_seq)
-        c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
-        print("C.elegans seq:", c_elegans_aa_seq)
-        original_aa = "I"
-        variant_index = 83
-        print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
-                                                   c_elegans_seq=c_elegans_aa_seq,
-                                                   original_amino_acid=original_aa,
-                                                   variant_index=variant_index))
+    # def pairwise_alignment_inspector_test2(self):
+    #     human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
+    #     print("human seq:", human_aa_seq)
+    #     c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
+    #     print("C.elegans seq:", c_elegans_aa_seq)
+    #     original_aa = "T"
+    #     variant_index = 53
+    #     print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
+    #                                                c_elegans_seq=c_elegans_aa_seq,
+    #                                                original_amino_acid=original_aa,
+    #                                                variant_index=variant_index))
+    #
+    # # similar
+    # def pairwise_alignment_inspector_test3(self):
+    #     human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
+    #     print("human seq:", human_aa_seq)
+    #     c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
+    #     print("C.elegans seq:", c_elegans_aa_seq)
+    #     original_aa = "I"
+    #     variant_index = 49
+    #     print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
+    #                                                c_elegans_seq=c_elegans_aa_seq,
+    #                                                original_amino_acid=original_aa,
+    #                                                variant_index=variant_index))
+    #
+    # # doesn't exist in human sequence
+    # def pairwise_alignment_inspector_test4(self):
+    #     human_aa_seq = self.bp.get_aa_seq_by_human_gene_name("TCP1")
+    #     print("human seq:", human_aa_seq)
+    #     c_elegans_aa_seq = self.bp.get_aa_seq_by_c_elegans_gene_name("cct-1")
+    #     print("C.elegans seq:", c_elegans_aa_seq)
+    #     original_aa = "I"
+    #     variant_index = 83
+    #     print(self.bp.pairwise_alignment_inspector(human_seq=human_aa_seq,
+    #                                                c_elegans_seq=c_elegans_aa_seq,
+    #                                                original_amino_acid=original_aa,
+    #                                                variant_index=variant_index))
 
 ### TESTING ###
 
 # BioPythonTest().blastForAllTest()
-# BioPythonTest().blastpForAll_improvedTest()
-BioPythonTest().pairwise_alignment_inspector_test1()
-BioPythonTest().pairwise_alignment_inspector_test2()
-BioPythonTest().pairwise_alignment_inspector_test3()
-BioPythonTest().pairwise_alignment_inspector_test4()
+# # BioPythonTest().blastpForAll_improvedTest()
+# BioPythonTest().pairwise_alignment_inspector_test1()
+# BioPythonTest().pairwise_alignment_inspector_test2()
+# BioPythonTest().pairwise_alignment_inspector_test3()
+# BioPythonTest().pairwise_alignment_inspector_test4()

@@ -10,6 +10,7 @@ from Code.Enum.BlastType import BlastType
 from Code.Enum.FileType import FileType
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
+from Code.Utils.BioMart import BioMart
 from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
 
@@ -124,6 +125,7 @@ class BioPython:
         for gene_name in genes_names_sequences_dict:
             sequences_string += ">" + gene_name + "\n" + genes_names_sequences_dict[gene_name] + "\n"
         print("sequences:", sequences_string)
+        records_list = []
         try:
             result_handle = NCBIWWW.qblast(program=program, database=db, sequence=sequences_string,
                                            entrez_query=query_organism)
@@ -131,7 +133,6 @@ class BioPython:
             result_handle.close()
         except Exception as e:
             print(e)
-            return None
 
         for record in records_list:
             hit_ids = []
@@ -489,7 +490,7 @@ class BioPython:
     # this function unites all the ways to extract a human sequence from human gene id
     @staticmethod
     def get_human_aa_seq(human_gene_id):
-        seq = BioPython.get_aa_seq_by_human_gene_id(human_gene_id)  # try from uniprot
+        seq = BioMart.get_human_protein_from_uniprot_by_gene_id(human_gene_id)  # try from uniprot
         if not seq:
             seq = BioPython.get_aa_seq_from_ensembl(human_gene_id)  # try from ensembl
             if not seq:
@@ -550,26 +551,18 @@ class BioPython:
             print("Human gene id for", human_gene_name, "cannot be found")
             return None
         else:
-            return BioPython.get_aa_seq_by_human_gene_id(human_gene_id)
-
-    @staticmethod
-    def get_aa_seq_by_human_gene_id(human_gene_id):
-        human_seq = HttpRequester().get_human_protein_sequence_from_uniprot(human_gene_id)
-        if not human_seq:
-            print("human sequence cannot be extracted, perhaps upi cannot be found")
-            return None
-        return human_seq
+            return BioMart().get_human_protein_from_uniprot_by_gene_id(human_gene_id)
 
 # human_gene_name = "CAPZA1"
 # c_elegans_gene_name = "cap-1"
-# human_seq = BioPython.get_aa_seq_by_human_gene_name(human_gene_name)
+# human_seq = BioPython.get_human_protein_from_uniprot_by_gene_name(human_gene_name)
 # print("human seq:", human_seq)
 # c_elegans_seq = BioPython().get_aa_seq_by_c_elegans_gene_name(c_elegans_gene_name)
 # print("c-elegans seq", c_elegans_seq)
 
 # print(BioPython.get_aa_seq_by_c_elegans_gene_name("repo-1"))
 #
-# print(BioPython.get_aa_seq_by_human_gene_name('TCP1'))
-# print(BioPython.get_aa_seq_by_human_gene_name('DDR1'))
+# print(BioPython.get_human_protein_from_uniprot_by_gene_name('TCP1'))
+# print(BioPython.get_human_protein_from_uniprot_by_gene_name('DDR1'))
 # print(BioPython.get_ncbi_id(Ensembl.get_gene_id_by_gene_name('TCP1', "Human")))
 # print(BioPython.get_ncbi_id(Ensembl.get_gene_id_by_gene_name('DDR1', "Human")))
