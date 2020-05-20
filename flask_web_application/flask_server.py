@@ -112,9 +112,11 @@ def return_crispr_plan():
     to_aa = AminoAcid[request.form.get('to_aa')]
     print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa)
     try:
-        result = CrisprPlanner(gene_name=worm_gene_name,
-                               aa_mutation_site=site,
-                               sense_strand=nt_seq).plan_my_crispr(from_aa=from_aa, to_aa=to_aa)
+        result, error = CrisprPlanner(gene_name=worm_gene_name,
+                                      aa_mutation_site=site,
+                                      sense_strand=nt_seq).plan_my_crispr(from_aa=from_aa, to_aa=to_aa)
+        if not result:
+            return render_template('failure_response.html', query=worm_gene_name, error=error)
     except Exception as e:
         error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=worm_gene_name, error=error)
