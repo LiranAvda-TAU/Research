@@ -1,4 +1,5 @@
 from Code.Http.HttpRequester import HttpRequester
+from Code.Utils.BioMart import BioMart
 
 
 class HttpRequesterTest:
@@ -20,8 +21,24 @@ class HttpRequesterTest:
             print("for gene id:", gene_id)
             HttpRequester.get_transcript(gene_id)
 
+    @staticmethod
+    def test_canonical_vs_longest_protein():
+        list_of_human_genes_ids = ['ENSG00000166206', 'ENSG00000198888', 'ENSG00000107854', 'ENSG00000040531',
+                                   'ENSG00000196826', 'ENSG00000253729', 'ENSG00000131374', 'ENSG00000285013',
+                                   'ENSG00000177994', 'ENSG00000197275', 'ENSG00000157483', 'ENSG00000226490']
+        for gene_id in list_of_human_genes_ids:
+            print("canonical vs longest for:", gene_id)
+            canonical = BioMart().get_swissprot_sequence_from_biomart(gene_id)
+            print("canonical:", canonical)
+            longest = HttpRequester().get_longest_human_protein_sequence_from_uniprot(gene_id)
+            print("longest:", longest)
+            if canonical != longest:
+                print("different!")
+            else:
+                print("equals!")
 
 # TESTING #
 
 # HttpRequesterTest.makeRequestTest()
-HttpRequesterTest.test_get_transcript()
+# HttpRequesterTest.test_get_transcript()
+HttpRequesterTest.test_canonical_vs_longest_protein()

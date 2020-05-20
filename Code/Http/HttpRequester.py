@@ -11,6 +11,8 @@ class HttpRequester:
         self.url = url
         self.id_upi_converter = FileReader(FileReader.research_path + r"\Data",
                                            r"\human_gene_id_upi.txt").from_file_to_dict_with_plural_values(0, 1, True)
+        # self.id_upa_converter = FileReader(FileReader.research_path + r"\Data",
+        #                                    r"\human_gene_id_upa.txt").from_file_to_dict_with_plural_values(0, 1, True)
 
     def make_request(self):
         # sending get request and saving the response as response object
@@ -28,7 +30,21 @@ class HttpRequester:
             # success
             return str(response.content)
 
-    def get_human_protein_sequence_from_uniprot(self, gene_id):
+    @staticmethod
+    def get_uniprot_html(gene_id):
+        try:
+            r = requests.get("https://www.uniprot.org/uniprot/?query=" + gene_id + "&fil=organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22+AND+reviewed%3Ayes&sort=score")
+        except Exception as e:
+            print("Exception in get_uniprot_html:", e)
+            print("Communication failure, please check your internet connection")
+            return None
+        if not r.ok:
+            r.raise_for_status()
+            print("Something went wrong with get_uniprot_html while trying to extract reviewed ids, please check")
+            return None
+        return r.text
+
+    def get_longest_human_protein_sequence_from_uniprot(self, gene_id):
         chosen_seq = ''
         if gene_id not in self.id_upi_converter:
             return None
@@ -39,12 +55,12 @@ class HttpRequester:
             try:
                 r = requests.get(request_url, headers={"Accept": "text/x-fasta"})
             except Exception as e:
-                print("Exception in get_human_protein_sequence_from_uniprot:", e)
+                print("Exception in get_longest_human_protein_sequence_from_uniprot:", e)
                 print("Communication failure, please check your internet connection")
                 return None
             if not r.ok:
                 r.raise_for_status()
-                print("Something went wrong with get_human_protein_sequence_from_uniprot() while trying to extract sequence"
+                print("Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
                       ", please check")
                 return None
 
@@ -65,7 +81,7 @@ class HttpRequester:
             return None
         if not r.ok:
             r.raise_for_status()
-            print("Something went wrong with get_human_protein_sequence_from_uniprot() while trying to extract sequence"
+            print("Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
                   ", please check")
             return None
         return r.text
@@ -137,5 +153,17 @@ class HttpRequester:
             return None
         print("list of transcript ids:", *transcript_ids, sep="\n")
         return transcript_ids
+
+    @staticmethod
+    def get_protein_seq_by_uniprot_swissprot_id(uniprot_swissprot_id):
+        try:
+            r = requests.get("https://www.uniprot.org/uniprot/" + uniprot_swissprot_id + ".fasta")
+            response_body = r.text
+        except Exception as e:
+            print("Problem in function get_protein_seq_by_uniprot_swissprot_id while trying to extract sequence for",
+                  uniprot_swissprot_id, ":", e)
+            return None
+        seq = Strings.from_fasta_seq_to_seq(response_body)
+        return seq if seq else None
 
 
