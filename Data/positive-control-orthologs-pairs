@@ -8,7 +8,7 @@ hmr-1	CDH1
 sma-1	SPTBN5
 spc-1	SPTAN1
 dlg-1	DLG1
-unc-59	SEPT7
+unc-59	SEPTIN7
 mrck-1	CDC42BPG
 mel-11	PPP1R12A
 tln-1	TLN1
@@ -59,3 +59,61 @@ act-2	ACTB
 let-23	EGFR
 cyk-4	RACGAP1
 spv-1	ARHGAP29
+cct-1	TCP1	newly added by Ronen
+klp-15	KIFC1	newly added by Ronen
+chk-1	CHEK1	newly added by Ronen
+lis-1	PAFAH1B1	newly added by Ronen
+lit-1	NLK	newly added by Ronen
+ama-1	POLR2A	newly added by Ronen
+sacy-1	DDX41	newly added by Ronen
+rme-8	DNAJC13	newly added by Ronen
+catp-6	ATP13A2	newly added by Ronen
+rab-6.2	RAB6A	newly added by Ronen
+mrg-1	MORF4L1	newly added by Ronen
+CRAM-1	SERF2	newly added by Ronen
+mop-25.2	CAB39	newly added by Ronen
+ccm-3	PDCD10	newly added by Ronen
+alfa-1	C9orf72	newly added by Ronen
+C36B1.14	CRIPT	newly added by Ronen
+mapk-15	MAPK15	newly added by Ronen
+ubc-18	UBCH7	newly added by Ronen
+ubc-3	CDC34 	newly added by Ronen
+lam-1	LAMB1
+lam-1	LAMB2
+lmn-1	LMNA
+wve-1	WASF1
+wve-1	WASF3
+unc-60	CFL1
+unc-60	CFL2
+unc-60	DSTN
+cdh-3	PCDHGA4
+tba-1	TUBA8
+dyn-1	DNM1
+dyn-1	DNM2
+dyn-1	DNM3
+mom-5	FZD1
+mom-5	FZD7
+rab-5	RAB5B
+cdc-42	CDC42
+ifb-1	LMNA
+ifb-1	LMNB2
+gck-1	STK25
+brc-1	BRCA1
+unc-25	GAD1
+unc-25	GAD2
+glp-1	NOTCH1
+glp-1	NOTCH2
+glp-1	NOTCH3
+daf-2	IGF1R
+eat-3	OPA1
+act-4	ACTB
+lev-11	TPM1
+lev-11	TPM3
+unc-84	SUN2
+cap-2	CAPZB
+arx-3	ARPC1A
+twf-2	TWF1
+twf-2	TWF2
+mtpn-1	MTPN
+crml-1	CARMIL3
+tba-2	TUBA1A
