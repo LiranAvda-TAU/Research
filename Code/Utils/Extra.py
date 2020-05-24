@@ -65,7 +65,7 @@ def priti_request(file_path, file_name1, file_name2, file_name3):
     # print("only in L4&N2:", *specific_to_two, sep="\n")
 
 
-priti_request(file_path=r"C:\Users\Liran\PycharmProjects\Research\Code\Utils\priti",
-              file_name1=r"\l3_vs_n2_new.csv.csv",
-              file_name2=r"\l4_vs_n2_new.csv.csv",
-              file_name3=r"\l3_vs_l4_new.csv.csv")
+# priti_request(file_path=r"C:\Users\Liran\PycharmProjects\Research\Code\Utils\priti",
+#               file_name1=r"\l3_vs_n2_new.csv.csv",
+#               file_name2=r"\l4_vs_n2_new.csv.csv",
+#               file_name3=r"\l3_vs_l4_new.csv.csv")
