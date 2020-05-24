@@ -110,8 +110,7 @@ class DataExtracter:
         return None
 
     # receives a worm gene name and a human gene name, get conserved domains for both genes, and returns their ratio
-    @staticmethod
-    def get_conserved_domains_ratio_of_pair(c_elegans_gene_name, human_gene_name):
+    def get_conserved_domains_ratio_of_pair(self, c_elegans_gene_name, human_gene_name):
         c_elegans_id = Ensembl.get_c_elegans_gene_id_by_gene_name(c_elegans_gene_name)
         if not c_elegans_id:
             print("no id for gene:", c_elegans_gene_name)
@@ -120,10 +119,11 @@ class DataExtracter:
         if not human_id:
             print("no id for gene:", human_gene_name)
             return None
+        return self.get_conserved_domains_ratio_of_pair_by_id(c_elegans_id, human_id)
 
-        de = DataExtracter()
-        c_elegans_domains = de.get_conserved_domain_per_gene_id(c_elegans_id)
-        human_domains = de.get_conserved_domain_per_gene_id(human_id)
+    def get_conserved_domains_ratio_of_pair_by_id(self, c_elegans_gene_id, human_gene_id):
+        c_elegans_domains = self.get_conserved_domain_per_gene_id(c_elegans_gene_id)
+        human_domains = self.get_conserved_domain_per_gene_id(human_gene_id)
         try:
             return float(c_elegans_domains) / float(human_domains)
         except Exception as e:
