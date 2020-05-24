@@ -98,9 +98,15 @@ if priti_request:
 
 improved_check_control_orthologs_pairs = False
 if improved_check_control_orthologs_pairs:
-#CHECKING POSITIVE CONTROL ORTHOLOG PAIRS
+# CHECKING POSITIVE CONTROL ORTHOLOG PAIRS
+    de = DataExtracter()
     fd = FileReader(FileReader.research_path + r"\Data", r"\positive-control-orthologs-pairs")
     c_elegans_human_orthologs = fd.from_file_to_dict(delete_first_line=True)
-    for worm in c_elegans_human_orthologs:
-        worm_length, human_length = DataExtracter().get_pair_cd_length(c_elegans_human_orthologs[worm], worm)
-        print(c_elegans_human_orthologs[worm], worm, human_length, worm_length, worm_length/human_length*100, sep="\t")
+    for worm_name in c_elegans_human_orthologs:
+        human_name = c_elegans_human_orthologs[worm_name]
+        human_length, worm_length = de.get_pair_cd_length(human_name, worm_name)
+        length_ratio = worm_length / human_length * 100 if human_length and worm_length else None
+        conserved_domains_ratio = de.get_conserved_domains_ratio_of_pair(worm_name, human_name)
+        sources = de.get_sources(worm_name, human_name)
+        print(human_name, worm_name, human_length, worm_length,
+              length_ratio, conserved_domains_ratio, sources, sep="\t")
