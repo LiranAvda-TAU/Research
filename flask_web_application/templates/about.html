@@ -30,7 +30,7 @@
         that predicted a pair of genes to be orthologous. Our analysis filters out (as a default) candidates with only 1
         or 2 sources.</p></li>
     <li><p>Filtration based on gene's length: each gene's coding sequence length is extracted from Ensembl, and if the
-        ratio between the worm gene to the human gene is lower than 1:10, the pair is ruled out.</p></li>
+        ratio between the worm gene to the human gene is lower than 0.5 or higher than 2, the pair is ruled out.</p></li>
     <li><p>Filtration based on number of conserved protein domains: each gene's number of conserved protein domains is
         extracted from GeneBank, and if the ratio between the numbers of domains in the query to the number of domains
         in the candidate is higher than 2 or lower than 0.5, the pair is ruled out.</p></li>

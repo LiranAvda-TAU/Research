@@ -693,8 +693,7 @@ class executor:
 
         # now orthologs are filtered by sources
         # next step - filtration by length ratio
-        filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
-                                                                                        length_bar)
+        filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs)
         executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_length_orthologs, "Failed at length filtration")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
             return executor.get_result_list(true_matches, failed_genes), "No orthologs left after length filtration"
@@ -789,7 +788,7 @@ class executor:
         # now orthologs are filtered by sources
         # next step - filtration by length ratio
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
-                                                                                        length_bar, "c_elegans")
+                                                                                        key_gene="c_elegans")
         executor.add_failed_genes(failed_genes, worm_genes_ids, filtered_by_length_orthologs, "Failed at length filtration")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
             return executor.get_result_list(true_matches, failed_genes), "No orthologs left after length filtration"
