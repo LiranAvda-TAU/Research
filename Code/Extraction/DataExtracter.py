@@ -565,7 +565,7 @@ class DataExtracter:
     # deletes genes for which the length differences between the human gene and its ortholog
     # are too high
     @staticmethod
-    def filter_genes_by_length_differences(d: dict, p: int, key_gene: str = "Human"):
+    def filter_genes_by_length_differences(d: dict, p: tuple = (0.5, 2), key_gene: str = "Human"):
         if key_gene == "Human":
             key_id_cd_length = FileReader(FileReader.research_path + r"\Data",
                                           r"\human_cd_length.txt").get_genes_cd_length(0, 2, True)
@@ -592,8 +592,7 @@ class DataExtracter:
                     print("Exception in filter_genes_by_length_differences:", e)
                     print("gene:", value_gene, "wasn't found in length dictionary")
                     continue
-                if (key_gene_length * p) / 100 <= value_gene_length and \
-                                        (value_gene_length * p) / 100 <= key_gene_length:
+                if (key_gene_length * p[0]) <= value_gene_length <= (key_gene_length * p[1]):
                     print("Gene:", key, "has length of", int(key_gene_length), "bp, and its ortholog", value_gene,
                           "has length of", int(value_gene_length), "bp, so they pass the length bar")
                     DataExtracter.add_to_dictionary(genes_and_orthologs, key, value_gene)
