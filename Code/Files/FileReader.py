@@ -3,7 +3,7 @@ from Code.CRISPR.NamedTuples.RestrictionEnzyme import RestrictionEnzyme
 from Code.Enum.FileMode import FileMode
 from Code.Enum.FileType import FileType
 import unicodedata
-import pandas as pd
+# import pandas as pd
 
 chromosomes = [str(i) for i in range(1, 23)] + ['x', 'y']
 FILE_TYPES_DELIMETER = {FileType.TSV: "\t", FileType.CSV: ",", FileType.UNCLEAR: "\" \""}
@@ -429,16 +429,18 @@ class FileReader:
         f.close()
         return genes_data
 
-    def get_list_from_excel_using_pandas(self, column_name='WormBase Gene ID', sheet_name='kinase'):
-        xls = pd.ExcelFile(self.path + self.name)
-        df = pd.read_excel(xls, sheet_name)
-        return [gene_id for gene_id in df[column_name]]
+    # # raises errors in A2HOSTING
+    # def get_list_from_excel_using_pandas(self, column_name='WormBase Gene ID', sheet_name='kinase'):
+    #     xls = pd.ExcelFile(self.path + self.name)
+    #     df = pd.read_excel(xls, sheet_name)
+    #     return [gene_id for gene_id in df[column_name]]
 
-    def get_dictionary_from_excel_using_pandas(self, key_column_name, value_column_name, sheet_name='kinase'):
-        xls = pd.ExcelFile(self.path + self.name)
-        df = pd.read_excel(xls, sheet_name)
-        two_list = [(key, value) for key, value in zip(df[key_column_name], df[value_column_name])]
-        return dict(two_list)
+    # # raises errors in A2HOSTING
+    # def get_dictionary_from_excel_using_pandas(self, key_column_name, value_column_name, sheet_name='kinase'):
+    #     xls = pd.ExcelFile(self.path + self.name)
+    #     df = pd.read_excel(xls, sheet_name)
+    #     two_list = [(key, value) for key, value in zip(df[key_column_name], df[value_column_name])]
+    #     return dict(two_list)
 
     # reads parsed enzymes and returns list of objects
     def get_parsed_restriction_enzymes_list(self, name_column=0, site_column=1, parsed_sites_column=2,

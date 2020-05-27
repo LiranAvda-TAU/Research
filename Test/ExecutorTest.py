@@ -87,11 +87,11 @@ if get_variants_dict:
 
 # print(exec.find_me_orthologs_for_worm(['WBGene00013355'], False, sources_bar=1))
 
-priti_request = False
-if priti_request:
-    exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
-                                    file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
-                                    sheet_name="kinase")
+# priti_request = False
+# if priti_request:
+#     exec.check_if_gene_has_ortholog(file_path=FileReader.research_path + r"\Data",
+#                                     file_name=r"\C.elegans-kinase-phosphatase-genes.xlsx",
+#                                     sheet_name="kinase")
 
 improved_check_control_orthologs_pairs = False
 if improved_check_control_orthologs_pairs:

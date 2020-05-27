@@ -720,27 +720,28 @@ class executor:
         return executor.get_result_list(true_matches, failed_genes), None
 
     # this function is built to answer Ronen's list of genes:
-    @staticmethod
-    def check_if_gene_has_ortholog(file_path, file_name, sheet_name='kinase'):
-        # first read the genes id
-        fd = FileReader(file_path, file_name)
-        genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', sheet_name)
-        genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog',
-                                                                            sheet_name=sheet_name)
-        result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, sources_bar=2)
-        true_results, _ = result_dictionary
-        # parameters =
-        orthologous_genes = [lst[0] for lst in true_results]
-        if not orthologous_genes:
-            print("Something went wrong, orthologous genes is empty")
-            return None
-        print("orthologous_genes:", orthologous_genes)
-        count = 0
-        for worm_gene_name in genes_and_ortholog_data:
-            res = 1 if worm_gene_name in orthologous_genes else 0
-            count += res
-            print(worm_gene_name, "input:", genes_and_ortholog_data[worm_gene_name], "output:", res)
-        print(count, "had orthologs out of", len(genes_and_ortholog_data))
+    # it is blackened because it uses pandas, and this package raises errors in A2HOSTING
+    # @staticmethod
+    # def check_if_gene_has_ortholog(file_path, file_name, sheet_name='kinase'):
+    #     # first read the genes id
+    #     fd = FileReader(file_path, file_name)
+    #     genes = fd.get_list_from_excel_using_pandas('WormBase Gene ID', sheet_name)
+    #     genes_and_ortholog_data = fd.get_dictionary_from_excel_using_pandas('Public Name', 'Human Ortholog',
+    #                                                                         sheet_name=sheet_name)
+    #     result_dictionary, _ = executor.find_me_orthologs_for_worm(genes, False, sources_bar=2)
+    #     true_results, _ = result_dictionary
+    #     # parameters =
+    #     orthologous_genes = [lst[0] for lst in true_results]
+    #     if not orthologous_genes:
+    #         print("Something went wrong, orthologous genes is empty")
+    #         return None
+    #     print("orthologous_genes:", orthologous_genes)
+    #     count = 0
+    #     for worm_gene_name in genes_and_ortholog_data:
+    #         res = 1 if worm_gene_name in orthologous_genes else 0
+    #         count += res
+    #         print(worm_gene_name, "input:", genes_and_ortholog_data[worm_gene_name], "output:", res)
+    #     print(count, "had orthologs out of", len(genes_and_ortholog_data))
 
     # pipeline that provides you with humans genes that are orthologous for your worm ones
     @staticmethod
