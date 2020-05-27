@@ -10,9 +10,9 @@ from Code.Enum.BlastType import BlastType
 from Code.Enum.FileType import FileType
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
-from Code.Utils.BioMart import BioMart
 from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
+from Code.Utils.BioMart import BioMart
 
 E_VALUE_THRESH = 0.04
 

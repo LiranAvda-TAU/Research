@@ -2,8 +2,8 @@ from Code.Enum.FileMode import FileMode
 from Code.Enum.FileType import FileType
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
-from Code.Utils.BioPython import BioPython
 from Code.Utils.Ensembl import Ensembl
+from Code.Utils.BioPython import BioPython
 
 
 class DataExtracter:
