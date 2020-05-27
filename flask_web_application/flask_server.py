@@ -1,14 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
-from Code.CRISPR.CrisprPlanner import CrisprPlanner
+from flask import Flask, render_template, request
 from Code.CRISPR.Enum.AminoAcid import AminoAcid
 from Executors.executor import executor
+from Code.CRISPR.CrisprPlanner import CrisprPlanner
 
-
-# project_root = os.path.dirname(os.path.realpath('__file__'))
-# template_path = os.path.join(project_root, 'flask_web_application/templates')
-# static_path = os.path.join(project_root, 'flask_web_application/static')
 app = Flask(__name__)
-# app = Flask(__name__, template_folder=template_path, static_folder=static_path)
+
 
 @app.route("/")
 def home():
@@ -95,7 +91,7 @@ def return_variants_data():
     except Exception as e:
         query = executor.dictionary_output_parser(genes_and_variants)
         return render_template('failure_response.html', query=query, error=e)
-    return render_template('variants_table_response.html', true_results=true_results, false_results = false_results)
+    return render_template('variants_table_response.html', true_results=true_results, false_results=false_results)
 
 
 @app.route("/crispr")
