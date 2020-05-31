@@ -544,14 +544,14 @@ class BioPython:
                 return None
         return c_elegans_seq
 
-    @staticmethod
-    def get_aa_seq_by_human_gene_name(human_gene_name):
-        human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-        if not human_gene_id:
-            print("Human gene id for", human_gene_name, "cannot be found")
-            return None
-        else:
-            return BioMart().get_human_protein_from_uniprot_by_gene_id(human_gene_id)
+    # @staticmethod
+    # def get_aa_seq_by_human_gene_name(human_gene_name):
+    #     human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
+    #     if not human_gene_id:
+    #         print("Human gene id for", human_gene_name, "cannot be found")
+    #         return None
+    #     else:
+    #         return BioMart().get_human_protein_from_uniprot_by_gene_id(human_gene_id)
 
 # human_gene_name = "CAPZA1"
 # c_elegans_gene_name = "cap-1"
