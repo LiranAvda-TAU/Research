@@ -6,8 +6,9 @@ from Code.CRISPR.Enum.DNASection import DNASection
 from Code.CRISPR.Enum.RestrictionSiteType import RestrictionSiteType
 from Code.CRISPR.NamedTuples.CodonData import CodonData
 from Code.CRISPR.NamedTuples.PointMutation import PointMutation
-from Code.CRISPR.NamedTuples.ReattachmentSection import ReattachmentSection
+from Code.CRISPR.NamedTuples.MutateSection import MutateSection
 from Code.CRISPR.NamedTuples.RestrictionEnzyme import RestrictionEnzyme
+from Code.CRISPR.NamedTuples.RestrictionMutation import RestrictionMutation
 from Code.CRISPR.NamedTuples.RestrictionSite import RestrictionSite
 from Code.CRISPR.NamedTuples.SequenceSites import SequenceSites
 from Code.Files.FileReader import FileReader
@@ -47,6 +48,7 @@ if test1:
 #     print(mutants_dic)
 #     print(str(len(mutants_dic)))
 
+#irrelevant
 test3 = False
 if test3:
     worm_gene_name = 'cct-1'
@@ -128,7 +130,7 @@ if test10:
     codon_data5 = CodonData('CGG', SequenceSites(14, 16))
 
     same_aa_codons = ['CGC', 'CGA', 'CGT', 'AGA', 'AGG', 'ACG', 'CTA']
-    section_to_mutate = ReattachmentSection(1, DNASection.PAM_SITE, SequenceSites(12,14))
+    section_to_mutate = MutateSection(1, DNASection.PAM_SITE, SequenceSites(12, 14))
     CrisprPlanner.check_outside_codon_mutations(codon_data1, same_aa_codons, section_to_mutate)
     print(same_aa_codons, "for", codon_data1)
 
@@ -157,7 +159,7 @@ if test11:
     codon_data5 = CodonData('CGG', SequenceSites(9, 11))
 
     same_aa_codons = ['CGC', 'CGT', 'AGA', 'AGG', 'ACG', 'CTA', 'AGG']
-    section_to_mutate = ReattachmentSection(1, DNASection.CR_RNA, SequenceSites(10, 10+20-1-3))
+    section_to_mutate = MutateSection(1, DNASection.CR_RNA, SequenceSites(10, 10 + 20 - 1 - 3))
     CrisprPlanner.check_outside_codon_mutations(codon_data1, same_aa_codons, section_to_mutate)
     print(same_aa_codons, "for", codon_data1)
 
@@ -399,9 +401,9 @@ if get_codons_test:
     def get_codons(section_sites):
         cp = initiate_cp()
         cp.ssODN_mutation_codon_start = 17
-        section_to_mutate = ReattachmentSection(4,
-                                                DNASection.PAM_SITE,
-                                                section_sites)
+        section_to_mutate = MutateSection(4,
+                                          DNASection.PAM_SITE,
+                                          section_sites)
         return cp.get_relevant_codons(section_to_mutate, cp.ssODN_mutation_codon_start, cp.mutated_strand)
 
     section_sites = SequenceSites(17, 19)
@@ -502,17 +504,19 @@ if check_favourite_rest_sites:
                        to_aa=AminoAcid.SERINE)
 
 
-check_no_sense_strand_given = True
+check_no_sense_strand_given = False
 if check_no_sense_strand_given:
     worm_gene_name = 'cct-1'
     amino_acid_mutation_site = 287
-    CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site). \
-        plan_my_crispr(from_aa=AminoAcid.ASPARAGINE,
-                       to_aa=AminoAcid.SERINE)
+    res = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site). \
+            plan_my_crispr(from_aa=AminoAcid.ASPARAGINE,
+                           to_aa=AminoAcid.SERINE)
+    print(res)
 
 
-cannot_mutate_pam_site_test = False
-if cannot_mutate_pam_site_test:
+# not sure if I finished this test or not
+cannot_mutate_pam_site = False
+if cannot_mutate_pam_site:
     worm_gene_name = 'cct-1'
     amino_acid_mutation_site = 2
     nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
@@ -521,3 +525,48 @@ if cannot_mutate_pam_site_test:
     cp.mutated_sites = []
     cp.plan_my_crispr(from_aa=AminoAcid.ALANINE,
                       to_aa=AminoAcid.GLYCINE)
+
+
+test_is_in_favourites = False
+# checking if the function is_in_favourite works. the test only works when cp is initialized with:
+# self.restriction_enzymes = FileReader(r"C:\Users\Liran\PycharmProjects\Research\Code\CRISPRR"\
+# parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
+if test_is_in_favourites:
+    worm_gene_name = 'cct-1'
+    amino_acid_mutation_site = 2
+    nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
+    cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site, sense_strand=nt_seq,
+                       favourite_enzymes=['Bsp1286I'])
+    favourite_rest_enzyme = RestrictionEnzyme(name='Bsp1286I', site='GDGCHC',
+                                              derivatives=('GGGCAC', 'GAGCAC', 'GGGCTC', 'GTGCTC', 'GGGCCC', 'GTGCCC',
+                                                           'GAGCTC', 'GAGCCC', 'GTGCAC'),
+                                              full_site='GDGCH/C')
+    non_favourite_rest_enzyme = RestrictionEnzyme(name='Bsp1286II', site='GDGCHC',
+                                                  derivatives=('GGGCAC', 'GAGCAC', 'GGGCTC', 'GTGCTC', 'GGGCCC',
+                                                               'GTGCCC', 'GAGCTC', 'GAGCCC', 'GTGCAC'),
+                                                  full_site='GDGCH/C')
+    good_r_site = RestrictionSite(index=None, enzyme=favourite_rest_enzyme, rest_site_type=None)
+    bad_r_site = RestrictionSite(index=None, enzyme=non_favourite_rest_enzyme, rest_site_type=None)
+    restriction_sites = [good_r_site, bad_r_site]
+
+    good_r_mutation = RestrictionMutation(restriction_site=good_r_site, number_of_mutations=0, mutated_sites=None)
+    bad_r_mutation = RestrictionMutation(restriction_site=bad_r_site, number_of_mutations=0, mutated_sites=None)
+    restriction_mutations = [good_r_site, bad_r_site]
+
+    if cp.is_in_favourites(restriction_sites) and not cp.is_in_favourites([bad_r_site]) and cp.is_in_favourites([good_r_site]):
+        print(True)
+
+    if cp.is_in_favourites(restriction_mutations) and not cp.is_in_favourites([bad_r_mutation]) and cp.is_in_favourites([good_r_mutation]):
+        print(True)
+
+
+test_favourites_are_not_all = True
+if test_favourites_are_not_all:
+    worm_gene_name = 'cct-1'
+    amino_acid_mutation_site = 287
+    nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccac"
+    cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site, sense_strand=nt_seq,
+                       favourite_enzymes=['BspMI', 'HpyCH4IV', 'AclI','PsiI-v2', 'MluCI'])
+    print(cp.plan_my_crispr(from_aa=AminoAcid.ASPARAGINE, to_aa=AminoAcid.SERINE))
+
+
