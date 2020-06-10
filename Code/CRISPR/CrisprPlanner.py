@@ -78,7 +78,7 @@ class CrisprPlanner:
         self.reattachment_site_mutated = False
         self.result = Result()
         self.restriction_enzymes = FileReader(FileReader.research_path,
-                                              r"\parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
+                                              r"\Code\CRISPR\parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
         self.favourite_rest_enzymes = self.get_favourite_restriction_enzymes(
             favourite_enzymes) if favourite_enzymes else self.restriction_enzymes
 
