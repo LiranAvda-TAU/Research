@@ -21,7 +21,40 @@
     {% extends "template.html" %}
     {% block content %}
     <h1> Your CRISPR Results Are Here! </h1>
-    <p>result</p>
+    <p>for crRNA: {{result.crRNA}} and ssODN strand: {{result.ssODN_strand}}</p>
+
+    <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
+        mutations and prevent-reattachment mutations), if found:</p>
+    <ul>
+        {% for restriction_mutation in result.no_extra_inserted_mutations_sites %}
+            <li> {{ restriction_mutation }}  </li>
+        {% endfor %}
+    </ul>
+
+    <p>Restriction sites who have been inserted into the sequence using additional mutations (other than codon
+        mutations and prevent-reattachment mutations), if found:</p>
+    <ul>
+        {% for restriction_mutation in result.inserted_sites %}
+            <li> {{ restriction_mutation }}  </li>
+        {% endfor %}
+    </ul>
+
+    <p>Restriction sites who have been removed from the sequence using no additional mutations (other than codon
+        mutations and prevent-reattachment mutations), if found:</p>
+    <ul>
+        {% for restriction_mutation in result.no_extra_removed_mutations_sites %}
+            <li> {{ restriction_mutation }}  </li>
+        {% endfor %}
+    </ul>
+
+    <p>Restriction sites who have been removed from the sequence using additional mutations (other than codon
+        mutations and prevent-reattachment mutations), if found:</p>
+    <ul>
+        {% for restriction_mutation in result.removed_sites %}
+            <li> {{ restriction_mutation }}  </li>
+        {% endfor %}
+    </ul>
+
     {% endblock %}
   </body>
 </html>
