@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from Code.CRISPR.Enum.AminoAcid import AminoAcid
 from Executors.executor import executor
 from Code.CRISPR.CrisprPlanner import CrisprPlanner
+import re
 
 app = Flask(__name__)
 
@@ -106,11 +107,13 @@ def return_crispr_plan():
     site = int(request.form['site'])
     from_aa = AminoAcid[request.form.get('from_aa')]
     to_aa = AminoAcid[request.form.get('to_aa')]
+    favourite_enzymes = re.split('; |, | |,|;|\t|\n', request.form['enzymes']) if request.form['enzymes'] else None
     print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa)
     try:
         result, error = CrisprPlanner(gene_name=worm_gene_name,
                                       aa_mutation_site=site,
-                                      sense_strand=nt_seq).plan_my_crispr(from_aa=from_aa, to_aa=to_aa)
+                                      sense_strand=nt_seq,
+                                      favourite_enzymes=favourite_enzymes).plan_my_crispr(from_aa=from_aa, to_aa=to_aa)
         if not result or error:
             return render_template('failure_response.html', query=worm_gene_name, error=error)
     except Exception as e:
