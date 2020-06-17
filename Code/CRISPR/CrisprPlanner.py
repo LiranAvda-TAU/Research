@@ -1,6 +1,7 @@
 import random
 import re
 from statistics import mean
+from itertools import islice
 
 from Code.CRISPR.NamedTuples.CodonData import CodonData
 from Code.CRISPR.NamedTuples.CodonMutation import CodonMutation
@@ -75,7 +76,9 @@ class CrisprPlanner:
         self.mutation_zone = None
         self.ssODN_direction = None
         self.mutated_sites = []
-        self.reattachment_site_mutated = False
+        self.codon_mutations = []
+        self.reattachment_mutations = []
+        self.restriction_site_mutations = []
         self.result = Result()
         self.restriction_enzymes = FileReader(FileReader.research_path,
                                               r"\Code\CRISPR\parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
@@ -117,21 +120,27 @@ class CrisprPlanner:
         first_strand = self.mutated_strand
         first_mutated_sites = self.mutated_sites
         # first - when at last we try to insert restriction site
-        insertion_result = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
+        favourite_added = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
                                                  RestrictionSiteType.INSERTED)
-        if not self.reattachment_site_mutated:
+        if not self.reattachment_mutations:
             # couldn't find a way to mutate reattachment site
             e = "Reattachment section could not be mutated, a different crRNA needs to be chosen"
             print(e)
             return self.result, e
+
         # now time to remove
+        if favourite_added:
+            return self.result, None
+
         self.mutated_strand = first_strand
         self.mutated_sites = first_mutated_sites[:]
-        deletion_result = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
-                                                RestrictionSiteType.REMOVED)
-        if not deletion_result and not insertion_result:
-            e = "Could not insert or remove restriction site"
-            return self.result, e
+        favourite_removed = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
+                                                    RestrictionSiteType.REMOVED)
+        print("result:", self.result)
+        if not favourite_removed and not favourite_added:
+            if not self.result.inserted_sites and not self.result.removed_sites:
+                e = "We could not find any restriction sites to insert or to remove."
+                return self.result, e
         return self.result, None
 
     # initiates the CRISPR planner. fills in the amino_acid_sequence if not already filled in, and finds the nt site in
@@ -198,6 +207,8 @@ class CrisprPlanner:
             # ssODN is not on the strand from which we got the crRNA, thus we need to find its pam sites again
             self.pam_sites = SequenceSites(self.find_index_in_parallel_strand(self.pam_sites.end),
                                            self.find_index_in_parallel_strand(self.pam_sites.start))
+            self.result.pam_sites = self.pam_sites
+            self.result.crRNA_strand = crrna_strand_direction
             print("pam sites on the ssODN strand:", self.pam_sites)
         self.DSB = self.get_dsb(self.pam_sites, self.mutation_direction)
 
@@ -223,6 +234,7 @@ class CrisprPlanner:
             self.mutated_sites = second_mutated_sites[:]
             self.apply_codon_mutation(ssODN_codon_mutation_site,
                                       possible_codon_mutation.dict_of_mutations)
+            self.codon_mutations = self.mutated_sites[:]
 
             # making sure that the strand is good so far
             print("mutated strand after adding codon mutation:", self.mutated_strand)
@@ -251,14 +263,16 @@ class CrisprPlanner:
             third_mutated_sites = self.mutated_sites[:]
             print("all valid index subsets:", valid_index_subsets)
             for index_subset in valid_index_subsets:
-                self.reattachment_site_mutated = True
                 self.mutated_strand = third_strand
                 self.mutated_sites = third_mutated_sites[:]
                 point_mutations = self.get_point_mutations(possible_mutations,
-                                                           index_subset)  # also mutates the sequence
+                                                           index_subset)
+                self.mutated_strand = self.change_chars_in_string(self.mutated_strand, point_mutations)
                 print("now working on index subset:", index_subset, "and point mutations:", point_mutations)
                 print("mutated strand after adding anti-reattachment mutations:", self.mutated_strand)
                 self.mutated_sites.extend(point_mutations)
+                self.reattachment_mutations = point_mutations
+                self.change_chars_in_string(self.mutated_strand, self.reattachment_mutations)
                 print("all mutated sites:", self.mutated_sites)
 
                 # 3. mutations to add/remove restriction sites
@@ -432,9 +446,7 @@ class CrisprPlanner:
             for key in dict_of_changes:
                 point_mutations.append(
                     PointMutation(possible_mutation[0].codon_sites.start + key, dict_of_changes[key]))
-                self.mutated_strand = CrisprPlanner.change_char_in_string(self.mutated_strand,
-                                                                          possible_mutation[0].codon_sites.start + key,
-                                                                          dict_of_changes[key])
+
         return point_mutations
 
     @staticmethod
@@ -660,18 +672,26 @@ class CrisprPlanner:
                 complementary_restriction_site = self.get_complementary_sequence(restriction_site)
                 sites = [restriction_site, complementary_restriction_site]
                 for site in sites:
-                    indexes = [m.start() for m in re.finditer('(?=' + site + ')', nucleotide_seq)]
-                    for index in indexes:
-                        if restriction_site == "GGTGA":
-                            if index + 8 >= len(nucleotide_seq):
+                    if site in nucleotide_seq:
+                        indexes = [m.start() for m in re.finditer('(?=' + site + ')', nucleotide_seq)]
+                        for index in indexes:
+                            if restriction_site == "GGTGA":
+                                if index + 8 >= len(nucleotide_seq):
+                                    continue
+                            seq_sites = SequenceSites(start_point + index,
+                                                      start_point + index + len(site) - 1)  # closed section
+                            if seq_sites.end < self.mutation_zone.start or seq_sites.start > self.mutation_zone.end:
                                 continue
-                        seq_sites = SequenceSites(start_point + index,
-                                                  start_point + index + len(site) - 1)  # closed section
-                        if seq_sites.end < self.mutation_zone.start or seq_sites.start > self.mutation_zone.end:
-                            continue
-                        restriction_sites_in_seq.add(RestrictionSite(seq_sites, restriction_enzyme, r_type))
+                            restriction_sites_in_seq.add(RestrictionSite(seq_sites, restriction_enzyme, r_type))
         print("Restriction Sites:", *restriction_sites_in_seq, sep='\n')
         return list(restriction_sites_in_seq)
+
+    @staticmethod
+    def change_chars_in_string(seq, point_mutations: list):
+        lst = list(seq)
+        for point_mutation in point_mutations:
+            lst[point_mutation.index] = point_mutation.new_nucleotide
+        return "".join(lst)
 
     @staticmethod
     def change_char_in_string(seq, position, new_char):
@@ -940,67 +960,77 @@ class CrisprPlanner:
         for r_site in restriction_sites:
             r_mutation = RestrictionMutation(restriction_site=r_site,
                                              number_of_mutations=len(self.mutated_sites),
-                                             mutated_sites=self.mutated_sites)
+                                             mutated_sites=[],
+                                             mutated_strand=self.change_chars_in_string(self.mutated_strand,
+                                                                                        self.mutated_sites),
+                                             codon_mutations=self.codon_mutations,
+                                             reattachment_mutations=self.reattachment_mutations)
             restriction_mutations.append(r_mutation)
         return restriction_mutations
 
-    # restriction_sites_dict: RestrictionSite: RestrictionSiteType
-    def add_remove_restriction_sites(self,
-                                     restriction_site_type):
+    def add_restriction_sites(self):
+        # first check if the mutated strand so far (with codon mutations) has different number of inserted
+        # restriction sites than the original one
+        print("Checking for already distinctive inserted rest sites...")
+        restriction_sites_list = self.get_distinctive_restriction_sites(RestrictionSiteType.INSERTED)
+        if restriction_sites_list:  # distinctive restriction site found
+            print("lists don't match!")  # different restriction sites
+            # sorts and filters restriction sites
+            valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
+            if valid_rest_sites_list:
+                print("Inserted restriction sites found without extra mutations!")
+                self.result.inserted_favourite = self.is_in_favourites(valid_rest_sites_list)
+                self.result.no_extra_inserted_mutations_sites += self.from_site_to_mutation(valid_rest_sites_list)
+                self.result.success = True
+                if self.result.inserted_favourite:
+                    return True
+
+        print("let's modify some sites! first, trying to add with mutation zone:", self.mutation_zone)
+        inserted_restriction_mutations = self.get_new_restriction_site()
+        if inserted_restriction_mutations:
+            print("inserted restriction mutations found!", inserted_restriction_mutations)
+            self.result.inserted_favourite = self.is_in_favourites(inserted_restriction_mutations)
+            self.result.inserted_sites += inserted_restriction_mutations
+            self.result.success = True
+            return self.result.inserted_favourite
+        else:
+            print("Couldn't insert restriction mutations")
+            return False
+
+    def remove_existing_restriction_sites(self):
+        print("Checking for already distinctive removed rest sites...")
+        restriction_sites_list = self.get_distinctive_restriction_sites(RestrictionSiteType.REMOVED)
+        if restriction_sites_list:  # distinctive restriction site found
+            print("lists don't match!")  # different restriction sites
+            # sorts and filters restriction sites
+            valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
+            if valid_rest_sites_list:
+                print("Removed restriction sites found without extra mutations!")
+                self.result.removed_favourite = self.is_in_favourites(valid_rest_sites_list)
+                self.result.no_extra_removed_mutations_sites += self.from_site_to_mutation(valid_rest_sites_list)
+                self.result.success = True
+                if self.result.removed_favourite:
+                    return True
+        print("now let's try to remove...")
+        removed_restriction_mutations = self.get_removed_restriction_sites()
+        if removed_restriction_mutations:
+            print("removed restriction mutation found!", removed_restriction_mutations)
+            self.result.removed_favourite = self.is_in_favourites(removed_restriction_mutations)
+            self.result.removed_sites += removed_restriction_mutations
+            self.result.success = True
+            return self.result.removed_favourite
+        else:
+            print("Couldn't remove restriction mutations")
+            return False
+
+    # RestrictionSite: RestrictionSiteType
+    def add_remove_restriction_sites(self, restriction_site_type):
         self.mutation_zone = self.get_mutations_zone()
         print("Mutation zone:", self.mutation_zone)
         if restriction_site_type == RestrictionSiteType.INSERTED:
-            # first check if the mutated strand so far (with codon mutations) has different number of inserted
-            # restriction sites than the original one
-            print("Checking for already distinctive inserted rest sites...")
-            restriction_sites_list = self.get_distinctive_restriction_sites(restriction_site_type)
-            if restriction_sites_list:  # distinctive restriction site found
-                print("lists don't match!")  # different restriction sites
-                # sorts and filters restriction sites
-                valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
-                if valid_rest_sites_list:
-                    print("Inserted restriction sites found without extra mutations!")
-                    self.result.inserted_favourite = self.is_in_favourites(valid_rest_sites_list)
-                    self.result.no_extra_inserted_mutations_sites += self.from_site_to_mutation(valid_rest_sites_list)
-                    self.result.success = True
-
-            print("let's modify some sites! first, trying to add with mutation zone:", self.mutation_zone)
-            inserted_restriction_mutations = self.get_new_restriction_site()
-            if inserted_restriction_mutations:
-                print("inserted restriction mutation found!", inserted_restriction_mutations)
-                if not self.result.inserted_favourite:
-                    self.result.inserted_favourite = self.is_in_favourites(inserted_restriction_mutations)
-                self.result.inserted_sites += inserted_restriction_mutations
-                self.result.success = True
-                return self.result.success & self.result.inserted_favourite
-            else:
-                print("Couldn't insert restriction mutations")
-                return self.result.success & self.result.inserted_favourite
-
+            return self.add_restriction_sites()
         else:  # trying to remove a restriction site
-            print("Checking for already distinctive removed rest sites...")
-            restriction_sites_list = self.get_distinctive_restriction_sites(restriction_site_type)
-            if restriction_sites_list:  # distinctive restriction site found
-                print("lists don't match!")  # different restriction sites
-                # sorts and filters restriction sites
-                valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
-                if valid_rest_sites_list:
-                    print("Removed restriction sites found without extra mutations!")
-                    self.result.removed_favourite = self.is_in_favourites(valid_rest_sites_list)
-                    self.result.no_extra_removed_mutations_sites += self.from_site_to_mutation(valid_rest_sites_list)
-                    self.result.success = True
-            print("now let's try to remove...")
-            removed_restriction_mutations = self.get_removed_restriction_sites()
-            if removed_restriction_mutations:
-                print("removed restriction mutation found!", removed_restriction_mutations)
-                if not self.result.removed_favourite:
-                    self.result.removed_favourite = self.is_in_favourites(removed_restriction_mutations)
-                self.result.removed_sites += removed_restriction_mutations
-                self.result.success = True
-                return self.result.success & self.result.removed_favourite
-            else:
-                print("Couldn't remove restriction mutations")
-                return self.result.success & self.result.removed_favourite
+            return self.remove_existing_restriction_sites()
 
     def is_in_favourites(self, restriction_sites_found):
         for r_site in restriction_sites_found:
@@ -1018,7 +1048,7 @@ class CrisprPlanner:
             if self.check_distance(rest_site) < 150:
                 restriction_sites_list.remove(rest_site)
         restriction_sites_list.sort(key=lambda r_site: (r_site.enzyme in self.favourite_rest_enzymes,
-                                                        -(abs((r_site.index.start + r_site.index.end) / 2 - self.DSB)),
+                                                        -(abs(r_site.index.get_mean()-self.DSB)),
                                                         self.check_distance(r_site, vicinity=250),
                                                         - self.check_rareness(r_site, 250)),
                                     reverse=True)
@@ -1053,7 +1083,7 @@ class CrisprPlanner:
     def remove_restriction_sites(self, rest_sites: list):
         print("###remove_restriction_sites###")
         restriction_mutations = []
-        fourth_strand = self.mutated_strand
+        # fourth_strand = self.mutated_strand
         fourth_mutated_sites = self.mutated_sites[:]
         for rest_site in rest_sites:
             print("for rest site:", rest_site)
@@ -1062,12 +1092,20 @@ class CrisprPlanner:
             possible_mutations, _ = self.get_possible_codon_mutations(section_to_mutate)
 
             for index in range(len(possible_mutations)):
-                print("for mutation set: ", possible_mutations[index])
-                self.mutated_strand = fourth_strand
+                print("for mutation: ", possible_mutations[index])
+                # self.mutated_strand = fourth_strand
                 self.mutated_sites = fourth_mutated_sites[:]
-                point_mutations = self.get_point_mutations(possible_mutations, [index])  # also mutates the sequence
+                point_mutations = self.get_point_mutations(possible_mutations, [index])
+                self.mutated_sites.extend(point_mutations)
+                self.restriction_site_mutations = point_mutations
                 if self.is_restriction_site_well_removed(point_mutations, rest_site):
-                    restriction_mutations.append(RestrictionMutation(rest_site, len(point_mutations), point_mutations))
+                    restriction_mutations.append(RestrictionMutation(rest_site,
+                                                                     len(point_mutations),
+                                                                     self.restriction_site_mutations),
+                                                                     self.change_chars_in_string(self.mutated_strand,
+                                                                                                 self.restriction_site_mutations),
+                                                                     self.codon_mutations,
+                                                                     self.reattachment_mutations)
                     print("Restriction site removed with:", point_mutations)
         return restriction_mutations
 
@@ -1075,34 +1113,21 @@ class CrisprPlanner:
     # according to the point mutations, take the part in which the restriction site is, and check if after the mutations
     # the restriction site is removed and can't function as a derivative of another restriction site
     def is_restriction_site_well_removed(self, point_mutations, rest_site: RestrictionSite):
-        for point_mutation in point_mutations:
-            self.mutated_strand = self.change_char_in_string(self.mutated_strand,
-                                                             point_mutation.index,
-                                                             point_mutation.new_nucleotide)
-            print("strand after restriction site removal mutation:", self.mutated_strand)
+        mutated_strand = self.change_chars_in_string(self.mutated_strand, point_mutations)
+        print("strand after restriction site removal mutation:", mutated_strand)
         start_index, end_index = rest_site.index.start, rest_site.index.end
-        new_rest_site = self.mutated_strand[start_index:end_index + 1]
+        new_rest_site = mutated_strand[start_index:end_index + 1]
         if FileReader.is_derivative(rest_site.enzyme.site, new_rest_site):
-            print("new rest site", new_rest_site, "is a derivative for", rest_site.enzyme.name, rest_site.enzyme.site)
+            print("New rest site", new_rest_site, "is a derivative for", rest_site.enzyme.name, rest_site.enzyme.site)
             return False
-        else:
-            print("new rest site", new_rest_site, "is not a derivative for", rest_site.enzyme.name)
-            return True
-
-    # as for the moment, not used
-    @staticmethod
-    def get_chosen_index(rest_sites: list):
-        chosen_index = input("Dear user, we believe the first restriction site is the best candidate, but please"
-                             "tell us what the index of your choise is (starting from 0). Otherwise, we will go"
-                             "with the first one on the list above")
-        try:
-            chosen_index = int(chosen_index)
-        except ValueError:
-            chosen_index = 0
-        else:
-            if chosen_index < 0 or chosen_index > len(rest_sites) - 1:
-                chosen_index = 0
-        return chosen_index
+        sequence = mutated_strand[max(0, start_index - len(new_rest_site)):
+                                  min(end_index + len(new_rest_site) + 1, len(mutated_strand) - 1)]
+        for derivative in rest_site.enzyme.derivatives:
+            if derivative in sequence or self.get_complementary_sequence(derivative) in sequence:
+                print("New rest site has been created accidentally or has always been there, rest site is cancelled")
+                return False
+        print("New rest site", new_rest_site, "is not a derivative for", rest_site.enzyme.name)
+        return True
 
     # receives a list of restriction sites (RestrictionSite) and sorts them according to what restriction sites the lab
     # has, its distance from same type restriction sites and frequency along the sequence
@@ -1110,7 +1135,7 @@ class CrisprPlanner:
         # first, sort according to existing restriction sites in the lab, second, sort according to the distance to next
         # same type restriction site, and third
         rest_sites.sort(key=lambda r_site: (r_site in self.favourite_rest_enzymes,
-                                            -(abs((r_site.index.start + r_site.index.end) / 2 - self.DSB)),
+                                            -(abs(r_site.index.get_mean()-self.DSB)),
                                             self.check_distance(r_site, vicinity=250),
                                             -self.check_rareness(r_site, 250)),
                         reverse=True)
@@ -1144,16 +1169,16 @@ class CrisprPlanner:
         start_point = max(0, restriction_site.index.start - vicinity - site_length)
         end_point = min(len(self.mutated_strand) - 1, restriction_site.index.end + vicinity + site_length)
         mutated_section = self.mutated_strand[start_point:end_point]
-        print("current site being tested:", restriction_site)
+        # print("current site being tested:", restriction_site)
         for derivative in restriction_site.enzyme.derivatives:
             occurrences += [m.start() for m in re.finditer('(?=' + derivative + ')', mutated_section.upper())]
             occurrences += [m.start() for m in
                             re.finditer('(?=' + self.get_complementary_sequence(derivative) + ')', mutated_section.upper())]
-        print("occurrences:", occurrences, ", start:", start_point)
+        # print("occurrences:", occurrences, ", start:", start_point)
         for occurrence in occurrences:
             if 0 < abs(start_point + occurrence - restriction_site.index.start) < distance:
                 distance = abs(start_point + occurrence - restriction_site.index.start)
-                print("distant from other same rest site:", distance, "in index:", start_point + occurrence)
+                # print("distance from other same rest site:", distance, "in index:", start_point + occurrence)
         return distance
 
     def get_mean_of_subtracted_lists(self, item: RestrictionMutation):
@@ -1183,6 +1208,44 @@ class CrisprPlanner:
             print("No possible restriction mutations found")
             return None
 
+    # receives indexes power set and returns three lists of indexes set: one with sets closest to DSB (up to 10 nt), one
+    # up to 15 and one beyond.
+    def into_three_groups(self, indexes_sets, mutations):
+        up10, up15, up20 = [], [], []
+        for index_set in indexes_sets:
+            if not index_set:
+                continue
+            distance = 0
+            for index in index_set:
+                codon_data, _ = mutations[index]
+                tmp_distance = abs(codon_data.codon_sites.get_mean()-self.DSB)
+                if tmp_distance > distance:
+                    distance = tmp_distance
+            if distance <= 10:
+                up10.append(index_set)
+            elif distance <= 15:
+                up15.append(index_set)
+            else:
+                up20.append(index_set)
+        print("divided into three:", len(up10), len(up15), len(up20))
+        print("up10:", up10, "up15:", up15, "up20:", up20, sep="\n")
+        return [up10, up15, up20]
+
+    # sorts the subsets of mutations and divided into fixed sites of groups
+    def chunk(self, indexes_sets, possible_mutations, size):
+        indexes_sets.sort(key=lambda index_set: (CrisprPlanner.get_group_distance_from_dsb(index_set,
+                                                                                           possible_mutations,
+                                                                                           self.pam_sites,
+                                                                                           self.mutation_direction),
+                                                 sum([possible_mutations[i][1].number_of_mutations for i in index_set]),
+                                                 CrisprPlanner.get_avg_distance_from_dsb(index_set,
+                                                                                         possible_mutations,
+                                                                                         self.pam_sites,
+                                                                                         self.mutation_direction)))
+        print("sorted indexes sets:", indexes_sets)
+        it = iter(indexes_sets)
+        return iter(lambda: tuple(islice(it, size)), ())
+
     # try to replace get_possible_restriction_sites
     # aims to find an inserted restriction site and return a list of restriction mutation objects, each contains data to
     # achieve an inserted restriction site. sorting out those who were already found without special mutations added
@@ -1191,89 +1254,101 @@ class CrisprPlanner:
         section_to_mutate = MutateSection(1, DNASection.MUTATION_ZONE, self.mutation_zone)
         possible_mutations, _ = self.get_possible_codon_mutations(section_to_mutate)
         index_power_set = CrisprPlanner.get_power_set(list(range(len(possible_mutations))))
+        if [] in index_power_set:
+            index_power_set.remove([])
+        # groups = self.into_three_groups(index_power_set, possible_mutations)
+        groups = list(self.chunk(index_power_set, possible_mutations, 3))
 
         original_strand = self.mutated_strand
         original_mutated_sites = self.mutated_sites[:]
         print("Original mutated sites:", original_mutated_sites)
-        print("All index subsets to insert restriction site:", index_power_set)
-        for index_subset in index_power_set:
-            if not index_subset:  # the empty list does not count
-                continue
-            # check that mutation in subset don't override each other
-            if CrisprPlanner.are_codons_overriden(index_subset, possible_mutations) and index_subset:
-                print("subset", index_subset, "is ruled out because of overriden mutations")
-            else:
-                self.mutated_strand = original_strand
-                self.mutated_sites = original_mutated_sites[:]
-                print("original mutated sites:", original_mutated_sites)
-                point_mutations = self.get_point_mutations(possible_mutations,
-                                                           index_subset)  # also mutates the sequence
-                print("now working on index subset:", index_subset, "and point mutations:", point_mutations)
-                self.mutated_sites.extend(point_mutations)
-                print("all mutated sites:", self.mutated_sites)
-                restriction_sites = self.get_distinctive_restriction_sites(RestrictionSiteType.INSERTED)
-                if restriction_sites:
-                    for restriction_site in restriction_sites:
-                        if self.check_distance(restriction_site) > 150 and restriction_site not in \
-                                [r_mutation.restriction_site for r_mutation in
-                                 self.result.no_extra_inserted_mutations_sites]:
-                            possible_restriction_mutations.append(RestrictionMutation(restriction_site,
-                                                                                      len(index_subset),
-                                                                                      self.mutated_sites))
+        for group in groups:
+            print("for group:", group)
+            for index_subset in group:
+                # check that mutation in subset don't override each other
+                if CrisprPlanner.are_codons_overriden(index_subset, possible_mutations) and index_subset:
+                    print("subset", index_subset, "is ruled out because of overriden mutations")
+                else:
+                    self.mutated_strand = original_strand
+                    self.mutated_sites = original_mutated_sites[:]
+                    print("original mutated sites:", original_mutated_sites)
+                    point_mutations = self.get_point_mutations(possible_mutations,
+                                                               index_subset)
+                    print("now working on index subset:", index_subset, "and point mutations:", point_mutations)
+                    self.mutated_sites.extend(point_mutations)
+                    self.restriction_site_mutations = point_mutations
+                    print("all mutated sites:", self.mutated_sites)
+                    restriction_sites = self.get_distinctive_restriction_sites(RestrictionSiteType.INSERTED)
+                    if restriction_sites:
+                        for restriction_site in restriction_sites:
+                            if self.check_distance(restriction_site) > 150 and restriction_site not in \
+                                    [r_mutation.restriction_site for r_mutation in
+                                        self.result.no_extra_inserted_mutations_sites]:
+                                possible_restriction_mutations.append(
+                                    RestrictionMutation(restriction_site,
+                                                        len(index_subset),
+                                                        self.restriction_site_mutations,
+                                                        self.change_chars_in_string(self.mutated_strand,
+                                                                                    self.restriction_site_mutations),
+                                                        self.codon_mutations,
+                                                        self.reattachment_mutations))
+            if possible_restriction_mutations:  # found some
+                return possible_restriction_mutations
+            print("Couldn't find any possible restriction mutations, moving onto the next group")
         return possible_restriction_mutations
 
     # this function extracts all possible codons in the mutation zone section and tries to insert silent mutation in
     # them, recursively, and collects all options that add a new restriction site to the strand. number of max_mutations
     # is chosen
     # out of use function
-    def get_possible_restriction_sites(self, mutated_strand, mutated_sites, ssODN_mutation_codon,
-                                       mutations_so_far: int = 0):
-        possible_results = []
-        section_to_mutate = MutateSection(-1,
-                                          DNASection.MUTATION_ZONE,
-                                          self.mutation_zone)
-        codons_data = CrisprPlanner.get_relevant_codons(section_to_mutate, ssODN_mutation_codon, mutated_strand)
-        print("mutated sites so far:", mutated_sites)
-        print("all possible codons for restriction mutations:", [data.codon for data in codons_data])
-        for codon_data in codons_data:
-            print("for codon:", codon_data.codon, "at", codon_data.codon_sites)
-            # all codons_data that translate to the same amino acid as the relevant codon does
-            same_aa_codons = list(CrisprPlanner.get_similar_codons(codon_data.codon))
-            print("same codons:", same_aa_codons)
-            CrisprPlanner.check_already_mutated_sites(codon_data, same_aa_codons, mutated_sites)
-            # removes codons in which the difference is in part that in outside of the mutation zone
-            CrisprPlanner.check_outside_codon_mutations(codon_data, same_aa_codons, section_to_mutate)
-
-            for same_aa_codon in same_aa_codons:
-                num_of_mutations = mutations_so_far
-                mutated_codon_details = CrisprPlanner.how_to_get_b_codons_from_a(codon_data.codon, [same_aa_codon])
-                print("adding mutation:", mutated_codon_details, codon_data.codon_sites)
-                dict_of_changes = mutated_codon_details.dict_of_mutations
-                current_mutated_strand = mutated_strand
-                temporary_point_mutations = []
-                for key in dict_of_changes:
-                    current_mutated_strand = CrisprPlanner.change_char_in_string(current_mutated_strand,
-                                                                                 codon_data.codon_sites.start + key,
-                                                                                 dict_of_changes[key])
-                    temporary_point_mutations.append(
-                        PointMutation(codon_data.codon_sites.start + key, dict_of_changes[key]))
-                    num_of_mutations += 1
-                restriction_sites = self.get_distinctive_restriction_sites(mutated_sites + temporary_point_mutations,
-                                                                           current_mutated_strand)
-                if restriction_sites:
-                    print("restriction sites found:", restriction_sites, codon_data, mutated_codon_details)
-                    for restriction_site in restriction_sites:
-                        if self.check_distance(restriction_site) > 150 and \
-                                        restriction_site.rest_site_type == RestrictionSiteType.INSERTED:
-                            possible_results.append(RestrictionMutation(restriction_site,
-                                                                        num_of_mutations,
-                                                                        mutated_sites + temporary_point_mutations))
-                print("going recursive!", num_of_mutations)
-                possible_results.extend(self.get_possible_restriction_sites(current_mutated_strand,
-                                                                            mutated_sites + temporary_point_mutations,
-                                                                            ssODN_mutation_codon,
-                                                                            num_of_mutations))
-        return possible_results
+    # def get_possible_restriction_sites(self, mutated_strand, mutated_sites, ssODN_mutation_codon,
+    #                                    mutations_so_far: int = 0):
+    #     possible_results = []
+    #     section_to_mutate = MutateSection(-1,
+    #                                       DNASection.MUTATION_ZONE,
+    #                                       self.mutation_zone)
+    #     codons_data = CrisprPlanner.get_relevant_codons(section_to_mutate, ssODN_mutation_codon, mutated_strand)
+    #     print("mutated sites so far:", mutated_sites)
+    #     print("all possible codons for restriction mutations:", [data.codon for data in codons_data])
+    #     for codon_data in codons_data:
+    #         print("for codon:", codon_data.codon, "at", codon_data.codon_sites)
+    #         # all codons_data that translate to the same amino acid as the relevant codon does
+    #         same_aa_codons = list(CrisprPlanner.get_similar_codons(codon_data.codon))
+    #         print("same codons:", same_aa_codons)
+    #         CrisprPlanner.check_already_mutated_sites(codon_data, same_aa_codons, mutated_sites)
+    #         # removes codons in which the difference is in part that in outside of the mutation zone
+    #         CrisprPlanner.check_outside_codon_mutations(codon_data, same_aa_codons, section_to_mutate)
+    #
+    #         for same_aa_codon in same_aa_codons:
+    #             num_of_mutations = mutations_so_far
+    #             mutated_codon_details = CrisprPlanner.how_to_get_b_codons_from_a(codon_data.codon, [same_aa_codon])
+    #             print("adding mutation:", mutated_codon_details, codon_data.codon_sites)
+    #             dict_of_changes = mutated_codon_details.dict_of_mutations
+    #             current_mutated_strand = mutated_strand
+    #             temporary_point_mutations = []
+    #             for key in dict_of_changes:
+    #                 current_mutated_strand = CrisprPlanner.change_char_in_string(current_mutated_strand,
+    #                                                                              codon_data.codon_sites.start + key,
+    #                                                                              dict_of_changes[key])
+    #                 temporary_point_mutations.append(
+    #                     PointMutation(codon_data.codon_sites.start + key, dict_of_changes[key]))
+    #                 num_of_mutations += 1
+    #             restriction_sites = self.get_distinctive_restriction_sites(mutated_sites + temporary_point_mutations,
+    #                                                                        current_mutated_strand)
+    #             if restriction_sites:
+    #                 print("restriction sites found:", restriction_sites, codon_data, mutated_codon_details)
+    #                 for restriction_site in restriction_sites:
+    #                     if self.check_distance(restriction_site) > 150 and \
+    #                                     restriction_site.rest_site_type == RestrictionSiteType.INSERTED:
+    #                         possible_results.append(RestrictionMutation(restriction_site,
+    #                                                                     num_of_mutations,
+    #                                                                     mutated_sites + temporary_point_mutations))
+    #             print("going recursive!", num_of_mutations)
+    #             possible_results.extend(self.get_possible_restriction_sites(current_mutated_strand,
+    #                                                                         mutated_sites + temporary_point_mutations,
+    #                                                                         ssODN_mutation_codon,
+    #                                                                         num_of_mutations))
+    #     return possible_results
 
     # gets two dictionaries of the format of RestrictionSite:RestrictionSiteType and checks if both dictionaries have the same restriction sites
     @staticmethod
@@ -1342,5 +1417,5 @@ class CrisprPlanner:
     def get_favourite_restriction_enzymes(self, favourite_enzymes_names: list):
         favourite_enzymes = list(
             filter(lambda r_enzyme: r_enzyme.name in favourite_enzymes_names, self.restriction_enzymes))
-        print("favourite enzymes:", favourite_enzymes)
+        print("favourite enzymes:", *favourite_enzymes, sep="\n")
         return favourite_enzymes
