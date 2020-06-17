@@ -13,7 +13,16 @@
         th {
             text-align: left;
         }
+        .highlight {color: yellow;}
+
       </style>
+      <script type="text/javascript">
+          function highlight_substring (element, start, end) {
+            var str = element.innerHTML;
+            str = str.substr(0, start) + '<span class="highlight">' + str.substr(start, end - start + 1) + '</span>' + str.substr(end + 1);
+            element.innerHTML = str;
+          }
+      </script>
     <meta charset="utf-8">
     <title>Your Results Are Here!</title>
   </head>
@@ -21,40 +30,149 @@
     {% extends "template.html" %}
     {% block content %}
     <h1> Your CRISPR Results Are Here! </h1>
-    <p>for crRNA: {{result.crRNA}} and ssODN strand: {{result.ssODN_strand}}</p>
+    <p>for crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1]}} in strand: {{result.crRNA_strand}}</p>
+
 
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
         {% for restriction_mutation in result.no_extra_inserted_mutations_sites %}
-            <li> {{ restriction_mutation }}  </li>
+            <li> Codon mutation(s) to change amino acid:
+                <ul>
+                    {% for point_mutation in restriction_mutation.codon_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Mutations to prevent reattachment:
+                <ul>
+                    {% for point_mutation in restriction_mutation.reattachment_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
+                <ul>
+                    {% for point_mutation in restriction_mutation.mutated_sites %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+            </li>
         {% endfor %}
     </ul>
-
+    <br>
     <p>Restriction sites who have been inserted into the sequence using additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
         {% for restriction_mutation in result.inserted_sites %}
-            <li> {{ restriction_mutation }}  </li>
+            <li> Codon mutation(s) to change amino acid:
+                <ul>
+                    {% for point_mutation in restriction_mutation.codon_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Mutations to prevent reattachment:
+                <ul>
+                    {% for point_mutation in restriction_mutation.reattachment_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
+                <ul>
+                    {% for point_mutation in restriction_mutation.mutated_sites %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+            </li>
         {% endfor %}
     </ul>
-
+    <br>
     <p>Restriction sites who have been removed from the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
         {% for restriction_mutation in result.no_extra_removed_mutations_sites %}
-            <li> {{ restriction_mutation }}  </li>
+            <li> Codon mutation(s) to change amino acid:
+                <ul>
+                    {% for point_mutation in restriction_mutation.codon_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Mutations to prevent reattachment:
+                <ul>
+                    {% for point_mutation in restriction_mutation.reattachment_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
+                <ul>
+                    {% for point_mutation in restriction_mutation.mutated_sites %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+            </li>
         {% endfor %}
     </ul>
-
+    <br>
     <p>Restriction sites who have been removed from the sequence using additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
         {% for restriction_mutation in result.removed_sites %}
-            <li> {{ restriction_mutation }}  </li>
+            <li> Codon mutation(s) to change amino acid:
+                <ul>
+                    {% for point_mutation in restriction_mutation.codon_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Mutations to prevent reattachment:
+                <ul>
+                    {% for point_mutation in restriction_mutation.reattachment_mutations %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
+                <ul>
+                    {% for point_mutation in restriction_mutation.mutated_sites %}
+                    <li>
+                        {{ point_mutation }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+            </li>
         {% endfor %}
     </ul>
-
+    <br>
     {% endblock %}
   </body>
 </html>
