@@ -2,6 +2,8 @@ from recordtype import recordtype
 
 Result = recordtype('Result', [('success', False),
                                ('crRNA', None),
+                               ('crRNA_strand', None),
+                               ('pam_sites', None),
                                ('ssODN_strand', 0),
                                ('no_extra_inserted_mutations_sites', []),
                                ('inserted_sites', []),
