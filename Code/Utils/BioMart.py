@@ -1,35 +1,38 @@
-from pybiomart import Dataset
+# from pybiomart import Dataset
+
+from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
 from Code.Utils.Ensembl import Ensembl
 
 
 class BioMart:
     def __init__(self):
-        self.dataset = Dataset(name='hsapiens_gene_ensembl', host='http://www.ensembl.org')
-        self.df = self.dataset.query(attributes=['ensembl_gene_id', 'uniprotswissprot']).dropna()
+        # self.dataset = Dataset(name='hsapiens_gene_ensembl', host='http://www.ensembl.org')
+        # self.df = self.dataset.query(attributes=['ensembl_gene_id', 'uniprotswissprot']).dropna()
+        self.id_to_uniprot_id = FileReader(FileReader.research_path + r"\Data",
+                                r"\human_gene_name_gene_id_uniprot_id.txt").from_redundant_key_to_redundant_value(0, 2)
 
+    # formerly - from the biomart package, now - from the biomart sheet
     def get_swissprot_sequence_from_biomart(self, gene_id):
-        uni_ids = self.df.loc[self.df['Gene stable ID'] == gene_id]['UniProtKB/Swiss-Prot ID']
-        if uni_ids.size == 1:
-            return HttpRequester.get_protein_seq_by_uniprot_swissprot_id(uni_ids.iloc[0])
-        elif uni_ids.size == 0:
+        # uni_ids = self.df.loc[self.df['Gene stable ID'] == gene_id]['UniProtKB/Swiss-Prot ID']
+        uni_ids = self.id_to_uniprot_id[gene_id]
+        if len(uni_ids) == 1:
+            return HttpRequester.get_protein_seq_by_uniprot_swissprot_id(uni_ids[0])
+        elif len(uni_ids) == 0:
             return None
         else:  # many ids
-            lst = list(uni_ids)
             # check if uniprot reviewed all ids
             reviewed_html = HttpRequester.get_uniprot_html(gene_id)
-            for uni_id in lst[:]:
+            for uni_id in uni_ids[:]:
                 if uni_id not in reviewed_html:
-                    lst.remove(uni_id)
+                    uni_ids.remove(uni_id)
             # choose by length
             chosen_seq = ''
-            for uni_id in lst:
+            for uni_id in uni_ids:
                 optional_seq = HttpRequester.get_protein_seq_by_uniprot_swissprot_id(uni_id)
                 if len(optional_seq) > len(chosen_seq):
                     chosen_seq = optional_seq
             return chosen_seq
-
-            # access function
 
     def get_human_protein_from_uniprot_by_gene_id(self, gene_id):
         # first try canonical sequence
@@ -43,6 +46,7 @@ class BioMart:
                 return None
             return longest_seq
 
+    # access function
     def get_human_protein_from_uniprot_by_gene_name(self, human_gene_name):
         human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
         if not human_gene_id:

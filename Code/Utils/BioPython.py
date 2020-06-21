@@ -23,6 +23,7 @@ class BioPython:
                                                            r"\\all-genes-ids-and-accession-numbers.txt",
                                                            FileType.TSV).from_file_to_dict_with_plural_values(0, 1)
         self.blast_results = {}
+        self.bm = BioMart()
 
     @staticmethod
     def get_human_gene_sequence(geneName: str, converter: dict):
@@ -482,25 +483,32 @@ class BioPython:
         for gene_name in human_genes_names:
             gene_id = Ensembl.get_human_gene_id_by_gene_name(gene_name)
             if gene_id:
-                human_seq = self.get_human_aa_seq(gene_id)
+                human_seq = self.get_human_aa_seq_by_id(gene_id)
                 if human_seq:
                     genes_names_and_sequences[gene_name] = human_seq
         return genes_names_and_sequences
 
     # this function unites all the ways to extract a human sequence from human gene id
-    @staticmethod
-    def get_human_aa_seq(human_gene_id):
-        seq = BioMart.get_human_protein_from_uniprot_by_gene_id(human_gene_id)  # try from uniprot
+    def get_human_aa_seq_by_id(self, human_gene_id):
+        seq = self.bm.get_human_protein_from_uniprot_by_gene_id(human_gene_id)  # try from uniprot
         if not seq:
             seq = BioPython.get_aa_seq_from_ensembl(human_gene_id)  # try from ensembl
             if not seq:
-                human_accession_number = BioPython.get_human_accession_number(human_gene_id)  # try by accession
+                human_accession_number = BioPython.get_human_accession_number(human_gene_id)  # try by entrez
                 if human_accession_number:
                     seq = BioPython().get_aa_seq_from_entrez(human_accession_number)
                     if not seq:
                         print("Couldn't find gene sequence for gene: " + human_gene_id)
                         return None
         return seq
+
+    def get_human_aa_seq_by_name(self, human_gene_name):
+        human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
+        if not human_gene_id:
+            print("Human gene id for", human_gene_name, "cannot be found")
+            return None
+        else:
+            return self.get_human_aa_seq_by_id(human_gene_id)
 
     # receives human gene id (ENSG) and returns a set of all related accession numbers
     @staticmethod
