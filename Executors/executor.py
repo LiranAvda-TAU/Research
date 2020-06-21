@@ -4,11 +4,10 @@ from Code.Extraction.DataExtracter import DataExtracter
 from Code.Files.FileMaker import FileMaker
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
-from Code.Utils.BioMart import BioMart
+# from Code.Utils.BioMart import BioMart
 from Code.Utils.BioPython import BioPython
 from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
-from Test.Extraction.DataExtracterTest import DataExtracterTest
 from Test.TestFunctions import TestFunctions
 
 import socket
@@ -20,31 +19,6 @@ class executor:
         self.mmp_data_by_gene_name = FileReader(FileReader.research_path + r"\Data",
                                                 r"\mmp_mut_strains_data_Mar14.txt"). \
             from_MMP_file_to_dict_with_listed_values(9, [11, 18, 12], delete_first=True)
-
-    # obtained the data of genes after filtering out genes by condition, reads files of human and C.elegans'
-    # genes' coding domains length, and passes the info to a DE method, who computed the ratio between each gene
-    # and its ortholog, and keeps only those who passes the bar. The compatible data is written to a new file.
-    @staticmethod
-    def filter_genes_by_size(human_length_file_path, human_length_file_name: str, c_elegans_length_file_path: str,
-                             c_elegans_length_file_name: str, new_file_name: str):
-        det = DataExtracterTest()
-        data = det.find_genes_with_valid_condition_and_homolog_test()
-        print("obtained data...")
-
-        fd_humans = FileReader(human_length_file_path, human_length_file_name, FileType.TSV)
-        human_genes_length = fd_humans.from_file_to_dict(1, 2, True)
-        print("number of items in human genes length dictionary is:", len(human_genes_length))
-        fd_c_elegans = FileReader(c_elegans_length_file_path, c_elegans_length_file_name, FileType.TSV)
-        c_elegans_genes_length = fd_c_elegans.get_genes_cd_length(0, 2, True)
-        print("number of items in C.elegans genes length dictionary is:", len(c_elegans_genes_length))
-
-        de = DataExtracter()
-        orthologs, phenotypes = de.filter_genes_with_size_differences(data, human_genes_length, c_elegans_genes_length, p=10)
-        print("genes and orthologs dict:", len(orthologs))
-        print("genes and phenotypes dict:", len(phenotypes))
-
-        fm = FileMaker()
-        fm.fromTwoDictToFile(orthologs, phenotypes, new_file_name)
 
     # creating a file to restore the c.elegans gene id (WB...) and the number of its conserved domains
     @staticmethod
@@ -370,34 +344,6 @@ class executor:
                                        FileType.TSV).from_file_to_dict(0, 1)
         BioPython().blastp_by_accessions("blastp", "nr", accessions_and_seqs)
 
-    # one time function
-    @staticmethod
-    def fix_conserved_domain_ratio_file(data_file_path, data_file_name, delete_first_line):
-        # first we need the c-elegans genes-number of domains dictionary
-        fr1 = FileReader(FileReader.research_path + r"\Executors",
-                         r"\c-elegans-genes-and-conserved-domains-110619",
-                         FileType.TSV)
-        c_elegans_genes_domains_dic = fr1.from_file_to_dict(0, 1)
-        tf1 = TestFunctions("from_file_to_dict to read c.elegans genes and domains",
-                            dictionary=c_elegans_genes_domains_dic)
-        tf1.checkSize()
-        tf1.print_first_lines_in_dict(2)
-
-        # second we need the human genes-number of domains dictionary
-        fr2 = FileReader(FileReader.research_path + r"\Executors",
-                         r"\human-genes-and-conserved-domains-110619",
-                         FileType.TSV)
-        human_genes_domains_dic = fr2.from_file_to_dict(0, 1)
-        tf2 = TestFunctions("from_file_to_dict to read human genes and domains",
-                            dictionary=human_genes_domains_dic)
-        tf2.checkSize()
-        tf2.print_first_lines_in_dict(2)
-
-        # now we change the data
-        DataExtracter.fix_conserved_domain_info(data_file_path, data_file_name, c_elegans_genes_domains_dic,
-                                                human_genes_domains_dic, 4, "data-190619-short-fixed-domains",
-                                                delete_first_line)
-
     # receives (1) data file path, (2) data file name, (3) url address, (4) new file name, (5) boolean value to indicate
     # whether or not we need to disregard the first line of the data, it retrieves the worm genes names from the data,
     # pass it to function that returns a dictionary of said genes and phenotypes, and copies the data with phenotype
@@ -574,11 +520,10 @@ class executor:
 
         failed_genes = []
         output = []
-
+        bp = BioPython()
         print("Human genes:", list(human_genes_names_and_variants.keys()))
-        bm = BioMart()
         for human_gene_name in human_genes_names_and_variants:
-            human_seq = bm.get_human_protein_from_uniprot_by_gene_name(human_gene_name)
+            human_seq = bp.get_human_aa_seq_by_name(human_gene_name)
             if not human_seq:
                 failed_genes.append([human_gene_name, "Couldn't find gene sequence"])
                 continue
