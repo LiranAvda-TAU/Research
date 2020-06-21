@@ -568,6 +568,21 @@ class FileReader:
         return FileReader(FileReader.research_path + r"\Data",
                           r"\c-elegans-gene-id_gene-name_ncbi-id.txt").get_genes_list(0, True)
 
+    def from_redundant_key_to_redundant_value(self, key, value, delete_first = True):
+        dic = {}
+        f = open(self.path + self.name)
+        if delete_first:
+            f.readline()  # headline
+        for row in f:
+            line = row.rstrip('\n').split(FILE_TYPES_DELIMETER[self.type])
+            if not line[value]:
+                continue
+            if line[key] in dic:
+                if line[value] not in dic[line[key]]:
+                    dic[line[key]].append(line[value])
+            else:
+                dic[line[key]] = [line[value]]
+        return dic
 
 
 
