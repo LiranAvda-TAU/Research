@@ -410,7 +410,7 @@ class DataExtracter:
     # receives the human gene id and extracts the sequence, runs a blast search with the sequence and returns the human hit ids
     @staticmethod
     def get_c_elegans_hit_ids(human_gene_id, human_gene_name):
-        seq = BioPython.get_human_aa_seq(human_gene_id)
+        seq = BioPython().get_human_aa_seq_by_id(human_gene_id)
         print("Human Seq:", seq)
         if not seq:
             return None
