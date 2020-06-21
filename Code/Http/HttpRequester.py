@@ -33,7 +33,8 @@ class HttpRequester:
     @staticmethod
     def get_uniprot_html(gene_id):
         try:
-            r = requests.get("https://www.uniprot.org/uniprot/?query=" + gene_id + "&fil=organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22+AND+reviewed%3Ayes&sort=score")
+            r = requests.get("https://www.uniprot.org/uniprot/?query=" + gene_id +
+                             "&fil=organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22+AND+reviewed%3Ayes&sort=score")
         except Exception as e:
             print("Exception in get_uniprot_html:", e)
             print("Communication failure, please check your internet connection")
