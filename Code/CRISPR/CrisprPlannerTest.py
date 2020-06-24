@@ -560,7 +560,7 @@ if test_is_in_favourites:
         print(True)
 
 
-test_favourites_are_not_all = True
+test_favourites_are_not_all = False
 if test_favourites_are_not_all:
     worm_gene_name = 'cct-1'
     amino_acid_mutation_site = 287
@@ -569,4 +569,31 @@ if test_favourites_are_not_all:
                        favourite_enzymes=['BspMI', 'HpyCH4IV', 'AclI','PsiI-v2', 'MluCI'])
     print(cp.plan_my_crispr(from_aa=AminoAcid.ASPARAGINE, to_aa=AminoAcid.SERINE))
 
+lab_enzymes = ['AgeI', 'ApaLI', 'AseI', 'BamHI', 'BglII', 'BspHI', 'ClaI', 'EcorI', 'EcorV', 'HaeII', 'HindIII',
+               'HpaII', 'HpHI', 'KpnI', 'MscI', 'NcoI', 'NdeI', 'NheI', 'NotI', 'PpuMI', 'PstI', 'PvuII', 'SacI',
+               'SacII', 'SbfI', 'SgrAI', 'SnaBI', 'SpeI', 'XbaI', 'XhoI', 'XmaI', 'MluCI', 'RsaI', 'TaqI-v2', 'DpnI',
+               'PacI', 'AscI', 'AvaII', 'DdeI']
 
+test_anat_1 = True
+if test_anat_1:
+    worm_gene_name = 'him-4'
+    amino_acid_mutation_site = 1024
+    cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site,
+                       favourite_enzymes=lab_enzymes)
+    print(cp.plan_my_crispr(from_aa=AminoAcid.VALINE, to_aa=AminoAcid.METHIONINE))
+
+test_anat_2 = False
+if test_anat_2:
+    worm_gene_name = 'him-4'
+    amino_acid_mutation_site = 80
+    cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site,
+                       favourite_enzymes=lab_enzymes)
+    print(cp.plan_my_crispr(from_aa=AminoAcid.PROLINE, to_aa=AminoAcid.ARGININE))
+
+test_anat_3 = False
+if test_anat_3:
+    worm_gene_name = 'cct-1'
+    amino_acid_mutation_site = 453
+    cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site,
+                       favourite_enzymes=lab_enzymes)
+    print(cp.plan_my_crispr(from_aa=AminoAcid.ALANINE, to_aa=AminoAcid.GLUTAMIC_ACID))
