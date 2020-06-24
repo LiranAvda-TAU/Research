@@ -743,7 +743,7 @@ class CrisprPlanner:
             for crrna in anti_sense_options:
                 if crrna[1].start == start_crrna_index:
                     return crrna, -1
-        return None
+        return None, None
 
     def choose_ssODN_strand(self, strand_direction, to_aa: AminoAcid):
 
