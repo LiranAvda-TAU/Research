@@ -94,7 +94,7 @@ class CrisprPlanner:
     def plan_my_crispr(self,
                        from_aa: AminoAcid,
                        to_aa: AminoAcid,
-                       check_consistency: bool = True,
+                       check_consistency: bool = False,
                        window_size: int = 30,
                        PAM_size: int = 3):
 
@@ -152,8 +152,7 @@ class CrisprPlanner:
                 "please send a new request with the needed sequence."
             print(e)
             return e
-        print("Gene's sense sequence:", self.sense_strand)
-        print("Gene's anti-sense strand:", self.anti_sense_strand)
+        print("Gene's sense sequence:", self.sense_strand, "\nGene's anti-sense strand:", self.anti_sense_strand)
 
         if not self.amino_acid_sequence:
             # amino acid couldn't be extracted
@@ -170,7 +169,7 @@ class CrisprPlanner:
         return None
 
     # start_crrna_index = for testing purposes
-    def get_crrna(self, window_size, PAM_size, start_crrna_index=None):
+    def get_crrna(self, window_size, PAM_size, start_crrna_index=5617):
         # get optional sequences for crRNA
         sense_strand_sequences = self.get_list_of_potential_sequences(self.sense_strand,
                                                                       self.sense_mutation_site,
@@ -390,7 +389,7 @@ class CrisprPlanner:
         possible_mutations = []
         for codon_data in codons_data:
             # all codons_data that translate to the same amino acid as the relevant codon does
-            same_aa_codons = list(CrisprPlanner.get_similar_codons(codon_data.codon))
+            same_aa_codons = list(self.get_similar_codons(codon_data.codon))
             print("for codon:", codon_data, "same aa codons:", same_aa_codons)
             if section_to_mutate.section_type == DNASection.PAM_SITE:
                 # removes PAM mutations of sequence NGA and NGG
@@ -408,7 +407,8 @@ class CrisprPlanner:
         possible_mutations.sort(
             key=lambda x: abs(x[0].codon_sites.start + mean(x[1].dict_of_mutations.keys()) - self.DSB))
         print("possible mutations:", *possible_mutations, sep="\n")
-        number_of_mutants = CrisprPlanner.get_number_of_mutants(section_to_mutate, self.mutated_sites)
+        number_of_mutants = CrisprPlanner.get_number_of_mutants(section_to_mutate, self.mutated_sites,
+                                                                self.mutation_direction)
         return possible_mutations, number_of_mutants
 
     # receives (1) codon data (2) list of codons that are translated into same amino acid as the codon, and (3) the
@@ -464,16 +464,35 @@ class CrisprPlanner:
     # Takes into consideration whether mutations to change amino acid have also modified the reattachment sequence, and
     # thus we need fewer mutant to introduce to the reattachment sequence
     @staticmethod
-    def get_number_of_mutants(section_to_mutate, mutated_sites):
+    def get_number_of_mutants(section_to_mutate, mutated_sites, mutation_direction):
         number_of_mutants = section_to_mutate.number_of_mutations
         extra = 0 if section_to_mutate.section_type == DNASection.PAM_SITE else 2
         for mutated_site in mutated_sites:
             if section_to_mutate.section_sites.start <= mutated_site.index <= section_to_mutate.section_sites[1] + extra:
+                if section_to_mutate.section_type == DNASection.PAM_SITE:
+                    if CrisprPlanner.disregard_mutation_in_pam(section_to_mutate, mutated_site, mutation_direction):
+                        continue
                 number_of_mutants -= 1
                 print("already a mutant in nucleotide:", mutated_site)
         if number_of_mutants < 0:
             number_of_mutants = 0
         return number_of_mutants
+
+    @staticmethod
+    def disregard_mutation_in_pam(section_to_mutate, mutated_site, mutation_direction):
+        if mutation_direction == MutationDirection.UPSTREAM and \
+                        mutated_site.index == section_to_mutate.section_sites.start:  # N to N
+            return True
+        if mutation_direction == MutationDirection.UPSTREAM and \
+                mutated_site.index == section_to_mutate.section_sites.end and mutated_site.new_nucleotide == 'A':  # NGA
+            return True
+        if mutation_direction == MutationDirection.DOWNSTREAM and \
+                        mutated_site.index == section_to_mutate.section_sites.end:  # N to N
+            return True
+        if mutation_direction == MutationDirection.DOWNSTREAM and \
+                mutated_site.index == section_to_mutate.section_sites.start and mutated_site.new_nucleotide == 'T':  # TCN
+            return True
+        return False
 
     # receives (1) codon_data the contains the codon and its sites, (2) possible codons that the former codons could be
     # mutated into but keep the amino acid, and (3) sites that have changed and the new mutations shouldn't run over.
@@ -536,12 +555,22 @@ class CrisprPlanner:
                 possible_codons.clear()
 
     # receives (1) a codon and returns all other codons that translated to the same amino acid
-    @staticmethod
-    def get_similar_codons(codon):
-        amino_acid = CrisprPlanner.amino_acid_dic[codon]
-        relevant_codons = CrisprPlanner.codon_dic[amino_acid].copy()
-        relevant_codons.remove(codon)
-        return relevant_codons
+    def get_similar_codons(self, codon):
+        if self.mutation_direction == MutationDirection.UPSTREAM:
+            amino_acid = CrisprPlanner.amino_acid_dic[codon]
+            relevant_codons = self.codon_dic[amino_acid].copy()
+            relevant_codons.remove(codon)
+            return relevant_codons
+        else:  # mutation is downstream, PAM is changed
+            complementary_codon = self.get_complementary_sequence(codon)
+            amino_acid = CrisprPlanner.amino_acid_dic[complementary_codon]
+            relevant_codons = self.codon_dic[amino_acid].copy()
+            relevant_codons.remove(complementary_codon)
+            complementary_similar_codons = set()
+            for relevant_codon in relevant_codons:
+                complementary_similar_codons.add(self.get_complementary_sequence(relevant_codon))
+            return list(complementary_similar_codons)
+
 
     # receives (1) the section to be mutated (PAM site or crRNA indexes), (2) the aa mutation codon indexes of the ssODN
     # strand, and (3) the mutated strand (sense or anti-sense) and returns a list of all codons and their indexes that
@@ -612,7 +641,7 @@ class CrisprPlanner:
                        'GCG': 'A', 'TAC': 'Y', 'TAA': 'STOP', 'TAG': 'STOP', 'CAC': 'H', 'CAG': 'Q', 'AAC': 'N',
                        'AAG': 'K', 'GAC': 'D', 'GAG': 'E', 'TGC': 'C', 'TGA': 'STOP', 'CGC': 'R', 'CGA': 'R',
                        'CGG': 'R', 'AGT': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R', 'GGC': 'G', 'GGA': 'G',
-                       'GGG': 'G'}
+                       'GGG': 'G', '': 'END'}
         if codon_table[input_codon] != amino_acid:
             print("Instead of " + codon_table[input_codon], ", the amino acid in the sequence is " + amino_acid)
 
@@ -873,14 +902,16 @@ class CrisprPlanner:
         return b_codons_info
 
     # receives (1) the mutation site in the strand (internal indexing), and (2) the demands to make the change with
-    # indexes in respect to the codon, not the strand (so, 0, 1, 2...) and returns the
-    # mutated strand and a list of the changes in format of PointMutation tuples: (index, new nucleotide)
+    # indexes in respect to the codon, not the strand (so, 0, 1, 2...) and mutate the
+    # mutated strand and adds to the list of mutated sites in format of PointMutation tuples: (index, new nucleotide)
     def apply_codon_mutation(self, mutation_site, demands):
+        point_mutations = []
         for index in demands:
             nt = demands[index]
             position = mutation_site + int(index)
-            self.mutated_sites.append(PointMutation(position, nt))
-            self.mutated_strand = CrisprPlanner.change_char_in_string(self.mutated_strand, position, nt)
+            point_mutations.append(PointMutation(position, nt))
+        self.mutated_strand = CrisprPlanner.change_chars_in_string(self.mutated_strand, point_mutations)
+        self.mutated_sites.extend(point_mutations)
 
     @staticmethod
     def check_if_pam_site_mutated(mutated_sites: list, pam_sites: SequenceSites):
