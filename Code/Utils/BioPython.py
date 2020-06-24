@@ -209,21 +209,6 @@ class BioPython:
             f.write(key + "\t" + accession + "\t" + str(res))
             print(res)
 
-    # receives a dictionary of gene ids and accession numbers
-    @staticmethod
-    def blastp_for_all_outdated(blast_program, db, accessions_dict: dict, end_word, translation_word):
-        index = 0
-        gene_ids = accessions_dict.keys()
-        for gene_id in gene_ids:
-            accession = accessions_dict[gene_id]
-            seq = BioPython.get_aa_seq_from_entrez(accession_number=accession, end_word=end_word,
-                                                   translation_word=translation_word)
-            res = BioPython.blast_with_seq(blast_program, db, accession, seq)
-            index += 1
-            if not index % 100:
-                print("got to " + str(index) + "!")
-            print(res)
-
     # receives a dictionary of accession numbers and sequences
     @staticmethod
     def blastp_by_accessions(blast_program, db, accessions_dict: dict):
@@ -286,34 +271,6 @@ class BioPython:
         return chosen_seq if chosen_seq else None
 
     @staticmethod
-    def get_aa_seq_from_entrez(accession_number, end_word="ORIGIN", translation_word="translation=",
-                               database: str = "nucleotide"):
-        Entrez.email = "liranavda@gmail.com"
-        try:
-            info = Entrez.efetch(db=database, id=accession_number, rettype="gb", retmode="text")
-            record = info.read()
-            info.close()
-            # extracting aa sequence out of chosen isoform
-            translation_index = record.find(translation_word)
-            end_index = record.find(end_word)
-            seq = record[translation_index + len(translation_word):end_index]
-            extracted_seq = BioPython.get_amino_acid_seq(seq)
-            return extracted_seq
-        except Exception as e:
-            print("Exception in get_aa_seq_from_entrez:", e)
-            return None
-
-    @staticmethod
-    def get_amino_acid_seq(seq: str):
-        new_seq = ""
-        amino_acid_list = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S',
-                           'T', 'W', 'Y', 'V']
-        for letter in seq:
-            if letter in amino_acid_list:
-                new_seq += letter
-        return new_seq
-
-    @staticmethod
     def get_species(alignment_hit: str):
         start_index = alignment_hit.find("[")
         end_index = alignment_hit.find("]")
@@ -321,14 +278,6 @@ class BioPython:
         if species == "imported":
                 return BioPython.get_species(alignment_hit[end_index + 1:])
         return species
-
-    @staticmethod
-    def make_accession_number_and_seq_dict(accessions, end_word, start_word):
-        accessionsAnsSequences = {}
-        for accession in accessions:
-            seq = BioPython.get_aa_seq_from_entrez(accession, end_word, start_word)
-            accessionsAnsSequences[accession] = seq
-        return accessionsAnsSequences
 
     @staticmethod
     def get_gene_name_from_protein_accession(hit_ids: [], search_term: str = "gene=\"", end_search_term: str = "\"\n"):
@@ -476,7 +425,7 @@ class BioPython:
         if not gene_id_WB:
             print("Couldn't find gene id (WB) for:", c_elegans_gene_name)
             return None
-        return self.get_c_elegans_aa_seq(gene_id_WB)
+        return self.get_c_elegans_aa_seq_by_id(gene_id_WB)
 
     def get_aa_seqs_dict_by_human_genes_names(self, human_genes_names):
         genes_names_and_sequences = {}
@@ -494,12 +443,8 @@ class BioPython:
         if not seq:
             seq = BioPython.get_aa_seq_from_ensembl(human_gene_id)  # try from ensembl
             if not seq:
-                human_accession_number = BioPython.get_human_accession_number(human_gene_id)  # try by entrez
-                if human_accession_number:
-                    seq = BioPython().get_aa_seq_from_entrez(human_accession_number)
-                    if not seq:
-                        print("Couldn't find gene sequence for gene: " + human_gene_id)
-                        return None
+                print("Couldn't find gene sequence for gene: " + human_gene_id)
+                return None
         return seq
 
     def get_human_aa_seq_by_name(self, human_gene_name):
@@ -536,30 +481,15 @@ class BioPython:
         return None
 
     # receives the C.elegans gene id (WB) and returns the gene's sequence
-    def get_c_elegans_aa_seq(self, c_elegans_id_WB, c_elegans_accession_number=None):
-        c_elegans_seq = self.get_aa_seq_from_ensembl(c_elegans_id_WB)
-        if c_elegans_seq:
-            return c_elegans_seq
-
-        if not c_elegans_accession_number:  # hasn't been extracted yet
-            c_elegans_ncbi_id = BioPython.get_ncbi_id(c_elegans_id_WB)
-            if c_elegans_ncbi_id:
-                c_elegans_accession_number = BioPython().get_c_elegans_accession_number(c_elegans_ncbi_id)
-        if c_elegans_accession_number:
-            c_elegans_seq = self.get_aa_seq_from_entrez(c_elegans_accession_number)
-            if not c_elegans_seq:
-                print("C.elegans gene's sequence cannot be extracted")
-                return None
-        return c_elegans_seq
-
-    # @staticmethod
-    # def get_aa_seq_by_human_gene_name(human_gene_name):
-    #     human_gene_id = Ensembl.get_human_gene_id_by_gene_name(human_gene_name)
-    #     if not human_gene_id:
-    #         print("Human gene id for", human_gene_name, "cannot be found")
-    #         return None
-    #     else:
-    #         return BioMart().get_human_protein_from_uniprot_by_gene_id(human_gene_id)
+    def get_c_elegans_aa_seq_by_id(self, c_elegans_id_WB):
+        canonical_protein_sequence = self.bm.get_c_elegans_swissprot_sequence_from_biomart(c_elegans_id_WB)
+        if canonical_protein_sequence:
+            return canonical_protein_sequence
+        else:
+            c_elegans_seq = self.get_aa_seq_from_ensembl(c_elegans_id_WB)
+            if c_elegans_seq:
+                return c_elegans_seq
+        return None
 
 # human_gene_name = "CAPZA1"
 # c_elegans_gene_name = "cap-1"
