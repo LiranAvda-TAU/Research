@@ -31,17 +31,32 @@ class HttpRequester:
             return str(response.content)
 
     @staticmethod
-    def get_uniprot_html(gene_id):
+    def get_human_uniprot_html(gene_id):
         try:
             r = requests.get("https://www.uniprot.org/uniprot/?query=" + gene_id +
                              "&fil=organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22+AND+reviewed%3Ayes&sort=score")
         except Exception as e:
-            print("Exception in get_uniprot_html:", e)
+            print("Exception in get_human_uniprot_html:", e)
             print("Communication failure, please check your internet connection")
             return None
         if not r.ok:
             r.raise_for_status()
-            print("Something went wrong with get_uniprot_html while trying to extract reviewed ids, please check")
+            print("Something went wrong with get_human_uniprot_html while trying to extract reviewed ids, please check")
+            return None
+        return r.text
+
+    @staticmethod
+    def get_worm_uniprot_html(gene_id):
+        try:
+            r = requests.get("https://www.uniprot.org/uniprot/?query=" + gene_id +
+                             "&fil=organism%3A%22Caenorhabditis+elegans+%5B6239%5D%22+AND+reviewed%3Ayes&sort=score")
+        except Exception as e:
+            print("Exception in get_worm_uniprot_html:", e)
+            print("Communication failure, please check your internet connection")
+            return None
+        if not r.ok:
+            r.raise_for_status()
+            print("Something went wrong with get_worm_uniprot_html while trying to extract reviewed ids, please check")
             return None
         return r.text
 
@@ -127,7 +142,7 @@ class HttpRequester:
         return sequence
 
     def get_list_of_transcript_ids(self, gene_id):
-        transcript_ids = []
+        transcript_ids = set()
         # url = "http://rest.wormbase.org/rest/widget/gene/"
         if not gene_id:
             return None
@@ -143,12 +158,14 @@ class HttpRequester:
                   ", please check")
             return None
         try:
-            records = r.json()['fields']['gene_models']['data']['table'][0]['model']
-            if type(records) == list:
-                for record in records:
-                    transcript_ids.append(record['label'])
-            if type(records) == dict:  # one dict, no list of dicts
-                transcript_ids.append(records['label'])
+            table = r.json()['fields']['gene_models']['data']['table']
+            for table_item in table:
+                records = table_item['model']
+                if type(records) == list:
+                    for record in records:
+                        transcript_ids.add(record['label'])
+                if type(records) == dict:  # one dict, no list of dicts
+                    transcript_ids.add(records['label'])
         except Exception as e:
             print("Error in get_list_of_transcript_ids: couldn't extract transcript ids:", e)
             return None
