@@ -71,6 +71,7 @@ class CrisprPlanner:
         self.ssODN_mutation_codon_start = -1
         self.mutated_strand = None
         self.mutation_direction = None
+        self.ssODN_vs_crRNA_strand = 1
         self.DSB = None
         self.pam_sites = None
         self.mutation_zone = None
@@ -202,6 +203,7 @@ class CrisprPlanner:
         print("Mutation direction is:", str(self.mutation_direction), "thus ssODN direction is:",
               str(self.ssODN_direction))
         if self.ssODN_direction != crrna_strand_direction:
+            self.ssODN_vs_crRNA_strand = -1*self.ssODN_vs_crRNA_strand
             print("The ssODN is on the opposite strand!")
             # ssODN is not on the strand from which we got the crRNA, thus we need to find its pam sites again
             self.pam_sites = SequenceSites(self.find_index_in_parallel_strand(self.pam_sites.end),
@@ -240,8 +242,9 @@ class CrisprPlanner:
             print("sites changed:", self.mutated_sites)
 
             # 2. mutations to change nt to prevent re-attachments - in PAM or crRNA sequence
-            # if mutation is DOWNSTREAM the section to be changed is PAM site, if UPSTREAM - crRNA.
-            if self.mutation_direction == MutationDirection.DOWNSTREAM:
+            # if ssODN vs crRNA is -1, the section to be changed is PAM site, if 1 - crRNA.
+
+            if self.ssODN_vs_crRNA_strand < 0:
                 section_to_mutate = MutateSection(1,
                                                   DNASection.PAM_SITE,
                                                   self.pam_sites)
@@ -255,6 +258,14 @@ class CrisprPlanner:
                   section_to_mutate.section_type)
 
             possible_mutations, number_of_mutants = self.get_possible_codon_mutations(section_to_mutate)
+            if number_of_mutants == 0: # PAM site has been mutated
+                print("PAM site has been already mutated!")
+                # 3. mutations to add/remove restriction sites
+                print("Add or Remove restriction sites:")
+                result = self.add_remove_restriction_sites(restriction_site_type)
+                if result:
+                    return True
+
             # subsets with indexes that represent mutations that sum up to enough mutations overall
             valid_index_subsets = CrisprPlanner.get_valid_subsets(number_of_mutants, possible_mutations, self.pam_sites,
                                                                   self.mutation_direction)
@@ -304,7 +315,8 @@ class CrisprPlanner:
                         if mutations_in_subset > max_underscored:
                             underscored_subsets = []
                             max_underscored = mutations_in_subset
-                        underscored_subsets.append((subset, mutations_in_subset, sum_usage))
+                        if not CrisprPlanner.are_codons_overriden(subset, possible_mutations):
+                            underscored_subsets.append((subset, mutations_in_subset, sum_usage))
                 else:
                     # check if mutations don't override each other by checking codon sites
                     if not CrisprPlanner.are_codons_overriden(subset, possible_mutations):
@@ -556,12 +568,12 @@ class CrisprPlanner:
 
     # receives (1) a codon and returns all other codons that translated to the same amino acid
     def get_similar_codons(self, codon):
-        if self.mutation_direction == MutationDirection.UPSTREAM:
+        if self.ssODN_direction > 0:
             amino_acid = CrisprPlanner.amino_acid_dic[codon]
             relevant_codons = self.codon_dic[amino_acid].copy()
             relevant_codons.remove(codon)
             return relevant_codons
-        else:  # mutation is downstream, PAM is changed
+        else:  # ssODN is on anti-sense, PAM is changed
             complementary_codon = self.get_complementary_sequence(codon)
             amino_acid = CrisprPlanner.amino_acid_dic[complementary_codon]
             relevant_codons = self.codon_dic[amino_acid].copy()
