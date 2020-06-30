@@ -130,9 +130,9 @@ class HttpRequester:
             print("Communication failure in get_transcript_by_gene_id, please check your internet connection:", e)
             return None
         if not r.ok:
-            r.raise_for_status()
             print("Something went wrong with get_transcript_by_gene_id while trying to extract transcript"
                   ", please check")
+            r.raise_for_status()
             return None
         try:
             sequence = r.json()['unspliced_sequence_context']['data']['positive_strand']['sequence']
