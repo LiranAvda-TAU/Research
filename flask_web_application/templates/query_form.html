@@ -57,10 +57,11 @@
     <form action="/c_elegans_orthologs" method="POST">
         Your human genes: <input style=width:400px; name="text">
         <input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
-        <select name="type_select">
+        <br> Input type: <select name="type_select">
             <option value=True>Genes Names</option>
             <option value=>Genes Ids</option>
         </select>
+        <br> Minimum number of sources:
         <select name="sources_bar">
             <option value=0>0</option>
             <option value=1>1</option>
@@ -70,6 +71,13 @@
             <option value=5>5</option>
             <option value=6>6</option>
         </select>
+        <br>
+        Length ratio range: <input type="text" name="length_ratio_from" list="worm_down_bar" style=width:100px; value=0.5>
+            <datalist id="worm_down_bar">
+            </datalist>
+        to <input type="text" name="length_ratio_to" list="worm_top_bar" style=width:100px; value=2>
+            <datalist id="worm_top_bar">
+            </datalist>
     </form>
 
     <h1>Find The Human Orthologs</h1>
@@ -79,10 +87,11 @@
     <form action="/human_orthologs" method="POST">
         Your C.elegans genes: <input style=width:400px; name="text">
         <input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
-        <select name="type_select">
+        <br> Input type: <select name="type_select">
             <option value=True>Genes Names</option>
             <option value=>Genes Ids</option>
         </select>
+        <br> Minimum number of sources:
         <select name="sources_bar">
             <option value=0>0</option>
             <option value=1>1</option>
@@ -92,6 +101,13 @@
             <option value=5>5</option>
             <option value=6>6</option>
         </select>
+        <br>
+        Length ratio range: <input type="text" name="length_ratio_from" list="human_down_bar" style=width:100px; value=0.5>
+            <datalist id="human_down_bar">
+            </datalist>
+        to <input type="text" name="length_ratio_to" list="human_top_bar" style=width:100px; value=2>
+            <datalist id="human_top_bar">
+            </datalist>
     </form>
 
     <h1><b> Check The Variants </b></h1>
@@ -101,6 +117,7 @@
     <form action="/variants" method="POST">
         Your human genes and their variants: <input style=width:400px; name="text">
         <input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
+        <br> Minimum number of sources:
         <select name="sources_bar">
             <option value=0>0</option>
             <option value=1>1</option>
@@ -110,6 +127,13 @@
             <option value=5>5</option>
             <option value=6>6</option>
         </select>
+        <br>
+        Length ratio range: <input type="text" name="length_ratio_from" list="conserved_down_bar" style=width:100px; value=0.5>
+            <datalist id="conserved_down_bar">
+            </datalist>
+        to <input type="text" name="length_ratio_to" list="conserved_top_bar" style=width:100px; value=2>
+            <datalist id="conserved_top_bar">
+            </datalist>
     </form>
 
     <div class="gap-30"></div>

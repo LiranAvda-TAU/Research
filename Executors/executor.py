@@ -514,7 +514,7 @@ class executor:
     # receives (1) file type to know whether to print to a file or to console, human genes and variants dictionary, read
     # all variants and extracts for each variant the sequence of its human gene and its C.elegans ortholog, runs
     # pairwise alignment and returns data regarding the alignments of the two sequences.
-    def get_variants_data_for_server(self, human_genes_names_and_variants, sources_bar = 2):
+    def get_variants_data_for_server(self, human_genes_names_and_variants, sources_bar=2, length_range=(0.5, 2)):
         if not executor.is_connected():
             return None, "No Internet Connection"
 
@@ -530,7 +530,9 @@ class executor:
             mmp_data = self.mmp_data_by_gene_name[human_gene_name] if human_gene_name in self.mmp_data_by_gene_name \
                 else "No mention in MMP"
 
-            results, _ = executor.find_me_orthologs_for_human(human_genes=[human_gene_name], sources_bar=sources_bar)
+            results, _ = executor.find_me_orthologs_for_human(human_genes=[human_gene_name],
+                                                              sources_bar=sources_bar,
+                                                              length_range=length_range)
             true_matches_pairs, false_matches = results
             for gene_list in false_matches:
                 failed_genes.append([gene_list[0], "No orthologs were found"])
@@ -597,7 +599,7 @@ class executor:
     def find_me_orthologs_for_human(human_genes,
                                     genes_in_names: bool = True,
                                     sources_bar: int = 2,
-                                    length_bar: int = 10,
+                                    length_range: tuple = (0.5, 2),
                                     domains_range: tuple = (0.5, 3),
                                     species="Human"):
         true_matches = {}
@@ -638,7 +640,8 @@ class executor:
 
         # now orthologs are filtered by sources
         # next step - filtration by length ratio
-        filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs)
+        filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
+                                                                                        length_range)
         executor.add_failed_genes(failed_genes, human_genes_ids, filtered_by_length_orthologs, "Failed at length filtration")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):
             return executor.get_result_list(true_matches, failed_genes), "No orthologs left after length filtration"
@@ -693,7 +696,7 @@ class executor:
     def find_me_orthologs_for_worm(worm_genes,
                                    genes_in_names: bool = True,
                                    sources_bar: int = 2,
-                                   length_bar: int = 10,
+                                   length_range: tuple = (0.5, 2),
                                    domains_range: tuple = (0.5, 2),
                                    species="C.elegans"):
         true_matches = {}
@@ -734,6 +737,7 @@ class executor:
         # now orthologs are filtered by sources
         # next step - filtration by length ratio
         filtered_by_length_orthologs = DataExtracter.filter_genes_by_length_differences(filtered_by_sources_orthologs,
+                                                                                        length_range,
                                                                                         key_gene="c_elegans")
         executor.add_failed_genes(failed_genes, worm_genes_ids, filtered_by_length_orthologs, "Failed at length filtration")
         if DataExtracter.is_dict_empty(filtered_by_length_orthologs, "after length filtration"):

@@ -29,17 +29,21 @@ def get_c_elegans_orthologs_input():
 
 @app.route('/c_elegans_orthologs', methods=['POST'])
 def return_c_elegans_orthologs():
-    text = request.form['text']
-    text = text.replace(" ", "")
-    human_genes = text.split(",")
-    print("human genes:", human_genes)
-    genes_in_names = request.form.get('type_select')
-    sources_bar = request.form.get('sources_bar')
-    print("genes in names:", genes_in_names)
     try:
+        text = request.form['text']
+        text = text.replace(" ", "")
+        human_genes = text.split(",")
+        print("human genes:", human_genes)
+        genes_in_names = request.form.get('type_select')
+        sources_bar = request.form.get('sources_bar')
+        length_ratio_down = float(request.form.get('length_ratio_from'))
+        length_ratio_top = float(request.form.get('length_ratio_to'))
+        print("length ratio:", (length_ratio_down, length_ratio_top))
+        print("genes in names:", genes_in_names)
         results, error = executor.find_me_orthologs_for_human(human_genes=human_genes,
                                                               genes_in_names=genes_in_names,
-                                                              sources_bar=sources_bar)
+                                                              sources_bar=sources_bar,
+                                                              length_range=(length_ratio_down, length_ratio_top))
     except Exception as e:
         query = ", ".join(human_genes)
         error = "Something went wrong: " + str(e)
@@ -55,17 +59,20 @@ def get_human_orthologs_input():
 
 @app.route('/human_orthologs', methods=['POST'])
 def return_human_orthologs():
-    text = request.form['text']
-    text = text.replace(" ", "")
-    c_elegans_genes = text.split(",")
-    print("C.elegans genes:", c_elegans_genes)
-    genes_in_names = request.form.get('type_select')
-    sources_bar = request.form.get('sources_bar')
-    print("genes in names:", genes_in_names)
     try:
+        text = request.form['text']
+        text = text.replace(" ", "")
+        c_elegans_genes = text.split(",")
+        print("C.elegans genes:", c_elegans_genes)
+        genes_in_names = request.form.get('type_select')
+        sources_bar = request.form.get('sources_bar')
+        length_ratio_down = float(request.form.get('length_ratio_from'))
+        length_ratio_top = float(request.form.get('length_ratio_to'))
+        print("genes in names:", genes_in_names)
         results, error = executor.find_me_orthologs_for_worm(worm_genes=c_elegans_genes,
                                                              genes_in_names=genes_in_names,
-                                                             sources_bar=sources_bar)
+                                                             sources_bar=sources_bar,
+                                                             length_range=(length_ratio_down, length_ratio_top))
     except Exception as e:
         query = ", ".join(c_elegans_genes)
         error = "Something went wrong: " + str(e)
@@ -81,14 +88,18 @@ def get_variants_input():
 
 @app.route('/variants', methods=['POST'])
 def return_variants_data():
-    text = request.form['text']
-    text = text.replace(" ", "")
-    print(text)
-    genes_and_variants = executor.parse_input(text)
-    sources_bar = request.form.get('sources_bar')
-    print(genes_and_variants)
     try:
-        true_results, false_results = executor().get_variants_data_for_server(genes_and_variants, sources_bar)
+        text = request.form['text']
+        text = text.replace(" ", "")
+        print(text)
+        genes_and_variants = executor.parse_input(text)
+        sources_bar = request.form.get('sources_bar')
+        length_ratio_down = float(request.form.get('length_ratio_from'))
+        length_ratio_top = float(request.form.get('length_ratio_to'))
+        print(genes_and_variants)
+        true_results, false_results = executor().get_variants_data_for_server(genes_and_variants,
+                                                                              sources_bar,
+                                                                              (length_ratio_down, length_ratio_top))
     except Exception as e:
         query = executor.dictionary_output_parser(genes_and_variants)
         return render_template('failure_response.html', query=query, error=e)
