@@ -150,7 +150,7 @@ class CrisprPlanner:
         self.mutated_strand = first_strand
         self.mutated_sites = first_mutated_sites[:]
         favourite_removed = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
-                                                    RestrictionSiteType.REMOVED)
+                                                  RestrictionSiteType.REMOVED)
         print("result:", self.result)
         if not favourite_removed and not favourite_added:
             if not self.result.inserted_sites and not self.result.removed_sites:
@@ -184,7 +184,7 @@ class CrisprPlanner:
         return None
 
     # start_crrna_index = for testing purposes
-    def get_crrna(self, window_size, PAM_size, start_crrna_index=None):
+    def get_crrna(self, window_size, PAM_size, start_crrna_index=2012):
         # get optional sequences for crRNA
         sense_strand_sequences = self.get_list_of_potential_sequences(self.sense_strand,
                                                                       self.sense_mutation_site,
@@ -288,7 +288,7 @@ class CrisprPlanner:
                                                                   self.mutation_direction)
             third_strand = self.mutated_strand
             third_mutated_sites = self.mutated_sites[:]
-            print("all valid index subsets:", valid_index_subsets)
+            print("all valid index subsets to mutate reattachment section:", valid_index_subsets)
             for index_subset in valid_index_subsets:
                 self.mutated_strand = third_strand
                 self.mutated_sites = third_mutated_sites[:]
@@ -1052,7 +1052,7 @@ class CrisprPlanner:
                 if self.result.inserted_favourite:
                     return True
 
-        print("let's modify some sites! first, trying to add with mutation zone:", self.mutation_zone)
+        print("let's modify some sites!\nfirst, trying to add for mutation zone:", self.mutation_zone)
         inserted_restriction_mutations = self.get_new_restriction_site()
         if inserted_restriction_mutations:
             print("inserted restriction mutations found!", inserted_restriction_mutations)
@@ -1078,7 +1078,7 @@ class CrisprPlanner:
                 self.result.success = True
                 if self.result.removed_favourite:
                     return True
-        print("now let's try to remove...")
+        print("now let's try to actively remove...")
         removed_restriction_mutations = self.get_removed_restriction_sites()
         if removed_restriction_mutations:
             print("removed restriction mutation found!", removed_restriction_mutations)
@@ -1362,10 +1362,11 @@ class CrisprPlanner:
                                                                                     self.restriction_site_mutations),
                                                         self.codon_mutations,
                                                         self.reattachment_mutations))
-            print("possible_restriction_mutations in this group:", *possible_restriction_mutations, sep="\n")
+            print("possible restriction mutations in this group:", *possible_restriction_mutations, sep="\n")
             if possible_restriction_mutations:  # found some
                 valid_restriction_mutations.extend(possible_restriction_mutations)
-                if self.is_in_favourites(possible_restriction_mutations):
+                print("valid restriction mutations:", len(valid_restriction_mutations))
+                if self.is_in_favourites(possible_restriction_mutations) or len(valid_restriction_mutations) > 50:
                     return valid_restriction_mutations
             print("Couldn't find any possible restriction mutations (or not favourites), moving onto the next group")
         return valid_restriction_mutations
@@ -1491,4 +1492,6 @@ class CrisprPlanner:
         favourite_enzymes = list(
             filter(lambda r_enzyme: r_enzyme.name in favourite_enzymes_names, self.restriction_enzymes))
         print("favourite enzymes:", *favourite_enzymes, sep="\n")
+        if not favourite_enzymes:
+            return self.restriction_enzymes
         return favourite_enzymes

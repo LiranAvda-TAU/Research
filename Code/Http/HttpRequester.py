@@ -184,4 +184,12 @@ class HttpRequester:
         seq = Strings.from_fasta_seq_to_seq(response_body)
         return seq if seq else None
 
+    @staticmethod
+    def check_crRNA(sequences):
+        url = 'https://eu.idtdna.com/restapi/v1/Crispr/Check'
+        payload = open("request.json")
+        headers = {'content-type': 'application/json', 'Accept': 'application/json',
+                   'Authorization': 'Bearer a8997ec4492d6ad11605c2bb25357626'}
+        r = requests.post(url, data=payload, headers=headers)
+
 
