@@ -674,12 +674,13 @@ if test_not_found_fav_site_1:
     amino_acid_mutation_site = 16  # ACT, dsb before T if crRNA starts at 33
     nt_seq = "gtaATGGCATCAGCTGGAGATTCCATTCTTGCCCTCACCGGTAAAAGAACTACTGGACAAGGCATCAGATCTCAGAATGgtaacaccgaaagctcaatataagtatacattaattaattgcagTCACCGCGGCAGTTGCGATCGCCAATATTGTGAAGTCATCTCTTGGCCCTGTCGGACTTGATAAAATGCTTGTCGATGATGTTGGAGATGTCATTGTCACAAATGACGGAGCCACAATTCTGAAACAACTCGAGGTTGAGCATCCGGCTGGAAAAGTGCTTGTAGAACTTGCACAGCTGCAAGACGAGGAGGTCGGAGATGGAACTACTTCTGTCGTTATTGTGGCGGCTGAGCTCTTGAAGAGAGCCGATGAGCTTGTGAAACAAAAAGTTCATCCGACGACTATTATCAATGGTTACCGTCTCGCGTGCAAGGAAGCCGTCAAGTACATTAGTGAAAACATCTCATTCACTTCCGACTCGATTGGTAGACAATCAGTTGTCAACGCTGCCAAAACTTCCATGAGCAGTAAGATTATCGGACCgtgagtttggtgttgtctatgcttcaagaaaattgatttttcagAGACGCCGATTTCTTCGGAGAGCTGGTTGTTGATGCCGCGGAAGCTGTTCGTGTGGAAAATAACGGGAAAGTCACTTATCCTATCAATGCAGTCAATGTTCTGAAGGCCCACGGAAAGAGCGCTCGCGAATCAGTTTTGGTGAAAGGATATGCACTCAATTGCACAGTTGCCAGTCAGGCCATGCCACTTCGTGTTCAAAATGCCAAGATCGCATGTCTCGATTTCTCTTTGATGAAGGCTAAGATGCACCTCGGTATTTCAGTCGTTGTTGAAGATCCAGCCAAGCTTGAGGCTATTCGCAGAGAgtgagttgaaactattcgtttctttttaagctatggaattttcagAGAATTCGATATTACCAAACGCCGCATTGATAAAATTTTGAAAGCCGGAGCCAACGTTGTTCTTACAACTGGAGGTATCGATGATTTGTGCTTGAAGCAATTTGTCGAATCTGGAGCTATGGCTGTTCGTCGATGCAAGAAATCAGACTTGAAGAGAATTGCCAAAGCTACTGGAGCCACATTGACTGTTTCCTTGGCTACTTTGGAAGGAGATGAAGCTTTCGATGCCTCGCTTCTTGGACATGCCGATGAAATTGTTCAAGAAAGAATTAGTGACGACGAGCTCATTCTCATCAAGGGACCGAAATCTCGTACTGCCAGCAGCATTATCCTCCGTGGAGCGAACGATGTGATGCTCGATGAAATGGAGAGATCGGTTCACGACTCACTCTGTGTTGTTCGTAGAGTTCTGGAAAGCAAGAAACTTGTGGCTGGAGGAGGTGCTGTTGAGACTTCTCTCAGTCTTTTCCTTGAAACTTATGCACAAACCTTGTCTTCTCGCGAGCAGCTTGCTGTTGCTGAATTCGCTTCAGCGCTTCTCATCATTCCGAAGGTTTTGGCAAGCAATGCTGCAAGAGATTCTACTGATTTAGTGACAAAACTCCGCGCGTACCACTCCAAAGCTCAATTGATCCCACAACTTCAACACCTCAAGTGgtaagtgaaaatgttttttttaaagagtaggttattacatgttagcttaatgtaataaaattaaaataatttatttcaaaaaatttcgttttgtgcttagaaaaagcgtctaattcatgttttctgaatttgagtcagtttattcactctttttttagGGCTGGTTTGGATCTCGAAGAAGGCACGATCCGCGATAACAAGGAGGCTGGAATTTTGGAGCCAGCTCTTAGTAAGGTCAAGTCTCTGAAGTTCGCCACTGAGGCAGCCATTACGATATTGCGTATTGATGACCTCATCAAACTTGACAAGCAAGAGCCACTTGGAGGAGATGATTGCCACGCTTAAattttcccgtttaccccgtttatatatccctgttttccgcgtgcttctcacataattccgatctgctgctccttatcccaaattctcatgttcagcttttgttttcttcttttgatgatactttattgaacgaaatgttgtaagttttaatgttttgatttcaaagttgtttgtattcgtttttcattattcaaacaatgaagaagctttgccacat"
     cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site, sense_strand=nt_seq,
-                       favourite_enzymes_names=['PI-PspI'])
+                       # favourite_enzymes_names=['PI-PspI'])
+                       favourite_enzymes_names=lab_enzymes)
     print(cp.plan_my_crispr(from_aa=AminoAcid.THREONINE, to_aa=AminoAcid.GLUTAMINE))
 
 
 # Former test didn't have results where mutation is downstream (faster)
-test_not_found_fav_site_2 = True
+test_not_found_fav_site_2 = False
 if test_not_found_fav_site_2:
     worm_gene_name = 'cct-1'
     amino_acid_mutation_site = 27  # AAC
@@ -687,3 +688,15 @@ if test_not_found_fav_site_2:
     cp = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site, sense_strand=nt_seq,
                        favourite_enzymes_names=['PI-PspI'])
     print(cp.plan_my_crispr(from_aa=AminoAcid.THREONINE, to_aa=AminoAcid.GLUTAMINE))
+
+short_enzymes_list = ['HindIII', 'BglII', 'ClaI', 'BamHI', 'ApaLI', 'HaeII', 'BspHI']
+
+test_random = False
+if test_random:
+    worm_gene_name = 'cct-1'
+    amino_acid_mutation_site = 287
+    res = CrisprPlanner(gene_name=worm_gene_name, aa_mutation_site=amino_acid_mutation_site,
+                        favourite_enzymes_names=short_enzymes_list). \
+        plan_my_crispr(from_aa=AminoAcid.ASPARAGINE,
+                       to_aa=AminoAcid.ALANINE)
+    print(res)
