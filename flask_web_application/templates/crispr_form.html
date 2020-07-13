@@ -101,6 +101,9 @@
                 <option value="VALINE">Valine</option>
             </select>
         <br> Favourite restriction enzymes (no "-HF" notation): <input style=width:700px; name="enzymes">
+        <br>Maximum number of results <input type="text" name="max_results" list="max_num" style=width:55px; value=1>
+            <datalist id="max_num">
+            </datalist>
         <br><input type="submit" value="Submit" onclick="toggle_visibility('myloader','mycontainer');">
     </form>
 

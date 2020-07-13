@@ -30,8 +30,18 @@
     {% extends "template.html" %}
     {% block content %}
     <h1> Your CRISPR Results Are Here! </h1>
-    <p>for crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1]}} in strand: {{result.crRNA_strand}}</p>
 
+    <p>Restriction enzymes relevant for your query:</p>
+    {% if result.enzymes %}
+        {% for r_enzyme in result.enzymes %}
+            <li class="special ">{{ r_enzyme }}</li>
+        {% endfor %}
+    {% else %}
+        <p>All known enzymes</p>
+    {% endif %}
+
+
+    <br><p>for crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1]}} in strand: {{result.crRNA_strand}}</p>
 
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
@@ -41,7 +51,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -50,7 +60,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.reattachment_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -59,7 +69,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -76,7 +86,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -85,7 +95,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.reattachment_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -94,7 +104,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -111,7 +121,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -120,7 +130,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.reattachment_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -129,7 +139,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -146,7 +156,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -155,7 +165,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.reattachment_mutations %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -164,7 +174,7 @@
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
                     <li>
-                        {{ point_mutation }}
+                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
                     </li>
                     {% endfor %}
                 </ul>
