@@ -41,7 +41,8 @@
     {% endif %}
 
 
-    <br><p>for crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1]}} in strand: {{result.crRNA_strand}}</p>
+    <br><p>for crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1].start}}-{{result.crRNA[1].end}}
+        in strand: {{result.crRNA_strand}}</p>
 
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
