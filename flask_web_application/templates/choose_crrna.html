@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+      <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: 40px;
+        }
+        th, td {
+            padding: 5px;
+        }
+        th {
+            text-align: left;
+        }
+        .highlight {color: yellow;}
+
+      </style>
+    <meta charset="utf-8">
+    <title>Choose Your Preferable crRNA</title>
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h1> Optional crRNA strands: </h1>
+
+    <p>crRNAs in sense strand:</p>
+    <ul>
+        {% for crrna in result.sense_crrnas %}
+        <li>
+            {{ crrna }}
+        </li>
+        {% endfor %}
+    </ul>
+    <br>
+    <p>crRNAs in anti-sense strand:</p>
+    <ul>
+        {% for crrna in result.anti_sense_crrnas %}
+        <li>
+            {{ crrna }}
+        </li>
+        {% endfor %}
+    </ul>
+    <br>
+    <p>If you wish to check the off-target and on-target scores for the optional crRNAs, you can copy and paste
+        the crRNAs as formatted below to the
+        <a href="https://eu.idtdna.com/site/order/designtool/index/CRISPR_SEQUENCE" target="_blank">
+            IDT's CRISPR-Cas9 guide RNA design checker</a>:</p>
+    <br>
+    <ul style="list-style-type:none;">
+        {% for crrna in result.sense_crrnas %}
+        <li>
+            >Sequence{{crrna[1].start}}<br>
+            {{ crrna[0] }}
+        </li>
+        {% endfor %}
+    </ul>
+    <ul style="list-style-type:none;">
+        {% for crrna in result.anti_sense_crrnas %}
+        <li>
+            >Sequence{{crrna[1].start}}<br>
+            {{ crrna[0] }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <P>Once you choose your preferable crRNA sequence, please go back and re-send your query along with and your
+        chosen crRNA and relevant strand.</P><br>
+    <div class="gap-80"></div>
+    <footer>
+        <p>&copy; All rights reserved to <a href="https://www.zaidelbarlab.com/">Ronen Zaidel Bar's lab</a>.</p>
+        <p>Developed and maintained by Liran Avda of Ronen Zaidel Bar's lab.</p>
+    </footer>
+    {% endblock %}
+  </body>
+</html>
