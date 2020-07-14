@@ -94,6 +94,8 @@ class CrisprPlanner:
     def plan_my_crispr(self,
                        from_aa: AminoAcid,
                        to_aa: AminoAcid,
+                       crrna: str = None,
+                       crrna_strand: int = 1,
                        check_consistency: bool = False,
                        window_size: int = 30,
                        PAM_size: int = 3):
@@ -106,17 +108,27 @@ class CrisprPlanner:
         if possible_error:
             return self.result, possible_error
 
-        chosen_crrna, crrna_strand = self.get_crrna(window_size, PAM_size)
-        self.result.crRNA = chosen_crrna
-        self.result.crRNA_strand = crrna_strand
+        sense_crrnas, anti_sense_crrnas = self.find_crrnas(window_size, PAM_size)
+        self.result.sense_crrnas = sense_crrnas
+        self.result.anti_sense_crrnas = anti_sense_crrnas
 
-        if not chosen_crrna:
-            return self.result, "Couldn't find crRNA sequence"
+        if not crrna:  # find crrnas and return them
+            if not sense_crrnas and not anti_sense_crrnas:
+                return self.result, "Couldn't find crRNA sequences"
+            return self.result, None
+        else:
+            chosen_crrna = self.get_chosen_crrna(crrna, crrna_strand)
+            if not chosen_crrna:
+                return self.result, "crRNA sequence was not found among optional crRNAs, please check if you chose " \
+                                    "the right strand."
+            self.result.crRNA = chosen_crrna
+            self.result.crRNA_strand = crrna_strand
+
         # now we have our cr_rna
         strand_str = "anti-" if crrna_strand < 0 else ""
-        print("chosen crRNA:", str(chosen_crrna), "The relevant strand is", strand_str + "sense")
+        print("chosen crRNA:", self.result.crRNA, "The relevant strand is", strand_str + "sense")
 
-        self.complete_fields(crrna_strand, to_aa, chosen_crrna)
+        self.complete_fields(crrna_strand, to_aa, self.result.crRNA)
 
         first_strand = self.mutated_strand
         first_mutated_sites = self.mutated_sites
@@ -126,7 +138,7 @@ class CrisprPlanner:
         if not self.reattachment_mutations:
             if not self.dsb_merged:
                 # couldn't find a way to mutate reattachment site
-                e = "Reattachment section could not be mutated"
+                e = "Reattachment section could not be mutated, try a different crRNA."
                 print(e)
                 return self.result, e
             else:
@@ -182,31 +194,49 @@ class CrisprPlanner:
         print("mutation site in anti-sense strand: " + str(self.anti_sense_mutation_site))
         return None
 
+    def get_chosen_crrna(self, crrna, strand):
+        print("crRNA we are looking for:", crrna, "in strand:", strand)
+        if strand == 1:
+            for sense_crrna in self.result.sense_crrnas:
+                if sense_crrna[0] == crrna:
+                    print("chosen:", sense_crrna)
+                    return sense_crrna
+        else:
+            for anti_sense_crrna in self.result.anti_sense_crrnas:
+                if anti_sense_crrna[0] == crrna:
+                    print("chosen:", anti_sense_crrna)
+                    return anti_sense_crrna
+        return None
+
+    def find_crrnas(self, window_size, PAM_size):
+        sense_crrnas = self.get_list_of_potential_sequences(self.sense_strand,
+                                                            self.sense_mutation_site,
+                                                            window_size,
+                                                            PAM_size)
+        anti_sense_crrnas = self.get_list_of_potential_sequences(self.anti_sense_strand,
+                                                                 self.anti_sense_mutation_site,
+                                                                 window_size,
+                                                                 PAM_size)
+        return sense_crrnas, anti_sense_crrnas
+
     # start_crrna_index = for testing purposes
     def get_crrna(self, window_size, PAM_size, start_crrna_index=None):
         # get optional sequences for crRNA
-        sense_strand_sequences = self.get_list_of_potential_sequences(self.sense_strand,
-                                                                      self.sense_mutation_site,
-                                                                      window_size,
-                                                                      PAM_size)
-        anti_sense_strand_sequences = self.get_list_of_potential_sequences(self.anti_sense_strand,
-                                                                           self.anti_sense_mutation_site,
-                                                                           window_size,
-                                                                           PAM_size)
+        sense_crrnas, anti_sense_crrnas = self.find_crrnas(window_size, PAM_size)
         print("Sense crRNAs: ")
-        for sequence in sense_strand_sequences:
+        for sequence in sense_crrnas:
             print(sequence)
             pam_site_start = sequence[1][1] + 1
             pam_site_end = sequence[1][1] + 3
             print("PAM sequence: " + self.sense_strand[pam_site_start:pam_site_end + 1])
         print("Anti Sense crRNAs: ")
-        for sequence in anti_sense_strand_sequences:
+        for sequence in anti_sense_crrnas:
             print(sequence)
             pam_site_start = sequence[1][1] + 1
             pam_site_end = sequence[1][1] + 3
             print("PAM sequence: " + self.anti_sense_strand[pam_site_start:pam_site_end + 1])
 
-        return self.choose_best_crrna(sense_strand_sequences, anti_sense_strand_sequences, start_crrna_index)
+        return self.choose_best_crrna(sense_crrnas, anti_sense_crrnas, start_crrna_index)
 
     def complete_fields(self, crrna_strand_direction, to_aa, chosen_crrna):
         self.pam_sites = SequenceSites(start=chosen_crrna[1][1] + 1, end=chosen_crrna[1][1] + 3)

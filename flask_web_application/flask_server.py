@@ -121,21 +121,28 @@ def return_crispr_plan():
     to_aa = AminoAcid[request.form.get('to_aa')]
     favourite_enzymes = re.split('; |, | |,|;|\t|\n', request.form['enzymes']) if request.form['enzymes'] else None
     max_results = int(request.form.get('max_results'))
-    print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa, max_results)
+    crrna = request.form['crrna']
+    crrna_strand = int(request.form.get('crrna_strand'))
+    print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa, max_results, crrna, crrna_strand)
     try:
         result, error = CrisprPlanner(gene_name=worm_gene_name,
                                       aa_mutation_site=site,
                                       sense_strand=nt_seq,
                                       favourite_enzymes_names=favourite_enzymes,
                                       max_results=max_results).plan_my_crispr(from_aa=from_aa,
-                                                                              to_aa=to_aa)
+                                                                              to_aa=to_aa,
+                                                                              crrna=crrna,
+                                                                              crrna_strand=crrna_strand)
         if not result or error:
             return render_template('failure_response.html', query=worm_gene_name, error=error)
     except Exception as e:
         error = "Something went wrong: " + str(e)
         return render_template('failure_response.html', query=worm_gene_name, error=error)
     # executor.increment_point_mutation_index(result)
-    return render_template('crispr_response.html', result=result)
+    if crrna:
+        return render_template('crispr_response.html', result=result)
+    else:
+        return render_template('choose_crrna.html', result=result)
 
 
 @app.route("/faq")
