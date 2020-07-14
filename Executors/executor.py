@@ -4,7 +4,6 @@ from Code.Extraction.DataExtracter import DataExtracter
 from Code.Files.FileMaker import FileMaker
 from Code.Files.FileReader import FileReader
 from Code.Http.HttpRequester import HttpRequester
-# from Code.Utils.BioMart import BioMart
 from Code.Utils.BioPython import BioPython
 from Code.Utils.Ensembl import Ensembl
 from Code.Utils.Strings import Strings
