@@ -66,14 +66,10 @@
                     {% endfor %}
                 </ul>
                 <br>
-                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
-                <ul>
-                    {% for point_mutation in restriction_mutation.mutated_sites %}
-                    <li>
-                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
-                    </li>
-                    {% endfor %}
-                </ul>
+                Restriction site mutations:<br>
+                Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
+                {{ restriction_mutation.restriction_site.index.end }}
+                <br>with enzyme: {{ restriction_mutation.restriction_site.enzyme }}<br>
                 <br>
             </li>
         {% endfor %}
@@ -101,7 +97,11 @@
                     {% endfor %}
                 </ul>
                 <br>
-                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
+                Restriction site mutations:<br>
+                Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
+                {{ restriction_mutation.restriction_site.index.end }}
+                <br>with enzyme {{ restriction_mutation.restriction_site.enzyme }}
+                <br>with mutations:
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
                     <li>
@@ -136,14 +136,10 @@
                     {% endfor %}
                 </ul>
                 <br>
-                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
-                <ul>
-                    {% for point_mutation in restriction_mutation.mutated_sites %}
-                    <li>
-                        {{ point_mutation.index }}, {{ point_mutation.new_nucleotide }}
-                    </li>
-                    {% endfor %}
-                </ul>
+                Restriction site mutations:<br>
+                Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
+                {{ restriction_mutation.restriction_site.index.end }}
+                <br>with enzyme {{ restriction_mutation.restriction_site.enzyme }}
                 <br>
             </li>
         {% endfor %}
@@ -171,7 +167,11 @@
                     {% endfor %}
                 </ul>
                 <br>
-                Restriction site mutations: {{ restriction_mutation.restriction_site }} with mutations:
+                Restriction site mutations:<br>
+                Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
+                {{ restriction_mutation.restriction_site.index.end }}
+                <br>with enzyme {{ restriction_mutation.restriction_site.enzyme }}
+                <br>with mutations:
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
                     <li>
