@@ -169,15 +169,35 @@ class CrisprPlanner:
                 return self.result, e
         return self.result, None
 
+    @staticmethod
+    def starts_with_ATG(strand):
+        for i in range(len(strand)):
+            if strand[i].islower():  # intron
+                continue
+            else:
+                if strand[i:i+3] == 'ATG':
+                    return True
+                else:
+                    return False
+
     # initiates the CRISPR planner. fills in the amino_acid_sequence if not already filled in, and finds the nt site in
     # sense strand and anti-sense strand
     def initiate_crispr(self, check_consistency: bool):
         if not self.sense_strand:
             # sense strand was not given and extraction has failed
             e = "Exception in initiate_crispr: no sense strand sequence was delivered or could be extracted, " \
-                "please send a new request with the needed sequence."
+                "please re-send the request with the needed sequence."
             print(e)
             return e
+        # sense strand exists, let's check if it's the right direction:
+        if not self.starts_with_ATG(self.sense_strand):
+            if self.starts_with_ATG(self.anti_sense_strand):  # switched
+                self.sense_strand, self.anti_sense_strand = self.anti_sense_strand, self.sense_strand
+            else:
+                e = "Exception in initiate_crispr: valid sense strand could not be found, " \
+                    "please re-send the request with the needed sequence."
+                print(e)
+                return e
         print("Gene's sense sequence:", self.sense_strand, "\nGene's anti-sense strand:", self.anti_sense_strand)
 
         if not self.amino_acid_sequence:
