@@ -22,7 +22,7 @@ from Code.Utils.Ensembl import Ensembl
 
 
 class CrisprPlanner:
-    codon_dic = {'A': {'GCT', 'GCC', 'GCA', 'GCG'}, 'C': {'TGT', 'TGC'}, 'D': {'GAT', 'GAC'}, 'E': {'GAA', 'GAG'},
+    amino_acid_dic = {'A': {'GCT', 'GCC', 'GCA', 'GCG'}, 'C': {'TGT', 'TGC'}, 'D': {'GAT', 'GAC'}, 'E': {'GAA', 'GAG'},
                  'F': {'TTT', 'TTC'}, 'G': {'GGT', 'GGC', 'GGA', 'GGG'}, 'H': {'CAT', 'CAC'},
                  'I': {'ATT', 'ATC', 'ATA'}, 'K': {'AAA', 'AAG'}, 'L': {'TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'},
                  'M': {'ATG'}, 'N': {'AAT', 'AAC'}, 'P': {'CCT', 'CCC', 'CCA', 'CCG'}, 'Q': {'CAA', 'CAG'},
@@ -30,7 +30,7 @@ class CrisprPlanner:
                  'T': {'ACT', 'ACC', 'ACA', 'ACG'}, 'V': {'GTT', 'GTC', 'GTA', 'GTG'}, 'W': {'TGG'},
                  'Y': {'TAT', 'TAC'}, 'STOP': {'TAA', 'TAG', 'TGA'}}
 
-    amino_acid_dic = {'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A', 'TGT': 'C', 'TGC': 'C', 'GAT': 'D', 'GAC': 'D',
+    codon_dic = {'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A', 'TGT': 'C', 'TGC': 'C', 'GAT': 'D', 'GAC': 'D',
                       'GAA': 'E', 'GAG': 'E', 'TTT': 'F', 'TTC': 'F', 'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',
                       'CAT': 'H', 'CAC': 'H', 'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'AAA': 'K', 'AAG': 'K', 'TTA': 'L',
                       'TTG': 'L', 'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'ATG': 'M', 'AAT': 'N', 'AAC': 'N',
@@ -60,12 +60,15 @@ class CrisprPlanner:
     def __init__(self, gene_name, aa_mutation_site, sense_strand: str = "", amino_acid_sequence: str = "",
                  favourite_enzymes_names=None, max_results=1):
         self.gene_name = gene_name
+        self.from_aa = None
+        self.to_aa = None
         self.gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name)
         self.sense_strand = sense_strand if sense_strand else HttpRequester.get_transcript(self.gene_id)
         self.anti_sense_strand = CrisprPlanner.get_complementary_sequence(self.sense_strand)
         self.amino_acid_sequence = amino_acid_sequence if amino_acid_sequence else \
             BioPython().get_aa_seq_by_c_elegans_gene_name(gene_name)
-        self.amino_acid_mutation_site = aa_mutation_site
+        self.amino_acid_site = aa_mutation_site
+        self.codon = None
         self.sense_mutation_site = -1
         self.anti_sense_mutation_site = -1
         self.ssODN_mutation_codon_start = -1
@@ -101,8 +104,10 @@ class CrisprPlanner:
                        PAM_size: int = 3):
 
         if from_aa == to_aa:
-            e = "Amino acid in", self.amino_acid_mutation_site, "is already", from_aa
+            e = "Amino acid in", self.amino_acid_site, "is already", from_aa
             return self.result, e
+        self.from_aa = from_aa
+        self.to_aa = to_aa
 
         possible_error = self.initiate_crispr(check_consistency)
         if possible_error:
@@ -187,7 +192,6 @@ class CrisprPlanner:
             # sense strand was not given and extraction has failed
             e = "Exception in initiate_crispr: no sense strand sequence was delivered or could be extracted, " \
                 "please re-send the request with the needed sequence."
-            print(e)
             return e
         # sense strand exists, let's check if it's the right direction:
         if not self.starts_with_ATG(self.sense_strand):
@@ -196,22 +200,32 @@ class CrisprPlanner:
             else:
                 e = "Exception in initiate_crispr: valid sense strand could not be found, " \
                     "please re-send the request with the needed sequence."
-                print(e)
                 return e
         print("Gene's sense sequence:", self.sense_strand, "\nGene's anti-sense strand:", self.anti_sense_strand)
 
         if not self.amino_acid_sequence:
             # amino acid couldn't be extracted
             e = "Exception in initiate_crispr: no amino acid sequence could be extracted"
-            print(e)
             return e
         print("Gene's amino acid sequence: ", self.amino_acid_sequence)
-        self.sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_mutation_site,
+        if self.amino_acid_sequence[self.amino_acid_site - 1] != self.from_aa.value:
+            e = "Exception in initiate_crispr: Amino acid in site " + str(self.amino_acid_site) + " is not " + \
+                str(self.from_aa) + " but " + str(AminoAcid(self.amino_acid_sequence[self.amino_acid_site - 1])) + "."
+            return e
+
+        self.sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_site,
                                                             check_sequence_consistency=check_consistency)
-        print("mutation site in sense strand is: " + str(self.sense_mutation_site), ", and the codon is:",
-              self.sense_strand[self.sense_mutation_site:self.sense_mutation_site + 3])
+        self.codon = self.sense_strand[self.sense_mutation_site:self.sense_mutation_site + 3]
+        print("mutation site in sense strand is:", self.sense_mutation_site, "and the codon is:", self.codon)
+        if self.codon_dic[self.codon] != self.from_aa.value:
+            e = "Exception in initiate_crispr: The nucleotide site corresponding to " + \
+                str(self.amino_acid_site) + " amino acid site is " + str(self.sense_mutation_site) + \
+                " with codon " + self.codon + ", which does not code for " + str(self.from_aa) + " but for " + \
+                str(AminoAcid(self.codon_dic[self.codon])) + "."
+            return e
+
         self.anti_sense_mutation_site = self.get_mutation_site_for_anti_sense(self.sense_mutation_site)
-        print("mutation site in anti-sense strand: " + str(self.anti_sense_mutation_site))
+        print("mutation site in anti-sense strand:", self.anti_sense_mutation_site)
         return None
 
     def get_chosen_crrna(self, crrna, strand):
@@ -649,14 +663,14 @@ class CrisprPlanner:
         if self.is_codon_in_intron(codon):
             return None  # intron
         if self.ssODN_direction > 0:
-            amino_acid = CrisprPlanner.amino_acid_dic[codon]
-            relevant_codons = self.codon_dic[amino_acid].copy()
+            amino_acid = CrisprPlanner.codon_dic[codon]
+            relevant_codons = self.amino_acid_dic[amino_acid].copy()
             relevant_codons.remove(codon)
             return list(relevant_codons)
         else:  # ssODN is on anti-sense, PAM is changed
             complementary_codon = self.get_complementary_sequence(codon)
-            amino_acid = CrisprPlanner.amino_acid_dic[complementary_codon]
-            relevant_codons = self.codon_dic[amino_acid].copy()
+            amino_acid = CrisprPlanner.codon_dic[complementary_codon]
+            relevant_codons = self.amino_acid_dic[amino_acid].copy()
             relevant_codons.remove(complementary_codon)
             complementary_similar_codons = set()
             for relevant_codon in relevant_codons:
@@ -900,7 +914,7 @@ class CrisprPlanner:
     # order to get from codon a to amino acid b
     @staticmethod
     def how_to_get_b_from_a(a_codon, b_amino_acid: AminoAcid):
-        b_codons = CrisprPlanner.codon_dic[b_amino_acid.value]
+        b_codons = CrisprPlanner.amino_acid_dic[b_amino_acid.value]
         return CrisprPlanner.how_to_get_b_codons_from_a(a_codon, b_codons)
 
     # this function will return the minimal nucleotides you need to change (and the range of options for change) in
@@ -981,12 +995,12 @@ class CrisprPlanner:
     # wanted amino acid
     def get_possible_mutations_demands(self, from_amino_acid: AminoAcid, to_amino_acid: AminoAcid, mutation_site):
         sense_codon = self.sense_strand[mutation_site:mutation_site + 3]
-        codon_options = self.codon_dic[from_amino_acid.value]
+        codon_options = self.amino_acid_dic[from_amino_acid.value]
         if sense_codon not in codon_options:
             print(f'Codon in mutation site {mutation_site}: {sense_codon} does not translate into {from_amino_acid}')
             return []
         a_codon = sense_codon if self.ssODN_direction > 0 else CrisprPlanner.get_complementary_sequence(sense_codon)
-        b_codons = CrisprPlanner.codon_dic[to_amino_acid.value]
+        b_codons = CrisprPlanner.amino_acid_dic[to_amino_acid.value]
         if self.ssODN_direction > 0:
             b_codons_info = CrisprPlanner.get_list_of_how_to_get_b_codons_from_a(a_codon, list(b_codons))
         else:

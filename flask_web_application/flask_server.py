@@ -134,9 +134,11 @@ def return_crispr_plan():
                                                                               crrna=crrna,
                                                                               crrna_strand=crrna_strand)
         if not result or error:
+            print(error)
             return render_template('failure_response.html', query=worm_gene_name, error=error)
     except Exception as e:
         error = "Something went wrong: " + str(e)
+        print(error)
         return render_template('failure_response.html', query=worm_gene_name, error=error)
     # executor.increment_point_mutation_index(result)
     if crrna:
