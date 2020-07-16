@@ -69,7 +69,8 @@
                 Restriction site mutations:<br>
                 Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
                 {{ restriction_mutation.restriction_site.index.end }}
-                <br>with enzyme: {{ restriction_mutation.restriction_site.enzyme }}<br>
+                with enzyme {{ restriction_mutation.restriction_site.enzyme.name }},
+                site: {{ restriction_mutation.restriction_site.enzyme.site }}<br>
                 <br>
             </li>
         {% endfor %}
@@ -100,7 +101,8 @@
                 Restriction site mutations:<br>
                 Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
                 {{ restriction_mutation.restriction_site.index.end }}
-                <br>with enzyme {{ restriction_mutation.restriction_site.enzyme }}
+                with enzyme {{ restriction_mutation.restriction_site.enzyme.name }},
+                site: {{ restriction_mutation.restriction_site.enzyme.site }}
                 <br>with mutations:
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}
@@ -139,7 +141,8 @@
                 Restriction site mutations:<br>
                 Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
                 {{ restriction_mutation.restriction_site.index.end }}
-                <br>with enzyme {{ restriction_mutation.restriction_site.enzyme }}
+                with enzyme {{ restriction_mutation.restriction_site.enzyme.name }},
+                site: {{ restriction_mutation.restriction_site.enzyme.site }}<br>
                 <br>
             </li>
         {% endfor %}
@@ -170,7 +173,8 @@
                 Restriction site mutations:<br>
                 Restriction site in indexes {{ restriction_mutation.restriction_site.index.start }}-
                 {{ restriction_mutation.restriction_site.index.end }}
-                <br>with enzyme {{ restriction_mutation.restriction_site.enzyme }}
+                with enzyme {{ restriction_mutation.restriction_site.enzyme.name }},
+                site: {{ restriction_mutation.restriction_site.enzyme.site }}
                 <br>with mutations:
                 <ul>
                     {% for point_mutation in restriction_mutation.mutated_sites %}

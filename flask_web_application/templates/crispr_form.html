@@ -60,7 +60,7 @@
     <form action="/crispr" method="POST">
         Your worm gene name: <input name="name">
         <br> The amino acid site: <input name="site">
-        <br> The nucleotide strand: <input style=width:700px; name="seq">
+        <br> The nucleotide strand (unspliced + UTR; not a must): <input style=width:700px; name="seq">
         <br> From: <select name="from_aa">
                     <option value="ALANINE">Alanine</option>
                     <option value="ARGININE">Arginine</option>
@@ -105,7 +105,11 @@
                 <option value="TYROSINE">Tyrosine</option>
                 <option value="VALINE">Valine</option>
             </select>
-        <br> Favourite restriction enzymes (no "-HF" notation): <input style=width:700px; name="enzymes">
+        <br> Relevant restriction enzymes (no need to add the notation "-HF" for high fidelity):
+        <input style=width:700px; name="enzymes">
+        <br> For example: EcoRI, PvuII, BspHI, etc'.
+        <br> *By not providing any relevant restriction enzymes, the tool will search for
+        <a href="https://international.neb.com/tools-and-resources/selection-charts/alphabetized-list-of-recognition-specificities" target="_blank">all known enzymes</a>.
         <br>Maximum number of results <input type="text" name="max_results" list="max_num" style=width:55px; value=1>
             <datalist id="max_num">
             </datalist>
