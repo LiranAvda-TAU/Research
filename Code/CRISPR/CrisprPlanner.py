@@ -341,7 +341,7 @@ class CrisprPlanner:
             possible_mutations, number_of_mutants = self.get_possible_codon_mutations(section_to_mutate)
             if number_of_mutants == 0:  # PAM site has been mutated
                 print("PAM site has been already mutated!")
-                self.reattachment_mutations = self.codon_mutations
+                self.reattachment_mutations = self.get_mutations_in_pam()
                 # 3. mutations to add/remove restriction sites
                 print("Add or Remove restriction sites:")
                 result = self.add_remove_restriction_sites(restriction_site_type)
@@ -563,10 +563,9 @@ class CrisprPlanner:
     @staticmethod
     def get_number_of_mutants(section_to_mutate, mutated_sites, mutation_direction):
         number_of_mutants = section_to_mutate.number_of_mutations
-        extra = 0 if section_to_mutate.section_type == DNASection.PAM_SITE else 2
+        plus = 0 if section_to_mutate.section_type == DNASection.PAM_SITE else 2
         for mutated_site in mutated_sites:
-            if section_to_mutate.section_sites.start <= mutated_site.index <= section_to_mutate.section_sites[
-                1] + extra:
+            if section_to_mutate.section_sites.start <= mutated_site.index <= section_to_mutate.section_sites[1] + plus:
                 if section_to_mutate.section_type == DNASection.PAM_SITE:
                     if CrisprPlanner.disregard_mutation_in_pam(section_to_mutate, mutated_site, mutation_direction):
                         continue
@@ -575,6 +574,16 @@ class CrisprPlanner:
         if number_of_mutants < 0:
             number_of_mutants = 0
         return number_of_mutants
+
+    # picks the point mutations in the codon point mutations that mutate the PAM site
+    def get_mutations_in_pam(self):
+        pam_mutations = []
+        for codon_mutation in self.codon_mutations:
+            if self.pam_sites.start <= codon_mutation.index <= self.pam_sites.end:
+                pam_mutations.append(codon_mutation)
+        print("pam mutations:", pam_mutations)
+        return pam_mutations
+
 
     @staticmethod
     def disregard_mutation_in_pam(section_to_mutate, mutated_site, mutation_direction):
