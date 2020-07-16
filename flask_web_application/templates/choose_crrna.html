@@ -24,7 +24,7 @@
     {% block content %}
     <h1> Optional crRNA strands: </h1>
 
-    <p>crRNAs in sense strand:</p>
+    <p><b>crRNAs in sense strand:</b></p>
     <ul>
         {% for crrna in result.sense_crrnas %}
         <li>
@@ -33,7 +33,7 @@
         {% endfor %}
     </ul>
     <br>
-    <p>crRNAs in anti-sense strand:</p>
+    <p><b>crRNAs in anti-sense strand:</b></p>
     <ul>
         {% for crrna in result.anti_sense_crrnas %}
         <li>

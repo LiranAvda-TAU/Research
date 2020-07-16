@@ -31,7 +31,7 @@
     {% block content %}
     <h1> Your CRISPR Results Are Here! </h1>
 
-    <p>Restriction enzymes relevant for your query:</p>
+    <p><u>Restriction enzymes relevant for your query:</u></p>
     {% if result.enzymes %}
         {% for r_enzyme in result.enzymes %}
             <li class="special ">{{ r_enzyme }}</li>
@@ -41,8 +41,11 @@
     {% endif %}
 
 
-    <br><p>for crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1].start}}-{{result.crRNA[1].end}}
-        in strand: {{result.crRNA_strand}}</p>
+    <br>
+    <p><u>Gene name:</u> {{result.query_data[0]}}</p>
+    <p><u>Query:</u> from {{result.query_data[1]}} in {{result.query_data[2]}} to {{result.query_data[3]}}</p><br>
+    <p>For crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1].start}}-{{result.crRNA[1].end}}
+        in strand: {{result.crRNA_strand}}</p><br>
 
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>

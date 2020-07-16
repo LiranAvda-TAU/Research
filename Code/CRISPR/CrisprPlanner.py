@@ -108,6 +108,7 @@ class CrisprPlanner:
             return self.result, e
         self.from_aa = from_aa
         self.to_aa = to_aa
+        self.result.query_data = (self.gene_name, self.from_aa, self.amino_acid_site, self.to_aa)
 
         possible_error = self.initiate_crispr(check_consistency)
         if possible_error:
@@ -1565,7 +1566,7 @@ class CrisprPlanner:
 
     def get_favourite_restriction_enzymes(self, favourite_enzymes_names: list):
         all_enzymes = FileReader(FileReader.research_path,
-                                 r"\Code\CRISPR\parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
+                                 r"/Code/CRISPR/parsed_restriction_enzymes.txt").get_parsed_restriction_enzymes_list()
         if not favourite_enzymes_names:
             return all_enzymes
         favourite_enzymes = list(
