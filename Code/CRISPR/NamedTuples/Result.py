@@ -9,7 +9,7 @@ Result = recordtype('Result', [('query_data', None),
                                ('crRNA_strand', 0),
                                ('pam_sites', None),
                                ('ssODN_strand', 0),
-                               ('no_extra_inserted_mutations_sites', []),
-                               ('inserted_sites', []),
-                               ('no_extra_removed_mutations_sites', []),
-                               ('removed_sites', [])])
+                               ('no_extra_inserted_mutations', []),
+                               ('inserted_mutations', []),
+                               ('no_extra_removed_mutations', []),
+                               ('removed_mutations', [])])

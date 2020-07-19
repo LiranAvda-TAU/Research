@@ -50,7 +50,7 @@
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
-        {% for restriction_mutation in result.no_extra_inserted_mutations_sites %}
+        {% for restriction_mutation in result.no_extra_inserted_mutations %}
             <li> Codon mutation(s) to change amino acid:
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
@@ -82,7 +82,7 @@
     <p>Restriction sites who have been inserted into the sequence using additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
-        {% for restriction_mutation in result.inserted_sites %}
+        {% for restriction_mutation in result.inserted_mutations %}
             <li> Codon mutation(s) to change amino acid:
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
@@ -122,7 +122,7 @@
     <p>Restriction sites who have been removed from the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
-        {% for restriction_mutation in result.no_extra_removed_mutations_sites %}
+        {% for restriction_mutation in result.no_extra_removed_mutations %}
             <li> Codon mutation(s) to change amino acid:
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
@@ -154,7 +154,7 @@
     <p>Restriction sites who have been removed from the sequence using additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
     <ul>
-        {% for restriction_mutation in result.removed_sites %}
+        {% for restriction_mutation in result.removed_mutations %}
             <li> Codon mutation(s) to change amino acid:
                 <ul>
                     {% for point_mutation in restriction_mutation.codon_mutations %}
