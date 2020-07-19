@@ -170,7 +170,7 @@ class CrisprPlanner:
                                                   RestrictionSiteType.REMOVED)
         print("result:", self.result)
         if not favourite_removed and not favourite_added:
-            if not self.result.inserted_sites and not self.result.removed_sites:
+            if not self.result.inserted_mutations and not self.result.removed_mutations:
                 e = "We could not find any restriction sites to insert or to remove."
                 return self.result, e
         return self.result, None
@@ -407,17 +407,13 @@ class CrisprPlanner:
         if valid_subsets != [([], 0, 0)]:
             # sort subsets according to number of mutations max usage
             print("valid subsets:", valid_subsets)
-            # sort according to minimal number of mutations, minimal distance from the DSB and maximal usage percentage
-            valid_subsets.sort(key=lambda mutation: (mutation[1],
-                                                     CrisprPlanner.get_group_distance_from_dsb(mutation[0],
+            # sort according to minimal distance from the DSB, minimal number of mutations and maximal usage percentage
+            valid_subsets.sort(key=lambda mutation: (CrisprPlanner.get_group_distance_from_dsb(mutation[0],
                                                                                                possible_mutations,
                                                                                                pam_sites,
                                                                                                mutation_direction),
-                                                     CrisprPlanner.get_avg_distance_from_dsb(mutation[0],
-                                                                                             possible_mutations,
-                                                                                             pam_sites,
-                                                                                             mutation_direction),
-                                                     - mutation[2]))
+                                                     mutation[1],
+                                                     -mutation[2]))
             print("valid subsets after sort:", valid_subsets)
             return list(map(lambda item: item[0], valid_subsets))
         else:
@@ -426,20 +422,6 @@ class CrisprPlanner:
             # sort according to number of mutations first, and codons usage second
             underscored_subsets.sort(key=lambda mutation: (mutation[1], -mutation[2]))
             return list(map(lambda item: item[0], underscored_subsets))
-
-    # return the distance of the average point in subset from DSB
-    @staticmethod
-    def get_avg_distance_from_dsb(subset, possible_mutations, pam_sites, mutation_direction):
-        DSB = CrisprPlanner.get_dsb(pam_sites, mutation_direction)
-        mean_point = 0
-        count = 0
-        for index in subset:
-            start = possible_mutations[index][0].codon_sites.start
-            for mutation_inner_index in possible_mutations[index][1].dict_of_mutations:
-                mean_point += start + mutation_inner_index
-                count += 1
-        mean_point /= count
-        return abs(mean_point - DSB)
 
     # returns the distance of the furthest point from the DSB
     @staticmethod
@@ -1132,9 +1114,9 @@ class CrisprPlanner:
             valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
             if valid_rest_sites_list:
                 print("Inserted restriction sites found without extra mutations!")
-                self.result.no_extra_inserted_mutations_sites += self.from_site_to_mutation(valid_rest_sites_list)
-                if len(self.result.no_extra_inserted_mutations_sites) + len(
-                        self.result.inserted_sites) >= self.max_results:
+                self.result.no_extra_inserted_mutations += self.from_site_to_mutation(valid_rest_sites_list)
+                if len(self.result.no_extra_inserted_mutations) + len(
+                        self.result.inserted_mutations) >= self.max_results:
                     self.result.success = True
                     return True
 
@@ -1142,9 +1124,9 @@ class CrisprPlanner:
         inserted_restriction_mutations = self.get_new_restriction_site()
         if inserted_restriction_mutations:
             print("inserted restriction mutations found!", inserted_restriction_mutations)
-            self.result.inserted_sites += inserted_restriction_mutations
-            if len(self.result.no_extra_inserted_mutations_sites) + len(
-                    self.result.inserted_sites) >= self.max_results:
+            self.result.inserted_mutations += inserted_restriction_mutations
+            if len(self.result.no_extra_inserted_mutations) + len(
+                    self.result.inserted_mutations) >= self.max_results:
                 self.result.success = True
             return self.result.success
         else:
@@ -1160,9 +1142,9 @@ class CrisprPlanner:
             valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
             if valid_rest_sites_list:
                 print("Removed restriction sites found without extra mutations!")
-                self.result.no_extra_removed_mutations_sites += self.from_site_to_mutation(valid_rest_sites_list)
-                if len(self.result.no_extra_removed_mutations_sites) + len(
-                        self.result.removed_sites) >= self.max_results:
+                self.result.no_extra_removed_mutations += self.from_site_to_mutation(valid_rest_sites_list)
+                if len(self.result.no_extra_removed_mutations) + len(
+                        self.result.removed_mutations) >= self.max_results:
                     self.result.success = True
                     return self.result.success
 
@@ -1170,9 +1152,9 @@ class CrisprPlanner:
         removed_restriction_mutations = self.get_removed_restriction_sites()
         if removed_restriction_mutations:
             print("removed restriction mutation found!", removed_restriction_mutations)
-            self.result.removed_sites += removed_restriction_mutations
-            if len(self.result.no_extra_removed_mutations_sites) + len(
-                    self.result.removed_sites) >= self.max_results:
+            self.result.removed_mutations += removed_restriction_mutations
+            if len(self.result.no_extra_removed_mutations) + len(
+                    self.result.removed_mutations) >= self.max_results:
                 self.result.success = True
             return self.result.success
         else:
@@ -1391,11 +1373,7 @@ class CrisprPlanner:
                                                                                            possible_mutations,
                                                                                            self.pam_sites,
                                                                                            self.mutation_direction),
-                                                 sum([possible_mutations[i][1].number_of_mutations for i in index_set]),
-                                                 CrisprPlanner.get_avg_distance_from_dsb(index_set,
-                                                                                         possible_mutations,
-                                                                                         self.pam_sites,
-                                                                                         self.mutation_direction)))
+                                                 sum([possible_mutations[i][1].number_of_mutations for i in index_set])))
 
     # sorts the subsets of mutations and divided into fixed sites of groups
     # outdated
@@ -1425,7 +1403,9 @@ class CrisprPlanner:
         for index_subset in index_power_set:
             # check that mutation in subset don't override each other
             if CrisprPlanner.are_codons_overriden(index_subset, possible_mutations):
-                print("subset", index_subset, "is ruled out because of overridden mutations")
+                # print("subset", index_subset, "is ruled out because of overridden mutations")
+                continue
+
             else:
                 self.mutated_strand = original_strand
                 self.mutated_sites = original_mutated_sites[:]
@@ -1441,9 +1421,8 @@ class CrisprPlanner:
                 if not restriction_sites:
                     continue
                 for restriction_site in restriction_sites:
-                    if self.check_distance(restriction_site) > 150 and restriction_site not in \
-                            [r_mutation.restriction_site for r_mutation in
-                                self.result.no_extra_inserted_mutations_sites]:
+                    if self.check_distance(restriction_site) > 150 and self.\
+                            is_restriction_site_new(restriction_site, valid_restriction_mutations):
                         valid_restriction_mutations.append(
                             RestrictionMutation(restriction_site, len(index_subset), self.restriction_site_mutations,
                                                 self.change_chars_in_string(self.mutated_strand,
@@ -1451,10 +1430,22 @@ class CrisprPlanner:
                                                 self.codon_mutations,
                                                 self.reattachment_mutations))
                 print("valid restriction mutations:", len(valid_restriction_mutations))
-                if len(valid_restriction_mutations) + len(self.result.inserted_sites) + len(
-                        self.result.no_extra_inserted_mutations_sites) >= self.max_results:
+                if len(valid_restriction_mutations) + len(self.result.inserted_mutations) + len(
+                        self.result.no_extra_inserted_mutations) >= self.max_results:
                     return valid_restriction_mutations
         return valid_restriction_mutations
+
+    def is_restriction_site_new(self, restriction_site, valid_restriction_mutations):
+        for r_mutation in valid_restriction_mutations:
+            if restriction_site == r_mutation.restriction_site:
+                return False
+        for r_mutation in self.result.no_extra_inserted_mutations:
+            if restriction_site == r_mutation.restriction_site:
+                return False
+        for r_mutation in self.result.inserted_mutations:
+            if restriction_site == r_mutation.restriction_site:
+                return False
+        return True
 
     # this function extracts all possible codons in the mutation zone section and tries to insert silent mutation in
     # them, recursively, and collects all options that add a new restriction site to the strand. number of max_mutations

@@ -142,6 +142,7 @@ def return_crispr_plan():
         return render_template('failure_response.html', query=worm_gene_name, error=error)
     # executor.increment_point_mutation_index(result)
     if crrna:
+        print(result)
         return render_template('crispr_response.html', result=result)
     else:
         return render_template('choose_crrna.html', result=result)
