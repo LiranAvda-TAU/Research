@@ -1423,12 +1423,15 @@ class CrisprPlanner:
                 for restriction_site in restriction_sites:
                     if self.check_distance(restriction_site) > 150 and self.\
                             is_restriction_site_new(restriction_site, valid_restriction_mutations):
+                        print("PASSED: rest site:", restriction_site)
                         valid_restriction_mutations.append(
                             RestrictionMutation(restriction_site, len(index_subset), self.restriction_site_mutations,
                                                 self.change_chars_in_string(self.mutated_strand,
                                                                             self.restriction_site_mutations),
                                                 self.codon_mutations,
                                                 self.reattachment_mutations))
+                    else:
+                        print("FAILED: rest site:", restriction_site)
                 print("valid restriction mutations:", len(valid_restriction_mutations))
                 if len(valid_restriction_mutations) + len(self.result.inserted_mutations) + len(
                         self.result.no_extra_inserted_mutations) >= self.max_results:
