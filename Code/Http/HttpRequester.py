@@ -9,8 +9,8 @@ class HttpRequester:
 
     def __init__(self, url=""):
         self.url = url
-        self.id_upi_converter = FileReader(FileReader.research_path + r"\Data",
-                                           r"\human_gene_id_upi.txt").from_file_to_dict_with_plural_values(0, 1, True)
+        self.id_upi_converter = FileReader(FileReader.research_path + r"/Data",
+                                           r"/human_gene_id_upi.txt").from_file_to_dict_with_plural_values(0, 1, True)
         # self.id_upa_converter = FileReader(FileReader.research_path + r"\Data",
         #                                    r"\human_gene_id_upa.txt").from_file_to_dict_with_plural_values(0, 1, True)
 
@@ -102,8 +102,9 @@ class HttpRequester:
             return None
         return r.text
 
+    # returns a transcript of the sense strand
     @staticmethod
-    def get_transcript(gene_id):
+    def get_transcript(gene_id, with_padding=False):
         chosen_transcript = ''
         transcript_ids = HttpRequester(url="http://rest.wormbase.org/rest/widget/gene/").\
             get_list_of_transcript_ids(gene_id)
@@ -111,7 +112,7 @@ class HttpRequester:
             return None
         for transcript_id in transcript_ids:
             transcript = HttpRequester(url="http://rest.wormbase.org/rest/field/transcript/").\
-                get_transcript_by_transcript_id(transcript_id)
+                get_transcript_by_transcript_id(transcript_id, with_padding)
             if transcript and len(transcript) > len(chosen_transcript):
                 chosen_transcript = transcript
                 print(transcript_id, "is better:", len(transcript))
@@ -120,10 +121,13 @@ class HttpRequester:
             return None
         return chosen_transcript
 
-    def get_transcript_by_transcript_id(self, transcript_id):
+    def get_transcript_by_transcript_id(self, transcript_id, with_padding=False):
         if not transcript_id:
             return None
-        request_url = self.url + transcript_id + "/unspliced_sequence_context"
+        if with_padding:
+            request_url = self.url + transcript_id + "/unspliced_sequence_context_with_padding"
+        else:
+            request_url = self.url + transcript_id + "/unspliced_sequence_context"
         try:
             r = requests.get(request_url)
         except Exception as e:
@@ -135,7 +139,10 @@ class HttpRequester:
             r.raise_for_status()
             return None
         try:
-            sequence = r.json()['unspliced_sequence_context']['data']['positive_strand']['sequence']
+            if with_padding:
+                sequence = r.json()['unspliced_sequence_context_with_padding']['data']['positive_strand']['sequence']
+            else:
+                sequence = r.json()['unspliced_sequence_context']['data']['positive_strand']['sequence']
         except Exception as e:
             print("Couldn't extract sequence from worm base:", e)
             return None
