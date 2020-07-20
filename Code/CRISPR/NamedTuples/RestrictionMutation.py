@@ -9,3 +9,4 @@ class RestrictionMutation(NamedTuple):
     mutated_strand: str
     codon_mutations: list
     reattachment_mutations: list
+    repair_template: list

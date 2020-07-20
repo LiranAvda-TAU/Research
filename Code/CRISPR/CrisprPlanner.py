@@ -104,7 +104,7 @@ class CrisprPlanner:
                        PAM_size: int = 3):
 
         if from_aa == to_aa:
-            e = "Amino acid in", self.amino_acid_site, "is already", from_aa
+            e = "Your request to change " + from_aa.name + " to " + to_aa.name + " is invalid."
             return self.result, e
         self.from_aa = from_aa
         self.to_aa = to_aa
@@ -208,11 +208,19 @@ class CrisprPlanner:
             # amino acid couldn't be extracted
             e = "Exception in initiate_crispr: no amino acid sequence could be extracted"
             return e
+
+        if self.amino_acid_site > len(self.amino_acid_sequence):
+            e = "Exception in initiate_crispr: The amino acid site you requested: " + str(self.amino_acid_site) + \
+                " does not exist, the protein sequence is " + str(len(self.amino_acid_sequence)) + " amino acid long."
+            return e
+
         print("Gene's amino acid sequence: ", self.amino_acid_sequence)
         if self.amino_acid_sequence[self.amino_acid_site - 1] != self.from_aa.value:
             e = "Exception in initiate_crispr: Amino acid in site " + str(self.amino_acid_site) + " is not " + \
-                str(self.from_aa) + " but " + str(AminoAcid(self.amino_acid_sequence[self.amino_acid_site - 1])) + "."
+                str(self.from_aa.name) + " but " + \
+                str(AminoAcid(self.amino_acid_sequence[self.amino_acid_site - 1]).name) + "."
             return e
+
 
         self.sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_site,
                                                             check_sequence_consistency=check_consistency)
@@ -1093,13 +1101,15 @@ class CrisprPlanner:
     def from_site_to_mutation(self, restriction_sites):
         restriction_mutations = []
         for r_site in restriction_sites:
+            mutated_strand = self.change_chars_in_string(self.mutated_strand, self.mutated_sites)
             r_mutation = RestrictionMutation(restriction_site=r_site,
                                              number_of_mutations=len(self.mutated_sites),
                                              mutated_sites=[],
-                                             mutated_strand=self.change_chars_in_string(self.mutated_strand,
-                                                                                        self.mutated_sites),
+                                             mutated_strand=mutated_strand,
                                              codon_mutations=self.codon_mutations,
-                                             reattachment_mutations=self.reattachment_mutations)
+                                             reattachment_mutations=self.reattachment_mutations,
+                                             repair_template=self.get_repair_template(self.mutated_sites,
+                                                                                      mutated_strand))
             restriction_mutations.append(r_mutation)
         return restriction_mutations
 
@@ -1237,13 +1247,16 @@ class CrisprPlanner:
                 self.mutated_sites.extend(point_mutations)
                 self.restriction_site_mutations = point_mutations
                 if self.is_restriction_site_well_removed(point_mutations, rest_site):
-                    restriction_mutations.append(RestrictionMutation(rest_site,
-                                                                     len(point_mutations),
-                                                                     self.restriction_site_mutations),
-                                                 self.change_chars_in_string(self.mutated_strand,
-                                                                             self.restriction_site_mutations),
-                                                 self.codon_mutations,
-                                                 self.reattachment_mutations)
+                    mutated_strand = self.change_chars_in_string(self.mutated_strand, self.restriction_site_mutations)
+                    restriction_mutations.append(
+                        RestrictionMutation(restriction_site=rest_site,
+                                            number_of_mutations=len(point_mutations),
+                                            mutated_sites=self.restriction_site_mutations),
+                                            mutated_strand=mutated_strand,
+                                            codon_mutations=self.codon_mutations,
+                                            reattachment_mutations=self.reattachment_mutations,
+                                            repair_template=self.get_repair_template(self.mutated_sites,
+                                                                                     mutated_strand))
                     print("Restriction site removed with:", point_mutations)
         return restriction_mutations
 
@@ -1374,7 +1387,6 @@ class CrisprPlanner:
                                                                                            self.pam_sites,
                                                                                            self.mutation_direction),
                                                  sum([possible_mutations[i][1].number_of_mutations for i in index_set])))
-
     # sorts the subsets of mutations and divided into fixed sites of groups
     # outdated
     def chunk(self, indexes_sets, possible_mutations, size):
@@ -1424,12 +1436,17 @@ class CrisprPlanner:
                     if self.check_distance(restriction_site) > 150 and self.\
                             is_restriction_site_new(restriction_site, valid_restriction_mutations):
                         print("PASSED: rest site:", restriction_site)
+                        mutated_strand = self.change_chars_in_string(self.mutated_strand,
+                                                                     self.restriction_site_mutations)
                         valid_restriction_mutations.append(
-                            RestrictionMutation(restriction_site, len(index_subset), self.restriction_site_mutations,
-                                                self.change_chars_in_string(self.mutated_strand,
-                                                                            self.restriction_site_mutations),
+                            RestrictionMutation(restriction_site,
+                                                len(index_subset),
+                                                self.restriction_site_mutations,
+                                                mutated_strand,
                                                 self.codon_mutations,
-                                                self.reattachment_mutations))
+                                                self.reattachment_mutations,
+                                                self.get_repair_template(self.mutated_sites,
+                                                                         mutated_strand)))
                     else:
                         print("FAILED: rest site:", restriction_site)
                 print("valid restriction mutations:", len(valid_restriction_mutations))
@@ -1579,3 +1596,44 @@ class CrisprPlanner:
             return all_enzymes
         self.result.enzymes = favourite_enzymes
         return favourite_enzymes
+
+    def get_repair_template(self, point_mutations, mutated_strand, arm_length=35):
+        min_index, max_index = self.get_min_max_index_of_point_mutations(point_mutations)
+        if min_index > max_index:
+            print("Could not find minimum and maximum point mutations")
+            return [None, None, None]
+        mutated_section = mutated_strand[min_index:max_index+1]
+        if min_index >= arm_length and max_index <= len(self.sense_strand)-1-arm_length:
+            left_arm = self.mutated_strand[min_index - arm_length:min_index]
+            right_arm = self.mutated_strand[max_index + 1:max_index + 1 + arm_length]
+            return [left_arm, mutated_section, right_arm]
+        else:  # need to extract fuller sequence
+            print("extracting sequence with padding...")
+            seq_with_padding = HttpRequester().get_transcript(self.gene_id, True)
+            index = seq_with_padding.find(self.sense_strand if self.ssODN_direction > 0 else self.anti_sense_strand)
+            if index < 0:
+                seq_with_padding = self.get_complementary_sequence(seq_with_padding)
+                index = seq_with_padding.find(self.sense_strand if self.ssODN_direction > 0 else self.anti_sense_strand)
+                if index < 0:
+                    return [None, None, None]
+            print("index:", index)
+            min_index += index
+            max_index += index
+            print("min:", min_index, "max:", max_index)
+            if min_index >= arm_length and max_index <= len(seq_with_padding) - 1 - arm_length:
+                left_arm = seq_with_padding[min_index - arm_length:min_index]
+                right_arm = seq_with_padding[max_index + 1:max_index + 1 + arm_length]
+                return [left_arm, mutated_section, right_arm]
+            else:
+                return [None, None, None]
+
+    def get_min_max_index_of_point_mutations(self, point_mutations):
+        max_index = 0
+        min_index = len(self.sense_strand)-1
+        for point_mutation in point_mutations:
+            if point_mutation.index > max_index:
+                max_index = point_mutation.index
+            if point_mutation.index < min_index:
+                min_index = point_mutation.index
+        print("min", min_index, "max:", max_index)
+        return min_index, max_index

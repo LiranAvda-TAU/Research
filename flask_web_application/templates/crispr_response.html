@@ -45,7 +45,7 @@
     <p><u>Gene name:</u> {{result.query_data[0]}}</p>
     <p><u>Query:</u> from {{result.query_data[1]}} in {{result.query_data[2]}} to {{result.query_data[3]}}</p><br>
     <p>For crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1].start}}-{{result.crRNA[1].end}}
-        in strand: {{result.crRNA_strand}}</p><br>
+        from strand: {{result.crRNA_strand}}</p><br>
 
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
@@ -74,6 +74,10 @@
                 {{ restriction_mutation.restriction_site.index.end }}
                 with enzyme {{ restriction_mutation.restriction_site.enzyme.name }},
                 site: {{ restriction_mutation.restriction_site.enzyme.site }}<br>
+                <br>
+                Repair template on {{ ssodn_strand }} strand:
+                <br> {{ restriction_mutation.repair_template[0] }}{{ restriction_mutation.repair_template[1] }}{{ restriction_mutation.repair_template[2] }}
+                <br>
                 <br>
             </li>
         {% endfor %}
@@ -115,6 +119,10 @@
                     {% endfor %}
                 </ul>
                 <br>
+                Repair template on {{ ssodn_strand }} strand:
+                <br> {{ restriction_mutation.repair_template[0] }}{{ restriction_mutation.repair_template[1] }}{{ restriction_mutation.repair_template[2] }}
+                <br>
+                <br>
             </li>
         {% endfor %}
     </ul>
@@ -146,6 +154,10 @@
                 {{ restriction_mutation.restriction_site.index.end }}
                 with enzyme {{ restriction_mutation.restriction_site.enzyme.name }},
                 site: {{ restriction_mutation.restriction_site.enzyme.site }}<br>
+                <br>
+                Repair template on {{ ssodn_strand }} strand:
+                <br> {{ restriction_mutation.repair_template[0] }}{{ restriction_mutation.repair_template[1] }}{{ restriction_mutation.repair_template[2] }}
+                <br>
                 <br>
             </li>
         {% endfor %}
@@ -186,6 +198,10 @@
                     </li>
                     {% endfor %}
                 </ul>
+                <br>
+                Repair template on {{ ssodn_strand }} strand:
+                <br> {{ restriction_mutation.repair_template[0] }}{{ restriction_mutation.repair_template[1] }}{{ restriction_mutation.repair_template[2] }}
+                <br>
                 <br>
             </li>
         {% endfor %}
