@@ -2,5 +2,8 @@ import enum
 
 
 class RestrictionSiteType(enum.Enum):
-    INSERTED = '+'
-    REMOVED = '-'
+    INSERTED_WITHOUT = '+'
+    INSERTED = '++'
+    REMOVED_WITHOUT = '-'
+    REMOVED = '--'
+

@@ -143,7 +143,7 @@ def return_crispr_plan():
     # executor.increment_point_mutation_index(result)
     if crrna:
         print(result)
-        ssodn_strand = "sense" if result.ssODN_strand < 0 else "anti-sense"
+        ssodn_strand = "sense" if result.ssODN_strand > 0 else "anti-sense"
         return render_template('crispr_response.html', result=result, ssodn_strand=ssodn_strand)
     else:
         return render_template('choose_crrna.html', result=result)
