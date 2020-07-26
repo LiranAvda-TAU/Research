@@ -84,7 +84,7 @@ class CrisprPlanner:
         self.codon_mutations = []
         self.reattachment_mutations = []
         self.restriction_site_mutations = []
-        self.result = Result()
+        self.result = Result(None, False, None, [], [], None, 0, None, 0, [], [], [], [])
         self.restriction_enzymes = self.get_favourite_restriction_enzymes(favourite_enzymes_names)
         self.max_results = max_results
 
@@ -136,44 +136,47 @@ class CrisprPlanner:
 
         self.complete_fields(crrna_strand, to_aa, self.result.crRNA)
 
+        # first - when at last we try to find restriction site
         first_strand = self.mutated_strand
         first_mutated_sites = self.mutated_sites
-        # first - when at last we try to insert restriction site
-        favourite_added = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
-                                                RestrictionSiteType.INSERTED)
-        if not self.reattachment_mutations:
-            if not self.dsb_merged:
-                # couldn't find a way to mutate reattachment site
-                e = "Reattachment section could not be mutated, try a different crRNA."
-                print(e)
-                return self.result, e
-            else:
-                print("PAM site could not be mutated. Moving on to trying to mutate crRNA")
-                self.mutated_strand = first_strand
-                self.mutated_sites = first_mutated_sites[:]
-                self.ssODN_vs_crRNA_strand = -1 * self.ssODN_vs_crRNA_strand
-                self.complete_fields(crrna_strand, to_aa, chosen_crrna)
-                favourite_added = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
-                                                        RestrictionSiteType.INSERTED)
-                if not self.reattachment_mutations:
+
+        for restriction_site_type in RestrictionSiteType:
+            self.mutated_strand = first_strand
+            self.mutated_sites = first_mutated_sites[:]
+            is_successful = self.insert_mutations(self.ssODN_mutation_codon_start, restriction_site_type)
+            if is_successful:
+                return self.result, None
+            # else
+            if not self.reattachment_mutations:
+                if not self.dsb_merged:
                     # couldn't find a way to mutate reattachment site
-                    e = "Reattachment section could not be mutated"
+                    e = "Reattachment section could not be mutated, try a different crRNA."
                     print(e)
                     return self.result, e
-        # now time to remove
-        if favourite_added:
-            return self.result, None
+                else:
+                    print("PAM site could not be mutated. Moving on to trying to mutate crRNA")
+                    return self.dsb_merged_scheme(first_strand, crrna_strand, chosen_crrna)
+        e = "We could not find any restriction sites to insert or to remove."
+        return self.result, e
 
-        self.mutated_strand = first_strand
-        self.mutated_sites = first_mutated_sites[:]
-        favourite_removed = self.insert_mutations(self.ssODN_mutation_codon_start, from_aa, to_aa,
-                                                  RestrictionSiteType.REMOVED)
-        print("result:", self.result)
-        if not favourite_removed and not favourite_added:
-            if not self.result.inserted_mutations and not self.result.removed_mutations:
-                e = "We could not find any restriction sites to insert or to remove."
+    # Takes care of the possibility where the mutation codon is merged with dsb and PAM site cannot be mutated
+    def dsb_merged_scheme(self, first_strand, crrna_strand, chosen_crrna):
+        first_strand = self.get_complementary_sequence(first_strand)
+        self.ssODN_vs_crRNA_strand = -1 * self.ssODN_vs_crRNA_strand
+        self.complete_fields(crrna_strand, self.to_aa, chosen_crrna)
+        for r_site_type in RestrictionSiteType:
+            self.mutated_strand = first_strand
+            self.mutated_sites = []
+            is_successful = self.insert_mutations(self.ssODN_mutation_codon_start, r_site_type)
+            if is_successful:
+                return self.result, None
+            if not self.reattachment_mutations:
+                # couldn't find a way to mutate reattachment site
+                e = "Reattachment section could not be mutated"
+                print(e)
                 return self.result, e
-        return self.result, None
+        e = "We could not find any restriction sites to insert or to remove."
+        return self.result, e
 
     @staticmethod
     def starts_with_ATG(strand):
@@ -202,7 +205,7 @@ class CrisprPlanner:
                 e = "Exception in initiate_crispr: valid sense strand could not be found, " \
                     "please re-send the request with the needed sequence."
                 return e
-        print("Gene's sense sequence:", self.sense_strand, "\nGene's anti-sense strand:", self.anti_sense_strand)
+        print("Gene's sense strand:", self.sense_strand, "\nGene's anti-sense strand:", self.anti_sense_strand)
 
         if not self.amino_acid_sequence:
             # amino acid couldn't be extracted
@@ -221,14 +224,13 @@ class CrisprPlanner:
                 str(AminoAcid(self.amino_acid_sequence[self.amino_acid_site - 1]).name) + "."
             return e
 
-
         self.sense_mutation_site = self.find_site_in_nt_seq(amino_acid_site=self.amino_acid_site,
                                                             check_sequence_consistency=check_consistency)
         self.codon = self.sense_strand[self.sense_mutation_site:self.sense_mutation_site + 3]
         print("mutation site in sense strand is:", self.sense_mutation_site, "and the codon is:", self.codon)
         if self.codon_dic[self.codon] != self.from_aa.value:
             e = "Exception in initiate_crispr: The nucleotide site corresponding to " + \
-                str(self.amino_acid_site) + " amino acid site is " + str(self.sense_mutation_site) + \
+                " amino acid site " + str(self.amino_acid_site) + " is " + str(self.sense_mutation_site) + \
                 " with codon " + self.codon + ", which does not code for " + str(self.from_aa) + " but for " + \
                 str(AminoAcid(self.codon_dic[self.codon])) + "."
             return e
@@ -312,12 +314,13 @@ class CrisprPlanner:
 
     # this function is responsible for inserting all needed mutations to the string: to change amino acid, to prevent
     # reattachment and to add\remove restriction site
-    def insert_mutations(self, ssODN_codon_mutation_site, from_aa, to_aa, restriction_site_type):
+    def insert_mutations(self, ssODN_codon_mutation_site, restriction_site_type):
         # 1. mutation to change codon to change the amino acid
-        possible_codon_mutations = self.get_possible_mutations_demands(from_aa, to_aa, self.sense_mutation_site)
+        possible_codon_mutations = self.get_possible_mutations_demands(self.from_aa,
+                                                                       self.to_aa, self.sense_mutation_site)
         second_strand = self.mutated_strand
         second_mutated_sites = self.mutated_sites[:]
-        print("original mutated sites:", second_mutated_sites)
+        # print("original mutated sites:", second_mutated_sites)
         for possible_codon_mutation in possible_codon_mutations:
             print("Now working on codon mutation:", possible_codon_mutation)
             self.mutated_strand = second_strand
@@ -851,16 +854,16 @@ class CrisprPlanner:
                     return crrna, -1
         return None, None
 
-    def choose_ssODN_strand(self, strand_direction, to_aa: AminoAcid):
+    def choose_ssODN_strand(self, crrna_strand_direction, to_aa: AminoAcid):
         if self.dsb_merged:
-            return 1, MutationDirection.UPSTREAM, False
+            return crrna_strand_direction, MutationDirection.UPSTREAM, False
         codon_dsb_merged = False
 
         def check_inside_dsb(sense_strand, sense_mutation_site):
             inner_codon_dsb_merged = False
             downstream = 0
             upstream = 0
-            if strand_direction < 0:
+            if crrna_strand_direction < 0:
                 # anti-sense, to_aa needs to get complementary
                 comp_codon_mutation = \
                     CrisprPlanner.how_to_get_b_from_a(sense_strand[sense_mutation_site:sense_mutation_site + 3], to_aa)
@@ -888,7 +891,7 @@ class CrisprPlanner:
                 inner_codon_dsb_merged = True
             return MutationDirection.DOWNSTREAM, inner_codon_dsb_merged
 
-        mutation_site = self.sense_mutation_site if strand_direction > 0 else self.anti_sense_mutation_site
+        mutation_site = self.sense_mutation_site if crrna_strand_direction > 0 else self.anti_sense_mutation_site
 
         DSB = self.pam_sites.start - 3
         # default assignment
@@ -898,14 +901,14 @@ class CrisprPlanner:
         if mutation_site <= DSB <= mutation_site + 2:
             # DSB is inside the codon we need to mutate, further investigation is needed
             mutation_direction, codon_dsb_merged = check_inside_dsb(self.sense_strand, self.sense_mutation_site)
-        elif mutation_site >= DSB:
+        elif mutation_site > DSB:
             mutation_direction = MutationDirection.DOWNSTREAM
         elif mutation_site < DSB:
             mutation_direction = MutationDirection.UPSTREAM
         if mutation_direction == MutationDirection.DOWNSTREAM:
-            return -1 * strand_direction, mutation_direction, codon_dsb_merged
+            return -1 * crrna_strand_direction, mutation_direction, codon_dsb_merged
         else:
-            return strand_direction, mutation_direction, codon_dsb_merged
+            return crrna_strand_direction, mutation_direction, codon_dsb_merged
 
     def find_index_in_parallel_strand(self, index):
         return len(self.sense_strand) - index - 1
@@ -1113,37 +1116,36 @@ class CrisprPlanner:
             restriction_mutations.append(r_mutation)
         return restriction_mutations
 
-    def add_restriction_sites(self):
-        # first check if the mutated strand so far (with codon mutations) has different number of inserted
-        # restriction sites than the original one
+    # checks if the mutated strand so far (with codon and reattachment mutations) has different inserted
+    # restriction sites than the original one
+    def find_added_restriction_sites(self):
         print("Checking for already distinctive inserted rest sites...")
         restriction_sites_list = self.get_distinctive_restriction_sites(RestrictionSiteType.INSERTED)
         if restriction_sites_list:  # distinctive restriction site found
-            print("lists don't match!")  # different restriction sites
+            print("Lists don't match!")  # different restriction sites
             # sorts and filters restriction sites
             valid_rest_sites_list = self.check_mutated_restriction_sites(restriction_sites_list)
             if valid_rest_sites_list:
                 print("Inserted restriction sites found without extra mutations!")
                 self.result.no_extra_inserted_mutations += self.from_site_to_mutation(valid_rest_sites_list)
-                if len(self.result.no_extra_inserted_mutations) + len(
-                        self.result.inserted_mutations) >= self.max_results:
+                if len(self.result.no_extra_inserted_mutations) >= self.max_results:
+                    print("Inserted", self.max_results, "restriction sites!")
                     self.result.success = True
-                    return True
+        return self.result.success
 
-        print("let's modify some sites!\nfirst, trying to add for mutation zone:", self.mutation_zone)
+    def add_restriction_sites(self):
+        print("Let's modify some sites!\nfirst, trying to add for mutation zone:", self.mutation_zone)
         inserted_restriction_mutations = self.get_new_restriction_site()
         if inserted_restriction_mutations:
-            print("inserted restriction mutations found!", inserted_restriction_mutations)
+            print("Inserted restriction mutations!", inserted_restriction_mutations)
             self.result.inserted_mutations += inserted_restriction_mutations
             if len(self.result.no_extra_inserted_mutations) + len(
                     self.result.inserted_mutations) >= self.max_results:
+                print("Inserted", self.max_results, "restriction sites!")
                 self.result.success = True
-            return self.result.success
-        else:
-            print("Couldn't insert restriction mutations")
-            return False
+        return self.result.success
 
-    def remove_existing_restriction_sites(self):
+    def find_removed_restriction_sites(self):
         print("Checking for already distinctive removed rest sites...")
         restriction_sites_list = self.get_distinctive_restriction_sites(RestrictionSiteType.REMOVED)
         if restriction_sites_list:  # distinctive restriction site found
@@ -1153,31 +1155,36 @@ class CrisprPlanner:
             if valid_rest_sites_list:
                 print("Removed restriction sites found without extra mutations!")
                 self.result.no_extra_removed_mutations += self.from_site_to_mutation(valid_rest_sites_list)
-                if len(self.result.no_extra_removed_mutations) + len(
-                        self.result.removed_mutations) >= self.max_results:
+                if len(self.result.no_extra_removed_mutations) >= self.max_results:
+                    print("Removed", self.max_results, "restriction sites!")
                     self.result.success = True
-                    return self.result.success
+        return self.result.success
 
-        print("now let's try to actively remove...")
+    def remove_existing_restriction_sites(self):
+        print("Now let's try to actively remove...")
         removed_restriction_mutations = self.get_removed_restriction_sites()
         if removed_restriction_mutations:
-            print("removed restriction mutation found!", removed_restriction_mutations)
+            print("Removed restriction mutation found!", removed_restriction_mutations)
             self.result.removed_mutations += removed_restriction_mutations
             if len(self.result.no_extra_removed_mutations) + len(
                     self.result.removed_mutations) >= self.max_results:
+                print("Removed", self.max_results, "restriction sites!")
                 self.result.success = True
-            return self.result.success
-        else:
-            print("Couldn't remove restriction mutations")
-            return False
+        return self.result.success
 
-    # RestrictionSite: RestrictionSiteType
     def add_remove_restriction_sites(self, restriction_site_type):
         self.mutation_zone = self.get_mutations_zone()
         print("Mutation zone:", self.mutation_zone)
-        if restriction_site_type == RestrictionSiteType.INSERTED:
+        if restriction_site_type == RestrictionSiteType.INSERTED_WITHOUT:
+            # trying to passively find an inserted restriction site
+            return self.find_added_restriction_sites()
+        elif restriction_site_type == RestrictionSiteType.INSERTED:
+            # trying to actively insert a restriction site
             return self.add_restriction_sites()
-        else:  # trying to remove a restriction site
+        elif restriction_site_type == RestrictionSiteType.REMOVED_WITHOUT:
+            # trying to passively find a removed restriction site
+            return self.find_removed_restriction_sites()
+        else:  # trying to actively remove a restriction site
             return self.remove_existing_restriction_sites()
 
     # outdated
@@ -1196,6 +1203,8 @@ class CrisprPlanner:
         for rest_site in restriction_sites_list[:]:
             if self.check_distance(rest_site) < 150:
                 restriction_sites_list.remove(rest_site)
+        # get read of duplicates
+        restriction_sites_list = list(set(restriction_sites_list))
         restriction_sites_list.sort(key=lambda r_site: (-(abs(r_site.index.get_mean() - self.DSB)),
                                                         self.check_distance(r_site, vicinity=250),
                                                         - self.check_rareness(r_site, 250)),
@@ -1387,6 +1396,7 @@ class CrisprPlanner:
                                                                                            self.pam_sites,
                                                                                            self.mutation_direction),
                                                  sum([possible_mutations[i][1].number_of_mutations for i in index_set])))
+
     # sorts the subsets of mutations and divided into fixed sites of groups
     # outdated
     def chunk(self, indexes_sets, possible_mutations, size):
@@ -1411,7 +1421,7 @@ class CrisprPlanner:
 
         original_strand = self.mutated_strand
         original_mutated_sites = self.mutated_sites[:]
-        print("Original mutated sites:", original_mutated_sites)
+        # print("Original mutated sites:", original_mutated_sites)
         for index_subset in index_power_set:
             # check that mutation in subset don't override each other
             if CrisprPlanner.are_codons_overriden(index_subset, possible_mutations):
@@ -1428,7 +1438,7 @@ class CrisprPlanner:
                 self.mutated_strand = self.change_chars_in_string(self.mutated_strand, point_mutations)
                 self.mutated_sites.extend(point_mutations)
                 self.restriction_site_mutations = point_mutations
-                print("all mutated sites:", self.mutated_sites)
+                # print("all mutated sites:", self.mutated_sites)
                 restriction_sites = self.get_distinctive_restriction_sites(RestrictionSiteType.INSERTED)
                 if not restriction_sites:
                     continue
@@ -1637,3 +1647,5 @@ class CrisprPlanner:
                 min_index = point_mutation.index
         print("min", min_index, "max:", max_index)
         return min_index, max_index
+
+    # def change_index_to_match_sense(self)
