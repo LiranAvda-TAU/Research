@@ -142,10 +142,13 @@ def return_crispr_plan():
         return render_template('failure_response.html', query=worm_gene_name, error=error)
     # executor.increment_point_mutation_index(result)
     if crrna:
-        print(result)
+        print("Result:", result)
+        CrisprPlanner.change_index_to_match_sense(result)
+        print("Formatted result:", result)
         ssodn_strand = "sense" if result.ssODN_strand > 0 else "anti-sense"
         return render_template('crispr_response.html', result=result, ssodn_strand=ssodn_strand)
     else:
+        CrisprPlanner.change_index_to_match_sense(result)
         return render_template('choose_crrna.html', result=result)
 
 

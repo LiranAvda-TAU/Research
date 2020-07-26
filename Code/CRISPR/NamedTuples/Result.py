@@ -1,6 +1,7 @@
 from recordtype import recordtype
 
 Result = recordtype('Result', [('query_data', None),
+                               ('sense_strand', None),
                                ('success', False),
                                ('enzymes', None),
                                ('sense_crrnas', []),

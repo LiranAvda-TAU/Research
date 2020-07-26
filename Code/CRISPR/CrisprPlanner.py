@@ -23,22 +23,22 @@ from Code.Utils.Ensembl import Ensembl
 
 class CrisprPlanner:
     amino_acid_dic = {'A': {'GCT', 'GCC', 'GCA', 'GCG'}, 'C': {'TGT', 'TGC'}, 'D': {'GAT', 'GAC'}, 'E': {'GAA', 'GAG'},
-                 'F': {'TTT', 'TTC'}, 'G': {'GGT', 'GGC', 'GGA', 'GGG'}, 'H': {'CAT', 'CAC'},
-                 'I': {'ATT', 'ATC', 'ATA'}, 'K': {'AAA', 'AAG'}, 'L': {'TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'},
-                 'M': {'ATG'}, 'N': {'AAT', 'AAC'}, 'P': {'CCT', 'CCC', 'CCA', 'CCG'}, 'Q': {'CAA', 'CAG'},
-                 'R': {'CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'}, 'S': {'TCT', 'TCC', 'TCA', 'TCG', 'AGT', 'AGC'},
-                 'T': {'ACT', 'ACC', 'ACA', 'ACG'}, 'V': {'GTT', 'GTC', 'GTA', 'GTG'}, 'W': {'TGG'},
-                 'Y': {'TAT', 'TAC'}, 'STOP': {'TAA', 'TAG', 'TGA'}}
+                      'F': {'TTT', 'TTC'}, 'G': {'GGT', 'GGC', 'GGA', 'GGG'}, 'H': {'CAT', 'CAC'},
+                      'I': {'ATT', 'ATC', 'ATA'}, 'K': {'AAA', 'AAG'}, 'L': {'TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'},
+                      'M': {'ATG'}, 'N': {'AAT', 'AAC'}, 'P': {'CCT', 'CCC', 'CCA', 'CCG'}, 'Q': {'CAA', 'CAG'},
+                      'R': {'CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'}, 'S': {'TCT', 'TCC', 'TCA', 'TCG', 'AGT', 'AGC'},
+                      'T': {'ACT', 'ACC', 'ACA', 'ACG'}, 'V': {'GTT', 'GTC', 'GTA', 'GTG'}, 'W': {'TGG'},
+                      'Y': {'TAT', 'TAC'}, 'STOP': {'TAA', 'TAG', 'TGA'}}
 
     codon_dic = {'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A', 'TGT': 'C', 'TGC': 'C', 'GAT': 'D', 'GAC': 'D',
-                      'GAA': 'E', 'GAG': 'E', 'TTT': 'F', 'TTC': 'F', 'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',
-                      'CAT': 'H', 'CAC': 'H', 'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'AAA': 'K', 'AAG': 'K', 'TTA': 'L',
-                      'TTG': 'L', 'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'ATG': 'M', 'AAT': 'N', 'AAC': 'N',
-                      'CCT': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P', 'CAA': 'Q', 'CAG': 'Q', 'CGT': 'R', 'CGC': 'R',
-                      'CGA': 'R', 'CGG': 'R', 'AGA': 'R', 'AGG': 'R', 'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S',
-                      'AGT': 'S', 'AGC': 'S', 'ACT': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T', 'GTT': 'V', 'GTC': 'V',
-                      'GTA': 'V', 'GTG': 'V', 'TGG': 'W', 'TAT': 'Y', 'TAC': 'Y', 'TAA': 'STOP', 'TAG': 'STOP',
-                      'TGA': 'STOP'}
+                 'GAA': 'E', 'GAG': 'E', 'TTT': 'F', 'TTC': 'F', 'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',
+                 'CAT': 'H', 'CAC': 'H', 'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'AAA': 'K', 'AAG': 'K', 'TTA': 'L',
+                 'TTG': 'L', 'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'ATG': 'M', 'AAT': 'N', 'AAC': 'N',
+                 'CCT': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P', 'CAA': 'Q', 'CAG': 'Q', 'CGT': 'R', 'CGC': 'R',
+                 'CGA': 'R', 'CGG': 'R', 'AGA': 'R', 'AGG': 'R', 'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S',
+                 'AGT': 'S', 'AGC': 'S', 'ACT': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T', 'GTT': 'V', 'GTC': 'V',
+                 'GTA': 'V', 'GTG': 'V', 'TGG': 'W', 'TAT': 'Y', 'TAC': 'Y', 'TAA': 'STOP', 'TAG': 'STOP',
+                 'TGA': 'STOP'}
 
     variables = {'B': ('C', 'G', 'T'), 'D': ('A', 'G', 'T'),
                  'H': ('A', 'C', 'T'), 'K': ('G', 'T'), 'M': ('A', 'C'),
@@ -84,7 +84,7 @@ class CrisprPlanner:
         self.codon_mutations = []
         self.reattachment_mutations = []
         self.restriction_site_mutations = []
-        self.result = Result(None, False, None, [], [], None, 0, None, 0, [], [], [], [])
+        self.result = Result(None, None, False, None, [], [], None, 0, None, 0, [], [], [], [])
         self.restriction_enzymes = self.get_favourite_restriction_enzymes(favourite_enzymes_names)
         self.max_results = max_results
 
@@ -184,7 +184,7 @@ class CrisprPlanner:
             if strand[i].islower():  # intron
                 continue
             else:
-                if strand[i:i+3] == 'ATG':
+                if strand[i:i + 3] == 'ATG':
                     return True
                 else:
                     return False
@@ -206,6 +206,7 @@ class CrisprPlanner:
                     "please re-send the request with the needed sequence."
                 return e
         print("Gene's sense strand:", self.sense_strand, "\nGene's anti-sense strand:", self.anti_sense_strand)
+        self.result.sense_strand = self.sense_strand
 
         if not self.amino_acid_sequence:
             # amino acid couldn't be extracted
@@ -528,14 +529,17 @@ class CrisprPlanner:
     # receives (1) all possible mutations to prevent reattachment and (2) list of indexes corresponding to the mutations
     # list and returns the point mutations in format of namedTuples: PointMutations(index, new nucleotide)
     def get_point_mutations(self, possible_mutations, indexes_subset):
-        # possible mutation format: (CodonData(codon='TTT', codon_sites=SequenceSites(start=1174, end=1176)), OptionalCodonChange('TTC', 1, {2: 'C'}, 23.9))
+        # possible mutation format: (CodonData(codon='TTT', codon_sites=SequenceSites(start=1174, end=1176)),
+        # OptionalCodonChange('TTC', 1, {2: 'C'}, 23.9))
         point_mutations = []
         for index in indexes_subset:
             possible_mutation = possible_mutations[index]
             dict_of_changes = possible_mutation[1].dict_of_mutations
             for key in dict_of_changes:
                 point_mutations.append(
-                    PointMutation(possible_mutation[0].codon_sites.start + key, dict_of_changes[key]))
+                    PointMutation(possible_mutation[0].codon_sites.start + key,
+                                  possible_mutation[0].codon[key],
+                                  dict_of_changes[key]))
 
         return point_mutations
 
@@ -576,7 +580,6 @@ class CrisprPlanner:
                 pam_mutations.append(codon_mutation)
         print("pam mutations:", pam_mutations)
         return pam_mutations
-
 
     @staticmethod
     def disregard_mutation_in_pam(section_to_mutate, mutated_site, mutation_direction):
@@ -1024,7 +1027,9 @@ class CrisprPlanner:
         for index in demands:
             nt = demands[index]
             position = mutation_site + int(index)
-            point_mutations.append(PointMutation(position, nt))
+            point_mutations.append(PointMutation(position,
+                                                 self.mutated_strand[position],
+                                                 nt))
         self.mutated_strand = CrisprPlanner.change_chars_in_string(self.mutated_strand, point_mutations)
         self.mutated_sites.extend(point_mutations)
 
@@ -1238,7 +1243,7 @@ class CrisprPlanner:
     # mutations to remove them, and returns a list of RestrictionMutation that tell what changes can be made to each
     # restriction site to remove it
     def remove_restriction_sites(self, rest_sites: list):
-        print("###remove_restriction_sites###")
+        print("### remove_restriction_sites ###")
         restriction_mutations = []
         # fourth_strand = self.mutated_strand
         fourth_mutated_sites = self.mutated_sites[:]
@@ -1260,12 +1265,12 @@ class CrisprPlanner:
                     restriction_mutations.append(
                         RestrictionMutation(restriction_site=rest_site,
                                             number_of_mutations=len(point_mutations),
-                                            mutated_sites=self.restriction_site_mutations),
+                                            mutated_sites=self.restriction_site_mutations,
                                             mutated_strand=mutated_strand,
                                             codon_mutations=self.codon_mutations,
                                             reattachment_mutations=self.reattachment_mutations,
                                             repair_template=self.get_repair_template(self.mutated_sites,
-                                                                                     mutated_strand))
+                                                                                     mutated_strand)))
                     print("Restriction site removed with:", point_mutations)
         return restriction_mutations
 
@@ -1395,7 +1400,8 @@ class CrisprPlanner:
                                                                                            possible_mutations,
                                                                                            self.pam_sites,
                                                                                            self.mutation_direction),
-                                                 sum([possible_mutations[i][1].number_of_mutations for i in index_set])))
+                                                 sum([possible_mutations[i][1].number_of_mutations for i in
+                                                      index_set])))
 
     # sorts the subsets of mutations and divided into fixed sites of groups
     # outdated
@@ -1443,7 +1449,7 @@ class CrisprPlanner:
                 if not restriction_sites:
                     continue
                 for restriction_site in restriction_sites:
-                    if self.check_distance(restriction_site) > 150 and self.\
+                    if self.check_distance(restriction_site) > 150 and self. \
                             is_restriction_site_new(restriction_site, valid_restriction_mutations):
                         print("PASSED: rest site:", restriction_site)
                         mutated_strand = self.change_chars_in_string(self.mutated_strand,
@@ -1612,8 +1618,8 @@ class CrisprPlanner:
         if min_index > max_index:
             print("Could not find minimum and maximum point mutations")
             return [None, None, None]
-        mutated_section = mutated_strand[min_index:max_index+1]
-        if min_index >= arm_length and max_index <= len(self.sense_strand)-1-arm_length:
+        mutated_section = mutated_strand[min_index:max_index + 1]
+        if min_index >= arm_length and max_index <= len(self.sense_strand) - 1 - arm_length:
             left_arm = self.mutated_strand[min_index - arm_length:min_index]
             right_arm = self.mutated_strand[max_index + 1:max_index + 1 + arm_length]
             return [left_arm, mutated_section, right_arm]
@@ -1639,7 +1645,7 @@ class CrisprPlanner:
 
     def get_min_max_index_of_point_mutations(self, point_mutations):
         max_index = 0
-        min_index = len(self.sense_strand)-1
+        min_index = len(self.sense_strand) - 1
         for point_mutation in point_mutations:
             if point_mutation.index > max_index:
                 max_index = point_mutation.index
@@ -1648,4 +1654,77 @@ class CrisprPlanner:
         print("min", min_index, "max:", max_index)
         return min_index, max_index
 
-    # def change_index_to_match_sense(self)
+    @staticmethod
+    def get_formatted_crrna(crrna, strand, crrna_length=20):
+        new_sequence = crrna[0]  # potential crrna
+        sequence_sites = crrna[1]
+        new_start = len(strand) - sequence_sites.start - crrna_length
+        new_sequence_sites = SequenceSites(new_start, new_start + crrna_length - 1)
+        new_crrna = (new_sequence, new_sequence_sites)
+        return new_crrna
+
+    @staticmethod
+    def get_formatted_point_mutations(point_mutations, strand):
+        new_point_mutations = []
+        for point_mutation in point_mutations:
+            new_index = len(strand) - point_mutation.index - 1
+            new_point_mutation = PointMutation(new_index,
+                                               point_mutation.old_nucleotide,
+                                               point_mutation.new_nucleotide)
+            new_point_mutations.append(new_point_mutation)
+        return new_point_mutations
+
+    @staticmethod
+    def get_formatted_restriction_site(restriction_site: RestrictionSite, strand):
+        sequence_sites = restriction_site.index
+        new_sequence_sites = SequenceSites(len(strand)-sequence_sites.end-1,
+                                           len(strand)-sequence_sites.start-1)
+        new_restriction_site = RestrictionSite(index=new_sequence_sites,
+                                               enzyme=restriction_site.enzyme,
+                                               rest_site_type=restriction_site.rest_site_type)
+        return new_restriction_site
+
+    @staticmethod
+    def get_formatted_restriction_mutations(restriction_mutations, cp, strand):
+        new_restriction_mutations = []
+        for rest_mutation in restriction_mutations:
+            new_restriction_site = cp.get_formatted_restriction_site(rest_mutation.restriction_site, strand)
+            new_mutated_sites = cp.get_formatted_point_mutations(rest_mutation.mutated_sites, strand)
+            new_codon_mutations = cp.get_formatted_point_mutations(rest_mutation.codon_mutations, strand)
+            new_reattachment_mutations = cp.get_formatted_point_mutations(rest_mutation.reattachment_mutations, strand)
+            new_restriction_mutation = RestrictionMutation(restriction_site=new_restriction_site,
+                                                           number_of_mutations=rest_mutation.number_of_mutations,
+                                                           mutated_sites=new_mutated_sites,
+                                                           mutated_strand=rest_mutation.mutated_strand,
+                                                           codon_mutations=new_codon_mutations,
+                                                           reattachment_mutations=new_reattachment_mutations,
+                                                           repair_template=rest_mutation.repair_template)
+            new_restriction_mutations.append(new_restriction_mutation)
+        return new_restriction_mutations
+
+
+    @staticmethod
+    def change_index_to_match_sense(result: Result):
+        cp = CrisprPlanner
+        new_anti_sense_crrnas = []
+        for crrna in result.anti_sense_crrnas:
+            new_crrna = cp.get_formatted_crrna(crrna, result.sense_strand)
+            new_anti_sense_crrnas.append(new_crrna)
+        result.anti_sense_crrnas = new_anti_sense_crrnas
+        if result.crRNA_strand < 0:  # chosen crRNA is from anti-sense
+            new_crrna = cp.get_formatted_crrna(result.crRNA, result.sense_strand)
+            result.crRNA = new_crrna
+            result.pam_sites = SequenceSites(new_crrna[1].start-3, new_crrna[1].start-1)
+        if result.ssODN_strand < 0:
+            new_no_extra_inserted = cp.get_formatted_restriction_mutations(result.no_extra_inserted_mutations, cp,
+                                                                           result.sense_strand)
+            result.no_extra_inserted_mutations = new_no_extra_inserted
+            new_inserted = cp.get_formatted_restriction_mutations(result.inserted_mutations, cp,
+                                                                           result.sense_strand)
+            result.inserted_mutations = new_inserted
+            new_no_extra_removed = cp.get_formatted_restriction_mutations(result.no_extra_removed_mutations, cp,
+                                                                           result.sense_strand)
+            result.no_extra_removed_mutations = new_no_extra_removed
+            new_removed = cp.get_formatted_restriction_mutations(result.removed_mutations, cp,
+                                                                           result.sense_strand)
+            result.removed_mutations = new_removed
