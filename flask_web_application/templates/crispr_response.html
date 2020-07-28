@@ -16,13 +16,7 @@
         .highlight {color: yellow;}
 
       </style>
-      <script type="text/javascript">
-          function highlight_substring (element, start, end) {
-            var str = element.innerHTML;
-            str = str.substr(0, start) + '<span class="highlight">' + str.substr(start, end - start + 1) + '</span>' + str.substr(end + 1);
-            element.innerHTML = str;
-          }
-      </script>
+
     <meta charset="utf-8">
     <title>Your Results Are Here!</title>
   </head>
@@ -209,6 +203,7 @@
         {% endfor %}
     </ul>
     <br>
+    <p>* index origin = 0 (zero-based numbering)</p>
 
     <div class="gap-80"></div>
     <footer>
