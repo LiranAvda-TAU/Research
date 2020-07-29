@@ -397,7 +397,7 @@ class DataExtracter:
                     return hit_ids
 
         # gene id -> amino acid seq -> blast -> hit ids
-        c_elegans_seq = BioPython().get_c_elegans_aa_seq(c_elegans_gene_id, c_elegans_accession_number)
+        c_elegans_seq = BioPython().get_c_elegans_aa_seq_by_id(c_elegans_gene_id)
         if c_elegans_seq:
             hit_ids = BioPython().pipeline_blast_with_seq("blastp", "nr", c_elegans_seq)
             if not hit_ids:
