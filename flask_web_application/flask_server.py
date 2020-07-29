@@ -161,6 +161,10 @@ def faq():
 def references():
     return render_template("references.html")
 
+@app.route("/protocol")
+def protocol():
+    return render_template("Our-injection-mix-and-other-tips.html")
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True, port=5005)
