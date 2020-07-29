@@ -68,13 +68,16 @@
     <p>The algorithm is designed find the best way to insert the nucleotides mutation in the right place in order to
         mutate the gene, to prevent re-attachment of the crRNA and to insert or remove a restriction enzyme site to
         facilitate identification of the specific gene mutation insertion. </p>
-    <p>The algorithm starts with recognizing the best crRNA for the process, defines the relevant parameters such as PAM
+    <p>The algorithm starts with recognizing all crRNA sequences relevant to your query and present the user with them.<br>
+        Once the crRNA is chosen, the algorithm defines the relevant parameters such as PAM
         sites, Double Strand Break point and mutation zone, and goes through all possible options to mutate the strand
         as needed. </p>
     <p>Once the relevant amino acid is changed and the re-attachment section is properly mutated, the algorithm checks
-        whether a new restriction site was inserted or removed in the process. If not, or if the restriction enzyme
-        needed is not available for the user, the tool will try to introduce additional mutations to create or remove a
-        different restriction site.</p>
+        whether a new restriction site was inserted in the process. If not, the tool will try to introduce additional
+        mutations to create a restriction site to the user preference.<br>
+        If inserting a new restriction site is not possible, the algorithm will try to find codon mutations and
+        prevent-re-cutting mutations that also mutate an existing restriction site, removing it from the sequence.<br>
+        If not possible, additional mutations will be added to remove an existing restriction site.</p>
     <p>In each step, the algorithm goes through all possible mutations and chooses the ones that have the highest
         chances to be successfully inserted and would be most convenient for the user’s needs.</p>
 

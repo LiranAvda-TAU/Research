@@ -107,6 +107,26 @@
             in C. elegans. Methods. 2017;121-122:86-93. doi:10.1016/j.ymeth.2017.03.023<br>
             Our lab has made a few alterations in the CRISPR protocol, you can view our revised protocol here:<br>
             <a href="{{ url_for('protocol') }}">CRISPR protocol alterations and tips</a></li><br>
+
+        <li><b>What does the length ratio range in the Orthologs Finder service refer to?</b><br>
+            The length ratio range is a tool with which you can decide the length ratio parameters upon which the
+            results are filtered. By default, the service filters out orthologs pairs whose coding sequences ratio is
+            lower then 0.5 or higher than 2 (the ratio is calculated to be the length of the coding sequence of the gene
+            the user provided divided by the length of the coding sequence of the optional ortholog.</li><br>
+
+        <li><b>What does the minimum number of sources in the Orthologs Finder service refer to?</b><br>
+            The minimum number of sources is a tool with which you can decide the sources parameter upon which the
+            results are filtered. By default, the service filters out orthologs pairs for whose the number of programs
+            (out of 6) that predict them to be orthologous is lower than 2 (the number of programs is derived
+            from <a href="http://ortholist.shaye-lab.org/" target="_blank">OrthoList2</a>).</li><br>
+
+        <li><b>What information can I get from Check The Variants tool?</b><br>
+            Check The Variants tool aims to provide the user with information regarding whether a specific amino acid in
+            the human sequence is conserved in its C.elegans ortholog. If the amino acid is conserved, the information
+            will include the corresponding site in the relevant C.elegans ortholog, the conservation score of a 60-aa
+            window around the conserved amino acid, the number of alignments (out of 2000) supporting of the conservation
+            and indication of whether the variant was listed in the
+            <a href="http://genome.sfu.ca/mmp/" target="_blank">Million Mutations Project</a>.</li><br>
     </ol>
 
     <footer>

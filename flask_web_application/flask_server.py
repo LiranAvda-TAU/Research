@@ -114,17 +114,18 @@ def crispr_planner():
 
 @app.route('/crispr', methods=['POST'])
 def return_crispr_plan():
-    worm_gene_name = request.form['name']
-    nt_seq = request.form['seq']
-    site = int(request.form['site'])
-    from_aa = AminoAcid[request.form.get('from_aa')]
-    to_aa = AminoAcid[request.form.get('to_aa')]
-    favourite_enzymes = re.split('; |, | |,|;|\t|\n', request.form['enzymes']) if request.form['enzymes'] else None
-    max_results = int(request.form.get('max_results'))
-    crrna = request.form['crrna']
-    crrna_strand = int(request.form.get('crrna_strand'))
-    print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa, max_results, crrna, crrna_strand)
     try:
+        worm_gene_name = request.form['name']
+        nt_seq = request.form['seq']
+        site = int(request.form['site'])
+        from_aa = AminoAcid[request.form.get('from_aa')]
+        to_aa = AminoAcid[request.form.get('to_aa')]
+        favourite_enzymes = re.split('; |, | |,|;|\t|\n', request.form['enzymes']) if request.form['enzymes'] else None
+        max_results = int(request.form.get('max_results'))
+        crrna = request.form['crrna']
+        crrna_strand = int(request.form.get('crrna_strand'))
+        print("CRISPR Request:", worm_gene_name, site, nt_seq, from_aa, to_aa, max_results, crrna, crrna_strand)
+
         result, error = CrisprPlanner(gene_name=worm_gene_name,
                                       aa_mutation_site=site,
                                       sense_strand=nt_seq,

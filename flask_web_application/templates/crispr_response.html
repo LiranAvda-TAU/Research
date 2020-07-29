@@ -25,6 +25,8 @@
     {% block content %}
     <h1> Your CRISPR Results Are Here! </h1>
 
+    <p>index origin = 0 (zero-based numbering)</p><br>
+
     <p><u>Restriction enzymes relevant for your query:</u></p>
     {% if result.enzymes %}
         {% for r_enzyme in result.enzymes %}
@@ -41,7 +43,8 @@
     <p>For crRNA: {{result.crRNA[0]}} in index: {{result.crRNA[1].start}}-{{result.crRNA[1].end}}
         from strand: {{result.crRNA_strand}}</p><br>
 
-    <p>For ssODND on strand: {{ ssodn_strand }} </p><br>
+    <p>Gene's transcript was extracted from: <a href="{{ result.request_url }}" target="_blank">Gene's WormBase transcript</a> </p>
+    <p>For ssODN on strand: {{ ssodn_strand }} </p><br>
 
     <p>Restriction sites who have been inserted into the sequence using no additional mutations (other than codon
         mutations and prevent-reattachment mutations), if found:</p>
@@ -202,8 +205,6 @@
             </li>
         {% endfor %}
     </ul>
-    <br>
-    <p>* index origin = 0 (zero-based numbering)</p>
 
     <div class="gap-80"></div>
     <footer>
