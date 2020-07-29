@@ -40,7 +40,7 @@ class HttpRequester:
             print("Communication failure, please check your internet connection")
             return None
         if not r.ok:
-            r.raise_for_status()
+            # r.raise_for_status()
             print("Something went wrong with get_human_uniprot_html while trying to extract reviewed ids, please check")
             return None
         return r.text
@@ -55,7 +55,7 @@ class HttpRequester:
             print("Communication failure, please check your internet connection")
             return None
         if not r.ok:
-            r.raise_for_status()
+            # r.raise_for_status()
             print("Something went wrong with get_worm_uniprot_html while trying to extract reviewed ids, please check")
             return None
         return r.text
@@ -75,7 +75,7 @@ class HttpRequester:
                 print("Communication failure, please check your internet connection")
                 return None
             if not r.ok:
-                r.raise_for_status()
+                # r.raise_for_status()
                 print("Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
                       ", please check")
                 return None
@@ -96,7 +96,7 @@ class HttpRequester:
             print("Communication failure, please check your internet connection:", e)
             return None
         if not r.ok:
-            r.raise_for_status()
+            # r.raise_for_status()
             print("Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
                   ", please check")
             return None
@@ -104,8 +104,9 @@ class HttpRequester:
 
     # returns a transcript of the sense strand
     @staticmethod
-    def get_transcript(gene_id, with_padding=False):
+    def get_transcript(gene_id, result=None, with_padding=False):
         chosen_transcript = ''
+        chosen_transcript_id = ''
         transcript_ids = HttpRequester(url="http://rest.wormbase.org/rest/widget/gene/").\
             get_list_of_transcript_ids(gene_id)
         if not transcript_ids or not len(transcript_ids):
@@ -115,10 +116,13 @@ class HttpRequester:
                 get_transcript_by_transcript_id(transcript_id, with_padding)
             if transcript and len(transcript) > len(chosen_transcript):
                 chosen_transcript = transcript
+                chosen_transcript_id = transcript_id
                 print(transcript_id, "is better:", len(transcript))
         if not chosen_transcript:
             print("Couldn't find transcript")
             return None
+        if not with_padding:
+            result.request_url = "http://rest.wormbase.org/rest/field/transcript/"+chosen_transcript_id+"/unspliced_sequence_context"
         return chosen_transcript
 
     def get_transcript_by_transcript_id(self, transcript_id, with_padding=False):
@@ -136,7 +140,7 @@ class HttpRequester:
         if not r.ok:
             print("Something went wrong with get_transcript_by_gene_id while trying to extract transcript"
                   ", please check")
-            r.raise_for_status()
+            # r.raise_for_status()
             return None
         try:
             if with_padding:
@@ -160,7 +164,7 @@ class HttpRequester:
             print("Communication failure in get_list_of_transcript_ids, please check your internet connection:", e)
             return None
         if not r.ok:
-            r.raise_for_status()
+            # r.raise_for_status()
             print("Something went wrong with get_list_of_transcript_ids while trying to extract transcript ids"
                   ", please check")
             return None

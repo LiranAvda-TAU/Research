@@ -63,7 +63,8 @@ class CrisprPlanner:
         self.from_aa = None
         self.to_aa = None
         self.gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name)
-        self.sense_strand = sense_strand if sense_strand else HttpRequester.get_transcript(self.gene_id)
+        self.result = Result(None, None, None, False, None, [], [], None, 0, None, 0, [], [], [], [])
+        self.sense_strand = sense_strand if sense_strand else HttpRequester.get_transcript(self.gene_id, self.result)
         self.anti_sense_strand = CrisprPlanner.get_complementary_sequence(self.sense_strand)
         self.amino_acid_sequence = amino_acid_sequence if amino_acid_sequence else \
             BioPython().get_aa_seq_by_c_elegans_gene_name(gene_name)
@@ -84,7 +85,6 @@ class CrisprPlanner:
         self.codon_mutations = []
         self.reattachment_mutations = []
         self.restriction_site_mutations = []
-        self.result = Result(None, None, False, None, [], [], None, 0, None, 0, [], [], [], [])
         self.restriction_enzymes = self.get_favourite_restriction_enzymes(favourite_enzymes_names)
         self.max_results = max_results
 
@@ -211,7 +211,7 @@ class CrisprPlanner:
 
         if not self.amino_acid_sequence:
             # amino acid couldn't be extracted
-            e = "Exception in initiate_crispr: no amino acid sequence could be extracted"
+            e = "Exception in initiate_crispr: no amino acid sequence could be extracted for your gene."
             return e
 
         if self.amino_acid_site > len(self.amino_acid_sequence):
@@ -1234,7 +1234,7 @@ class CrisprPlanner:
             print("rest sites after sorting:", rest_sites)
             restriction_sites_removed = self.remove_restriction_sites(rest_sites)
             if restriction_sites_removed:  # succeeded in finding and removing a restriction site
-                print("Restriction site can be removed! chosen restriction site:", restriction_sites_removed)
+                print("Restriction site can be removed! restriction mutations:", restriction_sites_removed)
                 return restriction_sites_removed
             print("No restriction site to remove was found")
             return None
@@ -1469,7 +1469,7 @@ class CrisprPlanner:
                         is_restriction_site_new(restriction_site, valid_restriction_mutations):
                     print("PASSED: rest site:", restriction_site)
                     mutated_strand = self.change_chars_in_string(self.mutated_strand,
-                                                                    self.restriction_site_mutations)
+                                                                 self.restriction_site_mutations)
                     valid_restriction_mutations.append(
                         RestrictionMutation(restriction_site,
                                             len(index_subset),
@@ -1641,7 +1641,7 @@ class CrisprPlanner:
             return [left_arm, mutated_section, right_arm]
         else:  # need to extract fuller sequence
             print("extracting sequence with padding...")
-            seq_with_padding = HttpRequester().get_transcript(self.gene_id, True)
+            seq_with_padding = HttpRequester().get_transcript(gene_id=self.gene_id, with_padding=True)
             if not seq_with_padding:
                 return [None, None, None]
             index = seq_with_padding.find(self.sense_strand if self.ssODN_direction > 0 else self.anti_sense_strand)
