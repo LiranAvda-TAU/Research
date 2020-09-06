@@ -10,21 +10,21 @@
     <ol>
         <li><b>What results does the automated CRISPR planner provide?</b><br>
             Once the crRNA is chosen by the user, the algorithm will try and introduce the relevant strand with codon
-            mutations (to alter the amino acid) and mutations to prevent reattachment in the relevant section
+            mutations (to alter the amino acid) and mutations to prevent re-cutting by CAS-9 in the relevant section
             (PAM site/crRNA) that will also enable the insertion of a new restriction site.<br>
             If a new restriction site cannot be inserted using the two types of mutations mentioned above, the algorithm
             will try to add point mutations to insert a new restriction site.<br>
-            In case of failure, the algorithm will try to choose the codon and prevent-reattachment point mutations to
-            enable the removal of an existing restriction site, and if not successful, the algorithm will try to
-            add point mutations to remove an existing restriction site.<br>
+            In case of failure, the algorithm will check for the possible removal of an existing restriction site,
+            and if not successful, the algorithm will try to add point mutations to remove an existing restriction site.<br>
             If all steps have failed, the tool will provide the user with a message stating that the insertion/removal
             of a restriction site was not possible.<br>
-            However, when results are achieved, each result will specify the codon point mutations,
-            the prevent-reattachment point mutation and the restriction site point mutation (if necessary),
-            along with the restriction site inserted/removed and the repair template (consists of two 35 nucleotide
-            homology arms on each side + section with desired edit).<br>
-            Each point mutation will be represented by the index of the nucleotide, the former nucleotide and
-            the new nucleotide. The relevant ssODN strand (sense or anti-sense) will be stated.</li><br>
+            However, when results are achieved, each result will specify the mutations inserted to change the designated
+            amino acid, mutations inserted to prevent re-attachment of the CAS9 complex and the restriction site
+            mutations (if necessary), along with the restriction enzyme and the repair template (consists of the section
+            with the desired edits and flanked by two 35 nucleotide homology arms). <br>
+            The strand (sense or anti-sense) on which the DNA repair template is based on will be stated. Each point
+            mutation will be represented by the index of the nucleotide, the former nucleotide and the new
+            nucleotide.</li><br>
 
         <li><b>How does providing preferred restriction enzymes to the Automated CRISPR Planner affect the
             algorithm?</b><br>
@@ -77,11 +77,13 @@
             In that case, you have the possibility to provide the correct sequence yourself.</li><br>
 
         <li><b>Are the restriction sites found filtered? How are they filtered?</b><br>
-            Yes. The restriction sites found in the process of inserting/removing restriction sites are filtered
-            out if a same site is found in a distance of less than 150 nt from the found site.<br>
-            Restriction sites that pass the filtration are also sorted by the proximity to the Double Strand Break
-            (DSB) point, by distance from other same sites in the range of 500 nt around the found site and by the
-            frequency of that site in the range of 500 nt around the found site.</li><br>
+            Yes. The filtration steps are as following:<br>
+            1. The restriction sites found in the process of inserting/removing restriction sites are filtered out if a
+            same site is found in a distance of less than 150 nt from the found site. <br>
+            2. Restriction sites are also sorted by their proximity to the Double Strand Break (DSB) point
+            (closer is better). <br>
+            3. The algorithm takes into account the distance from other same sites in the range of 500 nt around the
+            found site and by the frequency of that site in the range of 500 nt around the found site.</li><br>
 
         <li><b>If the codon we wish to mutate has point mutations before and after the DSB, which arm would be
             the one we mutate?</b><br>
@@ -95,7 +97,7 @@
             (or: what range is taken to be the mutation zone)?</b><br>
             The mutation zone is defined to be ranging from the minimum between the lowest point mutation introduced
             to the strand among the point mutations that change to amino acid and mutate the reattachment section
-            (PAM, crRNA) and DSB-20, and to DSB-1.</li><br>
+            (PAM, crRNA) and DSB-20, and to DSB.</li><br>
 
         <li><b>What is the numbering scheme the indices are represented by?</b><br>
             The results incorporate zero-based numbering; the initial element of a sequence is assigned the index
@@ -105,14 +107,14 @@
             Our algorithm is based on steps and the scheme described in this paper:<br>
             Paix A, Folkmann A, Seydoux G. Precision genome editing using CRISPR-Cas9 and linear repair templates
             in C. elegans. Methods. 2017;121-122:86-93. doi:10.1016/j.ymeth.2017.03.023<br>
-            Our lab has made a few alterations in the CRISPR protocol, you can view our revised protocol here:<br>
+            Our lab has made a few minor alterations to the CRISPR protocol, you can view our revised protocol here:<br>
             <a href="{{ url_for('protocol') }}">CRISPR protocol alterations and tips</a></li><br>
 
         <li><b>What does the length ratio range in the Orthologs Finder service refer to?</b><br>
             The length ratio range is a tool with which you can decide the length ratio parameters upon which the
             results are filtered. By default, the service filters out orthologs pairs whose coding sequences ratio is
-            lower then 0.5 or higher than 2 (the ratio is calculated to be the length of the coding sequence of the gene
-            the user provided divided by the length of the coding sequence of the optional ortholog.</li><br>
+            lower than 0.5 or higher than 2 (the ratio is calculated to be the length of the coding sequence of the gene
+            the user provided divided by the length of the coding sequence of the putative ortholog.</li><br>
 
         <li><b>What does the minimum number of sources in the Orthologs Finder service refer to?</b><br>
             The minimum number of sources is a tool with which you can decide the sources parameter upon which the
@@ -120,7 +122,7 @@
             (out of 6) that predict them to be orthologous is lower than 2 (the number of programs is derived
             from <a href="http://ortholist.shaye-lab.org/" target="_blank">OrthoList2</a>).</li><br>
 
-        <li><b>What information can I get from Check The Variants tool?</b><br>
+        <li><b>What information can I get from Amino Acid Conservation tool?</b><br>
             Check The Variants tool aims to provide the user with information regarding whether a specific amino acid in
             the human sequence is conserved in its C.elegans ortholog. If the amino acid is conserved, the information
             will include the corresponding site in the relevant C.elegans ortholog, the conservation score of a 60-aa

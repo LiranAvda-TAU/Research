@@ -44,14 +44,15 @@
     <h1> Find your Human-<i>Caenorhabditis elegans</i> orthologous genes and check your variants</h1>
     <p> The Ortholog Finder project is consisted of three sub services:</p>
     <p><b> 1. Find the <i>Caenorhabditis elegans</i> orthologs:</b></p>
-	<p>A service that aims to find the best <i>Caenorhabditis elegans</i> orthologs for your human genes.</p>
+	<p>A service that aims to find the best <i>Caenorhabditis elegans</i> orthologs for your human genes of interest.</p>
     <p><b> 2. Find the Human orthologs:</b></p>
-	<p>A service that aims to find the best Human orthologs for your <i>Caenorhabditis elegans</i> genes.</p>
-    <p><b> 3.  Check the variants</b></p>
-	<p>A service that aims to provide you with information regarding a specific variant you’d like to CRISPR.</p>
+	<p>A service that aims to find the best Human orthologs for your <i>Caenorhabditis elegans</i> genes of interest.</p>
+    <p><b> 3.  Check the amino acid conservation:</b></p>
+	<p>A service that aims to provide you with information whether a specific amino acid in a human protein is conserved
+        in its <i>C. elegans ortholog</i> sequence.</p>
 
     <h1>Find The <i>Caenorhabditis elegans</i> Orthologs</h1>
-    <p> In order to use the service, please insert your human genes names (separated by commas if there are more than
+        <p>Please insert your human genes names (separated by commas if there are more than
         one), for example: TCP1,DDR1,SRSF5</p>
     <div class="gap-10"></div>
     <form action="/c_elegans_orthologs" method="POST">
@@ -81,7 +82,7 @@
     </form>
 
     <h1>Find The Human Orthologs</h1>
-    <p> In order to use the service, please insert your <i>Caenorhabditis elegans</i> names (separated by commas if there are more
+    <p>Please insert your <i>Caenorhabditis elegans</i> names (separated by commas if there are more
         than one), for example: cct-1,cap-1,arx-2</p>
     <div class="gap-10"></div>
     <form action="/human_orthologs" method="POST">
@@ -110,8 +111,8 @@
             </datalist>
     </form>
 
-    <h1><b> Check The Variants </b></h1>
-    <p> In order to use the service, please insert your genes names and variants according to the format below:</p>
+    <h1><b> Check For Amino Acid Conservation </b></h1>
+    <p>please insert your genes names and amino acids of interest (3 letter format) according to the example below:</p>
     <p>GeneName1:[Var1,Var2],GeneName2:[Var1,Var2,Var3], for example: FBXO11:[Arg138,Ser840],KDELR3:[Arg169,Val199]</p>
     <div class="gap-10"></div>
     <form action="/variants" method="POST">

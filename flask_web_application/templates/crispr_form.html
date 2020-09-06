@@ -47,20 +47,21 @@
     <p>The tool is designed for point mutations (one amino acid changed to another) in the
         <i>Caenorhabditis elegans</i> genome.
     <br>The tool has been built to generate CRISPR designs according to the methods described
-        in Geraldine Seydoux's paper:</p>
-        <p>Paix A, Folkmann A, Goldman DH, et al. Precision genome editing using synthesis-dependent repair
-            of Cas9-induced DNA breaks. <i>Proc Natl Acad Sci U S A.</i> 2017;114(50):E10745-E10754.
-            doi:10.1073/pnas.1711979114</p>
+        in Alexandre Paix and Geraldine Seydoux's paper: </p>
+        <p>Paix, A., Folkmann, A., & Seydoux, G. (2017). Precision genome editing using CRISPR-Cas9 and linear repair
+            templates in C.elegans. <i>Methods</i>, 121, 86-93.</p>
 
     <h1>Automated CRISPR Planner</h1>
-    <p> In order to use the service, please insert your worm gene name, nucleotide strand sequence (unspliced + UTR;
-        optional), amino acid site you wish to mutate, the amino acid you wish to alter from and the amino acid you
-        wish to alter to.</p>
-        <p>If you don't have a valid crRNA  sequence with which you wish to plan your CRISPR, please leave that box empty.
-        <br>Once clicking the "Submit" button, you will be presented with all possible crRNA sequences relevant to
+    <p>Please insert your worm gene name, amino acid site you wish to mutate, the original amino acid you wish to alter
+        and the new amino acid you wish to introduce.<br>
+        You can insert the nucleotide strand sequence (unspliced + UTR) yourself or leave it empty and the program will
+        extract the sequence from other sources.</p>
+        <p>If you don't have a valid crRNA sequence with which you wish to plan your CRISPR, please leave that box empty.
+        <br>After clicking the "Submit" button, you will be presented with all possible crRNA sequences relevant to
         your request.<br>
         In order to get results regarding a crRNA sequence of your choosing, copy the crRNA
             (and remember its strand), and re-fill your query, this time attaching the chosen crRNA.</p>
+
     <div class="gap-10"></div>
     <form action="/crispr" method="POST">
         Your worm gene name: <input name="name">

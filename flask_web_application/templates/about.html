@@ -12,16 +12,16 @@
         with the nematode <i>Caenorhabditis elegans</i> (henceforth “worms”).</p>
     <p>The WCK is especially useful for researchers who wish to model human disease-causing mutations in worms, but it
         will be helpful for any analysis of gene and residue conservation between worms and humans and for CRISPR design
-        of point mutations. Starting with the identification of the most likely worm ortholog of the human gene of
-        interest, the WCK can then check whether a given variation in the human gene is in a residue conserved in worms.
-        Finally, the WCK can help design the CRISPR strategy to insert the variation into the worm genome.</p>
+        of point mutations. Starting by identifying the most likely worm ortholog of the human gene of interest,
+        checking whether a given amino acid variation in the human gene is in a residue conserved in worms and finally
+        designing the CRISPR strategy to insert the variation into the worm genome.</p>
     <p>A detailed description of each bioinformatic tool can be found on their respective pages.</p>
     <p><br><u>Privacy Notification:</u> WormCoolKit does not save any of the ortholog searches or CRISPR designs performed on the website.
         Results are only available to the person performing the search.</p>
     <div class="gap-10"></div>
-    <p><b>The Ortholog Finder</b></p>
-    <p>The Orthologs Finder is a tool designed to deliver the <i>Caenorhabditis elegans</i> genes most likely orthologous to
-        your human query genes or the other way around (find human orthologs of worm genes). </p>
+    <p><b>The Orthologs Finder</b></p>
+    <p>The Orthologs Finder is a tool designed to deliver the most likely <i>C. elegans</i> genes orthologous to their human
+        gene of interest or the other way around - find human orthologs of worm genes.</p>
     <p>Our algorithm extracts candidates from the OrthoList2 database (see References) and carries several additional
         filtration steps, aimed to increase the likelihood that candidates are true orthologs.</p>
     <p>The default thresholds for filtration were determined after examining a large number of established ortholog
@@ -39,47 +39,39 @@
     <li><p>Filtration based on reversed BLAST: In this step we BLAST the candidate ortholog in the query gene’s species,
         and if the query gene is among the first 50 matches, the orthologous pair is valid.</p></li>
     </ol>
-    <p>The pipeline will return all pairs that have passed the threshold in all examinations, and mention the values in
-        each test.</p>
+    <p>The pipeline will return all pairs that have passed the above-mentioned filters threshold and specify the values
+        of each test.</p>
 
     <div class="gap-10"></div>
-    <p><b>The Variant Checker</b></p>
-    <p>The Variant Checker is a tool designed to inform whether a specific amino acid in a human protein is conserved or
-        not in its <i>Caenorhabditis elegans</i> ortholog sequence.</p>
-    <p>It uses the Ortholog Finder to find the human orthologs on which the conservation is checked. If this amino acid
-        is conserved, the tool will provide you with the corresponding site in the worm protein amino acid sequence.
+    <p><b>The Amino Acid Conservation Tool</b></p>
+    <p>This tool is designed to inform whether a specific amino acid in a human protein is conserved in its 
+        <i>C. elegans</i> ortholog sequence.</p>
+    <p>First, it uses the Ortholog Finder to locate the most probable <i>C. elegans</i> ortholog. Next, it checks for
+        conservation of the amino acid of interest. If conservation is confirmed, the tool will provide the user with
+        the corresponding site in the worm protein amino acid sequence.
         If not, the tool will notify whether the amino acid in the worm sequence is similar or not conserved at all.</p>
-    <p>In order to identify conservation status, the algorithm uses different methods of sequence alignments, and
-        therefore each conserved amino acid is delivered with the number of alignments (out of 2000~) supporting the
-        conservation, thus amino acids that appear conserved but have only few alignments to support the status are not
-        necessarily conserved. </p>
-    <p>The tool also provides an alignment score for the region surrounding the relevant amino acid, in order to assess
-        whether the variation lies within a conserved region of the protein. The score shows what percentage of the 60
-        amino acids around the variable amino acid in the human sequence and the corresponding amino acid in the worm
-        sequence are equal. </p>
+    <p>To identify conservation status, the algorithm uses different methods of sequence alignments between the human
+        gene and its ortholog. Therefore, each conserved amino acid is delivered with the number of alignments (out of
+        ~2000) supporting the conservation. The tool also delivers an alignment score for the region surrounding the
+        relevant amino acid, to assess whether the variation lies within a conserved region of the protein. The score
+        shows what percentage of the 60 amino acids around the specified amino acid in the human sequence are aligned
+        with the corresponding amino acids in the worm sequence. </p>
     <p>Lastly, the tool also checks if the variant was formerly registered in the Million Mutation Project.</p>
 
     <div class="gap-10"></div>
     <p><b>Automated CRISPR Planner</b></p>
-    <p>The Automated CRISPR Planner aims to streamline your CRISPR design process given only the gene name and the amino
-        acid mutation you wish to insert.</p>
-    <p>For now, the tool only works for point mutations (one amino acid changed to another) in the <i>Caenorhabditis
-        elegans</i> genome.</p>
-    <p>The algorithm is designed find the best way to insert the nucleotides mutation in the right place in order to
-        mutate the gene, to prevent re-attachment of the crRNA and to insert or remove a restriction enzyme site to
-        facilitate identification of the specific gene mutation insertion. </p>
-    <p>The algorithm starts with recognizing all crRNA sequences relevant to your query and present the user with them.<br>
-        Once the crRNA is chosen, the algorithm defines the relevant parameters such as PAM
-        sites, Double Strand Break point and mutation zone, and goes through all possible options to mutate the strand
-        as needed. </p>
-    <p>Once the relevant amino acid is changed and the re-attachment section is properly mutated, the algorithm checks
-        whether a new restriction site was inserted in the process. If not, the tool will try to introduce additional
-        mutations to create a restriction site to the user preference.<br>
-        If inserting a new restriction site is not possible, the algorithm will try to find codon mutations and
-        prevent-re-cutting mutations that also mutate an existing restriction site, removing it from the sequence.<br>
-        If not possible, additional mutations will be added to remove an existing restriction site.</p>
+    <p>The automated CRISPR planner is based on the CRISPR method published by Paix A. et al. The planner is designed to
+        first supply the users with RNA guides suitable for their query and then, once a guide is chosen, the algorithm
+        defines the relevant parameters such as PAM site, CAS9 double-strand break site and mutation zone. </p>
+    <p>It then goes through all possible options to mutate the strand as needed, including mutations to change the
+        designated amino acid, mutations that prevent re-attachment of the CAS9 complex and insertion or removal of a
+        restriction enzyme site to enable post editing identification of the gene by PCR.</p>
     <p>In each step, the algorithm goes through all possible mutations and chooses the ones that have the highest
-        chances to be successfully inserted and would be most convenient for the user’s needs.</p>
+        chances to be successfully inserted and would be most convenient for the user’s needs.
+        Lastly, the tool provides the user with a complete DNA repair template sequence containing the mutations flanked
+        by two homology arms (35nts in length).</p>
+    <p>For now, the tool only works for point mutations (one amino acid changed to another) in the 
+        <i>Caenorhabditis elegans</i> genome.</p>
 
     <div class="gap-80"></div>
     <footer>
