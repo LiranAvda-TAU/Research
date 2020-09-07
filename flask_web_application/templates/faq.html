@@ -95,9 +95,10 @@
 
         <li><b>How far away from the DSB point would the algorithm try to insert mutation
             (or: what range is taken to be the mutation zone)?</b><br>
-            The mutation zone is defined to be ranging from the minimum between the lowest point mutation introduced
-            to the strand among the point mutations that change to amino acid and mutate the reattachment section
-            (PAM, crRNA) and DSB-20, and to DSB.</li><br>
+            The mutation zone is defined to be ranging no more than 20 nucleotides away from the DSB. Which means that
+            all the mutation introduced to the strand, namely mutations that change the amino acid, mutations to prevent
+            re-cutting by CAS-9 complex (to the PAM site or recognition site) and mutations for introducing or removing
+            a restriction site, will be within 20 nucleotides of the DSB site.</li><br>
 
         <li><b>What is the numbering scheme the indices are represented by?</b><br>
             The results incorporate zero-based numbering; the initial element of a sequence is assigned the index
