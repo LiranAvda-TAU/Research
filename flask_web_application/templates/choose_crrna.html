@@ -24,26 +24,32 @@
     {% block content %}
     <h1> Optional crRNA strands: </h1>
 
-    <p><b>crRNAs in sense strand:</b></p>
-    <ul>
-        {% for crrna in result.sense_crrnas %}
-        <li>
-            {{ crrna }}
-        </li>
-        {% endfor %}
-    </ul>
+    <p><b>crRNAs in sense strand:</b></p><br>
+    <table>
+        <thead><tr><th> crRNA </th><th> on-target score </th><th> off-target score </th></tr></thead>
+        {%for crrna in result.sense_crrnas_results%}
+        <tr>
+            <td> {{crrna[0]}} </td>
+            <td> {{crrna[1][0]}} </td>
+            <td> {{crrna[1][1]}} </td>
+        </tr>
+        {%endfor%}
+    </table>
     <br>
-    <p><b>crRNAs in anti-sense strand:</b></p>
-    <ul>
-        {% for crrna in result.anti_sense_crrnas %}
-        <li>
-            {{ crrna }}
-        </li>
-        {% endfor %}
-    </ul>
+    <p><b>crRNAs in anti-sense strand:</b></p><br>
+    <table>
+        <thead><tr><th> crRNA </th><th> on-target score </th><th> off-target score </th></tr></thead>
+        {%for crrna in result.anti_sense_crrnas_results%}
+        <tr>
+            <td> {{crrna[0]}} </td>
+            <td> {{crrna[1][0]}} </td>
+            <td> {{crrna[1][1]}} </td>
+        </tr>
+        {%endfor%}
+    </table>
     <br>
-    <p>If you wish to check the off-target and on-target scores for the optional crRNAs, you can copy and paste
-        the crRNAs as formatted below to the
+    <p>If you cannot see the on-target and off-target scores for your optional crRNAs and you wish to check them, you
+        can copy and paste the crRNAs as formatted below to the
         <a href="https://eu.idtdna.com/site/order/designtool/index/CRISPR_SEQUENCE" target="_blank">
             IDT's CRISPR-Cas9 guide RNA design checker</a>:</p>
     <br>

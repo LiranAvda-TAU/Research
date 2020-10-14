@@ -63,7 +63,7 @@ class CrisprPlanner:
         self.from_aa = None
         self.to_aa = None
         self.gene_id = Ensembl.get_c_elegans_gene_id_by_gene_name(gene_name)
-        self.result = Result(None, None, None, False, None, [], [], None, 0, None, 0, [], [], [], [])
+        self.result = Result(None, None, None, False, None, [], [], [], [], None, None, 0, None, 0, [], [], [], [])
         self.sense_strand = sense_strand if sense_strand else HttpRequester.get_transcript(self.gene_id, self.result)
         self.anti_sense_strand = CrisprPlanner.get_complementary_sequence(self.sense_strand)
         self.amino_acid_sequence = amino_acid_sequence if amino_acid_sequence else \
@@ -121,6 +121,12 @@ class CrisprPlanner:
         if not crrna:  # find crrnas and return them
             if not sense_crrnas and not anti_sense_crrnas:
                 return self.result, "Couldn't find crRNA sequences"
+            sense_crrna_values_dic, sense_error = HttpRequester.check_crRNA([crrna[0] for crrna in sense_crrnas])
+            self.result.sense_crrnas_results = list(sense_crrna_values_dic.items())
+            anti_sense_crrna_values_dic, anti_sense_error = HttpRequester.check_crRNA([crrna[0] for crrna in
+                                                                                       anti_sense_crrnas])
+            self.result.anti_sense_crrnas_results = list(anti_sense_crrna_values_dic.items())
+            self.result.crrnas_results_status = (sense_error, anti_sense_error)
             return self.result, None
         else:
             chosen_crrna = self.get_chosen_crrna(crrna, crrna_strand)

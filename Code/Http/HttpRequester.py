@@ -1,5 +1,8 @@
 import requests
 from requests.exceptions import HTTPError
+from base64 import b64encode
+import json
+from urllib import request, parse
 
 from Code.Files.FileReader import FileReader
 from Code.Utils.Strings import Strings
@@ -76,8 +79,9 @@ class HttpRequester:
                 return None
             if not r.ok:
                 # r.raise_for_status()
-                print("Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
-                      ", please check")
+                print(
+                    "Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
+                    ", please check")
                 return None
 
             response_body = r.text
@@ -97,8 +101,9 @@ class HttpRequester:
             return None
         if not r.ok:
             # r.raise_for_status()
-            print("Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
-                  ", please check")
+            print(
+                "Something went wrong with get_longest_human_protein_sequence_from_uniprot() while trying to extract sequence"
+                ", please check")
             return None
         return r.text
 
@@ -107,12 +112,12 @@ class HttpRequester:
     def get_transcript(gene_id, result=None, with_padding=False):
         chosen_transcript = ''
         chosen_transcript_id = ''
-        transcript_ids = HttpRequester(url="http://rest.wormbase.org/rest/widget/gene/").\
+        transcript_ids = HttpRequester(url="http://rest.wormbase.org/rest/widget/gene/"). \
             get_list_of_transcript_ids(gene_id)
         if not transcript_ids or not len(transcript_ids):
             return None
         for transcript_id in transcript_ids:
-            transcript = HttpRequester(url="http://rest.wormbase.org/rest/field/transcript/").\
+            transcript = HttpRequester(url="http://rest.wormbase.org/rest/field/transcript/"). \
                 get_transcript_by_transcript_id(transcript_id, with_padding)
             if transcript and len(transcript) > len(chosen_transcript):
                 chosen_transcript = transcript
@@ -122,7 +127,7 @@ class HttpRequester:
             print("Couldn't find transcript")
             return None
         if not with_padding:
-            result.request_url = "http://rest.wormbase.org/rest/field/transcript/"+chosen_transcript_id+"/unspliced_sequence_context"
+            result.request_url = "http://rest.wormbase.org/rest/field/transcript/" + chosen_transcript_id + "/unspliced_sequence_context"
         return chosen_transcript
 
     def get_transcript_by_transcript_id(self, transcript_id, with_padding=False):
@@ -197,10 +202,108 @@ class HttpRequester:
 
     @staticmethod
     def check_crRNA(sequences):
+        default_result = {seq: (None, None) for seq in sequences}
+        try:
+            token = HttpRequester.get_authentication(client_id="wormcoolkit",
+                                                     client_secret='ef91a593-8f12-4085-a458-2f6f491bb149',
+                                                     idt_username="wormcoolkit",
+                                                     idt_password="rzblab2020")
+        except Exception as e:
+            # authentication failed
+            return default_result, e
+        if not token:
+            # authentication failed
+            return default_result, "Token could not be extracted: authentication process failed"
+        results_values = {}
+        sequences_list = []
+        for sequence in sequences:
+            sequence_dic = {"Name": "seq-" + sequence, "Sequence": sequence}
+            sequences_list.append(sequence_dic)
         url = 'https://eu.idtdna.com/restapi/v1/Crispr/Check'
-        payload = open("request.json")
-        headers = {'content-type': 'application/json', 'Accept': 'application/json',
-                   'Authorization': 'Bearer a8997ec4492d6ad11605c2bb25357626'}
-        r = requests.post(url, data=payload, headers=headers)
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token,
+        }
+        data = {"species": "ROUNDWORM", "data": sequences_list, "libraryType": "CAS9"}
+        r = requests.post(url, headers=headers, data=str(data))
+        if not r.ok:
+            return default_result, "Could not carry the request" + r.reason
+        r_json = r.json()
+        if r_json['hasModelErrors']:
+            return default_result, r_json['modelErrors']
+        results = r_json['output']['crisprResults']
+        try:
+            for result in results:
+                input_seq = result['input']['data'][0]['Sequence']
+                designs = result['output']['designs']
+                for design in designs:
+                    try:
+                        on_target_score = design['onTargetPotential']
+                    except KeyError:
+                        on_target_score = None
+                    try:
+                        off_target_score = design['offTargetRiskSpecificity']
+                    except KeyError:
+                        off_target_score = None
+                    results_values[input_seq] = (round(on_target_score), round(off_target_score))
+            return results_values, None
+        except:
+            return default_result, "Could not extract on-target and\\or off-target scores for sequences"
 
+    @staticmethod
+    def get_authentication(client_id, client_secret, idt_username, idt_password):
+        """
+        Create the HTTP request and send it, parsing the response for the access token.
 
+        The body_dict will also contain the fields "expires_in" (value of 3600) and "token_type" (value of "Bearer").
+
+        If the request fails for any reason, an exception will be thrown that contains debugging information
+        """
+        authorization_string = b64encode(bytes(client_id + ":" + client_secret, "utf-8")).decode()
+        request_headers = {"Content-Type": "application/x-www-form-urlencoded",
+                           "Authorization": "Basic " + authorization_string}
+
+        data_dict = {"grant_type": "password",
+                     "scope": "test",
+                     "username": idt_username,
+                     "password": idt_password}
+        request_data = parse.urlencode(data_dict).encode()
+
+        post_request = request.Request("https://eu.idtdna.com/Identityserver/connect/token",
+                                       data=request_data,
+                                       headers=request_headers,
+                                       method="POST")
+
+        response = request.urlopen(post_request)
+        body = response.read().decode()
+
+        if response.status != 200:
+            raise RuntimeError("Request failed with error code:" + response.status + "\nBody:\n" + body)
+
+        body_dict = json.loads(body)
+        if "access_token" in body_dict:
+            return body_dict["access_token"]
+        return None
+
+    @staticmethod
+    def get_authentication_test(client_id, client_secret, idt_username, idt_password):
+        authorization_string = b64encode(bytes(client_id + ":" + client_secret, "utf-8")).decode()
+        request_headers = {"Content-Type": "application/x-www-form-urlencoded",
+                           "Authorization": "Basic " + authorization_string}
+
+        data_dict = {"grant_type": "password",
+                     "scope": "test",
+                     "username": idt_username,
+                     "password": idt_password}
+        request_data = parse.urlencode(data_dict).encode()
+
+        post_request = request.Request("https://eu.idtdna.com/Identityserver/connect/token",
+                                       data=request_data,
+                                       headers=request_headers,
+                                       method="POST")
+
+        print("Headers:{}\nData:{}\nMethod:{}\nURL:{}\n".format(post_request.headers, post_request.data,
+                                                                post_request.method, post_request.full_url))
+        response = request.urlopen(post_request)
+        return response
