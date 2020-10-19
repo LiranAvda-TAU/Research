@@ -216,6 +216,8 @@ class HttpRequester:
             return default_result, "Token could not be extracted: authentication process failed"
         results_values = {}
         sequences_list = []
+        format_sequence_dic = dict(zip([seq.upper() for seq in sequences], sequences))
+        print("format dic:", format_sequence_dic)
         for sequence in sequences:
             sequence_dic = {"Name": "seq-" + sequence, "Sequence": sequence}
             sequences_list.append(sequence_dic)
@@ -246,7 +248,7 @@ class HttpRequester:
                         off_target_score = design['offTargetRiskSpecificity']
                     except KeyError:
                         off_target_score = None
-                    results_values[input_seq] = (round(on_target_score), round(off_target_score))
+                    results_values[format_sequence_dic[input_seq]] = (round(on_target_score), round(off_target_score))
             return results_values, None
         except:
             return default_result, "Could not extract on-target and\\or off-target scores for sequences"

@@ -115,6 +115,8 @@ class CrisprPlanner:
             return self.result, possible_error
 
         sense_crrnas, anti_sense_crrnas = self.find_crrnas(window_size, PAM_size)
+        print("sense crrnas:", sense_crrnas, sep="\n")
+        print("anti-sense crrnas:", anti_sense_crrnas, sep="\n")
         self.result.sense_crrnas = sense_crrnas
         self.result.anti_sense_crrnas = anti_sense_crrnas
 
@@ -126,6 +128,7 @@ class CrisprPlanner:
             anti_sense_crrna_values_dic, anti_sense_error = HttpRequester.check_crRNA([crrna[0] for crrna in
                                                                                        anti_sense_crrnas])
             self.result.anti_sense_crrnas_results = list(anti_sense_crrna_values_dic.items())
+            print("crrans results:", self.result.anti_sense_crrnas_results, self.result.sense_crrnas_results)
             self.result.crrnas_results_status = (sense_error, anti_sense_error)
             return self.result, None
         else:
