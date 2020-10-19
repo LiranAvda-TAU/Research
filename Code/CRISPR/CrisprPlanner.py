@@ -135,7 +135,9 @@ class CrisprPlanner:
             chosen_crrna = self.get_chosen_crrna(crrna, crrna_strand)
             if not chosen_crrna:
                 return self.result, "crRNA sequence was not found among optional crRNAs, please check if you chose " \
-                                    "the right strand."
+                                    "the right strand.\nAlso Please note that the system is case-sensitive, thus in " \
+                                    "copying down the relevant sequence, keep introns in lower case and exons in " \
+                                    "upper case."
             self.result.crRNA = chosen_crrna
             self.result.crRNA_strand = crrna_strand
 
